@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="FnafU:jar">
+    <output-path>$PROJECT_DIR$/../../../../Рабочий стол/TestServer/plugins</output-path>
+    <root id="archive" name="FnafU.jar">
+      <element id="module-output" name="FnafU" />
+      <element id="library" level="project" name="ItemsCoreU" />
+    </root>
+  </artifact>
+</component>
