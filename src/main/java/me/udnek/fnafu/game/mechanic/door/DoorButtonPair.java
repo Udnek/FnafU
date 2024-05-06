@@ -14,6 +14,13 @@ public class DoorButtonPair implements Originable {
         this.doorButton = doorButton;
     }
 
+    public DoorButtonPair(long doorX, long doorY, long doorZ, Door.Direction direction, long buttonX, long buttonY, long buttonZ){
+        this(
+                new Door(LocationSingle.from(doorX, doorY, doorZ), direction),
+                new DoorButton(LocationSingle.from(buttonX, buttonY, buttonZ)));
+    }
+
+
     public Door getDoor() {
         return door;
     }
@@ -29,12 +36,6 @@ public class DoorButtonPair implements Originable {
                 && buttonLocation.getBlockZ() == location.getBlockZ();
     }
 
-
-    public static DoorButtonPair from(long doorX, long doorY, long doorZ, Door.Direction direction, long buttonX, long buttonY, long buttonZ){
-        Door door = new Door(LocationSingle.from(doorX, doorY, doorZ), direction);
-        DoorButton button = new DoorButton(LocationSingle.from(buttonX, buttonY, buttonZ));
-        return new DoorButtonPair(door, button);
-    }
 
     @Override
     public void setOrigin(Location location) {

@@ -1,40 +1,92 @@
 package me.udnek.fnafu.map;
 
+import com.google.common.base.Preconditions;
+import me.udnek.fnafu.game.mechanic.Camera;
 import me.udnek.fnafu.game.mechanic.door.Door;
 import me.udnek.fnafu.game.mechanic.door.DoorButtonPair;
+import me.udnek.fnafu.map.location.LocationData;
 import me.udnek.fnafu.utils.NameId;
 import me.udnek.fnafu.utils.Resettable;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+
 public abstract class FnafUMap implements NameId, Resettable {
 
     protected final Location origin;
-    protected final MapLocations mapLocations;
+
+    private final EnumMap<LocationType, LocationData> locations = new EnumMap<>(LocationType.class);
+    protected final List<DoorButtonPair> doors = new ArrayList<>();
+    protected final List<Camera> cameras = new ArrayList<>();
 
     public FnafUMap(Location origin){
         origin.set(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ());
         origin.setPitch(0);
         origin.setYaw(0);
         this.origin = origin;
-        mapLocations = mapLocations(origin);
+        build();
     }
 
-    public Location getOrigin() {return origin.clone();}
-    protected abstract MapLocations mapLocations(Location origin);
 
-    public MapLocations getMapLocations() {
-        return mapLocations;
+    public abstract void build();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // CAMERAS TABLET
+    ///////////////////////////////////////////////////////////////////////////
+
+    protected void addCamera(Camera camera){
+        cameras.add(camera);
+    }
+    // TODO: 5/6/2024 GET CAMERA
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // DOORS
+    ///////////////////////////////////////////////////////////////////////////
+
+    protected void addDoor(DoorButtonPair doorButtonPair){
+        doorButtonPair.setOrigin(origin);
+        doors.add(doorButtonPair);
+    }
+    public List<DoorButtonPair> getDoors() {
+        return doors;
     }
 
     public Door getDoorByButtonLocation(Location location) {
-        for (DoorButtonPair doorButtonPair : mapLocations.getDoors()) {
+        for (DoorButtonPair doorButtonPair : doors) {
             if (doorButtonPair.hasButtonAt(location)) return doorButtonPair.getDoor();
         }
         return null;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // LOCATIONS
+    ///////////////////////////////////////////////////////////////////////////
+
+    protected void addLocation(LocationType locationType, LocationData locationData){
+        Preconditions.checkArgument(!locations.containsKey(locationType), "LocationType " + locationType.toString() + " already added!");
+        locationData.setOrigin(origin);
+        locations.put(locationType, locationData);
+    }
+
+    public LocationData getLocation(LocationType locationType){
+        Preconditions.checkArgument(locations.containsKey(locationType), "LocationType " + locationType.toString() + " does not exists!");
+        return locations.get(locationType);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // MISC
+    ///////////////////////////////////////////////////////////////////////////
+
     @Override
     public void reset() {
-        mapLocations.reset();
+        for (DoorButtonPair door : doors) {
+            door.getDoor().open();
+        }
     }
+    public Location getOrigin() {return origin.clone();}
 }

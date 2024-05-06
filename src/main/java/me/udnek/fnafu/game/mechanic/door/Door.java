@@ -119,8 +119,8 @@ public class Door implements Originable {
     }
 
     @Override
-    public void setOrigin(Location location) {
-        this.location.setOrigin(location);
+    public void setOrigin(Location origin) {
+        this.location.setOrigin(origin);
     }
 
     public Location getLocation() {

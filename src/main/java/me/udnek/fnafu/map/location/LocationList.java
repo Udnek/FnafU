@@ -52,7 +52,7 @@ public class LocationList implements LocationData{
     public int getSize() { return locations.size(); }
 
 
-    public LocationList centerAll(){
+    public LocationList center(){
         Preconditions.checkArgument(!frozen, "LocationList is frozen");
         for (Location location : locations) {
             Location center = location.toCenterLocation();
@@ -60,7 +60,7 @@ public class LocationList implements LocationData{
         }
         return this;
     }
-    public LocationList centerFloorAll(){
+    public LocationList centerFloor(){
         Preconditions.checkArgument(!frozen, "LocationList is frozen");
         for (Location location : locations) {
             Location center = location.toCenterLocation();

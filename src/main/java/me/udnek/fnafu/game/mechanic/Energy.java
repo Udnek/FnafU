@@ -28,12 +28,12 @@ public class Energy implements Resettable {
     public void tick(){
         energy -= consumption;
         if (energy < MIN_ENERGY) energy = MIN_ENERGY;
-        if (energy > MAX_ENERGY) energy = MAX_ENERGY;
+        else if (energy > MAX_ENERGY) energy = MAX_ENERGY;
     }
 
     private void updateUsage(){
         int closedAmount = 0;
-        for (DoorButtonPair doorButtonPair : map.getMapLocations().getDoors()) {
+        for (DoorButtonPair doorButtonPair : map.getDoors()) {
             if (doorButtonPair.getDoor().isClosed()) closedAmount++;
         }
         usage = closedAmount;

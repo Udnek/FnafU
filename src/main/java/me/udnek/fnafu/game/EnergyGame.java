@@ -4,7 +4,6 @@ import me.udnek.fnafu.game.mechanic.Energy;
 import me.udnek.fnafu.game.mechanic.Time;
 import me.udnek.fnafu.game.mechanic.door.Door;
 import me.udnek.fnafu.map.LocationType;
-import me.udnek.fnafu.map.MapLocations;
 import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.type.Animatronic;
@@ -32,7 +31,6 @@ public class EnergyGame extends AbstractGame {
     public static final int GAME_DURATION = 60*20;
 
     private final Fnaf1PizzeriaMap map;
-    private final MapLocations mapLocations;
 
     private GameWinner winner = GameWinner.NONE;
 
@@ -49,7 +47,6 @@ public class EnergyGame extends AbstractGame {
 
     public EnergyGame(Fnaf1PizzeriaMap map) {
         this.map = map;
-        mapLocations = map.getMapLocations();
         time = new Time(GAME_DURATION);
         energy = new Energy(map);
         id = this.getNameId();// + "_" + UUID.randomUUID().toString().substring(0, 5);
@@ -86,12 +83,12 @@ public class EnergyGame extends AbstractGame {
         initTeams();
 
         for (Survivor survivor : playerContainer.getSurvivors(false)) {
-            survivor.teleport(mapLocations.getLocation(LocationType.SPAWN_SURVIVOR));
+            survivor.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR));
             survivor.addToTeam(teamSurvivors);
             survivor.showAuraTo(playerContainer.getAll(), 0, Color.RED);
         }
         for (Animatronic animatronic : playerContainer.getAnimatronics(false)) {
-            animatronic.teleport(mapLocations.getLocation(LocationType.SPAWN_ANIMATRONIC));
+            animatronic.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC));
             animatronic.addToTeam(teamAnimatronics);
             animatronic.showAuraTo(playerContainer.getAll(), 0, Color.GREEN);
         }

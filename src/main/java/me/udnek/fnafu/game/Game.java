@@ -14,6 +14,5 @@ public interface Game extends NameId{
     boolean leave(Player player);
     boolean join(Player player, PlayerType playerType);
     String getId();
-
     EventHandler getEventHandler();
 }

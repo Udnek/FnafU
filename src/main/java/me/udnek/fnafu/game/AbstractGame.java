@@ -61,20 +61,6 @@ public abstract class AbstractGame implements Game, EventHandler{
     protected abstract void start();
     protected abstract void stop();
 
-
-/*    private boolean playerInList(Player player, List<? extends FnafUPlayer> list){
-        for (FnafUPlayer fnafUPlayer : list) {
-            if (fnafUPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
-        }
-        return false;
-    }
-    private FnafUPlayer getPlayer(Player player, List<? extends FnafUPlayer> list){
-        for (FnafUPlayer fnafUPlayer : list) {
-            if (fnafUPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return fnafUPlayer;
-        }
-        return null;
-    }*/
-
     @Override
     public boolean join(Player player, PlayerType playerType){
         if (playerType == PlayerType.SURVIVOR){

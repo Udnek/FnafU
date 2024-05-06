@@ -50,13 +50,13 @@ public class LocationSingle implements LocationData {
     public int getSize() { return (location == null ? 0 : 1); }
 
 
-    public LocationSingle centerAll(){
+    public LocationSingle center(){
         Preconditions.checkArgument(!frozen, "Location is frozen");
         Location center = location.toCenterLocation();
         location.set(center.getX(), center.getY(), center.getZ());
         return this;
     }
-    public LocationSingle centerFloorAll(){
+    public LocationSingle centerFloor(){
         Preconditions.checkArgument(!frozen, "Location is frozen");
         Location center = location.toCenterLocation();
         location.set(center.getX(), center.getBlockY(), center.getZ());
