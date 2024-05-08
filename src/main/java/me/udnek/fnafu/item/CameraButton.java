@@ -1,6 +1,7 @@
 package me.udnek.fnafu.item;
 
 import me.udnek.fnafu.FnafU;
+import me.udnek.fnafu.mechanic.camera.Camera;
 import me.udnek.itemscoreu.customitem.CustomModelDataItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -14,20 +15,19 @@ public class CameraButton extends CustomModelDataItem {
 
     public final NamespacedKey namespacedKey = new NamespacedKey(FnafU.getInstance(), "camera");
 
-    public ItemStack getWithCamera(int camera){
+    public ItemStack getWithCamera(Camera camera){
         ItemStack item = getItem();
         ItemMeta itemMeta = item.getItemMeta();
         PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        persistentDataContainer.set(namespacedKey, PersistentDataType.INTEGER, camera);
-        itemMeta.displayName(Component.text(camera));
+        persistentDataContainer.set(namespacedKey, PersistentDataType.STRING, camera.getId());
+        itemMeta.displayName(Component.text(camera.getId()));
         item.setItemMeta(itemMeta);
         return item;
     }
 
-    public int getCamera(ItemStack itemStack){
+    public String getCameraId(ItemStack itemStack){
         PersistentDataContainer persistentDataContainer = itemStack.getItemMeta().getPersistentDataContainer();
-        Integer camera = persistentDataContainer.get(namespacedKey, PersistentDataType.INTEGER);
-        if (camera == null) return -1;
+        String camera = persistentDataContainer.get(namespacedKey, PersistentDataType.STRING);
         return camera;
     }
 

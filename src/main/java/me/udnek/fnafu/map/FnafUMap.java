@@ -1,9 +1,10 @@
 package me.udnek.fnafu.map;
 
 import com.google.common.base.Preconditions;
-import me.udnek.fnafu.game.mechanic.Camera;
-import me.udnek.fnafu.game.mechanic.door.Door;
-import me.udnek.fnafu.game.mechanic.door.DoorButtonPair;
+import me.udnek.fnafu.mechanic.camera.Camera;
+import me.udnek.fnafu.mechanic.camera.CameraSystem;
+import me.udnek.fnafu.mechanic.door.Door;
+import me.udnek.fnafu.mechanic.door.DoorButtonPair;
 import me.udnek.fnafu.map.location.LocationData;
 import me.udnek.fnafu.utils.NameId;
 import me.udnek.fnafu.utils.Resettable;
@@ -20,29 +21,22 @@ public abstract class FnafUMap implements NameId, Resettable {
     private final EnumMap<LocationType, LocationData> locations = new EnumMap<>(LocationType.class);
     protected final List<DoorButtonPair> doors = new ArrayList<>();
     protected final List<Camera> cameras = new ArrayList<>();
+    protected final CameraSystem cameraSystem;
 
     public FnafUMap(Location origin){
         origin.set(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ());
         origin.setPitch(0);
         origin.setYaw(0);
         this.origin = origin;
+        cameraSystem = new CameraSystem();
         build();
+        cameraSystem.setOrigin(origin);
     }
 
 
     public abstract void build();
 
-    ///////////////////////////////////////////////////////////////////////////
-    // CAMERAS TABLET
-    ///////////////////////////////////////////////////////////////////////////
-
-    protected void addCamera(Camera camera){
-        cameras.add(camera);
-    }
-    // TODO: 5/6/2024 GET CAMERA
-
-
-
+    public CameraSystem getCameraSystem() {return cameraSystem;}
 
     ///////////////////////////////////////////////////////////////////////////
     // DOORS

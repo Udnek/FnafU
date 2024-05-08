@@ -1,5 +1,7 @@
 package me.udnek.fnafu.game;
 
+import me.udnek.fnafu.map.FnafUMap;
+import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.PlayerType;
 import me.udnek.fnafu.utils.NameId;
 import org.bukkit.entity.Player;
@@ -14,5 +16,6 @@ public interface Game extends NameId{
     boolean leave(Player player);
     boolean join(Player player, PlayerType playerType);
     String getId();
+    FnafUMap getMap();
     EventHandler getEventHandler();
 }

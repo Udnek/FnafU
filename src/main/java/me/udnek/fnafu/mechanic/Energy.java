@@ -1,6 +1,6 @@
-package me.udnek.fnafu.game.mechanic;
+package me.udnek.fnafu.mechanic;
 
-import me.udnek.fnafu.game.mechanic.door.DoorButtonPair;
+import me.udnek.fnafu.mechanic.door.DoorButtonPair;
 import me.udnek.fnafu.map.FnafUMap;
 import me.udnek.fnafu.utils.Resettable;
 

@@ -1,9 +1,8 @@
-package me.udnek.fnafu.game.mechanic.door;
+package me.udnek.fnafu.mechanic.door;
 
 import me.udnek.fnafu.FnafU;
 import me.udnek.fnafu.map.Originable;
 import me.udnek.fnafu.map.location.LocationSingle;
-import me.udnek.itemscoreu.utils.LogUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;

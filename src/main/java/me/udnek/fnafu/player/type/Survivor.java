@@ -1,5 +1,6 @@
 package me.udnek.fnafu.player.type;
 
+import me.udnek.fnafu.game.Game;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.HealthState;
 import me.udnek.fnafu.player.PlayerType;
@@ -9,8 +10,8 @@ public final class Survivor extends FnafUPlayer {
 
     private HealthState healthState = HealthState.HEALTHY;
 
-    public Survivor(Player player) {
-        super(player);
+    public Survivor(Player player, Game game) {
+        super(player, game);
     }
 
     public HealthState getHealthState(){ return healthState; }

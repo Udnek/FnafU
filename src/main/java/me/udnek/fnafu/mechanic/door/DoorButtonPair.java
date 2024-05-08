@@ -1,4 +1,4 @@
-package me.udnek.fnafu.game.mechanic.door;
+package me.udnek.fnafu.mechanic.door;
 
 import me.udnek.fnafu.map.Originable;
 import me.udnek.fnafu.map.location.LocationSingle;

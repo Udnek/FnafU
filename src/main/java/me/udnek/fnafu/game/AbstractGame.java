@@ -1,25 +1,21 @@
 package me.udnek.fnafu.game;
 
 import me.udnek.fnafu.FnafU;
+import me.udnek.fnafu.ability.Abilities;
 import me.udnek.fnafu.map.FnafUMap;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.PlayerContainer;
 import me.udnek.fnafu.player.PlayerType;
 import me.udnek.fnafu.player.type.Animatronic;
 import me.udnek.fnafu.player.type.Survivor;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public abstract class AbstractGame implements Game, EventHandler{
 
@@ -65,11 +61,11 @@ public abstract class AbstractGame implements Game, EventHandler{
     public boolean join(Player player, PlayerType playerType){
         if (playerType == PlayerType.SURVIVOR){
             if (playerContainer.containsSurvivor(player)) return false;
-            playerContainer.add(new Survivor(player));
+            playerContainer.add(new Survivor(player, this));
             return true;
         }
         if (playerContainer.containsAnimatronic(player)) return false;
-        playerContainer.add(new Animatronic(player));
+        playerContainer.add(new Animatronic(player, this));
         return true;
 
     }
@@ -108,6 +104,12 @@ public abstract class AbstractGame implements Game, EventHandler{
     @Override
     public void onPlayerDropsItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
+    }
+
+    @Override
+    public void onPlayerActivatesAbility(PlayerInteractEvent event, Abilities rawAbility) {
+        FnafUPlayer fnafUPlayer = playerContainer.getPlayer(event.getPlayer());
+        fnafUPlayer.activateAbility(event, rawAbility);
     }
 }
 

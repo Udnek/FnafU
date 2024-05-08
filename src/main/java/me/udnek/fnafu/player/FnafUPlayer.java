@@ -8,16 +8,21 @@ import com.comphenix.protocol.wrappers.WrappedDataValue;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import me.udnek.fnafu.FnafU;
+import me.udnek.fnafu.game.Game;
+import me.udnek.fnafu.ability.Abilities;
+import me.udnek.fnafu.ability.AbilitiesHolder;
+import me.udnek.fnafu.kit.Kit;
 import me.udnek.fnafu.map.location.LocationData;
+import me.udnek.itemscoreu.custominventory.CustomInventory;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -30,16 +35,46 @@ import java.util.UUID;
 public abstract class FnafUPlayer {
 
     private final Player player;
-    private boolean isAuraShowed = false;
+    private final Game game;
+    protected Entity spectatingEntity;
+    protected AbilitiesHolder abilitiesHolder = new AbilitiesHolder();
 
     protected Player getPlayer() {
         return player;
     }
 
-    public FnafUPlayer(Player player){
+    public FnafUPlayer(Player player, Game game){
         this.player = player;
+        this.game = game;
     }
     public abstract PlayerType getType();
+
+    public Game getGame() {return game;}
+    public void activateAbility(PlayerInteractEvent event, Abilities rawAbility){
+        abilitiesHolder.activate(rawAbility);
+    }
+
+    public void setUpKit(Kit kit){
+        kit.setPlayer(this);
+        kit.setUp();
+    }
+    public void openMenu(CustomInventory customInventory){
+        customInventory.open(getPlayer());
+    }
+    public AbilitiesHolder getAbilitiesHolder() {return abilitiesHolder;}
+    public void give(ItemStack itemStack, int slot){
+        getPlayer().getInventory().setItem(slot, itemStack);
+    }
+    public void give(ItemStack itemStack){
+        getPlayer().getInventory().addItem(itemStack);
+    }
+
+    public void cooldownMaterial(Material material, int ticks){
+        getPlayer().setCooldown(material, ticks);
+    }
+    public int getCooldownMaterial(Material material){
+        return getPlayer().getCooldown(material);
+    }
 
     public void sendMessage(Component component){
         getPlayer().sendMessage(component);
@@ -49,9 +84,7 @@ public abstract class FnafUPlayer {
     }
 
     @Override
-    public String toString() {
-        return getPlayer().getName();
-    }
+    public String toString() {return "["+getType()+"] "+getPlayer().getName();}
 
     public void teleport(LocationData locationData){
         getPlayer().teleport(locationData.getFirst());
@@ -93,6 +126,20 @@ public abstract class FnafUPlayer {
     public void playSound(Location location, Sound sound, float range){
         getPlayer().playSound(location, sound, range/16f, 1f);
     }
+
+    public void spectateEntity(Entity entity){
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.CAMERA);
+        packet.getIntegers().write(0, entity.getEntityId());
+        protocolManager.sendServerPacket(getPlayer(), packet);
+        spectatingEntity = entity;
+    }
+    public void spectateSelf(){
+        spectateEntity(getPlayer());
+        spectatingEntity = null;
+    }
+
+    public Entity getSpectatingEntity(){ return  spectatingEntity;}
 
 /*        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 

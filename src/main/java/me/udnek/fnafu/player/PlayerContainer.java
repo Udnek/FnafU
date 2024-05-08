@@ -25,6 +25,12 @@ public class PlayerContainer {
         return null;
     }
 
+    public FnafUPlayer getPlayer(Player player){
+        Survivor survivor = getSurvivor(player);
+        if (survivor != null) return survivor;
+        return getAnimatronic(player);
+    }
+
     public void add(Survivor survivor){
         survivors.add(survivor);
     }

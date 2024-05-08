@@ -1,4 +1,4 @@
-package me.udnek.fnafu.game.mechanic;
+package me.udnek.fnafu.mechanic;
 
 import me.udnek.fnafu.utils.Resettable;
 
