@@ -20,7 +20,6 @@ public abstract class FnafUMap implements NameId, Resettable {
 
     private final EnumMap<LocationType, LocationData> locations = new EnumMap<>(LocationType.class);
     protected final List<DoorButtonPair> doors = new ArrayList<>();
-    protected final List<Camera> cameras = new ArrayList<>();
     protected final CameraSystem cameraSystem;
 
     public FnafUMap(Location origin){

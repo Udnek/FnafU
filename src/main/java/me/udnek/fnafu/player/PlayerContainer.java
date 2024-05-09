@@ -14,13 +14,13 @@ public class PlayerContainer {
 
     public Survivor getSurvivor(Player player){
         for (Survivor survivor : survivors) {
-            if (survivor.getPlayer() == player) return survivor;
+            if (survivor.isThisPlayer(player)) return survivor;
         }
         return null;
     }
     public Animatronic getAnimatronic(Player player){
         for (Animatronic animatronic : animatronics) {
-            if (animatronic.getPlayer() == player) return animatronic;
+            if (animatronic.isThisPlayer(player)) return animatronic;
         }
         return null;
     }
@@ -41,7 +41,7 @@ public class PlayerContainer {
         List<Survivor> survivorList = getSurvivors(false);
         for (int i = 0; i < survivorList.size(); i++) {
             Survivor survivor = survivorList.get(i);
-            if (survivor.getPlayer() == player) {
+            if (survivor.isThisPlayer(player)) {
                 survivorList.remove(i);
                 return true;
             }
@@ -49,7 +49,7 @@ public class PlayerContainer {
         List<Animatronic> animatronicList = getAnimatronics(false);
         for (int i = 0; i < animatronicList.size(); i++) {
             Animatronic animatronic = animatronicList.get(i);
-            if (animatronic.getPlayer() == player) {
+            if (animatronic.isThisPlayer(player)) {
                 animatronicList.remove(i);
                 return true;
             }
@@ -88,13 +88,13 @@ public class PlayerContainer {
 
     public boolean containsSurvivor(Player player){
         for (Survivor survivor : survivors) {
-            if (survivor.getPlayer() == player) return true;
+            if (survivor.isThisPlayer(player)) return true;
         }
         return false;
     }
     public boolean containsAnimatronic(Player player){
         for (Animatronic animatronic : animatronics) {
-            if (animatronic.getPlayer() == player) return true;
+            if (animatronic.isThisPlayer(player)) return true;
         }
         return false;
     }

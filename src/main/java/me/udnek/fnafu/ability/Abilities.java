@@ -1,10 +1,10 @@
 package me.udnek.fnafu.ability;
 
-import me.udnek.fnafu.ability.playable.CameraTabletAbility;
+import me.udnek.fnafu.ability.playable.CameraUsingAbility;
 
 public enum Abilities {
 
-    CAMERA_TABLET(CameraTabletAbility.class);
+    CAMERA_TABLET(CameraUsingAbility.class);
 
     private final Class<? extends Ability<?>> abilityClass;
     Abilities(Class<? extends Ability<?>> ability){

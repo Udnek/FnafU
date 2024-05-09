@@ -1,6 +1,6 @@
 package me.udnek.fnafu.kit.playable;
 
-import me.udnek.fnafu.ability.playable.CameraTabletAbility;
+import me.udnek.fnafu.ability.playable.CameraUsingAbility;
 import me.udnek.fnafu.item.Items;
 import me.udnek.fnafu.kit.Kit;
 import me.udnek.fnafu.player.FnafUPlayer;
@@ -18,7 +18,7 @@ public class CameraKit extends Kit {
         if (!(player instanceof Survivor)) return;
         Survivor survivor = (Survivor) player;
 
-        survivor.getAbilitiesHolder().add(new CameraTabletAbility(survivor));
+        survivor.getAbilitiesHolder().add(new CameraUsingAbility(survivor));
     }
 
     @Override

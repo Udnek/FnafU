@@ -6,6 +6,9 @@ import me.udnek.fnafu.map.location.LocationSingle;
 import me.udnek.fnafu.mechanic.camera.Camera;
 import me.udnek.fnafu.mechanic.door.Door;
 import me.udnek.fnafu.mechanic.door.DoorButtonPair;
+import me.udnek.fnafu.utils.TextUtils;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 
 public class Fnaf1PizzeriaMap extends FnafUMap {
@@ -28,5 +31,7 @@ public class Fnaf1PizzeriaMap extends FnafUMap {
                 .addCamera(mainCamera)
                 .addCamera(officeCamera)
                 .addCamera(kitchenCamera);
+
+        getCameraSystem().setMapImage(TextUtils.getMapImage(151, "fnaf1"));
     }
 }

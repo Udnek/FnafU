@@ -4,15 +4,20 @@ import me.udnek.fnafu.game.Game;
 import me.udnek.fnafu.item.Items;
 import me.udnek.fnafu.manager.GameManager;
 import me.udnek.itemscoreu.custominventory.CustomInventory;
+import me.udnek.itemscoreu.utils.LogUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class CameraMenu extends CustomInventory {
-    public CameraMenu(List<Camera> cameras){
+    public CameraMenu(List<Camera> cameras, Component title){
+        super(9*6, title);
+        LogUtils.log(title);
         for (Camera camera : cameras) {
             this.inventory.setItem(camera.getTabletMenuPosition(), Items.cameraButton.getWithCamera(camera));
         }
@@ -39,7 +44,11 @@ public class CameraMenu extends CustomInventory {
         game.getEventHandler().onPlayerOpensCameraMenu(event);
     }
 
-    public String getRawDisplayName() {return "fnafu.cameras";}
     @Override
     public int getInventorySize() {return 9*6;}
+
+    @Override
+    public Component getDisplayName() {
+        return Component.empty();
+    }
 }

@@ -13,8 +13,8 @@ import me.udnek.itemscoreu.customitem.CustomItem;
 import me.udnek.itemscoreu.utils.CustomItemUtils;
 import org.bukkit.inventory.ItemStack;
 
-public class CameraTabletAbility extends Ability<Survivor> {
-    public CameraTabletAbility(Survivor player) {
+public class CameraUsingAbility extends Ability<Survivor> {
+    public CameraUsingAbility(Survivor player) {
         super(player);
     }
 

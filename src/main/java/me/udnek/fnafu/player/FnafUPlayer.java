@@ -38,9 +38,9 @@ public abstract class FnafUPlayer implements Resettable {
     protected Entity spectatingEntity;
     protected Kit kit;
 
-    protected Player getPlayer() {
+/*    protected Player getPlayer() {
         return player;
-    }
+    }*/
 
     public FnafUPlayer(Player player, Game game){
         this.player = player;
@@ -48,48 +48,52 @@ public abstract class FnafUPlayer implements Resettable {
     }
     public abstract PlayerType getType();
 
+    public boolean isThisPlayer(Player thisPlayer){
+        return player == thisPlayer;
+    }
+
     public abstract AbilitiesHolder<? extends FnafUPlayer> getAbilitiesHolder();
 
     public void setKit(Kit kit){ this.kit = kit;}
     public Kit getKit() { return kit;}
 
     public Game getGame() {return game;}
-    public void openMenu(CustomInventory customInventory){ customInventory.open(getPlayer()); }
+    public void openMenu(CustomInventory customInventory){ customInventory.open(player); }
     public void give(ItemStack itemStack, int slot){
-        getPlayer().getInventory().setItem(slot, itemStack);
+        player.getInventory().setItem(slot, itemStack);
     }
     public void give(ItemStack itemStack){
-        getPlayer().getInventory().addItem(itemStack);
+        player.getInventory().addItem(itemStack);
     }
 
     public void cooldownMaterial(Material material, int ticks){
-        getPlayer().setCooldown(material, ticks);
+        player.setCooldown(material, ticks);
     }
     public int getCooldownMaterial(Material material){
-        return getPlayer().getCooldown(material);
+        return player.getCooldown(material);
     }
 
     public void sendMessage(Component component){
-        getPlayer().sendMessage(component);
+        player.sendMessage(component);
     }
     public void sendMessage(String message){
-        getPlayer().sendMessage(message);
+        player.sendMessage(message);
     }
 
     @Override
-    public String toString() {return "["+getType()+"] "+getPlayer().getName();}
+    public String toString() {return "["+getType()+"] "+player.getName();}
 
 
     public void setGameMode(GameMode gameMode){
-        getPlayer().setGameMode(gameMode);
+        player.setGameMode(gameMode);
     }
 
     public void teleport(LocationData locationData){teleport(locationData.getRandom());}
-    public void teleport(Location location){ getPlayer().teleport(location);}
-    public Location getLocation(){return getPlayer().getLocation();}
+    public void teleport(Location location){ player.teleport(location);}
+    public Location getLocation(){return player.getLocation();}
 
     public void snowBossBar(BossBar bossBar){
-        bossBar.addViewer(getPlayer());
+        bossBar.addViewer(player);
     }
     public void showTitle(Component title, Component subTitle, int fadeIn, int stay, int fadeOut){
         Title titleData = Title.title(
@@ -100,39 +104,39 @@ public abstract class FnafUPlayer implements Resettable {
                         Duration.ofMillis(stay * 50L),
                         Duration.ofMillis(fadeOut * 50L)));
 
-        getPlayer().showTitle(titleData);
+        player.showTitle(titleData);
     }
 
     public void addPotionEffect(PotionEffect potionEffect){
-        getPlayer().addPotionEffect(potionEffect);
+        player.addPotionEffect(potionEffect);
     }
 
     public void addBossBar(BossBar bossBar){
-        bossBar.addViewer(getPlayer());
+        bossBar.addViewer(player);
     }
     public void removeBossBar(BossBar bossBar){
-        bossBar.removeViewer(getPlayer());
+        bossBar.removeViewer(player);
     }
     public void addToTeam(Team team){
-        team.addPlayer(getPlayer());
+        team.addPlayer(player);
     }
 
     public void playSound(Location location, String sound, float range){
-        getPlayer().playSound(location, sound, range/16f, 1f);
+        player.playSound(location, sound, range/16f, 1f);
     }
     public void playSound(Location location, Sound sound, float range){
-        getPlayer().playSound(location, sound, range/16f, 1f);
+        player.playSound(location, sound, range/16f, 1f);
     }
 
     public void spectateEntity(Entity entity){
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.CAMERA);
         packet.getIntegers().write(0, entity.getEntityId());
-        protocolManager.sendServerPacket(getPlayer(), packet);
+        protocolManager.sendServerPacket(player, packet);
         spectatingEntity = entity;
     }
     public void spectateSelf(){
-        spectateEntity(getPlayer());
+        spectateEntity(player);
         spectatingEntity = null;
     }
 
@@ -165,7 +169,7 @@ public abstract class FnafUPlayer implements Resettable {
         }*//*
         LogUtils.log(packet.getSoundEffects().write(0, Sound.va));
 
-        protocolManager.sendServerPacket(getPlayer(), packet);*/
+        protocolManager.sendServerPacket(player, packet);*/
 
 
 
@@ -178,7 +182,7 @@ public abstract class FnafUPlayer implements Resettable {
         packet.getEntityTypeModifier().write(0, EntityType.PLAYER);
         packet.getUUIDs().write(0, UUID.randomUUID());
         packet.getIntegers().write(1, 1);
-        Location location = getPlayer().getLocation();
+        Location location = player.getLocation();
         packet.getDoubles().write(0, location.getX());
         packet.getDoubles().write(1, location.getY());
         packet.getDoubles().write(2, location.getZ());
@@ -186,7 +190,7 @@ public abstract class FnafUPlayer implements Resettable {
         PacketContainer packet2 = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA); // metadata packet
         packet2.getIntegers().write(0, packet.getIntegers().read(0)); //Set entity id from packet above
 
-        WrappedDataWatcher watcher = WrappedDataWatcher.getEntityWatcher(getPlayer()).deepClone();
+        WrappedDataWatcher watcher = WrappedDataWatcher.getEntityWatcher(player).deepClone();
         //watcher.setObject(0, WrappedDataWatcher.Registry.get(Byte.class), (byte) (0x40));
         final List<WrappedDataValue> wrappedDataValueList = new ArrayList<>();
         watcher.getWatchableObjects().stream().filter(Objects::nonNull).forEach(entry -> {
@@ -195,8 +199,8 @@ public abstract class FnafUPlayer implements Resettable {
         });
         packet2.getDataValueCollectionModifier().write(0, wrappedDataValueList);
 
-        protocolManager.sendServerPacket(getPlayer(), packet);
-        protocolManager.sendServerPacket(getPlayer(), packet2);
+        protocolManager.sendServerPacket(player, packet);
+        protocolManager.sendServerPacket(player, packet2);
     }
 
 
@@ -210,7 +214,7 @@ public abstract class FnafUPlayer implements Resettable {
         packet.getEntityTypeModifier().write(0, EntityType.ITEM_DISPLAY);
         packet.getUUIDs().write(0, UUID.randomUUID());
         packet.getIntegers().write(1, 1);
-        Location location = getPlayer().getLocation();
+        Location location = player.getLocation();
         packet.getDoubles().write(0, location.getX());
         packet.getDoubles().write(1, location.getY());
         packet.getDoubles().write(2, location.getZ());
@@ -235,26 +239,26 @@ public abstract class FnafUPlayer implements Resettable {
 
         PacketContainer packet3 = protocolManager.createPacket(PacketType.Play.Server.MOUNT);
         packet3.getIntegers()
-                .write(0, getPlayer().getEntityId());
+                .write(0, player.getEntityId());
         packet3.getIntegerArrays().write(0, new int[]{packet.getIntegers().read(0)});
 
         for (FnafUPlayer toPlayer : toPlayers) {
-            protocolManager.sendServerPacket(toPlayer.getPlayer(), packet);
-            protocolManager.sendServerPacket(toPlayer.getPlayer(), packet2);
-            protocolManager.sendServerPacket(toPlayer.getPlayer(), packet3);
+            protocolManager.sendServerPacket(toPlayer.player, packet);
+            protocolManager.sendServerPacket(toPlayer.player, packet2);
+            protocolManager.sendServerPacket(toPlayer.player, packet3);
         }
 
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                getPlayer().sendMessage("TODO REMOVE ENTITY");
+                player.sendMessage("TODO REMOVE ENTITY");
 
                 PacketContainer removePacket = protocolManager.createPacket(PacketType.Play.Server.ENTITY_DESTROY);
                 removePacket.getModifier().write(0, new IntArrayList(new int[]{packet.getIntegers().read(0)}));
 
                 for (FnafUPlayer toPlayer : toPlayers) {
-                    protocolManager.sendServerPacket(toPlayer.getPlayer(), removePacket);
+                    protocolManager.sendServerPacket(toPlayer.player, removePacket);
                 }
             }
         }.runTaskLater(FnafU.getInstance(), duration);
@@ -289,7 +293,7 @@ public abstract class FnafUPlayer implements Resettable {
 
     @Override
     public void reset() {
-        getPlayer().getInventory().clear();
+        player.getInventory().clear();
     }
 }
 

@@ -4,7 +4,6 @@ import me.udnek.fnafu.command.FnafUCommand;
 import me.udnek.fnafu.game.GameListener;
 import me.udnek.fnafu.manager.GameManager;
 import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
-import me.udnek.fnafu.utils.TestListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,9 +19,7 @@ public final class FnafU extends JavaPlugin {
 
         this.getCommand("fnafu").setExecutor(new FnafUCommand());
 
-        new TestListener(getInstance());
         new GameListener(getInstance());
-
 
         new BukkitRunnable() {
             @Override

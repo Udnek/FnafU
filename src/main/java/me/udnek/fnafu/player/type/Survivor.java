@@ -12,9 +12,7 @@ public final class Survivor extends FnafUPlayer {
     private HealthState healthState = HealthState.HEALTHY;
     private final AbilitiesHolder<Survivor> abilitiesHolder = new AbilitiesHolder<>();
 
-    public Survivor(Player player, Game game) {
-        super(player, game);
-    }
+    public Survivor(Player player, Game game) { super(player, game);}
 
     public HealthState getHealthState(){ return healthState; }
     public void injure() {healthState = healthState.getNextState();}

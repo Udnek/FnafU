@@ -5,6 +5,7 @@ import me.udnek.fnafu.FnafU;
 import me.udnek.fnafu.map.Originable;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.utils.Resettable;
+import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -20,14 +21,16 @@ public class CameraSystem implements Resettable, Originable {
     private final List<Camera> cameras = new ArrayList<>();
     private final HashMap<FnafUPlayer, Camera> playerSpectatingCameras = new HashMap<>();
     private CameraMenu cameraMenu;
+    private Component mapImage = Component.text("NOT SET");
+
+
+    public void setMapImage(Component mapImage) {
+        this.mapImage = mapImage;
+    }
 
     public Camera getSpectatingCamera(FnafUPlayer player){
         return playerSpectatingCameras.get(player);
     }
-
-/*    public CameraMenu getCameraMenu(){
-        return cameraMenu;
-    }*/
 
     public List<Camera> getCameras(){return cameras;}
 
@@ -106,12 +109,6 @@ public class CameraSystem implements Resettable, Originable {
         cameras.add(camera);
         return this;
     }
-
-
-    public void createMenu(){
-        cameraMenu = new CameraMenu(cameras);
-    }
-
     public void openMenu(FnafUPlayer player){
         player.openMenu(cameraMenu);
     }
@@ -135,9 +132,9 @@ public class CameraSystem implements Resettable, Originable {
 
     @Override
     public void setOrigin(Location location) {
-        createMenu();
         for (Camera camera : cameras) {
             camera.setOrigin(location);
         }
+        cameraMenu = new CameraMenu(cameras, mapImage);
     }
 }
