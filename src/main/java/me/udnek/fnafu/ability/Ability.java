@@ -1,5 +1,6 @@
 package me.udnek.fnafu.ability;
 
+import me.udnek.fnafu.game.event.Event;
 import me.udnek.fnafu.player.FnafUPlayer;
 
 public abstract class Ability<T extends FnafUPlayer>{
@@ -9,4 +10,5 @@ public abstract class Ability<T extends FnafUPlayer>{
         this.player = player;
     }
     public abstract void activate();
+    public void handleEvent(Event event){}
 }

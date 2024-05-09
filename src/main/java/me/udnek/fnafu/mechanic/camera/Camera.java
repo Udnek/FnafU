@@ -9,11 +9,21 @@ public class Camera implements Originable {
     private final LocationSingle locationSingle;
     private final String id;
     private final int tabletMenuPosition;
+    private final float rotationAngle;
 
-    public Camera(LocationSingle location, String id, int tabletMenuPosition){
+
+    public Camera(LocationSingle location, String id, int tabletMenuPosition, float rotationAngle){
         locationSingle = location;
         this.id = id;
         this.tabletMenuPosition = tabletMenuPosition;
+        this.rotationAngle = rotationAngle;
+    }
+    public Camera(LocationSingle location, String id, int tabletMenuPosition){
+        this(location, id, tabletMenuPosition, 0f);
+    }
+
+    public float getRotationAngle() {
+        return rotationAngle;
     }
 
     public String getId() {return id;}

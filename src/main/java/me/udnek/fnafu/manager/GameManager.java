@@ -4,12 +4,13 @@ import com.google.common.base.Preconditions;
 import me.udnek.fnafu.game.AbstractGame;
 import me.udnek.fnafu.game.EnergyGame;
 import me.udnek.fnafu.game.Game;
-import me.udnek.fnafu.map.FnafUMap;
 import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
 import me.udnek.fnafu.player.PlayerType;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class GameManager {
 

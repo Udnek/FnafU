@@ -8,11 +8,11 @@ import com.comphenix.protocol.wrappers.WrappedDataValue;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import me.udnek.fnafu.FnafU;
-import me.udnek.fnafu.game.Game;
-import me.udnek.fnafu.ability.Abilities;
 import me.udnek.fnafu.ability.AbilitiesHolder;
+import me.udnek.fnafu.game.Game;
 import me.udnek.fnafu.kit.Kit;
 import me.udnek.fnafu.map.location.LocationData;
+import me.udnek.fnafu.utils.Resettable;
 import me.udnek.itemscoreu.custominventory.CustomInventory;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
@@ -20,7 +20,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.entity.*;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,12 +31,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class FnafUPlayer {
+public abstract class FnafUPlayer implements Resettable {
 
     private final Player player;
     private final Game game;
     protected Entity spectatingEntity;
-    protected AbilitiesHolder abilitiesHolder = new AbilitiesHolder();
+    protected Kit kit;
 
     protected Player getPlayer() {
         return player;
@@ -49,19 +48,13 @@ public abstract class FnafUPlayer {
     }
     public abstract PlayerType getType();
 
-    public Game getGame() {return game;}
-    public void activateAbility(PlayerInteractEvent event, Abilities rawAbility){
-        abilitiesHolder.activate(rawAbility);
-    }
+    public abstract AbilitiesHolder<? extends FnafUPlayer> getAbilitiesHolder();
 
-    public void setUpKit(Kit kit){
-        kit.setPlayer(this);
-        kit.setUp();
-    }
-    public void openMenu(CustomInventory customInventory){
-        customInventory.open(getPlayer());
-    }
-    public AbilitiesHolder getAbilitiesHolder() {return abilitiesHolder;}
+    public void setKit(Kit kit){ this.kit = kit;}
+    public Kit getKit() { return kit;}
+
+    public Game getGame() {return game;}
+    public void openMenu(CustomInventory customInventory){ customInventory.open(getPlayer()); }
     public void give(ItemStack itemStack, int slot){
         getPlayer().getInventory().setItem(slot, itemStack);
     }
@@ -86,14 +79,18 @@ public abstract class FnafUPlayer {
     @Override
     public String toString() {return "["+getType()+"] "+getPlayer().getName();}
 
-    public void teleport(LocationData locationData){
-        getPlayer().teleport(locationData.getFirst());
+
+    public void setGameMode(GameMode gameMode){
+        getPlayer().setGameMode(gameMode);
     }
+
+    public void teleport(LocationData locationData){teleport(locationData.getRandom());}
+    public void teleport(Location location){ getPlayer().teleport(location);}
+    public Location getLocation(){return getPlayer().getLocation();}
 
     public void snowBossBar(BossBar bossBar){
         bossBar.addViewer(getPlayer());
     }
-
     public void showTitle(Component title, Component subTitle, int fadeIn, int stay, int fadeOut){
         Title titleData = Title.title(
                 title,
@@ -203,7 +200,7 @@ public abstract class FnafUPlayer {
     }
 
 
-    public void showAuraTo(List<? extends FnafUPlayer> toPlayers, int duration, Color color){
+    public void showAuraTo(List<? extends FnafUPlayer> toPlayers, int duration, Color color) {
 
 
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
@@ -248,7 +245,6 @@ public abstract class FnafUPlayer {
         }
 
 
-
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -288,6 +284,12 @@ public abstract class FnafUPlayer {
             //fnafUPlayer.getPlayer().
             protocolManager.sendServerPacket(fnafUPlayer.getPlayer(), packet);
         }*/
+
+    }
+
+    @Override
+    public void reset() {
+        getPlayer().getInventory().clear();
     }
 }
 

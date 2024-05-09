@@ -2,7 +2,6 @@ package me.udnek.fnafu.game;
 
 import me.udnek.fnafu.FnafU;
 import me.udnek.fnafu.ability.Abilities;
-import me.udnek.fnafu.map.FnafUMap;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.PlayerContainer;
 import me.udnek.fnafu.player.PlayerType;
@@ -98,18 +97,21 @@ public abstract class AbstractGame implements Game, EventHandler{
 
     @Override
     public void onPlayerClicksInInventory(InventoryClickEvent event) {
+        if (!getGameState().isActive()) return;
         event.setCancelled(true);
     }
 
     @Override
     public void onPlayerDropsItem(PlayerDropItemEvent event) {
+        if (!getGameState().isActive()) return;
         event.setCancelled(true);
     }
 
     @Override
     public void onPlayerActivatesAbility(PlayerInteractEvent event, Abilities rawAbility) {
+        if (!getGameState().isActive()) return;
         FnafUPlayer fnafUPlayer = playerContainer.getPlayer(event.getPlayer());
-        fnafUPlayer.activateAbility(event, rawAbility);
+        fnafUPlayer.getAbilitiesHolder().activate(rawAbility);
     }
 }
 

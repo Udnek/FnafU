@@ -1,11 +1,11 @@
 package me.udnek.fnafu.map;
 
 import com.google.common.base.Preconditions;
+import me.udnek.fnafu.map.location.LocationData;
 import me.udnek.fnafu.mechanic.camera.Camera;
 import me.udnek.fnafu.mechanic.camera.CameraSystem;
 import me.udnek.fnafu.mechanic.door.Door;
 import me.udnek.fnafu.mechanic.door.DoorButtonPair;
-import me.udnek.fnafu.map.location.LocationData;
 import me.udnek.fnafu.utils.NameId;
 import me.udnek.fnafu.utils.Resettable;
 import org.bukkit.Location;

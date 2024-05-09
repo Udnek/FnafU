@@ -2,9 +2,14 @@ package me.udnek.fnafu.kit;
 
 import me.udnek.fnafu.player.FnafUPlayer;
 
-public abstract class Kit<T extends FnafUPlayer> {
+public abstract class Kit {
 
-    protected T player;
-    public void setPlayer(T player) {this.player = player;}
+    protected final FnafUPlayer player;
+
+    public Kit(FnafUPlayer player){
+        this.player = player;
+    }
+
     public abstract void setUp();
+    public abstract void regive();
 }

@@ -6,9 +6,6 @@ public enum Abilities {
 
     CAMERA_TABLET(CameraTabletAbility.class);
 
-
-
-
     private final Class<? extends Ability<?>> abilityClass;
     Abilities(Class<? extends Ability<?>> ability){
         this.abilityClass = ability;

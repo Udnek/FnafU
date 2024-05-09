@@ -1,13 +1,15 @@
 package me.udnek.fnafu.mechanic.camera;
 
 import com.google.common.base.Preconditions;
+import me.udnek.fnafu.FnafU;
 import me.udnek.fnafu.map.Originable;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.utils.Resettable;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +43,49 @@ public class CameraSystem implements Resettable, Originable {
         cameraEntity.setMarker(true);
 
         player.spectateEntity(cameraEntity);
+
+        player.setGameMode(GameMode.SPECTATOR);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.setGameMode(GameMode.SURVIVAL);
+            }
+        }.runTaskLater(FnafU.getInstance(), 10);
+
+
+        if (camera.getRotationAngle() == 0f) return;
+        new BukkitRunnable() {
+
+            float rotateCounter = 0f;
+            float rotatePerTick = 1f;
+            int rotationDelay = 0;
+            final float rotationAngle = camera.getRotationAngle();
+
+            @Override
+            public void run() {
+                if (cameraEntity.isDead()) {cancel(); return;}
+
+                if (rotationDelay > 0){
+                    rotationDelay -= 1;
+                    return;
+                }
+
+                cameraEntity.setRotation(cameraEntity.getYaw()+rotatePerTick , cameraEntity.getPitch());
+                rotateCounter += rotatePerTick;
+
+                if (Math.abs(rotateCounter) >= rotationAngle){
+                    rotatePerTick *= -1f;
+                    rotationDelay = 20;
+                }
+
+
+
+            }
+        }.runTaskTimer(FnafU.getInstance(), 20, 1);
+
+
+
     }
     public void exitCamera(FnafUPlayer player){
         Camera camera = getSpectatingCamera(player);

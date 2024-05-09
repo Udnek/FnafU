@@ -1,7 +1,6 @@
 package me.udnek.fnafu.map.location;
 
 import com.google.common.base.Preconditions;
-import me.udnek.itemscoreu.utils.LogUtils;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -27,10 +26,6 @@ public class LocationList implements LocationData{
         return this;
     }
 
-    public List<Location> getAll(){
-        return new ArrayList<>(locations);
-    }
-
     public void setOrigin(Location origin){
         Preconditions.checkArgument(!frozen, "LocationList is frozen");
         for (Location location : locations) {
@@ -41,12 +36,22 @@ public class LocationList implements LocationData{
 
 
     public Location getFirst(){
-        return locations.get(0);
+        return locations.get(0).clone();
     }
 
     public Location getRandom(){
         if (getSize() == 1) return getFirst();
-        return locations.get(new Random().nextInt(getSize()));
+        return locations.get(new Random().nextInt(getSize())).clone();
+    }
+
+    public List<Location> getAll(){
+        return new ArrayList<>(locations);
+    }
+
+    @Override
+    public Location get(int n) {
+        if (n >= getSize()) n = getSize()-1;
+        return locations.get(0).clone();
     }
 
     public int getSize() { return locations.size(); }

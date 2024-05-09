@@ -1,18 +1,17 @@
 package me.udnek.fnafu.game;
 
+import me.udnek.fnafu.game.event.PlayerClicksInCameraMenuEvent;
+import me.udnek.fnafu.game.event.PlayerClosesCameraMenuEvent;
+import me.udnek.fnafu.game.event.PlayerOpensCameraMenuEvent;
 import me.udnek.fnafu.kit.playable.CameraKit;
-import me.udnek.fnafu.mechanic.camera.Camera;
+import me.udnek.fnafu.map.LocationType;
+import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
 import me.udnek.fnafu.mechanic.Energy;
 import me.udnek.fnafu.mechanic.Time;
 import me.udnek.fnafu.mechanic.door.Door;
-import me.udnek.fnafu.item.Items;
-import me.udnek.fnafu.map.LocationType;
-import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.type.Animatronic;
 import me.udnek.fnafu.player.type.Survivor;
-import me.udnek.itemscoreu.customitem.CustomItem;
-import me.udnek.itemscoreu.utils.CustomItemUtils;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -29,10 +28,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -92,12 +89,15 @@ public class EnergyGame extends AbstractGame {
         initTeams();
 
         for (Survivor survivor : playerContainer.getSurvivors(false)) {
+            survivor.reset();
             survivor.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR));
             survivor.addToTeam(teamSurvivors);
-            survivor.setUpKit(new CameraKit());
+            survivor.setKit(new CameraKit(survivor));
+            survivor.getKit().setUp();
             survivor.showAuraTo(playerContainer.getAll(), 0, Color.RED);
         }
         for (Animatronic animatronic : playerContainer.getAnimatronics(false)) {
+            animatronic.reset();
             animatronic.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC));
             animatronic.addToTeam(teamAnimatronics);
             // TODO: 5/8/2024 SET KIT
@@ -105,13 +105,13 @@ public class EnergyGame extends AbstractGame {
         }
 
         teamSurvivors.setAllowFriendlyFire(false);
-        teamSurvivors.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
+        teamSurvivors.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
         teamSurvivors.setCanSeeFriendlyInvisibles(true);
         teamSurvivors.color(NamedTextColor.GREEN);
         teamSurvivors.prefix(Component.text("[S] ").color(TextColor.color(0f, 1f, 0f)));
 
         teamAnimatronics.setAllowFriendlyFire(false);
-        teamAnimatronics.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
+        teamAnimatronics.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
         teamAnimatronics.setCanSeeFriendlyInvisibles(true);
         teamAnimatronics.color(NamedTextColor.RED);
         teamAnimatronics.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)));
@@ -139,6 +139,7 @@ public class EnergyGame extends AbstractGame {
 
         for (FnafUPlayer fnafUPlayer : playerContainer.getAll()) {
             fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10);
+            fnafUPlayer.reset();
         }
         
         
@@ -164,6 +165,8 @@ public class EnergyGame extends AbstractGame {
 
     @Override
     public void onPlayerAttacksEntity(EntityDamageByEntityEvent event) {
+        if (!getGameState().isActive()) return;
+
         Player damager = (Player) event.getDamager();
 
         Survivor survivorDamager = playerContainer.getSurvivor(damager);
@@ -191,6 +194,7 @@ public class EnergyGame extends AbstractGame {
 
     @Override
     public void onPlayerInteracts(PlayerInteractEvent event) {
+        if (!getGameState().isActive()) return;
         if (!event.getAction().isRightClick()) return;
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null) return;
@@ -217,27 +221,21 @@ public class EnergyGame extends AbstractGame {
 
     @Override
     public void onPlayerClicksInCameraMenu(InventoryClickEvent event) {
-        ItemStack currentItem = event.getCurrentItem();
-        if (currentItem == null) return;
-        CustomItem customItem = CustomItemUtils.getFromItemStack(currentItem);
-        if (customItem.isSameIds(Items.cameraButton)){
-            String cameraId = Items.cameraButton.getCameraId(currentItem);
-            Camera camera = map.getCameraSystem().getCamera(cameraId);
-            FnafUPlayer player = playerContainer.getPlayer((Player) event.getWhoClicked());
-            map.getCameraSystem().spectateCamera(player, camera);
-        }
+        FnafUPlayer fnafUPlayer = playerContainer.getPlayer((Player) event.getWhoClicked());
+        fnafUPlayer.getAbilitiesHolder().handleEvent(new PlayerClicksInCameraMenuEvent(event.getCurrentItem(), event.getClickedInventory()));
+
     }
 
     @Override
     public void onPlayerClosesCameraMenu(InventoryCloseEvent event) {
         FnafUPlayer fnafUPlayer = playerContainer.getPlayer((Player) event.getPlayer());
-        map.getCameraSystem().exitCamera(fnafUPlayer);
+        fnafUPlayer.getAbilitiesHolder().handleEvent(new PlayerClosesCameraMenuEvent());
     }
 
     @Override
     public void onPlayerOpensCameraMenu(InventoryOpenEvent event) {
         FnafUPlayer fnafUPlayer = playerContainer.getPlayer((Player) event.getPlayer());
-        map.getCameraSystem().spectateCamera(fnafUPlayer, map.getCameraSystem().getCamera("main"));
+        fnafUPlayer.getAbilitiesHolder().handleEvent(new PlayerOpensCameraMenuEvent());
     }
 
 

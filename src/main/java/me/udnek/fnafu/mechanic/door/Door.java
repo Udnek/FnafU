@@ -18,7 +18,7 @@ public class Door implements Originable {
     public static final int OPEN_DELAY = 8;
 
     protected final LocationSingle location;
-    private Direction direction;
+    private final Direction direction;
     private boolean closed = false;
 
     public Door(LocationSingle location, Direction direction){
@@ -39,9 +39,9 @@ public class Door implements Originable {
             case 0:
                 return direction.modifyBlockState((Wall) Material.PRISMARINE_WALL.createBlockData());
             case 1:
-                return direction.modifyBlockState((Wall) Material.RED_NETHER_BRICK_WALL.createBlockData());
-            case 2:
                 return direction.modifyBlockState((Wall) Material.NETHER_BRICK_WALL.createBlockData());
+            case 2:
+                return direction.modifyBlockState((Wall) Material.RED_NETHER_BRICK_WALL.createBlockData());
             default:
                 return Material.AIR.createBlockData();
         }
@@ -57,7 +57,7 @@ public class Door implements Originable {
         new BukkitRunnable() {
             int step = 0;
             Location doorLocation = location.getFirst();
-            World world = doorLocation.getWorld();
+            final World world = doorLocation.getWorld();
 
             @Override
             public void run() {
@@ -92,7 +92,7 @@ public class Door implements Originable {
         new BukkitRunnable() {
             int step = 0;
             Location doorLocation = location.getFirst();
-            World world = doorLocation.getWorld();
+            final World world = doorLocation.getWorld();
 
             @Override
             public void run() {

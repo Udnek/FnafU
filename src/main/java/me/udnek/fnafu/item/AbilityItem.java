@@ -1,7 +1,7 @@
 package me.udnek.fnafu.item;
 
-import me.udnek.fnafu.game.Game;
 import me.udnek.fnafu.ability.Abilities;
+import me.udnek.fnafu.game.Game;
 import me.udnek.fnafu.manager.GameManager;
 import me.udnek.itemscoreu.customitem.InteractableItem;
 import org.bukkit.event.player.PlayerInteractEvent;

@@ -1,13 +1,11 @@
 package me.udnek.fnafu.map.location;
 
 import com.google.common.base.Preconditions;
-import me.udnek.itemscoreu.utils.LogUtils;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class LocationSingle implements LocationData {
 
@@ -46,6 +44,9 @@ public class LocationSingle implements LocationData {
     public Location getRandom(){
         return getFirst();
     }
+
+    @Override
+    public Location get(int n) {return getFirst();}
 
     public int getSize() { return (location == null ? 0 : 1); }
 

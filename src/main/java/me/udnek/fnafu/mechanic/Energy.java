@@ -1,7 +1,7 @@
 package me.udnek.fnafu.mechanic;
 
-import me.udnek.fnafu.mechanic.door.DoorButtonPair;
 import me.udnek.fnafu.map.FnafUMap;
+import me.udnek.fnafu.mechanic.door.DoorButtonPair;
 import me.udnek.fnafu.utils.Resettable;
 
 public class Energy implements Resettable {

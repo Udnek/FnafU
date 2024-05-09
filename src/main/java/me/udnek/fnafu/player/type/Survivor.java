@@ -1,5 +1,6 @@
 package me.udnek.fnafu.player.type;
 
+import me.udnek.fnafu.ability.AbilitiesHolder;
 import me.udnek.fnafu.game.Game;
 import me.udnek.fnafu.player.FnafUPlayer;
 import me.udnek.fnafu.player.HealthState;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 public final class Survivor extends FnafUPlayer {
 
     private HealthState healthState = HealthState.HEALTHY;
+    private final AbilitiesHolder<Survivor> abilitiesHolder = new AbilitiesHolder<>();
 
     public Survivor(Player player, Game game) {
         super(player, game);
@@ -21,4 +23,10 @@ public final class Survivor extends FnafUPlayer {
     public PlayerType getType() {
         return PlayerType.SURVIVOR;
     }
+
+    @Override
+    public AbilitiesHolder<Survivor> getAbilitiesHolder() {
+        return abilitiesHolder;
+    }
+
 }
