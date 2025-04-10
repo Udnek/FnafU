@@ -1,46 +1,31 @@
-package me.udnek.fnafu.mechanic.door;
+package me.udnek.fnafu.mechanic.door
 
-import me.udnek.fnafu.map.Originable;
-import me.udnek.fnafu.map.location.LocationSingle;
-import org.bukkit.Location;
+import me.udnek.fnafu.util.Originable
+import me.udnek.fnafu.map.location.LocationSingle
+import org.bukkit.*
 
-public class DoorButtonPair implements Originable {
+class DoorButtonPair(val door: Door, val doorButton: DoorButton) : Originable {
 
-    private Door door;
-    private DoorButton doorButton;
+    constructor(
+        doorX: Long,
+        doorY: Long,
+        doorZ: Long,
+        direction: Door.Direction,
+        buttonX: Long,
+        buttonY: Long,
+        buttonZ: Long
+    ) : this(
+        Door(LocationSingle(doorX.toDouble(), doorY.toDouble(), doorZ.toDouble()), direction),
+        DoorButton(LocationSingle(buttonX.toDouble(), buttonY.toDouble(), buttonZ.toDouble()))
+    )
 
-    public DoorButtonPair(Door door, DoorButton doorButton){
-        this.door = door;
-        this.doorButton = doorButton;
+    fun hasButtonAt(location: Location): Boolean {
+        val buttonLocation = doorButton.location
+        return buttonLocation.blockX == location.blockX && buttonLocation.blockY == location.blockY && buttonLocation.blockZ == location.blockZ
     }
 
-    public DoorButtonPair(long doorX, long doorY, long doorZ, Door.Direction direction, long buttonX, long buttonY, long buttonZ){
-        this(
-                new Door(LocationSingle.from(doorX, doorY, doorZ), direction),
-                new DoorButton(LocationSingle.from(buttonX, buttonY, buttonZ)));
+    override fun setOrigin(origin: Location) {
+        door.setOrigin(origin)
+        doorButton.setOrigin(origin)
     }
-
-
-    public Door getDoor() {
-        return door;
-    }
-
-    public DoorButton getDoorButton() {
-        return doorButton;
-    }
-
-    public boolean hasButtonAt(Location location){
-        Location buttonLocation = doorButton.getLocation();
-        return buttonLocation.getBlockX() == location.getBlockX()
-                && buttonLocation.getBlockY() == location.getBlockY()
-                && buttonLocation.getBlockZ() == location.getBlockZ();
-    }
-
-
-    @Override
-    public void setOrigin(Location location) {
-        door.setOrigin(location);
-        doorButton.setOrigin(location);
-    }
-
 }

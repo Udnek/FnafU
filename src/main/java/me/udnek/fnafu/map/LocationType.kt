@@ -1,7 +1,6 @@
-package me.udnek.fnafu.map;
+package me.udnek.fnafu.map
 
-public enum LocationType {
-
+enum class LocationType {
     SPAWN_ANIMATRONIC,
     SPAWN_SURVIVOR,
 }

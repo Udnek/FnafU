@@ -1,140 +1,133 @@
-package me.udnek.fnafu.mechanic.camera;
+package me.udnek.fnafu.mechanic.camera
 
-import com.google.common.base.Preconditions;
-import me.udnek.fnafu.FnafU;
-import me.udnek.fnafu.map.Originable;
-import me.udnek.fnafu.player.FnafUPlayer;
-import me.udnek.fnafu.utils.Resettable;
-import net.kyori.adventure.text.Component;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.scheduler.BukkitRunnable;
+import com.google.common.base.Preconditions
+import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.component.Abilities
+import me.udnek.fnafu.util.Originable
+import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Resettable
+import net.kyori.adventure.text.Component
+import org.bukkit.*
+import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.EntityType
+import org.bukkit.scheduler.BukkitRunnable
+import kotlin.math.abs
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+class CameraSystem : Resettable, Originable {
 
-public class CameraSystem implements Resettable, Originable {
+    private val cameras: MutableList<Camera> = ArrayList()
+    private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
+    private lateinit var cameraMenu: CameraMenu
+    private var mapImage: Component = Component.text("NOT SET")
 
-    private final List<Camera> cameras = new ArrayList<>();
-    private final HashMap<FnafUPlayer, Camera> playerSpectatingCameras = new HashMap<>();
-    private CameraMenu cameraMenu;
-    private Component mapImage = Component.text("NOT SET");
+    fun setMapImage(image: Component) { this.mapImage = image }
 
+    fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
 
-    public void setMapImage(Component mapImage) {
-        this.mapImage = mapImage;
+    fun spectateCamera(player: FnafUPlayer, id: String){
+        spectateCamera(player, getCamera(id)!!)
     }
 
-    public Camera getSpectatingCamera(FnafUPlayer player){
-        return playerSpectatingCameras.get(player);
-    }
+    fun spectateCamera(player: FnafUPlayer, camera: Camera) {
+        player.player.inventory.clear()
+        val ability = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
 
-    public List<Camera> getCameras(){return cameras;}
-
-    public void spectateCamera(FnafUPlayer player, Camera camera){
-        Camera spectatingCamera = getSpectatingCamera(player);
-        if (spectatingCamera != null){
-            player.getSpectatingEntity().remove();
+        val spectatingCamera = getSpectatingCamera(player)
+        if (spectatingCamera != null) {
+            ability.spectatingEntity!!.remove()
         }
-        setPlayerSpectatingCameras(player, camera);
+        setPlayerSpectatingCamera(player, camera)
 
-        ArmorStand cameraEntity = (ArmorStand) camera.getLocation().getFirst().getWorld().spawnEntity(camera.getLocation().getFirst(), EntityType.ARMOR_STAND);
-        cameraEntity.setGravity(false);
-        cameraEntity.setMarker(true);
+        val cameraEntity =
+            camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
+        cameraEntity.setGravity(false)
+        cameraEntity.isMarker = true
 
-        player.spectateEntity(cameraEntity);
+        ability.spectate(player, cameraEntity)
 
-        player.setGameMode(GameMode.SPECTATOR);
+//        player.player.gameMode = GameMode.SPECTATOR
+//
+//        object : BukkitRunnable() {
+//            override fun run() {
+//                player.player.gameMode = GameMode.SURVIVAL
+//            }
+//        }.runTaskLater(FnafU.instance, 10)
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.setGameMode(GameMode.SURVIVAL);
-            }
-        }.runTaskLater(FnafU.getInstance(), 10);
 
+        if (camera.rotationAngle == 0f) return
+        object : BukkitRunnable() {
+            var rotateCounter: Float = 0f
+            var rotatePerTick: Float = 1f
+            var rotationDelay: Int = 0
+            val rotationAngle: Float = camera.rotationAngle
 
-        if (camera.getRotationAngle() == 0f) return;
-        new BukkitRunnable() {
-
-            float rotateCounter = 0f;
-            float rotatePerTick = 1f;
-            int rotationDelay = 0;
-            final float rotationAngle = camera.getRotationAngle();
-
-            @Override
-            public void run() {
-                if (cameraEntity.isDead()) {cancel(); return;}
-
-                if (rotationDelay > 0){
-                    rotationDelay -= 1;
-                    return;
+            override fun run() {
+                if (!cameraEntity.isValid) {
+                    cancel()
+                    return
                 }
 
-                cameraEntity.setRotation(cameraEntity.getYaw()+rotatePerTick , cameraEntity.getPitch());
-                rotateCounter += rotatePerTick;
-
-                if (Math.abs(rotateCounter) >= rotationAngle){
-                    rotatePerTick *= -1f;
-                    rotationDelay = 20;
+                if (rotationDelay > 0) {
+                    rotationDelay -= 1
+                    return
                 }
 
+                cameraEntity.setRotation(cameraEntity.yaw + rotatePerTick, cameraEntity.pitch)
+                rotateCounter += rotatePerTick
 
-
+                if (abs(rotateCounter.toDouble()) >= rotationAngle) {
+                    rotatePerTick *= -1f
+                    rotationDelay = 20
+                }
             }
-        }.runTaskTimer(FnafU.getInstance(), 20, 1);
-
-
-
-    }
-    public void exitCamera(FnafUPlayer player){
-        Camera camera = getSpectatingCamera(player);
-        if (camera == null) return;
-        player.getSpectatingEntity().remove();
-        player.spectateSelf();
-        setPlayerSpectatingCameras(player, null);
+        }.runTaskTimer(FnafU.instance, 20, 1)
     }
 
-
-    private void setPlayerSpectatingCameras(FnafUPlayer player, Camera camera){
-        if (camera == null) playerSpectatingCameras.remove(player);
-        else playerSpectatingCameras.put(player, camera);
+    fun exitCamera(player: FnafUPlayer) {
+        if (getSpectatingCamera(player) == null) return
+        val spectateEntityAbility = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
+        spectateEntityAbility.spectatingEntity!!.remove()
+        spectateEntityAbility.spectateSelf(player)
+        setPlayerSpectatingCamera(player, null)
+        player.player.closeInventory()
+        player.kit.regive(player)
     }
 
-    public CameraSystem addCamera(Camera camera){
-        Preconditions.checkArgument(getCamera(camera.getId()) == null, "Camera with id '"+ camera.getId() + " is already exists!");
-        cameras.add(camera);
-        return this;
-    }
-    public void openMenu(FnafUPlayer player){
-        player.openMenu(cameraMenu);
+    private fun setPlayerSpectatingCamera(player: FnafUPlayer, camera: Camera?) {
+        if (camera == null) playerSpectatingCameras.remove(player)
+        else playerSpectatingCameras[player] = camera
     }
 
-    public Camera getCamera(String id){
-        for (Camera camera : cameras) {
-            if (camera.getId().equals(id)){
-                return camera;
+    fun addCamera(camera: Camera): CameraSystem {
+        Preconditions.checkArgument(
+            getCamera(camera.id) == null,
+            "Camera with id '" + camera.id + " is already exists!"
+        )
+        cameras.add(camera)
+        return this
+    }
+
+    fun openMenu(player: FnafUPlayer) {
+        cameraMenu.open(player.player)
+    }
+
+    fun getCamera(id: String): Camera? {
+        for (camera in cameras) {
+            if (camera.id == id) {
+                return camera
             }
         }
+        // TODO DO SOMETHING ABOUT STRING ID
         return null;
     }
 
-    @Override
-    public void reset() {
-        for (FnafUPlayer player : playerSpectatingCameras.keySet()) {
-            exitCamera(player);
-        }
-        playerSpectatingCameras.clear();
+    override fun reset() {
+        for (player in playerSpectatingCameras.keys) exitCamera(player)
+        playerSpectatingCameras.clear()
     }
 
-    @Override
-    public void setOrigin(Location location) {
-        for (Camera camera : cameras) {
-            camera.setOrigin(location);
-        }
-        cameraMenu = new CameraMenu(cameras, mapImage);
+    override fun setOrigin(origin: Location) {
+        for (camera in cameras) camera.setOrigin(origin)
+        cameraMenu = CameraMenu(cameras, mapImage)
     }
 }

@@ -1,23 +1,14 @@
-package me.udnek.fnafu.mechanic.door;
+package me.udnek.fnafu.mechanic.door
 
-import me.udnek.fnafu.map.Originable;
-import me.udnek.fnafu.map.location.LocationSingle;
-import org.bukkit.Location;
+import me.udnek.fnafu.util.Originable
+import me.udnek.fnafu.map.location.LocationSingle
+import org.bukkit.Location
 
-public class DoorButton implements Originable {
-
-    private LocationSingle button;
-
-    public DoorButton(LocationSingle locationSingle){
-        button = locationSingle;
+class DoorButton(private val button: LocationSingle) : Originable {
+    override fun setOrigin(origin: Location) {
+        button.setOrigin(origin)
     }
 
-    @Override
-    public void setOrigin(Location location) {
-        button.setOrigin(location);
-    }
-
-    public Location getLocation(){
-        return button.getFirst();
-    }
+    val location: Location
+        get() = button.first.clone()
 }

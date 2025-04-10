@@ -1,41 +1,31 @@
-package me.udnek.fnafu;
+package me.udnek.fnafu
 
-import me.udnek.fnafu.command.FnafUCommand;
-import me.udnek.fnafu.game.GameListener;
-import me.udnek.fnafu.manager.GameManager;
-import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
+import me.udnek.fnafu.game.EnergyGame
+import me.udnek.fnafu.item.Items
+import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
+import me.udnek.itemscoreu.customminigame.MGUManager
+import org.bukkit.*
+import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitRunnable
 
-public final class FnafU extends JavaPlugin {
+class FnafU : JavaPlugin() {
+    override fun onEnable() {
+        instance = this
 
-    private static FnafU instance;
+        Items.CAMERA_TABLET
 
-    @Override
-    public void onEnable() {
-        instance = this;
-
-        this.getCommand("fnafu").setExecutor(new FnafUCommand());
-
-        new GameListener(getInstance());
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                GameManager.getManager().registerMap(new Fnaf1PizzeriaMap(new Location(Bukkit.getWorld("fnaf"), -224, 65, -3)));
+        object : BukkitRunnable(){
+            override fun run() {
+                val origin = Location(Bukkit.getWorld("fnaf")!!, -224.0, 65.0, -3.0)
+                println(origin)
+                MGUManager.get().registerGame(
+                    EnergyGame(Fnaf1PizzeriaMap(origin)))
             }
-        }.runTask(this);
-
-
+        }.runTask(instance)
     }
 
-    @Override
-    public void onDisable() {
-    }
-
-    public static FnafU getInstance() {
-        return instance;
+    companion object {
+        lateinit var instance: FnafU
+            private set
     }
 }

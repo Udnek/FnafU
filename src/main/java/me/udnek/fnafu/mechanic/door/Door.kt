@@ -1,158 +1,133 @@
-package me.udnek.fnafu.mechanic.door;
+package me.udnek.fnafu.mechanic.door
 
-import me.udnek.fnafu.FnafU;
-import me.udnek.fnafu.map.Originable;
-import me.udnek.fnafu.map.location.LocationSingle;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Wall;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
+import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.util.Originable
+import me.udnek.fnafu.map.location.LocationSingle
+import org.bukkit.*
+import org.bukkit.block.BlockFace
+import org.bukkit.block.data.BlockData
+import org.bukkit.block.data.type.Wall
+import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.util.Vector
 
-public class Door implements Originable {
+open class Door(protected val location: LocationSingle, private val direction: Direction) : Originable {
 
-    public static final int CLOSE_DELAY = 2;
-    public static final int OPEN_DELAY = 8;
-
-    protected final LocationSingle location;
-    private final Direction direction;
-    private boolean closed = false;
-
-    public Door(LocationSingle location, Direction direction){
-        this.location = location;
-        this.direction = direction;
+    companion object {
+        const val CLOSE_DELAY: Int = 2
+        const val OPEN_DELAY: Int = 8
     }
 
-    public boolean isClosed() {
-        return closed;
-    }
+    var isClosed: Boolean = false
+        private set
 
-    public void toggle(){
-        if (closed) open(); else close();
-    }
+    fun toggle() = if (isClosed) open() else close()
 
-    private BlockData getLayerBlockData(int layer){
-        switch (layer){
-            case 0:
-                return direction.modifyBlockState((Wall) Material.PRISMARINE_WALL.createBlockData());
-            case 1:
-                return direction.modifyBlockState((Wall) Material.NETHER_BRICK_WALL.createBlockData());
-            case 2:
-                return direction.modifyBlockState((Wall) Material.RED_NETHER_BRICK_WALL.createBlockData());
-            default:
-                return Material.AIR.createBlockData();
+    private fun getLayerBlockData(layer: Int): BlockData {
+        return when (layer) {
+            0 -> direction.modifyBlockState(Material.PRISMARINE_WALL.createBlockData() as Wall)
+            1 -> direction.modifyBlockState(Material.NETHER_BRICK_WALL.createBlockData() as Wall)
+            2 -> direction.modifyBlockState(Material.RED_NETHER_BRICK_WALL.createBlockData() as Wall)
+            else -> Material.AIR.createBlockData()
         }
     }
 
-    public void close(){
-        if (closed) return;
-        closed = true;
+    fun close() {
+        if (isClosed) return
+        isClosed = true
 
-        int xStep = direction == Direction.X ? 1 : 0;
-        int zStep = direction == Direction.X ? 0 : 1;
+        val xStep = if (direction === Direction.X) 1 else 0
+        val zStep = if (direction === Direction.X) 0 else 1
 
-        new BukkitRunnable() {
-            int step = 0;
-            Location doorLocation = location.getFirst();
-            final World world = doorLocation.getWorld();
+        object : BukkitRunnable() {
+            var step: Int = 0
+            var doorLocation: Location = location.first
+            val world: World = doorLocation.world
 
-            @Override
-            public void run() {
-                doorLocation = location.getFirst();
-                doorLocation.add(-xStep*2, 3, -zStep*2);
+            override fun run() {
+                doorLocation = location.first
+                doorLocation.add((-xStep * 2).toDouble(), 3.0, (-zStep * 2).toDouble())
 
-                for (int layer = 2-step; layer < 2-step+3; layer++) {
-                    BlockData blockData = getLayerBlockData(layer);
+                for (layer in 2 - step until 2 - step + 3) {
+                    val blockData = getLayerBlockData(layer)
 
-                    doorLocation.add(0, -1, 0);
-                    for (int i = 0; i < 3; i++) {
-                        world.setBlockData(doorLocation.add(xStep, 0, zStep), blockData);
+                    doorLocation.add(0.0, -1.0, 0.0)
+                    for (i in 0..2) {
+                        world.setBlockData(doorLocation.add(xStep.toDouble(), 0.0, zStep.toDouble()), blockData)
                     }
-                    doorLocation.add(-xStep*3, 0, -zStep*3);
+                    doorLocation.add((-xStep * 3).toDouble(), 0.0, (-zStep * 3).toDouble())
                 }
 
-                if (step == 2) cancel();
-                step += 1;
-
+                if (step == 2) cancel()
+                step += 1
             }
-        }.runTaskTimer(FnafU.getInstance(), 0, CLOSE_DELAY);
-
+        }.runTaskTimer(FnafU.instance, 0, CLOSE_DELAY.toLong())
     }
 
-    public void open(){
-        if (!closed) return;
-        closed = false;
+    fun open() {
+        if (!isClosed) return
+        isClosed = false
 
-        int xStep = direction == Direction.X ? 1 : 0;
-        int zStep = direction == Direction.X ? 0 : 1;
+        val xStep = if (direction === Direction.X) 1 else 0
+        val zStep = if (direction === Direction.X) 0 else 1
 
-        new BukkitRunnable() {
-            int step = 0;
-            Location doorLocation = location.getFirst();
-            final World world = doorLocation.getWorld();
+        object : BukkitRunnable() {
+            var step: Int = 0
+            var doorLocation: Location = location.first
+            val world: World = doorLocation.world
 
-            @Override
-            public void run() {
-                doorLocation = location.getFirst();
-                doorLocation.add(-xStep*2, 3, -zStep*2);
+            override fun run() {
+                doorLocation = location.first
+                doorLocation.add((-xStep * 2).toDouble(), 3.0, (-zStep * 2).toDouble())
 
-                for (int layer = 1+step; layer < 1+step+3; layer++) {
-                    BlockData blockData = getLayerBlockData(layer);
+                for (layer in 1 + step until 1 + step + 3) {
+                    val blockData = getLayerBlockData(layer)
 
-                    doorLocation.add(0, -1, 0);
-                    for (int i = 0; i < 3; i++) {
-                        world.setBlockData(doorLocation.add(xStep, 0, zStep), blockData);
+                    doorLocation.add(0.0, -1.0, 0.0)
+                    for (i in 0..2) {
+                        world.setBlockData(doorLocation.add(xStep.toDouble(), 0.0, zStep.toDouble()), blockData)
                     }
-                    doorLocation.add(-xStep*3, 0, -zStep*3);
+                    doorLocation.add((-xStep * 3).toDouble(), 0.0, (-zStep * 3).toDouble())
                 }
 
-                if (step == 2) cancel();
-                step += 1;
-
+                if (step == 2) cancel()
+                step += 1
             }
-        }.runTaskTimer(FnafU.getInstance(), 0, OPEN_DELAY);
-
+        }.runTaskTimer(FnafU.instance, 0, OPEN_DELAY.toLong())
     }
 
-    @Override
-    public void setOrigin(Location origin) {
-        this.location.setOrigin(origin);
+    override fun setOrigin(origin: Location) {
+        location.setOrigin(origin)
     }
 
-    public Location getLocation() {
-        return location.getFirst();
+    fun getLocation(): Location {
+        return location.first
     }
 
-    public enum Direction{
-        X(new Vector(1, 0, 0)) {
-            @Override
-            public Wall modifyBlockState(Wall blockData) {
-                blockData.setHeight(BlockFace.WEST, Wall.Height.TALL);
-                blockData.setHeight(BlockFace.EAST, Wall.Height.TALL);
-                blockData.setUp(false);
-                return blockData;
+    enum class Direction(vector: Vector) {
+        X(Vector(1, 0, 0)) {
+            override fun modifyBlockState(blockData: Wall): Wall {
+                blockData.setHeight(BlockFace.WEST, Wall.Height.TALL)
+                blockData.setHeight(BlockFace.EAST, Wall.Height.TALL)
+                blockData.isUp = false
+                return blockData
             }
         },
-        Z(new Vector(0, 0, 1)) {
-            @Override
-            public Wall modifyBlockState(Wall blockData) {
-                blockData.setHeight(BlockFace.SOUTH, Wall.Height.TALL);
-                blockData.setHeight(BlockFace.NORTH, Wall.Height.TALL);
-                blockData.setUp(false);
-                return blockData;
+        Z(Vector(0, 0, 1)) {
+            override fun modifyBlockState(blockData: Wall): Wall {
+                blockData.setHeight(BlockFace.SOUTH, Wall.Height.TALL)
+                blockData.setHeight(BlockFace.NORTH, Wall.Height.TALL)
+                blockData.isUp = false
+                return blockData
             }
         };
 
-        private final Vector vector;
-        Direction(Vector vector){
-            this.vector = vector.normalize();
-        }
+        private val vector = vector.normalize()
 
-        public Vector getAlignedVector() {return vector.clone();}
-        public abstract Wall modifyBlockState(Wall blockData);
+        val alignedVector: Vector
+            get() = vector.clone()
 
+        abstract fun modifyBlockState(blockData: Wall): Wall
     }
+
+
 }

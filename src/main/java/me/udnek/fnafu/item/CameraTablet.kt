@@ -1,30 +1,28 @@
-package me.udnek.fnafu.item;
+package me.udnek.fnafu.item
 
-import me.udnek.fnafu.ability.Abilities;
-import me.udnek.itemscoreu.customitem.CustomModelDataItem;
-import org.bukkit.Material;
+import me.udnek.fnafu.util.getFnafU
+import me.udnek.itemscoreu.customcomponent.instance.RightClickableItem
+import me.udnek.itemscoreu.customitem.ConstructableCustomItem
+import me.udnek.itemscoreu.customitem.CustomItem
+import org.bukkit.event.player.PlayerInteractEvent
 
-public class CameraTablet extends CustomModelDataItem implements AbilityItem{
-    @Override
-    public int getCustomModelData() {
-        return 0;
+class CameraTablet : ConstructableCustomItem() {
+
+    override fun initializeComponents() {
+        super.initializeComponents()
+        components.set(object : RightClickableItem {
+            override fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
+                event.player.getFnafU()?.let {
+                    player ->
+                    player.game.map.cameraSystem.let { system ->
+                        system.spectateCamera(player, "main")
+                        system.openMenu(player)
+                    }
+                }
+
+            }
+        })
     }
 
-    @Override
-    public Material getMaterial() {
-        return Material.GOLDEN_SWORD;
-    }
-
-    @Override
-    protected String getRawDisplayName() {return "item.fnafu.camera_tablet";}
-
-    @Override
-    protected String getItemName() {
-        return "camera_tablet";
-    }
-
-    @Override
-    public Abilities getActivatingAbility() {
-        return Abilities.CAMERA_TABLET;
-    }
+    override fun getRawId(): String = "camera_tablet"
 }

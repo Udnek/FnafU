@@ -1,54 +1,40 @@
-package me.udnek.fnafu.mechanic.camera;
+package me.udnek.fnafu.mechanic.camera
 
-import me.udnek.fnafu.game.Game;
-import me.udnek.fnafu.item.Items;
-import me.udnek.fnafu.manager.GameManager;
-import me.udnek.itemscoreu.custominventory.CustomInventory;
-import me.udnek.itemscoreu.utils.LogUtils;
-import net.kyori.adventure.text.Component;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.jetbrains.annotations.NotNull;
+import me.udnek.fnafu.item.CameraButton
+import me.udnek.fnafu.item.getCameraId
+import me.udnek.fnafu.util.getFnafU
+import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
+import me.udnek.itemscoreu.custominventory.SmartIntractableCustomInventory
+import net.kyori.adventure.text.Component
+import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.inventory.ItemStack
 
-import java.util.List;
+open class CameraMenu : ConstructableCustomInventory{
+    private var title: Component
 
-public class CameraMenu extends CustomInventory {
-    public CameraMenu(List<Camera> cameras, Component title){
-        super(9*6, title);
-        LogUtils.log(title);
-        for (Camera camera : cameras) {
-            this.inventory.setItem(camera.getTabletMenuPosition(), Items.cameraButton.getWithCamera(camera));
+    constructor(cameras: List<Camera>, title: Component) : super() {
+        this.title = title
+        for (camera in cameras) {
+            inventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(camera))
         }
     }
 
-    @Override
-    public void onPlayerClicksItem(InventoryClickEvent event) {
-        Game game = GameManager.getManager().getGame((Player) event.getWhoClicked());
-        if (game == null) return;
-        game.getEventHandler().onPlayerClicksInCameraMenu(event);
+    override fun onPlayerClicksItem(event: InventoryClickEvent) {
+        event.isCancelled = true
+        event.currentItem?.let {
+            val id = event.currentItem?.getCameraId() ?: return
+            (event.whoClicked as Player).getFnafU()?.also {
+                it.game.map.cameraSystem.spectateCamera(it, id)
+            }
+        }
     }
 
-    @Override
-    public void onPlayerClosesInventory(InventoryCloseEvent event) {
-        Game game = GameManager.getManager().getGame((Player) event.getPlayer());
-        if (game == null) return;
-        game.getEventHandler().onPlayerClosesCameraMenu(event);
+    override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
+        (event.player as Player).getFnafU()?.also { it.game.map.cameraSystem.exitCamera(it) }
     }
 
-    @Override
-    public void onPlayerOpensInventory(InventoryOpenEvent event) {
-        Game game = GameManager.getManager().getGame((Player) event.getPlayer());
-        if (game == null) return;
-        game.getEventHandler().onPlayerOpensCameraMenu(event);
-    }
-
-    @Override
-    public int getInventorySize() {return 9*6;}
-
-    @Override
-    public Component getDisplayName() {
-        return Component.empty();
-    }
+    override fun getTitle(): Component? { return title }
+    override fun getInventorySize(): Int { return 9 * 6 }
 }

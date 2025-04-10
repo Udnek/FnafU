@@ -1,53 +1,48 @@
-package me.udnek.fnafu.mechanic;
+package me.udnek.fnafu.mechanic
 
-import me.udnek.fnafu.map.FnafUMap;
-import me.udnek.fnafu.mechanic.door.DoorButtonPair;
-import me.udnek.fnafu.utils.Resettable;
+import me.udnek.fnafu.game.EnergyGame
+import me.udnek.fnafu.util.Resettable
+import me.udnek.fnafu.util.Ticking
 
-public class Energy implements Resettable {
+class Energy(private val game: EnergyGame) : Resettable, Ticking {
 
-    public static float MAX_ENERGY = 100f;
-    public static float MIN_ENERGY = 0f;
-
-    private float energy = MAX_ENERGY;
-    private float consumption = 0f;
-    private int usage = 0;
-
-    private final FnafUMap map;
-
-    public Energy(FnafUMap fnafUMap){
-        map = fnafUMap;
+    companion object {
+        var MAX_ENERGY: Float = 100f
+        var MIN_ENERGY: Float = 0f
     }
 
-    public float getEnergy() {return energy;}
-    public float getConsumption() {return consumption;}
-    public float getUsage() {return usage;}
+    var energy: Float = MAX_ENERGY
+        private set
+    var consumption: Float = 0f
+        private set
+    var usage = 0
+        private set
 
-    public boolean isEndedUp(){return energy == MIN_ENERGY;}
+    val isEndedUp: Boolean
+        get() = energy <= MIN_ENERGY
 
-    public void tick(){
-        energy -= consumption;
-        if (energy < MIN_ENERGY) energy = MIN_ENERGY;
-        else if (energy > MAX_ENERGY) energy = MAX_ENERGY;
+    override fun tick() {
+        energy -= consumption
+        if (energy < MIN_ENERGY) energy = MIN_ENERGY
+        else if (energy > MAX_ENERGY) energy = MAX_ENERGY
     }
 
-    private void updateUsage(){
-        int closedAmount = 0;
-        for (DoorButtonPair doorButtonPair : map.getDoors()) {
-            if (doorButtonPair.getDoor().isClosed()) closedAmount++;
+    fun updateConsumption() {
+        updateUsage()
+        consumption = usage / 5f
+    }
+
+    private fun updateUsage() {
+        var closedAmount = 0
+        for (doorButtonPair in game.map.doors) {
+            if (doorButtonPair.door.isClosed) closedAmount++
         }
-        usage = closedAmount;
+        usage = closedAmount
     }
 
-    public void updateConsumption(){
-        updateUsage();
-        consumption = usage/5f;
-    }
-
-    @Override
-    public void reset() {
-        consumption = 0f;
-        energy = MAX_ENERGY;
-        usage = 0;
+    override fun reset() {
+        consumption = 0f
+        energy = MAX_ENERGY
+        usage = 0
     }
 }

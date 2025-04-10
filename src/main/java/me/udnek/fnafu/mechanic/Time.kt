@@ -1,27 +1,17 @@
-package me.udnek.fnafu.mechanic;
+package me.udnek.fnafu.mechanic
 
-import me.udnek.fnafu.utils.Resettable;
+import me.udnek.fnafu.util.Resettable
+import me.udnek.fnafu.util.Ticking
 
-public class Time implements Resettable {
+class Time(private val maxTime: Int) : Resettable, Ticking {
+    var ticks = 0
+        private set
 
-    private int time;
-    private final int maxTime;
+    val isEnded: Boolean
+        get() = ticks >= maxTime
 
-    public Time(int maxTime){
-        this.maxTime = maxTime;
+    override fun tick() {
+        ticks++
     }
-
-    public void tick(){
-        time++;
-    }
-    public boolean isEnded(){
-        return time >= maxTime;
-    }
-
-    public int get(){return time;}
-
-    @Override
-    public void reset() {
-        time = 0;
-    }
+    override fun reset() { ticks = 0 }
 }

@@ -1,14 +1,15 @@
-package me.udnek.fnafu.item;
+package me.udnek.fnafu.item
 
-import me.udnek.fnafu.FnafU;
-import me.udnek.itemscoreu.customitem.CustomItem;
-import me.udnek.itemscoreu.customitem.CustomItemManager;
+import me.udnek.fnafu.FnafU
+import me.udnek.itemscoreu.customitem.CustomItem
+import me.udnek.itemscoreu.customregistry.CustomRegistries
 
-public class Items {
-    public static final CameraButton cameraButton = (CameraButton) register(new CameraButton());
-    public static final CameraTablet cameraTablet = (CameraTablet) register(new CameraTablet());
+object Items {
+    val CAMERA_BUTTON: CustomItem = register(CameraButton())
+    val CAMERA_TABLET: CustomItem = register(CameraTablet())
+    val PLUSHTRAP: CustomItem = register(Plushtrap())
 
-    private static CustomItem register(CustomItem customItem){
-        return CustomItemManager.registerItem(FnafU.getInstance(), customItem);
+    private fun register(customItem: CustomItem): CustomItem {
+        return CustomRegistries.ITEM.register(FnafU.instance, customItem)
     }
 }

@@ -1,88 +1,70 @@
-package me.udnek.fnafu.map.location;
+package me.udnek.fnafu.map.location
 
-import com.google.common.base.Preconditions;
-import org.bukkit.Location;
+import com.google.common.base.Preconditions
+import me.udnek.fnafu.util.setOrigin
+import org.bukkit.*
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+class LocationList : LocationData {
+    private val locations: MutableList<Location> = ArrayList()
+    private var frozen = false
 
-public class LocationList implements LocationData{
+    override val size: Int
+        get() = locations.size
+    override val all: List<Location>
+        get() = ArrayList(locations)
 
-    private final List<Location> locations = new ArrayList<>();
-    private boolean frozen = false;
+    override val first: Location
+        get() = locations[0].clone()
 
-    public LocationList add(Location location){
-        Preconditions.checkArgument(!frozen, "LocationList is frozen");
-        locations.add(location);
-        return this;
-    }
-    public LocationList add(double x, double y, double z){
-        add(new Location(null, x, y, z, 0, 0));
-        return this;
-    }
-    public LocationList add(double x, double y, double z, float yaw, float pitch){
-        add(new Location(null, x, y, z, yaw, pitch));
-        return this;
-    }
-
-    public void setOrigin(Location origin){
-        Preconditions.checkArgument(!frozen, "LocationList is frozen");
-        for (Location location : locations) {
-            LocationData.locationAddOrigin(location, origin);
+    override val random: Location
+        get() {
+            if (size == 1) return first
+            return locations[Random().nextInt(size)].clone()
         }
-        frozen = true;
+
+
+    fun add(location: Location): LocationList {
+        Preconditions.checkArgument(!frozen, "LocationList is frozen")
+        locations.add(location)
+        return this
     }
 
-
-    public Location getFirst(){
-        return locations.get(0).clone();
+    fun add(x: Double, y: Double, z: Double): LocationList {
+        add(Location(null, x, y, z, 0f, 0f))
+        return this
     }
 
-    public Location getRandom(){
-        if (getSize() == 1) return getFirst();
-        return locations.get(new Random().nextInt(getSize())).clone();
+    fun add(x: Double, y: Double, z: Double, yaw: Float, pitch: Float): LocationList {
+        add(Location(null, x, y, z, yaw, pitch))
+        return this
     }
 
-    public List<Location> getAll(){
-        return new ArrayList<>(locations);
+    override fun setOrigin(origin: Location) {
+        Preconditions.checkArgument(!frozen, "LocationList is frozen")
+        for (location in locations) location.setOrigin(origin)
+        frozen = true
     }
 
-    @Override
-    public Location get(int n) {
-        if (n >= getSize()) n = getSize()-1;
-        return locations.get(0).clone();
+    override fun get(n: Int): Location {
+        return locations[n]
     }
 
-    public int getSize() { return locations.size(); }
-
-
-    public LocationList center(){
-        Preconditions.checkArgument(!frozen, "LocationList is frozen");
-        for (Location location : locations) {
-            Location center = location.toCenterLocation();
-            location.set(center.getX(), center.getY(), center.getZ());
+    override fun center(): LocationList {
+        Preconditions.checkArgument(!frozen, "LocationList is frozen")
+        for (location in locations) {
+            val center = location.toCenterLocation()
+            location[center.x, center.y] = center.z
         }
-        return this;
+        return this
     }
-    public LocationList centerFloor(){
-        Preconditions.checkArgument(!frozen, "LocationList is frozen");
-        for (Location location : locations) {
-            Location center = location.toCenterLocation();
-            location.set(center.getX(), center.getBlockY(), center.getZ());
+
+    override fun centerFloor(): LocationList {
+        Preconditions.checkArgument(!frozen, "LocationList is frozen")
+        for (location in locations) {
+            val center = location.toCenterLocation()
+            location[center.x, center.blockY.toDouble()] = center.z
         }
-        return this;
+        return this
     }
-
-    public static LocationList from(double x, double y, double z){
-        return new LocationList().add(x, y, z);
-    }
-
-    public static LocationList from(double x, double y, double z, float yaw, float pitch){
-        return new LocationList().add(x, y, z, yaw, pitch);
-    }
-    public static LocationList from(Location location){
-        return new LocationList().add(location);
-    }
-
 }

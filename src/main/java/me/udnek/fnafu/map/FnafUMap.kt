@@ -1,85 +1,73 @@
-package me.udnek.fnafu.map;
+package me.udnek.fnafu.map
 
-import com.google.common.base.Preconditions;
-import me.udnek.fnafu.map.location.LocationData;
-import me.udnek.fnafu.mechanic.camera.Camera;
-import me.udnek.fnafu.mechanic.camera.CameraSystem;
-import me.udnek.fnafu.mechanic.door.Door;
-import me.udnek.fnafu.mechanic.door.DoorButtonPair;
-import me.udnek.fnafu.utils.NameId;
-import me.udnek.fnafu.utils.Resettable;
-import org.bukkit.Location;
+import com.google.common.base.Preconditions
+import me.udnek.fnafu.map.location.LocationData
+import me.udnek.fnafu.mechanic.camera.CameraSystem
+import me.udnek.fnafu.mechanic.door.Door
+import me.udnek.fnafu.mechanic.door.DoorButtonPair
+import me.udnek.fnafu.util.Resettable
+import org.bukkit.Location
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
+abstract class FnafUMap : Resettable {
 
-public abstract class FnafUMap implements NameId, Resettable {
+    val origin: Location
+        get() = field.clone()
 
-    protected final Location origin;
+    private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
+    val doors: MutableList<DoorButtonPair> = ArrayList()
+    val cameraSystem: CameraSystem
 
-    private final EnumMap<LocationType, LocationData> locations = new EnumMap<>(LocationType.class);
-    protected final List<DoorButtonPair> doors = new ArrayList<>();
-    protected final CameraSystem cameraSystem;
-
-    public FnafUMap(Location origin){
-        origin.set(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ());
-        origin.setPitch(0);
-        origin.setYaw(0);
-        this.origin = origin;
-        cameraSystem = new CameraSystem();
-        build();
-        cameraSystem.setOrigin(origin);
+    constructor(origin: Location) {
+        origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())
+        origin.pitch = 0f
+        origin.yaw = 0f
+        this.origin = origin
+        cameraSystem = CameraSystem()
+        this.build()
+        cameraSystem.setOrigin(origin)
     }
 
-
-    public abstract void build();
-
-    public CameraSystem getCameraSystem() {return cameraSystem;}
+    abstract fun build()
 
     ///////////////////////////////////////////////////////////////////////////
     // DOORS
     ///////////////////////////////////////////////////////////////////////////
-
-    protected void addDoor(DoorButtonPair doorButtonPair){
-        doorButtonPair.setOrigin(origin);
-        doors.add(doorButtonPair);
-    }
-    public List<DoorButtonPair> getDoors() {
-        return doors;
+    protected fun addDoor(doorButtonPair: DoorButtonPair) {
+        doorButtonPair.setOrigin(origin)
+        doors.add(doorButtonPair)
     }
 
-    public Door getDoorByButtonLocation(Location location) {
-        for (DoorButtonPair doorButtonPair : doors) {
-            if (doorButtonPair.hasButtonAt(location)) return doorButtonPair.getDoor();
-        }
-        return null;
+
+    fun getDoorByButtonLocation(location: Location): Door? {
+        return doors.firstOrNull { it.hasButtonAt(location) }?.door
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // LOCATIONS
     ///////////////////////////////////////////////////////////////////////////
-
-    protected void addLocation(LocationType locationType, LocationData locationData){
-        Preconditions.checkArgument(!locations.containsKey(locationType), "LocationType " + locationType.toString() + " already added!");
-        locationData.setOrigin(origin);
-        locations.put(locationType, locationData);
+    protected fun addLocation(locationType: LocationType, locationData: LocationData) {
+        Preconditions.checkArgument(
+            !locations.containsKey(locationType),
+            "LocationType $locationType already added!"
+        )
+        locationData.setOrigin(origin)
+        locations[locationType] = locationData
     }
 
-    public LocationData getLocation(LocationType locationType){
-        Preconditions.checkArgument(locations.containsKey(locationType), "LocationType " + locationType.toString() + " does not exists!");
-        return locations.get(locationType);
+    fun getLocation(locationType: LocationType): LocationData? {
+        Preconditions.checkArgument(
+            locations.containsKey(locationType),
+            "LocationType $locationType does not exists!"
+        )
+        return locations[locationType]
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // MISC
     ///////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void reset() {
-        for (DoorButtonPair door : doors) {
-            door.getDoor().open();
-        }
+    override fun reset() {
+        cameraSystem.reset()
+        for (door in doors) door.door.open()
     }
-    public Location getOrigin() {return origin.clone();}
 }

@@ -1,79 +1,52 @@
-package me.udnek.fnafu.map.location;
+package me.udnek.fnafu.map.location
 
-import com.google.common.base.Preconditions;
-import org.bukkit.Location;
+import com.google.common.base.Preconditions
+import me.udnek.fnafu.util.setOrigin
+import org.bukkit.*
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+class LocationSingle : LocationData {
+    private var frozen = false
 
-public class LocationSingle implements LocationData {
+    private val location: Location
 
-    private Location location;
-    private boolean frozen = false;
+    override val all: List<Location>
+        get() = ArrayList(setOf(location))
 
-    public LocationSingle add(Location location){
-        Preconditions.checkArgument(!frozen, "Location is frozen");
-        this.location = location;
-        return this;
-    }
-    public LocationSingle add(double x, double y, double z){
-        add(new Location(null, x, y, z, 0, 0));
-        return this;
-    }
-    public LocationSingle add(double x, double y, double z, float yaw, float pitch){
-        add(new Location(null, x, y, z, yaw, pitch));
-        return this;
+    override val first: Location
+        get() = location.clone()
+
+    override val random: Location
+        get() = first
+
+    override val size: Int = 1
+
+    constructor(x: Double, y: Double, z: Double, yaw: Float, pitch: Float){
+        location = Location(null, x, y, z, yaw, pitch)
     }
 
-    public List<Location> getAll(){
-        return new ArrayList<>(Collections.singleton(location));
+    constructor(x: Double, y: Double, z: Double): this(x, y, z, 0f, 0f)
+
+    override fun get(n: Int): Location {
+        return first
     }
 
-    public void setOrigin(Location origin){
-        Preconditions.checkArgument(!frozen, "Location is frozen");
-        LocationData.locationAddOrigin(location, origin);
-        frozen = true;
+    override fun setOrigin(origin: Location) {
+        Preconditions.checkArgument(!frozen, "Location is frozen")
+        location.setOrigin(origin)
+        frozen = true
     }
 
-
-    public Location getFirst(){
-        return location.clone();
+    override fun center(): LocationSingle {
+        Preconditions.checkArgument(!frozen, "Location is frozen")
+        val center = location.toCenterLocation()
+        location.set(center.x, center.y, center.z)
+        return this
     }
 
-    public Location getRandom(){
-        return getFirst();
+    override fun centerFloor(): LocationSingle {
+        Preconditions.checkArgument(!frozen, "Location is frozen")
+        val center = location.toCenterLocation()
+        location.set(center.x, center.blockY.toDouble(), center.z)
+        return this
     }
-
-    @Override
-    public Location get(int n) {return getFirst();}
-
-    public int getSize() { return (location == null ? 0 : 1); }
-
-
-    public LocationSingle center(){
-        Preconditions.checkArgument(!frozen, "Location is frozen");
-        Location center = location.toCenterLocation();
-        location.set(center.getX(), center.getY(), center.getZ());
-        return this;
-    }
-    public LocationSingle centerFloor(){
-        Preconditions.checkArgument(!frozen, "Location is frozen");
-        Location center = location.toCenterLocation();
-        location.set(center.getX(), center.getBlockY(), center.getZ());
-        return this;
-    }
-
-
-    public static LocationSingle from(double x, double y, double z){
-        return new LocationSingle().add(x, y, z);
-    }
-
-    public static LocationSingle from(double x, double y, double z, float yaw, float pitch){
-        return new LocationSingle().add(x, y, z, yaw, pitch);
-    }
-    public static LocationSingle from(Location location){
-        return new LocationSingle().add(location);
-    }
-
 }

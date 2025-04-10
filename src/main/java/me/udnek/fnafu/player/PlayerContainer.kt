@@ -1,101 +1,85 @@
-package me.udnek.fnafu.player;
+package me.udnek.fnafu.player
 
-import me.udnek.fnafu.player.type.Animatronic;
-import me.udnek.fnafu.player.type.Survivor;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Player
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class PlayerContainer {
+class PlayerContainer {
+    private val survivors: MutableList<FnafUPlayer> = ArrayList()
+    private val animatronics: MutableList<FnafUPlayer> = ArrayList()
 
-    private final List<Survivor> survivors = new ArrayList<>();
-    private final List<Animatronic> animatronics = new ArrayList<>();
-
-    public Survivor getSurvivor(Player player){
-        for (Survivor survivor : survivors) {
-            if (survivor.isThisPlayer(player)) return survivor;
+    val all: List<FnafUPlayer>
+        get() {
+            val fnafUPlayers = ArrayList<FnafUPlayer>()
+            fnafUPlayers.addAll(survivors)
+            fnafUPlayers.addAll(animatronics)
+            return fnafUPlayers
         }
-        return null;
-    }
-    public Animatronic getAnimatronic(Player player){
-        for (Animatronic animatronic : animatronics) {
-            if (animatronic.isThisPlayer(player)) return animatronic;
+
+    val aliveSurvivorsAmount: Int
+        get() {
+            return survivors.size
         }
-        return null;
+
+
+    fun getSurvivor(player: Player): FnafUPlayer? {
+        return survivors.firstOrNull { it.player == player }
     }
 
-    public FnafUPlayer getPlayer(Player player){
-        Survivor survivor = getSurvivor(player);
-        if (survivor != null) return survivor;
-        return getAnimatronic(player);
+    fun getAnimatronic(player: Player): FnafUPlayer? {
+        return animatronics.firstOrNull { it.player == player }
     }
 
-    public void add(Survivor survivor){
-        survivors.add(survivor);
+
+    fun getPlayer(player: Player): FnafUPlayer? {
+        val survivor = getSurvivor(player)
+        if (survivor != null) return survivor
+        return getAnimatronic(player)
     }
-    public void add(Animatronic animatronic){
-        animatronics.add(animatronic);
+
+    fun addSurvivor(survivor: FnafUPlayer): Boolean {
+        if (containsSurvivor(survivor.player)) return false
+        return survivors.add(survivor)
     }
-    public boolean remove(Player player){
-        List<Survivor> survivorList = getSurvivors(false);
-        for (int i = 0; i < survivorList.size(); i++) {
-            Survivor survivor = survivorList.get(i);
-            if (survivor.isThisPlayer(player)) {
-                survivorList.remove(i);
-                return true;
+
+    fun addAnimatronic(animatronic: FnafUPlayer): Boolean {
+        if (containsAnimatronic(animatronic.player)) return false
+        return animatronics.add(animatronic)
+    }
+
+    fun remove(player: Player): Boolean {
+        val survivorList = survivors
+        for (i in survivorList.indices) {
+            val survivor = survivorList[i]
+            if (survivor.player == player) {
+                survivorList.removeAt(i)
+                return true
             }
         }
-        List<Animatronic> animatronicList = getAnimatronics(false);
-        for (int i = 0; i < animatronicList.size(); i++) {
-            Animatronic animatronic = animatronicList.get(i);
-            if (animatronic.isThisPlayer(player)) {
-                animatronicList.remove(i);
-                return true;
+        val animatronicList = animatronics
+        for (i in animatronicList.indices) {
+            val animatronic = animatronicList[i]
+            if (animatronic.player == player) {
+                animatronicList.removeAt(i)
+                return true
             }
         }
-        return false;
+        return false
     }
 
-    public List<Survivor> getSurvivors(boolean returnCopy) {
-        if (returnCopy) return new ArrayList<>(survivors);
-        return survivors;
-    }
-    public List<Animatronic> getAnimatronics(boolean returnCopy) {
-        if (returnCopy) return new ArrayList<>(animatronics);
-        return animatronics;
-    }
-    public List<FnafUPlayer> getAll(){
-        ArrayList<FnafUPlayer> fnafUPlayers = new ArrayList<>();
-        fnafUPlayers.addAll(survivors);
-        fnafUPlayers.addAll(animatronics);
-        return fnafUPlayers;
-    }
-    public boolean contains(Player player){
-        return (containsSurvivor(player) || containsAnimatronic(player));
-
+    fun getSurvivors(returnCopy: Boolean): MutableList<FnafUPlayer> {
+        if (returnCopy) return ArrayList(survivors)
+        return survivors
     }
 
-    public int getAliveSurvivorsAmount(){
-        int amount = 0;
-        for (Survivor survivor : survivors) {
-            if (survivor.getHealthState().isAlive()){
-                amount++;
-            }
-        }
-        return amount;
+    fun getAnimatronics(returnCopy: Boolean): MutableList<FnafUPlayer> {
+        if (returnCopy) return ArrayList(animatronics)
+        return animatronics
     }
 
-    public boolean containsSurvivor(Player player){
-        for (Survivor survivor : survivors) {
-            if (survivor.isThisPlayer(player)) return true;
-        }
-        return false;
-    }
-    public boolean containsAnimatronic(Player player){
-        for (Animatronic animatronic : animatronics) {
-            if (animatronic.isThisPlayer(player)) return true;
-        }
-        return false;
-    }
+
+    fun contains(player: Player): Boolean = containsSurvivor(player) || containsAnimatronic(player)
+
+    fun containsSurvivor(player: Player): Boolean = survivors.any { it.player == player }
+
+    fun containsAnimatronic(player: Player): Boolean = animatronics.any { it.player == player }
 }

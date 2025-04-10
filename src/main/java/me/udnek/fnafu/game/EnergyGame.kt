@@ -1,251 +1,154 @@
-package me.udnek.fnafu.game;
+package me.udnek.fnafu.game
 
-import me.udnek.fnafu.game.event.PlayerClicksInCameraMenuEvent;
-import me.udnek.fnafu.game.event.PlayerClosesCameraMenuEvent;
-import me.udnek.fnafu.game.event.PlayerOpensCameraMenuEvent;
-import me.udnek.fnafu.kit.playable.CameraKit;
-import me.udnek.fnafu.map.LocationType;
-import me.udnek.fnafu.map.type.Fnaf1PizzeriaMap;
-import me.udnek.fnafu.mechanic.Energy;
-import me.udnek.fnafu.mechanic.Time;
-import me.udnek.fnafu.mechanic.door.Door;
-import me.udnek.fnafu.player.FnafUPlayer;
-import me.udnek.fnafu.player.type.Animatronic;
-import me.udnek.fnafu.player.type.Survivor;
-import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Powerable;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import me.udnek.fnafu.component.Kit
+import me.udnek.fnafu.map.FnafUMap
+import me.udnek.fnafu.map.LocationType
+import me.udnek.fnafu.mechanic.Energy
+import me.udnek.fnafu.mechanic.Time
+import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.itemscoreu.customminigame.game.MGUGameType
+import net.kyori.adventure.bossbar.BossBar
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Bukkit
+import org.bukkit.Color
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.scoreboard.Team
 
-public class EnergyGame extends AbstractGame {
-    public static final int GAME_DURATION = 60*20;
-
-    private final Fnaf1PizzeriaMap map;
-
-    private GameWinner winner = GameWinner.NONE;
-
-    private final Time time;
-    private final Energy energy;
-
-    private BossBar timeBar;
-    private BossBar energyBar;
-
-    private Team teamSurvivors;
-    private Team teamAnimatronics;
-
-    private final String id;
-
-    public EnergyGame(Fnaf1PizzeriaMap map) {
-        this.map = map;
-        time = new Time(GAME_DURATION);
-        energy = new Energy(map);
-        id = this.getNameId();// + "_" + UUID.randomUUID().toString().substring(0, 5);
+class EnergyGame : FnafUAbstractGame {
+    companion object {
+        const val GAME_DURATION: Int = 60 * 20
     }
 
-    private boolean isEveryNTicks(int n){
-        return time.get() % n == 0;
+    override val map: FnafUMap
+
+    val time: Time
+    val energy: Energy
+
+    private var timeBar: BossBar? = null
+    private var energyBar: BossBar? = null
+
+    private var teamSurvivors: Team? = null
+    private var teamAnimatronics: Team? = null
+
+    constructor(map: FnafUMap) {
+        this.map = map
+        time = Time(GAME_DURATION)
+        energy = Energy(this)
     }
 
-    @Override
-    protected void tick(){
-        time.tick();
-        if (time.isEnded()) {
-            winner = GameWinner.SURVIVORS;
-            stopGame();
-        };
-        if (isEveryNTicks(10)) energy.tick();
-        if (isEveryNTicks(20)) updateEnergyBar();
-        if (isEveryNTicks(5)) updateTimeBar();
+    private fun isEveryNTicks(n: Int): Boolean {
+        return time.ticks % n == 0
     }
 
-
-    @Override
-    protected void start() {
-        time.reset();
-        energy.reset();
-        winner = GameWinner.NONE;
-
-        energyBar = BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS);
-        showBossBarToAll(energyBar);
-        timeBar = BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS);
-        showBossBarToAll(timeBar);
-
-        initTeams();
-
-        for (Survivor survivor : playerContainer.getSurvivors(false)) {
-            survivor.reset();
-            survivor.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR));
-            survivor.addToTeam(teamSurvivors);
-            survivor.setKit(new CameraKit(survivor));
-            survivor.getKit().setUp();
-            survivor.showAuraTo(playerContainer.getAll(), 0, Color.RED);
-        }
-        for (Animatronic animatronic : playerContainer.getAnimatronics(false)) {
-            animatronic.reset();
-            animatronic.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC));
-            animatronic.addToTeam(teamAnimatronics);
-            // TODO: 5/8/2024 SET KIT
-            animatronic.showAuraTo(playerContainer.getAll(), 0, Color.GREEN);
+    override fun tick() {
+        time.tick()
+        if (time.isEnded || state == State.WAITING) {
+            winner = Winner.SURVIVORS
+            stop()
+            return
         }
 
-        teamSurvivors.setAllowFriendlyFire(false);
-        teamSurvivors.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
-        teamSurvivors.setCanSeeFriendlyInvisibles(true);
-        teamSurvivors.color(NamedTextColor.GREEN);
-        teamSurvivors.prefix(Component.text("[S] ").color(TextColor.color(0f, 1f, 0f)));
-
-        teamAnimatronics.setAllowFriendlyFire(false);
-        teamAnimatronics.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
-        teamAnimatronics.setCanSeeFriendlyInvisibles(true);
-        teamAnimatronics.color(NamedTextColor.RED);
-        teamAnimatronics.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)));
-
-
+        if (isEveryNTicks(20)) updateEnergyBar()
+        if (isEveryNTicks(10)) energy.tick()
+        if (isEveryNTicks(5)) updateTimeBar()
     }
 
-    private void initTeams(){
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-        String survivorsTeamName = "survivors_"+getId();
-        String animatronicsTeamName = "animatronics_"+getId();
-        teamSurvivors = scoreboard.getTeam(survivorsTeamName);
-        if (teamSurvivors == null) teamSurvivors = scoreboard.registerNewTeam(survivorsTeamName);
-        teamAnimatronics = scoreboard.getTeam(animatronicsTeamName);
-        if (teamAnimatronics == null) teamAnimatronics = scoreboard.registerNewTeam(animatronicsTeamName);
+    override fun start() {
+        super.start()
+        time.reset()
+        energy.reset()
+        winner = Winner.NONE
 
-    }
+        energyBar =
+            BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
+        showBossBarToAll(energyBar!!)
+        timeBar =
+            BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
+        showBossBarToAll(timeBar!!)
 
-    @Override
-    protected void stop() {
-        teamAnimatronics.unregister();
-        teamSurvivors.unregister();
-        removeBossBar(energyBar);
-        removeBossBar(timeBar);
+        initializeTeams()
+        val tSurvs = teamSurvivors!!
+        val tAnims = teamAnimatronics!!
 
-        for (FnafUPlayer fnafUPlayer : playerContainer.getAll()) {
-            fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10);
-            fnafUPlayer.reset();
+        for (survivor in playerContainer.getSurvivors(false)) {
+            survivor.reset()
+            survivor.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
+            tSurvs.addPlayer(survivor.player)
+            survivor.kit = Kit.CAMERAMAN
+            survivor.setUp()
+            survivor.showAuraTo(playerContainer.all, 0, Color.RED)
         }
-        
-        
+        for (animatronic in playerContainer.getAnimatronics(false)) {
+            animatronic.reset()
+            animatronic.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
+            tAnims.addPlayer(animatronic.player)
+            animatronic.kit = Kit.SPRINGTRAP
+            animatronic.setUp()
+            animatronic.showAuraTo(playerContainer.all, 0, Color.GREEN)
+        }
+
+        tSurvs.setAllowFriendlyFire(false)
+        tSurvs.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM)
+        tSurvs.setCanSeeFriendlyInvisibles(true)
+        tSurvs.color(NamedTextColor.GREEN)
+        tSurvs.prefix(Component.text("[S] ").color(TextColor.color(0f, 1f, 0f)))
+
+        tAnims.setAllowFriendlyFire(false)
+        tAnims.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM)
+        tAnims.setCanSeeFriendlyInvisibles(true)
+        tAnims.color(NamedTextColor.RED)
+        tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
     }
 
-    private void removeBossBar(BossBar bossBar){
-        for (FnafUPlayer fnafUPlayer : playerContainer.getAll()) {
-            fnafUPlayer.removeBossBar(bossBar);
-        }
+    private fun initializeTeams() {
+        val scoreboard = Bukkit.getScoreboardManager().mainScoreboard
+        val survivorsTeamName = "survs_${id.asString()}"
+        val animatronicsTeamName = "anims_${id.asString()}"
+        teamSurvivors = scoreboard.getTeam(survivorsTeamName) ?: scoreboard.registerNewTeam(survivorsTeamName)
+        teamAnimatronics = scoreboard.getTeam(animatronicsTeamName) ?: scoreboard.registerNewTeam(animatronicsTeamName)
     }
-    private void showBossBarToAll(BossBar bossBar){
-        for (FnafUPlayer fnafUPlayer : playerContainer.getAll()) {
-            fnafUPlayer.addBossBar(bossBar);
+
+    override fun stop(){
+        super.stop()
+        teamAnimatronics!!.unregister()
+        teamSurvivors!!.unregister()
+        removeBossBar(energyBar!!)
+        removeBossBar(timeBar!!)
+        energyBar = null
+        timeBar = null
+
+        map.reset()
+
+        for (fnafUPlayer in players) {
+            fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
+            fnafUPlayer.reset()
         }
     }
 
-    private void updateEnergyBar(){
-        energyBar.name(Component.text("Energy: "+energy.getEnergy() + " Usage: "+energy.getUsage()+ " (Consumption: "+energy.getConsumption()+")"));
-    }
-    private void updateTimeBar(){
-        timeBar.name(Component.text(time.get()/20f + "/" + GAME_DURATION/20));
-    }
-
-    @Override
-    public void onPlayerAttacksEntity(EntityDamageByEntityEvent event) {
-        if (!getGameState().isActive()) return;
-
-        Player damager = (Player) event.getDamager();
-
-        Survivor survivorDamager = playerContainer.getSurvivor(damager);
-        if (survivorDamager != null){
-            event.setCancelled(true);
-            survivorDamager.sendMessage("CANNOT");
-            return;
-        }
-        if (!(event.getEntity() instanceof Player)) return;
-        Animatronic animatronic = playerContainer.getAnimatronic(damager);
-        Survivor victim = playerContainer.getSurvivor((Player) event.getEntity());
-        animatronicDamageSurvivor(animatronic, victim);
-    }
-
-    public void animatronicDamageSurvivor(Animatronic animatronic, Survivor survivor){
-        survivor.injure();
-        animatronic.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 3));
-        survivor.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 1));
-        survivor.sendMessage("INJURED! " + survivor.getHealthState());
-        if (playerContainer.getAliveSurvivorsAmount() == 0) {
-            winner = GameWinner.ANIMATRONICS;
-            stopGame();
+    override fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer){
+        if (damager.type == FnafUPlayer.PlayerType.SURVIVOR) {
+            event.isCancelled = true
+            return
         }
     }
 
-    @Override
-    public void onPlayerInteracts(PlayerInteractEvent event) {
-        if (!getGameState().isActive()) return;
-        if (!event.getAction().isRightClick()) return;
-        Block clickedBlock = event.getClickedBlock();
-        if (clickedBlock == null) return;
+    override fun getType(): MGUGameType = GameTypes.ENERGY
 
-        if (clickedBlock.getType() == Material.BIRCH_BUTTON) {
-            Powerable blockData = (Powerable) clickedBlock.getBlockData();
-            if (!blockData.isPowered()) {
-                Door door = map.getDoorByButtonLocation(clickedBlock.getLocation());
-                if (door != null) {
-                    door.toggle();
-                    energy.updateConsumption();
-                    playerContainer.getSurvivors(false).get(0).playSound(door.getLocation().toCenterLocation(), Sound.BLOCK_ANVIL_USE.getKey().asString(), 16f);
-                    return;
-                }
-
-                //event.setCancelled(true);
-            }
-/*        }else {
-            map.getCameraSystem().getCameraMenu().open(event.getPlayer());
-        }*/
-        }
+    private fun removeBossBar(bossBar: BossBar) {
+        for (fnafUPlayer in players) bossBar.removeViewer(fnafUPlayer.player)
     }
 
-
-    @Override
-    public void onPlayerClicksInCameraMenu(InventoryClickEvent event) {
-        FnafUPlayer fnafUPlayer = playerContainer.getPlayer((Player) event.getWhoClicked());
-        fnafUPlayer.getAbilitiesHolder().handleEvent(new PlayerClicksInCameraMenuEvent(event.getCurrentItem(), event.getClickedInventory()));
-
+    private fun showBossBarToAll(bossBar: BossBar) {
+        for (fnafUPlayer in players) bossBar.addViewer(fnafUPlayer.player)
     }
 
-    @Override
-    public void onPlayerClosesCameraMenu(InventoryCloseEvent event) {
-        FnafUPlayer fnafUPlayer = playerContainer.getPlayer((Player) event.getPlayer());
-        fnafUPlayer.getAbilitiesHolder().handleEvent(new PlayerClosesCameraMenuEvent());
+    private fun updateEnergyBar() {
+        energyBar!!.name(Component.text("Energy: ${energy.energy} Usage: ${energy.usage} (Consumption: ${energy.consumption})"))
     }
 
-    @Override
-    public void onPlayerOpensCameraMenu(InventoryOpenEvent event) {
-        FnafUPlayer fnafUPlayer = playerContainer.getPlayer((Player) event.getPlayer());
-        fnafUPlayer.getAbilitiesHolder().handleEvent(new PlayerOpensCameraMenuEvent());
+    private fun updateTimeBar() {
+        timeBar!!.name(Component.text("${time.ticks / 20f} / ${GAME_DURATION / 20}"))
     }
-
-
-    @Override
-    public Fnaf1PizzeriaMap getMap() {
-        return map;
-    }
-
-    @Override
-    public String getNameId() {return map.getNameId();}
-    @Override
-    public String getId() {return id;}
 }

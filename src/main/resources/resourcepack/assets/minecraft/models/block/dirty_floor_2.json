@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/dirty_floor_1",
+	"textures": {
+		"1": "block/dirty_floor_2",
+		"particle": "block/dirty_floor_2"
+	}
+}

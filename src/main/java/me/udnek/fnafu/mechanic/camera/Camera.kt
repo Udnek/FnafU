@@ -1,36 +1,23 @@
-package me.udnek.fnafu.mechanic.camera;
+package me.udnek.fnafu.mechanic.camera
 
-import me.udnek.fnafu.map.Originable;
-import me.udnek.fnafu.map.location.LocationSingle;
-import org.bukkit.Location;
+import me.udnek.fnafu.util.Originable
+import me.udnek.fnafu.map.location.LocationSingle
+import org.bukkit.*
 
-public class Camera implements Originable {
+class Camera : Originable {
+    val location: LocationSingle
+    val id: String
+    val tabletMenuPosition: Int
+    val rotationAngle: Float
 
-    private final LocationSingle locationSingle;
-    private final String id;
-    private final int tabletMenuPosition;
-    private final float rotationAngle;
-
-
-    public Camera(LocationSingle location, String id, int tabletMenuPosition, float rotationAngle){
-        locationSingle = location;
-        this.id = id;
-        this.tabletMenuPosition = tabletMenuPosition;
-        this.rotationAngle = rotationAngle;
-    }
-    public Camera(LocationSingle location, String id, int tabletMenuPosition){
-        this(location, id, tabletMenuPosition, 0f);
+    constructor(location: LocationSingle, id: String, tabletMenuPosition: Int, rotationAngle: Float) {
+        this.location = location
+        this.id = id
+        this.tabletMenuPosition = tabletMenuPosition
+        this.rotationAngle = rotationAngle
     }
 
-    public float getRotationAngle() {
-        return rotationAngle;
-    }
-
-    public String getId() {return id;}
-    public int getTabletMenuPosition() {return tabletMenuPosition;}
-    public LocationSingle getLocation() {return locationSingle;}
-    @Override
-    public void setOrigin(Location location) {
-        locationSingle.setOrigin(location);
+    override fun setOrigin(origin: Location) {
+        location.setOrigin(origin)
     }
 }

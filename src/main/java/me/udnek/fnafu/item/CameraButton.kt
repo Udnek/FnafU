@@ -1,42 +1,38 @@
-package me.udnek.fnafu.item;
+package me.udnek.fnafu.item
 
-import me.udnek.fnafu.FnafU;
-import me.udnek.fnafu.mechanic.camera.Camera;
-import me.udnek.itemscoreu.customitem.CustomModelDataItem;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import io.papermc.paper.datacomponent.DataComponentTypes
+import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.mechanic.camera.Camera
+import me.udnek.itemscoreu.customitem.ConstructableCustomItem
+import net.kyori.adventure.text.Component
+import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
-public class CameraButton extends CustomModelDataItem {
+fun ItemStack.getCameraId(): String? {
+    return CameraButton.getCameraId(this)
+}
 
-    public final NamespacedKey namespacedKey = new NamespacedKey(FnafU.getInstance(), "camera");
+class CameraButton : ConstructableCustomItem() {
+    companion object {
+        val PDC_KEY: NamespacedKey = NamespacedKey(FnafU.instance, "camera_id")
 
-    public ItemStack getWithCamera(Camera camera){
-        ItemStack item = getItem();
-        ItemMeta itemMeta = item.getItemMeta();
-        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        persistentDataContainer.set(namespacedKey, PersistentDataType.STRING, camera.getId());
-        itemMeta.displayName(Component.text(camera.getId()));
-        item.setItemMeta(itemMeta);
-        return item;
+        fun getWithCamera(camera: Camera): ItemStack {
+            return Items.CAMERA_BUTTON.item.also {
+                item ->
+                item.editPersistentDataContainer {
+                    container -> container.set(PDC_KEY, PersistentDataType.STRING, camera.id)
+                }
+                item.setData(DataComponentTypes.ITEM_NAME, Component.text(camera.id))
+            }
+        }
+
+        fun getCameraId(itemStack: ItemStack): String? {
+            return itemStack.persistentDataContainer.get(PDC_KEY, PersistentDataType.STRING)
+        }
     }
 
-    public String getCameraId(ItemStack itemStack){
-        PersistentDataContainer persistentDataContainer = itemStack.getItemMeta().getPersistentDataContainer();
-        String camera = persistentDataContainer.get(namespacedKey, PersistentDataType.STRING);
-        return camera;
-    }
+    override fun update(itemStack: ItemStack): ItemStack {return itemStack}
 
-    @Override
-    public int getCustomModelData() {return 0;}
-    @Override
-    public Material getMaterial() {return Material.GLASS;}
-    @Override
-    protected String getRawDisplayName() {return "camera_button";}
-    @Override
-    protected String getItemName() {return "camera_button";}
+    override fun getRawId(): String = "camera_button"
 }
