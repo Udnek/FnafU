@@ -78,7 +78,12 @@ abstract class FnafUAbstractGame : MGUAbstractGame(), FnafUGame {
     }
 
     override fun leave(mguPlayer: MGUPlayer, context: MGUCommandContext): MGUCommandType.ExecutionResult {
-        return if (playerContainer.remove(mguPlayer.player)) MGUCommandType.ExecutionResult.SUCCESS else MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not remove")
+        return if (playerContainer.remove(mguPlayer.player)) {
+            mguPlayer.unregister()
+            MGUCommandType.ExecutionResult.SUCCESS
+        } else {
+            MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not remove")
+        }
     }
 
     override fun getDebug(): MutableList<Component> {
