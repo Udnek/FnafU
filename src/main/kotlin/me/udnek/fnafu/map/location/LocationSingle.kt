@@ -36,17 +36,19 @@ class LocationSingle : LocationData {
         frozen = true
     }
 
-    override fun center(): LocationSingle {
-        Preconditions.checkArgument(!frozen, "Location is frozen")
-        val center = location.toCenterLocation()
-        location.set(center.x, center.y, center.z)
-        return this
-    }
+    override val center: LocationSingle
+        get() {
+            Preconditions.checkArgument(!frozen, "Location is frozen")
+            val center = location.toCenterLocation()
+            location.set(center.x, center.y, center.z)
+            return this
+        }
 
-    override fun centerFloor(): LocationSingle {
-        Preconditions.checkArgument(!frozen, "Location is frozen")
-        val center = location.toCenterLocation()
-        location.set(center.x, center.blockY.toDouble(), center.z)
-        return this
-    }
+    override val centerFloor: LocationSingle
+        get() {
+            Preconditions.checkArgument(!frozen, "Location is frozen")
+            val center = location.toCenterLocation()
+            location.set(center.x, center.blockY.toDouble(), center.z)
+            return this
+        }
 }

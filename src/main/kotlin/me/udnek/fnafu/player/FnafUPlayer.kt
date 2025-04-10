@@ -42,7 +42,6 @@ class FnafUPlayer(private val player: Player, val type: PlayerType, private val 
         get() = components.getOrDefault(Components.KIT)
 
 
-
     fun teleport(locationData: LocationData) { teleport(locationData.random) }
 
     fun teleport(location: Location) { player.teleport(location) }
@@ -138,7 +137,7 @@ class FnafUPlayer(private val player: Player, val type: PlayerType, private val 
 
     fun setUp(){
         kit.setUp(this)
-        player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, PotionEffect.INFINITE_DURATION, 10, false, false, false))
+        player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
         player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
             AttributeModifier(NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER))
     }

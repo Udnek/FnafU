@@ -1,15 +1,13 @@
 package me.udnek.fnafu.mechanic.camera
 
 import me.udnek.fnafu.item.CameraButton
-import me.udnek.fnafu.item.getCameraId
+import me.udnek.fnafu.util.getCameraId
 import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
-import me.udnek.itemscoreu.custominventory.SmartIntractableCustomInventory
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.inventory.ItemStack
 
 open class CameraMenu : ConstructableCustomInventory{
     private var title: Component

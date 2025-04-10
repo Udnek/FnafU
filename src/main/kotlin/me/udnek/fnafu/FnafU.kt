@@ -4,11 +4,12 @@ import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
 import me.udnek.itemscoreu.customminigame.MGUManager
+import me.udnek.itemscoreu.resourcepack.ResourcePackablePlugin
 import org.bukkit.*
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 
-class FnafU : JavaPlugin() {
+class FnafU : JavaPlugin(), ResourcePackablePlugin {
     override fun onEnable() {
         instance = this
 

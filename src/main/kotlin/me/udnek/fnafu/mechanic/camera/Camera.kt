@@ -1,8 +1,8 @@
 package me.udnek.fnafu.mechanic.camera
 
-import me.udnek.fnafu.util.Originable
 import me.udnek.fnafu.map.location.LocationSingle
-import org.bukkit.*
+import me.udnek.itemscoreu.customminigame.Originable
+import org.bukkit.Location
 
 class Camera : Originable {
     val location: LocationSingle

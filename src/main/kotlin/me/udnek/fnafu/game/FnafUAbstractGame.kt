@@ -1,11 +1,13 @@
 package me.udnek.fnafu.game
 
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
 import me.udnek.itemscoreu.customminigame.command.MGUCommandContext
 import me.udnek.itemscoreu.customminigame.command.MGUCommandType
 import me.udnek.itemscoreu.customminigame.game.MGUAbstractGame
+import me.udnek.itemscoreu.customminigame.map.MGUMap
 import me.udnek.itemscoreu.customminigame.player.MGUPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -15,15 +17,17 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.jetbrains.annotations.MustBeInvokedByOverriders
 
 
-abstract class FnafUAbstractGame : MGUAbstractGame(), FnafUGame {
+abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame(), FnafUGame {
 
     val playerContainer: PlayerContainer = PlayerContainer()
     private var task: BukkitRunnable? = null
-    protected var winner = Winner.NONE
+    protected var winner: Winner
+
+    override fun getMap(): MGUMap = map
 
     @MustBeInvokedByOverriders
     open fun start(){
-        state = State.RUNNING
+        isRunning = true
         task = object : BukkitRunnable() {
             override fun run() { tick() }
         }
@@ -45,8 +49,9 @@ abstract class FnafUAbstractGame : MGUAbstractGame(), FnafUGame {
     @MustBeInvokedByOverriders
     open fun stop(){
         task!!.cancel()
-        state = State.WAITING
+        isRunning = false
     }
+
 
     override fun testCommandArgs(context: MGUCommandContext): Boolean {
         if (context.commandType != MGUCommandType.JOIN) return super.testCommandArgs(context)
@@ -114,6 +119,10 @@ abstract class FnafUAbstractGame : MGUAbstractGame(), FnafUGame {
         SURVIVORS(TextColor.color(0f, 1f, 0f)),
         ANIMATRONICS(TextColor.color(1f, 0f, 0f)),
         NONE(TextColor.color(0.7f, 0.7f, 0.7f))
+    }
+
+    init {
+        this.winner = Winner.NONE
     }
 }
 

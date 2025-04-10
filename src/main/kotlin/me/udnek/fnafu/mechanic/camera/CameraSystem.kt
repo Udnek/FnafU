@@ -3,11 +3,11 @@ package me.udnek.fnafu.mechanic.camera
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
-import me.udnek.fnafu.util.Originable
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
+import me.udnek.itemscoreu.customminigame.Originable
 import net.kyori.adventure.text.Component
-import org.bukkit.*
+import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.scheduler.BukkitRunnable

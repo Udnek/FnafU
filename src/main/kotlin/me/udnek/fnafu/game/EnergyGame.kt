@@ -5,8 +5,10 @@ import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.Time
+import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.itemscoreu.customminigame.game.MGUGameType
+import me.udnek.itemscoreu.customminigame.player.MGUPlayer
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -14,14 +16,13 @@ import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scoreboard.Team
 
-class EnergyGame : FnafUAbstractGame {
+class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     companion object {
         const val GAME_DURATION: Int = 60 * 20
     }
-
-    override val map: FnafUMap
 
     val time: Time
     val energy: Energy
@@ -32,19 +33,13 @@ class EnergyGame : FnafUAbstractGame {
     private var teamSurvivors: Team? = null
     private var teamAnimatronics: Team? = null
 
-    constructor(map: FnafUMap) {
-        this.map = map
-        time = Time(GAME_DURATION)
-        energy = Energy(this)
-    }
-
     private fun isEveryNTicks(n: Int): Boolean {
         return time.ticks % n == 0
     }
 
     override fun tick() {
         time.tick()
-        if (time.isEnded || state == State.WAITING) {
+        if (time.isEnded || !isRunning) {
             winner = Winner.SURVIVORS
             stop()
             return
@@ -134,6 +129,11 @@ class EnergyGame : FnafUAbstractGame {
         }
     }
 
+    override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
+        button.door.toggle()
+        energy.updateConsumption()
+    }
+
     override fun getType(): MGUGameType = GameTypes.ENERGY
 
     private fun removeBossBar(bossBar: BossBar) {
@@ -150,5 +150,10 @@ class EnergyGame : FnafUAbstractGame {
 
     private fun updateTimeBar() {
         timeBar!!.name(Component.text("${time.ticks / 20f} / ${GAME_DURATION / 20}"))
+    }
+
+    init {
+        time = Time(GAME_DURATION)
+        energy = Energy(this)
     }
 }

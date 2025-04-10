@@ -4,18 +4,18 @@ import com.google.common.base.Preconditions
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.mechanic.door.Door
-import me.udnek.fnafu.mechanic.door.DoorButtonPair
+import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.util.Resettable
+import me.udnek.itemscoreu.customminigame.map.MGUMap
 import org.bukkit.Location
 import java.util.*
 
-abstract class FnafUMap : Resettable {
+abstract class FnafUMap : MGUMap, Resettable {
 
-    val origin: Location
-        get() = field.clone()
+    private val origin: Location
 
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
-    val doors: MutableList<DoorButtonPair> = ArrayList()
+    val doors: MutableList<ButtonDoorPair> = ArrayList()
     val cameraSystem: CameraSystem
 
     constructor(origin: Location) {
@@ -33,7 +33,7 @@ abstract class FnafUMap : Resettable {
     ///////////////////////////////////////////////////////////////////////////
     // DOORS
     ///////////////////////////////////////////////////////////////////////////
-    protected fun addDoor(doorButtonPair: DoorButtonPair) {
+    protected fun addDoor(doorButtonPair: ButtonDoorPair) {
         doorButtonPair.setOrigin(origin)
         doors.add(doorButtonPair)
     }
@@ -63,6 +63,7 @@ abstract class FnafUMap : Resettable {
         return locations[locationType]
     }
 
+    override fun getOrigin(): Location = origin.clone()
     ///////////////////////////////////////////////////////////////////////////
     // MISC
     ///////////////////////////////////////////////////////////////////////////

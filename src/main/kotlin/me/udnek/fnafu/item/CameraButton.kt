@@ -9,10 +9,6 @@ import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-fun ItemStack.getCameraId(): String? {
-    return CameraButton.getCameraId(this)
-}
-
 class CameraButton : ConstructableCustomItem() {
     companion object {
         val PDC_KEY: NamespacedKey = NamespacedKey(FnafU.instance, "camera_id")

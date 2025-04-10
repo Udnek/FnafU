@@ -50,21 +50,23 @@ class LocationList : LocationData {
         return locations[n]
     }
 
-    override fun center(): LocationList {
-        Preconditions.checkArgument(!frozen, "LocationList is frozen")
-        for (location in locations) {
-            val center = location.toCenterLocation()
-            location[center.x, center.y] = center.z
+    override val center: LocationList
+        get() {
+            Preconditions.checkArgument(!frozen, "LocationList is frozen")
+            for (location in locations) {
+                val center = location.toCenterLocation()
+                location[center.x, center.y] = center.z
+            }
+            return this
         }
-        return this
-    }
 
-    override fun centerFloor(): LocationList {
-        Preconditions.checkArgument(!frozen, "LocationList is frozen")
-        for (location in locations) {
-            val center = location.toCenterLocation()
-            location[center.x, center.blockY.toDouble()] = center.z
+    override val centerFloor: LocationList
+        get() {
+            Preconditions.checkArgument(!frozen, "LocationList is frozen")
+            for (location in locations) {
+                val center = location.toCenterLocation()
+                location[center.x, center.blockY.toDouble()] = center.z
+            }
+            return this
         }
-        return this
-    }
 }

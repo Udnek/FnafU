@@ -1,9 +1,11 @@
 package me.udnek.fnafu.mechanic.door
 
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.util.Originable
 import me.udnek.fnafu.map.location.LocationSingle
-import org.bukkit.*
+import me.udnek.itemscoreu.customminigame.Originable
+import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Wall

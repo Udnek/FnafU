@@ -1,6 +1,6 @@
 package me.udnek.fnafu.map.location
 
-import me.udnek.fnafu.util.Originable
+import me.udnek.itemscoreu.customminigame.Originable
 import org.bukkit.Location
 
 interface LocationData : Originable {
@@ -8,8 +8,8 @@ interface LocationData : Originable {
     val first: Location
     val random: Location
     val size: Int
+    val center: LocationData
+    val centerFloor: LocationData
 
     fun get(n: Int): Location
-    fun center(): LocationData
-    fun centerFloor(): LocationData
 }
