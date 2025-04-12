@@ -3,8 +3,8 @@
 	"parent": "block/block",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "block/systems_block",
-		"particle": "block/systems_block"
+		"0": "fnafu:block/systems_block",
+		"particle": "fnafu:block/systems_block"
 	},
 	"elements": [
 		{

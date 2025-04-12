@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/dirt_walls",
-		"particle": "block/dirt_walls"
+		"0": "fnafu:block/dirt_walls",
+		"particle": "fnafu:block/dirt_walls"
 	},
 	"elements": [
 		{

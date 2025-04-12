@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "block/lamp_off",
-		"particle": "block/lamp_off"
+		"0": "fnafu:block/lamp_off",
+		"particle": "fnafu:block/lamp_off"
 	},
 	"elements": [
 		{

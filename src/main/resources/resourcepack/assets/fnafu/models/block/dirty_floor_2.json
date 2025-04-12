@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "fnafu:block/dirty_floor_1",
+	"textures": {
+		"1": "fnafu:block/dirty_floor_2",
+		"particle": "fnafu:block/dirty_floor_2"
+	}
+}
