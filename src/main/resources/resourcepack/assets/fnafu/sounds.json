@@ -1,0 +1,6 @@
+{
+  "ambience": {
+    "subtitle": "subtitles.fnafu.ambience",
+    "sounds": ["fnafu:ambience/first", "fnafu:ambience/second"]
+  }
+}

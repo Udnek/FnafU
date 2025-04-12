@@ -7,6 +7,7 @@ import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.Time
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Sounds
 import me.udnek.itemscoreu.customminigame.game.MGUGameType
 import me.udnek.itemscoreu.customminigame.player.MGUPlayer
 import net.kyori.adventure.bossbar.BossBar
@@ -95,6 +96,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         tAnims.setCanSeeFriendlyInvisibles(true)
         tAnims.color(NamedTextColor.RED)
         tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
+
+        players.forEach { player -> Sounds.AMBIENCE.play(player.player) }
     }
 
     private fun initializeTeams() {
