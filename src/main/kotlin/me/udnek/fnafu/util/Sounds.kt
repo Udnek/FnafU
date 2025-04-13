@@ -17,7 +17,7 @@ object Sounds {
     val FREDDY_LAUGH : CustomSound = register(ConstructableCustomSound(getName("freddy_laugh"), SoundCategory.HOSTILE))
 
     val SPRINGTRAP_SPAWN : CustomSound = register(ConstructableCustomSound(getName("springtrap_spawn"), SoundCategory.HOSTILE))
-    val SPRINGTRAP_RAGE_START : CustomSound = register(ConstructableCustomSound(getName("springtrap_rage_start"), SoundCategory.HOSTILE))///TODO увеличить громкость
+    val SPRINGTRAP_RAGE_START : CustomSound = register(ConstructableCustomSound(getName("springtrap_rage_start"), SoundCategory.HOSTILE))
     val SPRINGTRAP_RAGE_STOP : CustomSound = register(ConstructableCustomSound(getName("springtrap_rage_stop"), SoundCategory.HOSTILE))
     val SPRINGTRAP_SCREAMER : CustomSound = register(ConstructableCustomSound(getName("springtrap_screamer"), SoundCategory.HOSTILE))
 
