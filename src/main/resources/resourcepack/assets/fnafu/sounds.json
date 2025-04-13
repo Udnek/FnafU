@@ -1,6 +1,6 @@
 {
-  "ambience_fnaf1": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/first"] },
-  "ambience_fnaf2": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/second"] },
+  "ambience_fnaf1": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf1"] },
+  "ambience_fnaf2": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf2"] },
   "door": { "subtitle": "subtitles.fnafu.door", "sounds": ["fnafu:door"] },
 
   "animatronic_step": { "subtitle": "subtitles.fnafu.animatronic_step", "sounds": ["fnafu:animatronic_step/0", "fnafu:animatronic_step/1", "fnafu:animatronic_step/2"] },
