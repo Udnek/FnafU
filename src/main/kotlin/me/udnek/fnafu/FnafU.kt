@@ -3,6 +3,7 @@ package me.udnek.fnafu
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
+import me.udnek.fnafu.util.Sounds
 import me.udnek.itemscoreu.customminigame.MGUManager
 import me.udnek.itemscoreu.resourcepack.ResourcePackablePlugin
 import org.bukkit.*
@@ -14,6 +15,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         instance = this
 
         Items.CAMERA_TABLET
+        Sounds.AMBIENCE_FNAF1
 
         object : BukkitRunnable(){
             override fun run() {

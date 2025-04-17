@@ -9,6 +9,7 @@ class Camera : Originable {
     val id: String
     val tabletMenuPosition: Int
     val rotationAngle: Float
+    var number: Int = 0
 
     constructor(location: LocationSingle, id: String, tabletMenuPosition: Int, rotationAngle: Float) {
         this.location = location

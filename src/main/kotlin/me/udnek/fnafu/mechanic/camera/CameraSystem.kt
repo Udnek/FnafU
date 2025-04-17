@@ -1,15 +1,19 @@
 package me.udnek.fnafu.mechanic.camera
 
 import com.google.common.base.Preconditions
+import io.papermc.paper.datacomponent.DataComponentTypes
+import io.papermc.paper.datacomponent.item.Equippable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.customminigame.Originable
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.abs
 
@@ -29,8 +33,14 @@ class CameraSystem : Resettable, Originable {
     }
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera) {
-        player.player.inventory.clear()
         val ability = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
+
+        val item = ability.getItem(player)
+        for (slot in 0..8) player.player.inventory.setItem(slot, item)
+
+        val cameraOverlay = Equippable.equippable(EquipmentSlot.HEAD).cameraOverlay(Key.key("fnafu:item/camera/blur"))
+        item.setData(DataComponentTypes.EQUIPPABLE, cameraOverlay)
+        player.player.inventory.setItem(EquipmentSlot.HEAD, item)
 
         val spectatingCamera = getSpectatingCamera(player)
         if (spectatingCamera != null) {
@@ -104,6 +114,7 @@ class CameraSystem : Resettable, Originable {
             "Camera with id '" + camera.id + " is already exists!"
         )
         cameras.add(camera)
+        camera.number = cameras.size - 1
         return this
     }
 

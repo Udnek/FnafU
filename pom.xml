@@ -13,8 +13,8 @@
 
     <properties>
         <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lib.itemscoreu>C:\Users\glebd\OneDrive\Documents\CODING\Java\ItemsCoreU\target\ItemsCoreU-1.0-SNAPSHOT-remapped.jar</lib.itemscoreu>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        <lib.itemscoreu>H:\testFnaf\plugins\ItemsCoreU-1.0-SNAPSHOT-remapped.jar</lib.itemscoreu>
         <kotlin.version>2.1.20</kotlin.version>
     </properties>
 
@@ -57,16 +57,6 @@
                     <execution>
                         <id>default-testCompile</id>
                         <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>java-compile</id>
-                        <phase>compile</phase>
-                        <goals> <goal>compile</goal> </goals>
-                    </execution>
-                    <execution>
-                        <id>java-test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals> <goal>testCompile</goal> </goals>
                     </execution>
                 </executions>
             </plugin>
