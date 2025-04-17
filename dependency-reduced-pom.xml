@@ -55,6 +55,10 @@
             <phase>none</phase>
           </execution>
         </executions>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>

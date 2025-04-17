@@ -3,7 +3,45 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/freddy" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/springtrap" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/items/camera_button.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/camera/tablet.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/camera/tablet_invisible.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doorman_tablet.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doorman_tablet_screen_off.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doorman_tablet_screen_on.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_1.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_10.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_2.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_3.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_4.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_5.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_6.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_7.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_8.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_9.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_background.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/freddy" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/springtrap" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/blur.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/blur.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/overlay.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/overlay_green.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/tablet_noise.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/tablet_noise_green.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/cameras" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/1.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/10.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/2.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/3.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/4.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/5.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/6.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/7.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/8.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/9.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/button/background.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/doorman_tablet.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/doorman_tablet_screen_off.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/doorman/doorman_tablet_screen_on.png" charset="UTF-8" />
   </component>
 </project>
