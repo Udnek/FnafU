@@ -1,28 +1,47 @@
 package me.udnek.fnafu.item
 
-import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.customcomponent.instance.RightClickableItem
+import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.component.CameraComponent
 import me.udnek.itemscoreu.customitem.ConstructableCustomItem
-import me.udnek.itemscoreu.customitem.CustomItem
-import org.bukkit.event.player.PlayerInteractEvent
+import me.udnek.itemscoreu.customitem.CustomItemProperties
+import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.Color
+import org.bukkit.NamespacedKey
 
-class CameraTablet : ConstructableCustomItem() {
+class FullCameraTablet : ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(object : RightClickableItem {
-            override fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
-                event.player.getFnafU()?.let {
-                    player ->
-                    player.game.map.cameraSystem.let { system ->
-                        system.spectateCamera(player, "main")
-                        system.openMenu(player)
-                    }
-                }
-
-            }
-        })
+        components.set(CameraComponent("main", Color.GREEN, Color.GREEN, NamedTextColor.GREEN))
     }
 
-    override fun getRawId(): String = "camera_tablet"
+    override fun getRawId(): String = "full_camera_tablet"
+
+    override fun getItemName(): CustomItemProperties.DataSupplier<Component> {
+        return CustomItemProperties.DataSupplier.of(Component.translatable("item.fnafu.camera_tablet"))
+    }
+
+    override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
+        return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "camera_tablet"))
+    }
+}
+
+class CutCameraTablet : ConstructableCustomItem() {
+
+    override fun initializeComponents() {
+        super.initializeComponents()
+        components.set(CameraComponent("main", Color.WHITE, Color.WHITE, NamedTextColor.WHITE))
+    }
+
+    override fun getRawId(): String = "cut_camera_tablet"
+
+    override fun getItemName(): CustomItemProperties.DataSupplier<Component> {
+        return CustomItemProperties.DataSupplier.of(Component.translatable("item.fnafu.camera_tablet"))
+    }
+
+    override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
+        return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "camera_tablet"))
+    }
 }

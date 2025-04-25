@@ -1,0 +1,5 @@
+{
+    "providers": [
+		{ "type": "ttf", "file": "fnafu:pixel.ttf", "shift": [0.0, 0.0], "size": 15.0, "oversample": 10.0 }
+    ]
+}

@@ -2,7 +2,7 @@ package me.udnek.fnafu.map.location
 
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.util.setOrigin
-import org.bukkit.*
+import org.bukkit.Location
 
 class LocationSingle : LocationData {
     private var frozen = false

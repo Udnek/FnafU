@@ -4,11 +4,11 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
-import me.udnek.itemscoreu.customminigame.command.MGUCommandContext
-import me.udnek.itemscoreu.customminigame.command.MGUCommandType
-import me.udnek.itemscoreu.customminigame.game.MGUAbstractGame
-import me.udnek.itemscoreu.customminigame.map.MGUMap
-import me.udnek.itemscoreu.customminigame.player.MGUPlayer
+import me.udnek.itemscoreu.custom.minigame.command.MGUCommandContext
+import me.udnek.itemscoreu.custom.minigame.command.MGUCommandType
+import me.udnek.itemscoreu.custom.minigame.game.MGUAbstractGame
+import me.udnek.itemscoreu.custom.minigame.map.MGUMap
+import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Location
@@ -70,16 +70,8 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
     }
 
     fun join(player: Player, playerType: FnafUPlayer.PlayerType): MGUCommandType.ExecutionResult{
-        return when (playerType) {
-            FnafUPlayer.PlayerType.SURVIVOR -> {
-                if (playerContainer.addSurvivor(FnafUPlayer(player, FnafUPlayer.PlayerType.SURVIVOR, this)))
-                    MGUCommandType.ExecutionResult.SUCCESS else MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not add")
-            }
-            else -> {
-                if (playerContainer.addSurvivor(FnafUPlayer(player, FnafUPlayer.PlayerType.ANIMATRONIC, this)))
-                    MGUCommandType.ExecutionResult.SUCCESS else MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not add")
-            }
-        }
+        return if (playerContainer.add(FnafUPlayer(player, playerType, this)))
+                MGUCommandType.ExecutionResult.SUCCESS else MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not add")
     }
 
     override fun leave(mguPlayer: MGUPlayer, context: MGUCommandContext): MGUCommandType.ExecutionResult {
@@ -93,8 +85,6 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
 
     override fun getDebug(): MutableList<Component> {
         val debug = super.getDebug()
-        debug.add(Component.text("survs: ${playerContainer.getSurvivors(false)}"))
-        debug.add(Component.text("anims: ${playerContainer.getAnimatronics(false)}"))
         debug.add(Component.text("winner: $winner"))
         debug.add(Component.text("task: $task"))
         debug.add(Component.text("task running: ${!(task?.isCancelled?:true)}"))

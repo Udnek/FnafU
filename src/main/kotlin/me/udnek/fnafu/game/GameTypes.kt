@@ -3,7 +3,7 @@ package me.udnek.fnafu.game
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.customminigame.game.MGUGameType
+import me.udnek.itemscoreu.custom.minigame.game.MGUGameType
 import me.udnek.itemscoreu.customregistry.AbstractRegistrable
 import me.udnek.itemscoreu.customregistry.CustomRegistries
 import org.bukkit.Tag
@@ -41,6 +41,7 @@ object GameTypes {
             if ((block.blockData as Powerable).isPowered) return
             getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
                 player ->
+                if (player.type != FnafUPlayer.PlayerType.SURVIVOR) return
                 for (pair in player.game.map.doors) {
                     if (pair.hasButtonAt(block.location)) {
                         player.game.onPlayerClicksDoorButton(event, player, pair)

@@ -2,17 +2,26 @@ package me.udnek.fnafu.component
 
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import me.udnek.itemscoreu.customminigame.player.MGUPlayer
 
 interface Kit : CustomComponent<MGUPlayer>{
+
+    /*companion object {
+        val EMPTY = ConstructableKit(ItemStack(Material.AIR))
+
+        val SPRINGTRAP = ConstructableKit(Items.PLUSHTRAP.item)
+        val CAMERAMAN = ConstructableKit(FullCameraTablet.getWithColor())
+        val DOORMAN = ConstructableKit(CutCameraTablet.getWithColor())
+    }*/
 
     companion object {
         val EMPTY = ConstructableKit()
 
         val SPRINGTRAP = ConstructableKit(Items.PLUSHTRAP)
-        val CAMERAMAN = ConstructableKit(Items.CAMERA_TABLET)
+        val CAMERAMAN = ConstructableKit(Items.FULL_CAMERA_TABLET)
+        val DOORMAN = ConstructableKit(Items.CUT_CAMERA_TABLET)
     }
 
 

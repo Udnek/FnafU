@@ -5,10 +5,10 @@ import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityHolderComponent
+import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import me.udnek.itemscoreu.customminigame.ability.MGUAbilityHolderComponent
-import me.udnek.itemscoreu.customminigame.ability.MGUAbilityInstance
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack

@@ -14,7 +14,10 @@ class ConstructableKit : Kit {
     override fun setUp(player: FnafUPlayer) {
         player.player.inventory.clear()
         for (item in items) {
-            player.player.inventory.addItem(item.item)
+            if (item.components.has(Components.CAMERA_COMPONENT)){
+                player.player.inventory.addItem(item.components.getOrDefault(Components.CAMERA_COMPONENT).changeTabletColor(item.item))
+            }
+            else player.player.inventory.addItem(item.item)
         }
     }
 
