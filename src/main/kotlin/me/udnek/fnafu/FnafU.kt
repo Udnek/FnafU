@@ -21,6 +21,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         Items.FULL_CAMERA_TABLET
         Sounds.AMBIENCE_FNAF1
 
+
         ItemListener(this)
 
         object : BukkitRunnable(){

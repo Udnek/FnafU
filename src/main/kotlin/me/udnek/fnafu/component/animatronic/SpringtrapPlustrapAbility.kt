@@ -93,7 +93,7 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
                 }
 
                 if (noTargetTicks > NO_TARGET_DESPAWN_TIME){
-                    TODO("despawn")
+                    despawn(plushtrap)
                 }
 
                 if (target == null) {
@@ -112,6 +112,10 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
                 plushtrap.target = target!!.player
             }
         }.runTaskTimer(FnafU.instance, 0, 1)
+    }
+
+    private fun despawn(plushtrap: Drowned){
+        plushtrap.remove()
     }
 
     private fun canSee(target: FnafUPlayer): Boolean {
@@ -145,7 +149,7 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
 
         val packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA)
         val watcher = WrappedDataWatcher.getEntityWatcher(plushtrap)
-        watcher.setObject(0, WrappedDataWatcher.Registry.get(Byte::class.java), (0x40).toByte())
+        watcher.setObject(0, WrappedDataWatcher.Registry.get(java.lang.Byte::class.java), (0x40).toByte())
 
         val wrappedDataValueList: MutableList<WrappedDataValue> = ArrayList()
         watcher.watchableObjects.filterNotNull()

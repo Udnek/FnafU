@@ -129,10 +129,7 @@ class CameraSystem : Resettable, Originable {
 
        object : BukkitRunnable() {
             override fun run() {
-                for (slot in 0..8) {
-                    player.player.sendMessage(slot.toString())
-                    inventory.setItem(slot, item)
-                }
+                for (slot in 0..8) inventory.setItem(slot, item)
             }
         }.runTaskLater(FnafU.instance, 1)
 
