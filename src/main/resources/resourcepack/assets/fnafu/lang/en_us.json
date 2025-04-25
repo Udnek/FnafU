@@ -14,5 +14,31 @@
   "subtitles.fnafu.plushtrap_run": "",
   "subtitles.fnafu.plushtrap_near": "",
 
-  "item.fnafu.camera_tablet": "Camera Tablet"
+  "item.fnafu.camera_tablet": "Camera Tablet",
+
+  "fnafu.energy.left": "Energy left",
+  "fnafu.energy.usage": "Usage: ",
+  "fnafu.energy.image.0": "",
+  "fnafu.energy.image.1": "\u00A7a1",
+  "fnafu.energy.image.2": "\u00A7a11",
+  "fnafu.energy.image.3": "\u00A7a11\u00A7e1",
+  "fnafu.energy.image.4": "\u00A7a11\u00A7e11",
+  "fnafu.energy.image.5": "\u00A7a11\u00A7e11\u00A761",
+  "fnafu.energy.image.6": "\u00A7a11\u00A7e11\u00A7611",
+  "fnafu.energy.image.7": "\u00A7a11\u00A7e11\u00A7611\u00A7c1",
+  "fnafu.energy.image.8": "\u00A7a11\u00A7e11\u00A7611\u00A7c11",
+  "fnafu.energy.image.9": "\u00A7a11\u00A7e11\u00A7611\u00A7c11\u00A741",
+  "fnafu.energy.image.10": "\u00A7a11\u00A7e11\u00A7611\u00A7c11\u00A7411",
+  "fnafu.energy.image.11": "\u00A7a11\u00A7e11\u00A7611\u00A7c11\u00A74111",
+
+  "fnafu.time.0": "12 PM",
+  "fnafu.time.1": "1 AM",
+  "fnafu.time.2": "2 AM",
+  "fnafu.time.3": "3 AM",
+  "fnafu.time.4": "4 AM",
+  "fnafu.time.5": "5 AM",
+  "fnafu.time.6": "6 AM",
+
+  "fnafu.map.fnaf1.image": "1",
+  "fnafu.map.fnaf2.image": "2"
 }

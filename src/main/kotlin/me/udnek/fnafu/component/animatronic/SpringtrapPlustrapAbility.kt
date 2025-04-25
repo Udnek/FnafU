@@ -8,14 +8,13 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityHolderComponent
+import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import me.udnek.itemscoreu.customminigame.ability.MGUAbilityHolderComponent
-import me.udnek.itemscoreu.customminigame.ability.MGUAbilityInstance
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.EntityType
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.*
 
 open class SpringtrapPlustrapAbility : MGUAbilityInstance {
 

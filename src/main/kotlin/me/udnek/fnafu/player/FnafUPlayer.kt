@@ -13,7 +13,7 @@ import me.udnek.fnafu.component.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.customminigame.player.MGUAbstractPlayer
+import me.udnek.itemscoreu.custom.minigame.player.MGUAbstractPlayer
 import me.udnek.itemscoreu.customsound.CustomSound
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title

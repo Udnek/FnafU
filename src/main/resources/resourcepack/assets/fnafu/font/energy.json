@@ -1,0 +1,13 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "fnafu:font/energy_bar.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "1"
+      ]
+    }
+  ]
+}

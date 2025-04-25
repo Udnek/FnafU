@@ -7,12 +7,15 @@ import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.Time
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.itemscoreu.customminigame.game.MGUGameType
-import me.udnek.itemscoreu.customminigame.player.MGUPlayer
+import me.udnek.itemscoreu.custom.minigame.game.MGUGameType
+import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
+import me.udnek.itemscoreu.util.Utils
 import net.kyori.adventure.bossbar.BossBar
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -32,6 +35,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
     private var teamSurvivors: Team? = null
     private var teamAnimatronics: Team? = null
+
+    init {
+        time = Time(GAME_DURATION)
+        energy = Energy(this)
+    }
 
     private fun isEveryNTicks(n: Int): Boolean {
         return time.ticks % n == 0
@@ -56,45 +64,44 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         energy.reset()
         winner = Winner.NONE
 
-        energyBar =
-            BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
-        showBossBarToAll(energyBar!!)
-        timeBar =
-            BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
-        showBossBarToAll(timeBar!!)
+        initializeBars()
 
         initializeTeams()
         val tSurvs = teamSurvivors!!
         val tAnims = teamAnimatronics!!
 
-        for (survivor in playerContainer.getSurvivors(false)) {
-            survivor.reset()
-            survivor.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
-            tSurvs.addPlayer(survivor.player)
-            survivor.kit = Kit.CAMERAMAN
-            survivor.setUp()
-            survivor.showAuraTo(playerContainer.all, 0, Color.RED)
-        }
-        for (animatronic in playerContainer.getAnimatronics(false)) {
-            animatronic.reset()
-            animatronic.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
-            tAnims.addPlayer(animatronic.player)
-            animatronic.kit = Kit.SPRINGTRAP
-            animatronic.setUp()
-            animatronic.showAuraTo(playerContainer.all, 0, Color.GREEN)
+        for (player in playerContainer.getPlayers(false)) {
+            player.reset()
+            when (player.type) {
+                FnafUPlayer.PlayerType.SURVIVOR -> {
+                    player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
+                    tSurvs.addPlayer(player.player)
+                    player.kit = Kit.CAMERAMAN
+                    player.showAuraTo(playerContainer.all, 0, Color.RED)
+                }
+                FnafUPlayer.PlayerType.ANIMATRONIC -> {
+                    player.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
+                    tAnims.addPlayer(player.player)
+                    player.kit = Kit.SPRINGTRAP
+                    player.showAuraTo(playerContainer.all, 0, Color.GREEN)
+                }
+            }
+            player.setUp()
         }
 
-        tSurvs.setAllowFriendlyFire(false)
-        tSurvs.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM)
-        tSurvs.setCanSeeFriendlyInvisibles(true)
+        baseSettingsForTeams(tSurvs)
         tSurvs.color(NamedTextColor.GREEN)
         tSurvs.prefix(Component.text("[S] ").color(TextColor.color(0f, 1f, 0f)))
 
-        tAnims.setAllowFriendlyFire(false)
-        tAnims.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM)
-        tAnims.setCanSeeFriendlyInvisibles(true)
+        baseSettingsForTeams(tAnims)
         tAnims.color(NamedTextColor.RED)
         tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
+    }
+
+    private fun baseSettingsForTeams(team: Team) {
+        team.setAllowFriendlyFire(false)
+        team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM)
+        team.setCanSeeFriendlyInvisibles(true)
     }
 
     private fun initializeTeams() {
@@ -103,6 +110,17 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         val animatronicsTeamName = "anims_${id.asString()}"
         teamSurvivors = scoreboard.getTeam(survivorsTeamName) ?: scoreboard.registerNewTeam(survivorsTeamName)
         teamAnimatronics = scoreboard.getTeam(animatronicsTeamName) ?: scoreboard.registerNewTeam(animatronicsTeamName)
+    }
+
+    private fun initializeBars() {
+        energyBar =
+            BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
+        showBossBarToAll(energyBar!!)
+        updateEnergyBar()
+        timeBar =
+            BossBar.bossBar(Component.text(""), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
+        showBossBarToAll(timeBar!!)
+        updateTimeBar()
     }
 
     override fun stop(){
@@ -130,6 +148,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
+
         button.door.toggle()
         energy.updateConsumption()
     }
@@ -145,15 +164,18 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     private fun updateEnergyBar() {
-        energyBar!!.name(Component.text("Energy: ${energy.energy} Usage: ${energy.usage} (Consumption: ${energy.consumption})"))
+        energyBar!!.name(Component.translatable("fnafu.energy.left")
+            .append(Component.text(": ${Utils.roundToTwoDigits(energy.energy.toDouble())}% "))
+            .append(Component.translatable("fnafu.energy.usage"))
+            .decoration(TextDecoration.BOLD, true)
+            .append(Component.translatable("fnafu.energy.image.${energy.usage}").font(Key.key("fnafu:energy")))
+        )
+        energyBar!!.progress(energy.energy / Energy.MAX_ENERGY)
     }
 
     private fun updateTimeBar() {
-        timeBar!!.name(Component.text("${time.ticks / 20f} / ${GAME_DURATION / 20}"))
-    }
-
-    init {
-        time = Time(GAME_DURATION)
-        energy = Energy(this)
+        timeBar!!.name(Component.translatable("fnafu.time.${(6 * time.ticks / GAME_DURATION )}")
+            .append(Component.text(" (${(GAME_DURATION - time.ticks) / 20})"))
+            .decoration(TextDecoration.BOLD, true))
     }
 }

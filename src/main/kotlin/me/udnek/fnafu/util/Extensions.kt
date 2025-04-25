@@ -2,8 +2,8 @@ package me.udnek.fnafu.util
 
 import me.udnek.fnafu.item.CameraButton
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.itemscoreu.customminigame.MGUManager
-import me.udnek.itemscoreu.customminigame.Originable
+import me.udnek.itemscoreu.custom.minigame.MGUManager
+import me.udnek.itemscoreu.custom.minigame.Originable
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

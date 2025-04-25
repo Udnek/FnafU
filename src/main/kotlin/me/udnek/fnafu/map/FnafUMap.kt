@@ -3,10 +3,10 @@ package me.udnek.fnafu.map
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.mechanic.camera.CameraSystem
-import me.udnek.fnafu.mechanic.door.Door
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.door.Door
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.customminigame.map.MGUMap
+import me.udnek.itemscoreu.custom.minigame.map.MGUMap
 import org.bukkit.Location
 import java.util.*
 
