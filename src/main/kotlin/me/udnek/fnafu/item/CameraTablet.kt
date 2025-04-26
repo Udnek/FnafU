@@ -2,6 +2,7 @@ package me.udnek.fnafu.item
 
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.CameraComponent
+import me.udnek.fnafu.component.Components
 import me.udnek.itemscoreu.customitem.ConstructableCustomItem
 import me.udnek.itemscoreu.customitem.CustomItemProperties
 import net.kyori.adventure.key.Key
@@ -9,8 +10,15 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Color
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
 class FullCameraTablet : ConstructableCustomItem() {
+
+    companion object {
+        fun getWithColor(): ItemStack {
+            return Items.FULL_CAMERA_TABLET.components.getOrDefault(Components.CAMERA_COMPONENT).changeTabletColor(Items.FULL_CAMERA_TABLET.item)
+        }
+    }
 
     override fun initializeComponents() {
         super.initializeComponents()
@@ -29,6 +37,11 @@ class FullCameraTablet : ConstructableCustomItem() {
 }
 
 class CutCameraTablet : ConstructableCustomItem() {
+    companion object {
+        fun getWithColor(): ItemStack{
+            return Items.CUT_CAMERA_TABLET.components.getOrDefault(Components.CAMERA_COMPONENT).changeTabletColor(Items.CUT_CAMERA_TABLET.item)
+        }
+    }
 
     override fun initializeComponents() {
         super.initializeComponents()

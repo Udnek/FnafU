@@ -61,7 +61,7 @@ open class CameraComponent : CustomComponent<CustomItem> {
 
     open fun showTitle(player: Player) {
         player.showTitle(Title.title(Component.text("3").font(Key.key("fnafu:camera")).color(titleColor), Component.empty(),
-            Title.Times.times(Duration.ZERO, Duration.ofMillis(250), Duration.ZERO)))
+            Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
     }
 
     open fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {

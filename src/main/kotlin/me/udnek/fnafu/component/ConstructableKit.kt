@@ -2,22 +2,26 @@ package me.udnek.fnafu.component
 
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.itemscoreu.customitem.CustomItem
+import org.bukkit.inventory.ItemStack
+import java.util.function.Supplier
 
 class ConstructableKit : Kit {
 
-    private val items: List<CustomItem>
+    private val items: List<Supplier<ItemStack>>
+    private val customItems: List<CustomItem>
 
-    constructor(vararg items: CustomItem) {
-        this.items = items.toList()
+    constructor(items: List<Supplier<ItemStack>>, customItems: List<CustomItem>) {
+        this.items = items
+        this.customItems = customItems
     }
 
     override fun setUp(player: FnafUPlayer) {
         player.player.inventory.clear()
         for (item in items) {
-            if (item.components.has(Components.CAMERA_COMPONENT)){
-                player.player.inventory.addItem(item.components.getOrDefault(Components.CAMERA_COMPONENT).changeTabletColor(item.item))
-            }
-            else player.player.inventory.addItem(item.item)
+            player.player.inventory.addItem(item.get())
+        }
+        for (customItem in customItems) {
+            player.player.inventory.addItem(customItem.item)
         }
     }
 
