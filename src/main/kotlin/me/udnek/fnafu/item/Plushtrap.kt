@@ -10,9 +10,11 @@ class Plushtrap : ConstructableCustomItem() {
         super.initializeComponents()
         components.set(RightClickableItem
         { customItem, event ->
+            if (event.player.hasCooldown(event.item!!)) return@RightClickableItem
             event.player.getFnafU()?.also {
                 it.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_PLUSHTRAP).activate(it)
             }
+            event.player.setCooldown(event.item!!, 20)
         })
     }
 
