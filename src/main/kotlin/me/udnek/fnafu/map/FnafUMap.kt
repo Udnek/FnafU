@@ -22,7 +22,7 @@ abstract class FnafUMap : MGUMap, Resettable {
     var audioSystem: AudioSystem
     var cameraSystem: CameraSystem
     var ventilationSystem: VentilationSystem
-    val system: Systems
+    val systems: Systems
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())
@@ -32,9 +32,9 @@ abstract class FnafUMap : MGUMap, Resettable {
         cameraSystem = CameraSystem()
         audioSystem = AudioSystem()
         ventilationSystem = VentilationSystem()
-        system = Systems(audioSystem, cameraSystem, ventilationSystem)
+        systems = Systems(audioSystem, cameraSystem, ventilationSystem)
         this.build()
-        system.setOrigin(origin)
+        systems.setOrigin(origin)
         cameraSystem.setOrigin(origin)
     }
 
@@ -81,7 +81,7 @@ abstract class FnafUMap : MGUMap, Resettable {
         audioSystem.reset()
         cameraSystem.reset()
         ventilationSystem.reset()
-        system.reset()
+        systems.reset()
         for (door in doors) door.door.open()
     }
 }
