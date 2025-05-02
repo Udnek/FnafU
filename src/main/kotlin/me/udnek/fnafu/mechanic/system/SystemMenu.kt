@@ -15,7 +15,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 class SystemMenu : ConstructableCustomInventory {
 
     constructor() : super() {
-        inventory.setItem(9, Items.CURSOR.item)
+        inventory.setItem(9, Items.CURSOR_ICON.item)
     }
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {

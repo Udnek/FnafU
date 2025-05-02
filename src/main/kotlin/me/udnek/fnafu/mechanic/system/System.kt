@@ -19,7 +19,7 @@ abstract class System {
     }
 
     open fun destroy(systemMenu: SystemMenu){
-        systemMenu.inventory.setItem(guiSlot, Items.ERROR.item)
+        systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
         isBroken = true
     }
     open fun fix(systemMenu: SystemMenu){
@@ -30,7 +30,7 @@ abstract class System {
     }
     open fun failedFix(systemMenu: SystemMenu){
         isRepairing = false
-        systemMenu.inventory.setItem(guiSlot, Items.ERROR.item)
+        systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
 
     fun isBroken(): Boolean {return isBroken}
@@ -39,7 +39,7 @@ abstract class System {
     open fun startFix(player: FnafUPlayer, systemMenu: SystemMenu){
         if (!isBroken or isRepairing) return
         isRepairing = true
-        systemMenu.inventory.setItem(guiSlot, Items.REBOOT.item)
+        systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
 
         repairingTask(player, systemMenu)
     }

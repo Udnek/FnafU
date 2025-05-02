@@ -15,9 +15,9 @@ object Items {
     val UP_BUTTON: CustomItem = register(EmptyItem("up_button").hiddenModel())
     val DOWN_BUTTON: CustomItem = register(EmptyItem("down_button").hiddenModel())
     val ENTER_BUTTON: CustomItem = register(EmptyItem("enter_button").hiddenModel())
-    val CURSOR: CustomItem = register(EmptyItem("cursor"))
-    val ERROR: CustomItem = register(EmptyItem("error"))
-    val REBOOT: CustomItem = register(EmptyItem("reboot"))
+    val CURSOR_ICON: CustomItem = register(EmptyItem("cursor"))
+    val ERROR_ICON: CustomItem = register(EmptyItem("error"))
+    val REBOOT_ICON: CustomItem = register(EmptyItem("reboot"))
 
     val PLUSHTRAP: CustomItem = register(Plushtrap())
 

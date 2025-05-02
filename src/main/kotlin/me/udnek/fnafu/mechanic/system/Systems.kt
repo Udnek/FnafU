@@ -23,7 +23,7 @@ class Systems : Resettable, Originable  {
         18 to {player ->  cameraSystem.startFix(player, systemMenu)},
         27 to {player ->  ventilationSystem.startFix(player, systemMenu)},
         36 to {player ->  fixAll(player)})
-    val cursorItem = Items.CURSOR.item
+    val cursorItem = Items.CURSOR_ICON.item
 
     val upButtons = listOf(9, 10, 18, 19, 27, 28)
     val downButtons = listOf(11, 12, 20, 21, 29, 30)
@@ -78,7 +78,7 @@ class Systems : Resettable, Originable  {
 
     fun fixAll(player: FnafUPlayer){
         if (isAnyOfSystemRepair() or !cameraSystem.isBroken() or !audioSystem.isBroken() or !ventilationSystem.isBroken()) return
-        systemMenu.inventory.setItem(41, Items.REBOOT.item)
+        systemMenu.inventory.setItem(41, Items.REBOOT_ICON.item)
         audioSystem.repairingTask(player, systemMenu)
         cameraSystem.repairingTask(player, systemMenu)
         ventilationSystem.repairingTask(player, systemMenu)
