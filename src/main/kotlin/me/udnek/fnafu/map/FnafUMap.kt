@@ -2,9 +2,12 @@ package me.udnek.fnafu.map
 
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.map.location.LocationData
+import me.udnek.fnafu.mechanic.AudioSystem
+import me.udnek.fnafu.mechanic.VentilationSystem
 import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.door.Door
+import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.map.MGUMap
 import org.bukkit.Location
@@ -16,7 +19,10 @@ abstract class FnafUMap : MGUMap, Resettable {
 
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
     val doors: MutableList<ButtonDoorPair> = ArrayList()
-    val cameraSystem: CameraSystem
+    var audioSystem: AudioSystem
+    var cameraSystem: CameraSystem
+    var ventilationSystem: VentilationSystem
+    val system: Systems
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())
@@ -24,7 +30,11 @@ abstract class FnafUMap : MGUMap, Resettable {
         origin.yaw = 0f
         this.origin = origin
         cameraSystem = CameraSystem()
+        audioSystem = AudioSystem()
+        ventilationSystem = VentilationSystem()
+        system = Systems(audioSystem, cameraSystem, ventilationSystem)
         this.build()
+        system.setOrigin(origin)
         cameraSystem.setOrigin(origin)
     }
 
@@ -68,7 +78,10 @@ abstract class FnafUMap : MGUMap, Resettable {
     // MISC
     ///////////////////////////////////////////////////////////////////////////
     override fun reset() {
+        audioSystem.reset()
         cameraSystem.reset()
+        ventilationSystem.reset()
+        system.reset()
         for (door in doors) door.door.open()
     }
 }

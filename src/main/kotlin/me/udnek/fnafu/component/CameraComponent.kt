@@ -65,11 +65,15 @@ open class CameraComponent : CustomComponent<CustomItem> {
     }
 
     open fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
-        val player = event.player
         event.item?.let {
-            player.getFnafU()?.let { player ->
+            itemStack ->
+            event.player.getFnafU()?.let { player ->
                 player.game.map.cameraSystem.let { system ->
-                    system.spectateCamera(player, startCameraID)
+                    if (system.isBroken()) {
+                        showTitle(player.player)
+                        return
+                    }
+                    system.spectateCamera(player, startCameraID, itemStack)
                     system.openMenu(player)
                 }
             }

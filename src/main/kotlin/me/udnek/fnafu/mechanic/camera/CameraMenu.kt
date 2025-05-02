@@ -24,7 +24,7 @@ open class CameraMenu : ConstructableCustomInventory{
             val id = it.getCameraId() ?: return
 
             (event.whoClicked as Player).getFnafU()?.also {
-                it.game.map.cameraSystem.spectateCamera(it, id)
+                it.game.map.cameraSystem.spectateCamera(it, id, event.inventory.getItem(1)!!)
             }
         }
     }

@@ -76,7 +76,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
                 FnafUPlayer.PlayerType.SURVIVOR -> {
                     player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
                     tSurvs.addPlayer(player.player)
-                    player.kit = Kit.CAMERAMAN
+                    player.kit = Kit.SYSTEMMAN
                     player.showAuraTo(playerContainer.all, 0, Color.RED)
                 }
                 FnafUPlayer.PlayerType.ANIMATRONIC -> {

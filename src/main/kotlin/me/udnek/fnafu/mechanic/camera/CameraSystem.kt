@@ -8,6 +8,8 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.item.CameraButton
+import me.udnek.fnafu.mechanic.system.System
+import me.udnek.fnafu.mechanic.system.SystemMenu
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.Originable
@@ -23,7 +25,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.abs
 
-class CameraSystem : Resettable, Originable {
+class CameraSystem : Resettable, Originable, System(25) {
 
     private val cameras: MutableList<Camera> = ArrayList()
     private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
@@ -34,11 +36,11 @@ class CameraSystem : Resettable, Originable {
 
     fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
 
-    fun spectateCamera(player: FnafUPlayer, id: String){
-        spectateCamera(player, getCamera(id)!!)
+    fun spectateCamera(player: FnafUPlayer, id: String, cameraTablet: ItemStack){
+        spectateCamera(player, getCamera(id)!!, cameraTablet)
     }
 
-    fun spectateCamera(player: FnafUPlayer, camera: Camera) {
+    fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
         val ability = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
 
         object : BukkitRunnable(){
@@ -56,9 +58,7 @@ class CameraSystem : Resettable, Originable {
             }
         }.runTaskLater(FnafU.instance, 1)
 
-        //topInventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(camera, camera.number)))
-
-        cameraMovementOverlay(player, ability.getItem(player))
+        cameraMovementOverlay(player, cameraTablet)
 
         val spectatingCamera = getSpectatingCamera(player)
         if (spectatingCamera != null) {
@@ -157,6 +157,7 @@ class CameraSystem : Resettable, Originable {
     }
 
     fun openMenu(player: FnafUPlayer) {
+        cameraMenu = CameraMenu(cameras, mapImage)
         cameraMenu.open(player.player)
     }
 
@@ -177,6 +178,10 @@ class CameraSystem : Resettable, Originable {
 
     override fun setOrigin(origin: Location) {
         for (camera in cameras) camera.setOrigin(origin)
-        cameraMenu = CameraMenu(cameras, mapImage)
+    }
+
+    override fun destroy(systemMenu: SystemMenu) {
+        reset()
+        super.destroy(systemMenu)
     }
 }
