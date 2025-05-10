@@ -7,28 +7,23 @@ import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
 import me.udnek.itemscoreu.customitem.CustomItem
-import net.kyori.adventure.key.Key
-import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.title.Title
 import org.bukkit.Color
-import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-import java.time.Duration
 
 open class CameraComponent : CustomComponent<CustomItem> {
     val startCameraID: String
     val tabletColor: Color
     val guiColor: Color
-    val titleColor: TextColor
+    val noiseColor: TextColor
 
-    constructor(startCameraID: String, tabletColor: Color, guiColor: Color, titleColor: TextColor){
+    constructor(startCameraID: String, tabletColor: Color, guiColor: Color, noiseColor: TextColor){
         this.startCameraID = startCameraID
         this.tabletColor = tabletColor
         this.guiColor = guiColor
-        this.titleColor = titleColor
+        this.noiseColor = noiseColor
     }
 
     companion object {
@@ -41,9 +36,6 @@ open class CameraComponent : CustomComponent<CustomItem> {
             override fun changeTabletColor(itemStack: ItemStack): ItemStack {
                 throw RuntimeException("CameraComponent is default!" + itemStack.getData(DataComponentTypes.ITEM_NAME))
                 return super.changeTabletColor(itemStack)
-            }
-            override fun showTitle(player: Player) {
-                throw RuntimeException("CameraComponent is default! Title")
             }
         }
     }
@@ -59,18 +51,13 @@ open class CameraComponent : CustomComponent<CustomItem> {
         return item
     }
 
-    open fun showTitle(player: Player) {
-        player.showTitle(Title.title(Component.text("3").font(Key.key("fnafu:camera")).color(titleColor), Component.empty(),
-            Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
-    }
-
     open fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
         event.item?.let {
             itemStack ->
             event.player.getFnafU()?.let { player ->
-                player.game.map.cameraSystem.let { system ->
+                player.game.cameraSystem.let { system ->
                     if (system.isBroken()) {
-                        showTitle(player.player)
+                        player.showNoise(noiseColor)
                         return
                     }
                     system.spectateCamera(player, startCameraID, itemStack)

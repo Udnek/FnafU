@@ -15,7 +15,9 @@ import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.player.MGUAbstractPlayer
 import me.udnek.itemscoreu.customsound.CustomSound
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
@@ -31,7 +33,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.time.Duration
 import java.util.*
 
-class FnafUPlayer(private val player: Player, val type: PlayerType, private val game: FnafUGame) : MGUAbstractPlayer(player, game), Resettable {
+class FnafUPlayer(private val player: Player, val type: Type, private val game: FnafUGame) : MGUAbstractPlayer(player, game), Resettable {
 
     override fun getGame(): FnafUGame = game
 
@@ -135,6 +137,11 @@ class FnafUPlayer(private val player: Player, val type: PlayerType, private val 
         }.runTaskLater(FnafU.instance, duration.toLong())
     }
 
+    fun showNoise(color: TextColor){
+        player.showTitle(Title.title(Component.text("3").font(Key.key("fnafu:camera")).color(color), Component.empty(),
+            Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
+    }
+
     fun setUp(){
         kit.setUp(this)
         player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
@@ -148,7 +155,7 @@ class FnafUPlayer(private val player: Player, val type: PlayerType, private val 
         player.getAttribute(Attribute.JUMP_STRENGTH)!!.removeModifier(NamespacedKey(FnafU.instance, "game_js"))
     }
 
-    enum class PlayerType {
+    enum class Type {
         SURVIVOR,
         ANIMATRONIC
     }

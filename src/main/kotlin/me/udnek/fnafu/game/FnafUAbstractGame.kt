@@ -9,6 +9,8 @@ import me.udnek.itemscoreu.custom.minigame.command.MGUCommandType
 import me.udnek.itemscoreu.custom.minigame.game.MGUAbstractGame
 import me.udnek.itemscoreu.custom.minigame.map.MGUMap
 import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
+import me.udnek.itemscoreu.customcomponent.CustomComponent
+import me.udnek.itemscoreu.customcomponent.CustomComponentMap
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Location
@@ -65,12 +67,12 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
     }
 
     override fun join(player: Player, context: MGUCommandContext): MGUCommandType.ExecutionResult {
-        if (context.args[2] == "survivors") return join(player, FnafUPlayer.PlayerType.SURVIVOR)
-        return join(player, FnafUPlayer.PlayerType.ANIMATRONIC)
+        if (context.args[2] == "survivors") return join(player, FnafUPlayer.Type.SURVIVOR)
+        return join(player, FnafUPlayer.Type.ANIMATRONIC)
     }
 
-    fun join(player: Player, playerType: FnafUPlayer.PlayerType): MGUCommandType.ExecutionResult{
-        return if (playerContainer.add(FnafUPlayer(player, playerType, this)))
+    fun join(player: Player, type: FnafUPlayer.Type): MGUCommandType.ExecutionResult{
+        return if (playerContainer.add(FnafUPlayer(player, type, this)))
                 MGUCommandType.ExecutionResult.SUCCESS else MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not add")
     }
 
@@ -113,6 +115,11 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
 
     init {
         this.winner = Winner.NONE
+    }
+
+    private var components: CustomComponentMap<FnafUGame, CustomComponent<FnafUGame>> = CustomComponentMap()
+    override fun getComponents(): CustomComponentMap<FnafUGame, CustomComponent<FnafUGame>> {
+        return components
     }
 }
 

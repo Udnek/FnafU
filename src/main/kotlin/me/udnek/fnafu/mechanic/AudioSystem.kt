@@ -1,15 +1,20 @@
 package me.udnek.fnafu.mechanic
 
+import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.Originable
-import org.bukkit.Location
 
-class AudioSystem : Resettable, Originable, System(16) {
+class AudioSystem : Resettable, System {
 
+    override val game: EnergyGame
+    override val sidebarPosition: Int = 3
 
+    constructor(game: EnergyGame) : super(16, "sidebar.fnafu.audio_system") {
+        this.game = game
+    }
 
     override fun reset() {}
 
-    override fun setOrigin(p0: Location) {}
+
+
 }

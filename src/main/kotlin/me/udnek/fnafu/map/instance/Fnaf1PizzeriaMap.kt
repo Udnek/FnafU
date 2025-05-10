@@ -21,11 +21,8 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
         val officeCamera = Camera(LocationSingle(0.0, 0.0, 0.0), "office", 9 * 3 + 3, 180f)
         val kitchenCamera = Camera(LocationSingle(0.0, 0.0, 0.0), "kitchen", 9 * 4 + 6, 0f)
 
-        cameraSystem
-            .addCamera(mainCamera)
-            .addCamera(officeCamera)
-            .addCamera(kitchenCamera)
+        cameras = listOf(mainCamera, officeCamera, kitchenCamera)
 
-        cameraSystem.setMapImage(TextUtils.getMapImage(-8, 165, "fnaf1"))
+        cameraImage = TextUtils.getMapImage(-8, 165, "fnaf1")
     }
 }

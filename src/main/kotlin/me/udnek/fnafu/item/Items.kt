@@ -6,7 +6,7 @@ import me.udnek.itemscoreu.customregistry.CustomRegistries
 
 object Items {
     val CAMERA_BUTTON: CustomItem = register(CameraButton())
-    val CAMERA_OVERLAY: CustomItem = register(EmptyItem("camera_overlay").hiddenModel())
+    val CAMERA_OVERLAY: CustomItem = register(EmptyItem("camera_overlay"))
 
     val FULL_CAMERA_TABLET: CustomItem = register(FullCameraTablet())
     val CUT_CAMERA_TABLET: CustomItem = register(CutCameraTablet())

@@ -1,15 +1,17 @@
 package me.udnek.fnafu.mechanic
 
+import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.Originable
-import org.bukkit.Location
 
-class VentilationSystem : Resettable, Originable, System(32) {
+class VentilationSystem : Resettable, System {
+    override val game: EnergyGame
+    override val sidebarPosition: Int = 1
 
+    constructor(game: EnergyGame) : super(32, "sidebar.fnafu.ventilation_system") {
+        this.game = game
+    }
 
 
     override fun reset() {}
-
-    override fun setOrigin(p0: Location) {}
 }

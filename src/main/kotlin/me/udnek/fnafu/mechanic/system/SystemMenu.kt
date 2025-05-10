@@ -22,19 +22,19 @@ class SystemMenu : ConstructableCustomInventory {
         event.isCancelled = true
         event.currentItem?.let {
             when (CustomItem.get(it)) {
-                Items.DOWN_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.map.system.cursorDown(inventory) }
-                Items.UP_BUTTON ->  (event.whoClicked as Player).getFnafU()?.also { it.game.map.system.cursorUp(inventory) }
-                Items.ENTER_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.map.system.enter(it, inventory) }
+                Items.DOWN_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.cursorDown(inventory) }
+                Items.UP_BUTTON ->  (event.whoClicked as Player).getFnafU()?.also { it.game.systems.cursorUp(inventory) }
+                Items.ENTER_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.enter(it, inventory) }
                 Items.SYSTEM_TABLET -> (event.whoClicked as Player).getFnafU()?.also {
                     it.player.closeInventory()
-                    it.game.map.system.exitSystem(inventory, it)
+                    it.game.systems.exitSystem(inventory, it)
                 }
             }
         }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.map.system.exitSystem(inventory, it) }
+        (event.player as Player).getFnafU()?.also { it.game.systems.exitSystem(inventory, it) }
     }
 
     override fun getTitle(): Component? {

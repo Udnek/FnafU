@@ -15,7 +15,7 @@ class SystemTablet: ConstructableCustomItem() {
             override fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
                 event.item?.let {
                     event.player.getFnafU()?.let { player ->
-                        player.game.map.system.openMenu(player)
+                        player.game.systems.openMenu(player)
                     }
                 }
             }

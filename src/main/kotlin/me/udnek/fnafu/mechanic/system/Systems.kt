@@ -9,19 +9,17 @@ import me.udnek.fnafu.mechanic.VentilationSystem
 import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.Originable
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-class Systems : Resettable, Originable  {
+open class Systems : Resettable {
 
     val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
         9 to {player ->  audioSystem.startFix(player, systemMenu)},
         18 to {player ->  cameraSystem.startFix(player, systemMenu)},
-        27 to {player ->  ventilationSystem.startFix(player, systemMenu)},
+        27 to {player ->  cameraSystem.destroy(systemMenu)},
         36 to {player ->  fixAll(player)})
     val cursorItem = Items.CURSOR_ICON.item
 
@@ -123,11 +121,14 @@ class Systems : Resettable, Originable  {
     }
 
     override fun reset() {
+        audioSystem.fix(systemMenu)
+        cameraSystem.fix(systemMenu)
+        ventilationSystem.fix(systemMenu)
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
             exitSystem(player.player.openInventory.topInventory , player)
             player.player.closeInventory()
         }
     }
 
-    override fun setOrigin(p0: Location) {}
+
 }

@@ -7,6 +7,7 @@ import io.papermc.paper.datacomponent.item.Equippable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.component.Components
+import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.CameraButton
 import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.mechanic.system.SystemMenu
@@ -25,19 +26,26 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.abs
 
-class CameraSystem : Resettable, Originable, System(25) {
+open class CameraSystem : Resettable, Originable, System {
 
+    final override val game: EnergyGame
+    override val sidebarPosition: Int = 2
     private val cameras: MutableList<Camera> = ArrayList()
     private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
     private lateinit var cameraMenu: CameraMenu
     private var mapImage: Component = Component.text("NOT SET")
 
+    constructor(game: EnergyGame) : super(25, "sidebar.fnafu.camera_system") {
+        this.game = game
+    }
+
     fun setMapImage(image: Component) { this.mapImage = image }
 
     fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
 
-    fun spectateCamera(player: FnafUPlayer, id: String, cameraTablet: ItemStack){
-        spectateCamera(player, getCamera(id)!!, cameraTablet)
+    fun spectateCamera(player: FnafUPlayer, id: String, cameraTablet: ItemStack) {
+        val camera = getCamera(id) ?: throw RuntimeException("camera's id is wrong: $id")
+        spectateCamera(player, camera, cameraTablet)
     }
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
@@ -58,7 +66,7 @@ class CameraSystem : Resettable, Originable, System(25) {
             }
         }.runTaskLater(FnafU.instance, 1)
 
-        cameraMovementOverlay(player, cameraTablet)
+        switchCameraOverlay(player, cameraTablet)
 
         val spectatingCamera = getSpectatingCamera(player)
         if (spectatingCamera != null) {
@@ -123,22 +131,22 @@ class CameraSystem : Resettable, Originable, System(25) {
         }.runTaskTimer(FnafU.instance, 20, 1)
     }
 
-    private fun cameraMovementOverlay(player: FnafUPlayer, item: ItemStack) {
+    private fun switchCameraOverlay(player: FnafUPlayer, item: ItemStack) {
         val inventory = player.player.inventory
         val component = CustomItem.get(item)?.components?.getOrDefault(Components.CAMERA_COMPONENT) ?: return
 
-       object : BukkitRunnable() {
+        object : BukkitRunnable() {
             override fun run() {
                 for (slot in 0..8) inventory.setItem(slot, item)
             }
         }.runTaskLater(FnafU.instance, 1)
 
-        val cameraOverlay = Equippable.equippable(EquipmentSlot.HEAD).cameraOverlay(Key.key("fnafu:item/camera/blur"))
+        val cameraOverlay = Equippable.equippable(EquipmentSlot.HEAD).cameraOverlay(Key.key("fnafu:item/camera/frame_overlay"))
         item.setData(DataComponentTypes.EQUIPPABLE, cameraOverlay)
         inventory.setItem(EquipmentSlot.HEAD, item)
         inventory.setItem(40, component.createGui())
 
-        component.showTitle(player.player)
+        player.showNoise(component.noiseColor)
     }
 
     private fun setPlayerSpectatingCamera(player: FnafUPlayer, camera: Camera?) {
@@ -168,11 +176,11 @@ class CameraSystem : Resettable, Originable, System(25) {
             }
         }
         // TODO DO SOMETHING ABOUT STRING ID
-        return null;
+        return null
     }
 
     override fun reset() {
-        for (player in playerSpectatingCameras.keys) exitCamera(player)
+        playerSpectatingCameras.keys.forEach { exitCamera(it) }
         playerSpectatingCameras.clear()
     }
 
@@ -184,4 +192,5 @@ class CameraSystem : Resettable, Originable, System(25) {
         reset()
         super.destroy(systemMenu)
     }
+
 }

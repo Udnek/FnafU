@@ -3,12 +3,17 @@ package me.udnek.fnafu.game
 import me.udnek.fnafu.component.Kit
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
+import me.udnek.fnafu.mechanic.AudioSystem
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.Time
+import me.udnek.fnafu.mechanic.VentilationSystem
+import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.itemscoreu.custom.minigame.game.MGUGameType
 import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
+import me.udnek.itemscoreu.custom.sidebar.CustomSidebar
 import me.udnek.itemscoreu.util.Utils
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
@@ -27,8 +32,13 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         const val GAME_DURATION: Int = 60 * 20
     }
 
-    val time: Time
-    val energy: Energy
+    val time: Time = Time(GAME_DURATION)
+    val energy: Energy = Energy(this)
+
+    override var audioSystem = AudioSystem(this)
+    override var cameraSystem = CameraSystem(this)
+    override var ventilationSystem = VentilationSystem(this)
+    override var systems = Systems(audioSystem, cameraSystem, ventilationSystem)
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
@@ -36,9 +46,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     private var teamSurvivors: Team? = null
     private var teamAnimatronics: Team? = null
 
+    val scoreboard = CustomSidebar(id.asString(), Component.translatable("sidebar.fnafu.systems"))
+
     init {
-        time = Time(GAME_DURATION)
-        energy = Energy(this)
+        map.cameras.forEach { cameraSystem.addCamera(it) }
+        cameraSystem.setOrigin(map.origin)
+        cameraSystem.setMapImage(map.cameraImage)
     }
 
     private fun isEveryNTicks(n: Int): Boolean {
@@ -64,6 +77,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         energy.reset()
         winner = Winner.NONE
 
+        scoreboard.lines = mapOf(audioSystem.getSidebarView(), ventilationSystem.getSidebarView(), cameraSystem.getSidebarView())
+
         initializeBars()
 
         initializeTeams()
@@ -72,14 +87,15 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
         for (player in playerContainer.getPlayers(false)) {
             player.reset()
+            scoreboard.show(player.player)
             when (player.type) {
-                FnafUPlayer.PlayerType.SURVIVOR -> {
+                FnafUPlayer.Type.SURVIVOR -> {
                     player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
                     tSurvs.addPlayer(player.player)
-                    player.kit = Kit.SYSTEMMAN
+                    player.kit = Kit.CAMERAMAN
                     player.showAuraTo(playerContainer.all, 0, Color.RED)
                 }
-                FnafUPlayer.PlayerType.ANIMATRONIC -> {
+                FnafUPlayer.Type.ANIMATRONIC -> {
                     player.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
                     tAnims.addPlayer(player.player)
                     player.kit = Kit.SPRINGTRAP
@@ -133,22 +149,25 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         timeBar = null
 
         map.reset()
+        systems.reset()
+        ventilationSystem.reset()
+        audioSystem.reset()
 
         for (fnafUPlayer in players) {
+            scoreboard.hide(fnafUPlayer.player)
             fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
             fnafUPlayer.reset()
         }
     }
 
     override fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer){
-        if (damager.type == FnafUPlayer.PlayerType.SURVIVOR) {
+        if (damager.type == FnafUPlayer.Type.SURVIVOR) {
             event.isCancelled = true
             return
         }
     }
 
     override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
-
         button.door.toggle()
         energy.updateConsumption()
     }
@@ -164,17 +183,17 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     private fun updateEnergyBar() {
-        energyBar!!.name(Component.translatable("fnafu.energy.left")
+        energyBar!!.name(Component.translatable("energy.fnafu.left")
             .append(Component.text(": ${Utils.roundToTwoDigits(energy.energy.toDouble())}% "))
-            .append(Component.translatable("fnafu.energy.usage"))
+            .append(Component.translatable("energy.fnafu.usage"))
             .decoration(TextDecoration.BOLD, true)
-            .append(Component.translatable("fnafu.energy.image.${energy.usage}").font(Key.key("fnafu:energy")))
+            .append(Component.translatable("energy.fnafu.image.${energy.usage}").font(Key.key("fnafu:energy")))
         )
         energyBar!!.progress(energy.energy / Energy.MAX_ENERGY)
     }
 
     private fun updateTimeBar() {
-        timeBar!!.name(Component.translatable("fnafu.time.${(6 * time.ticks / GAME_DURATION )}")
+        timeBar!!.name(Component.translatable("time.fnafu.${(6 * time.ticks / GAME_DURATION )}")
             .append(Component.text(" (${(GAME_DURATION - time.ticks) / 20})"))
             .decoration(TextDecoration.BOLD, true))
     }
