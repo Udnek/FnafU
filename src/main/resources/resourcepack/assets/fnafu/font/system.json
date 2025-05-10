@@ -1,0 +1,15 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "fnafu:font/system.png",
+      "ascent": 13,
+      "height": 256,
+      "chars": ["1"]
+    },
+    {
+    "type": "reference",
+    "id": "space:default"
+    }
+  ]
+}

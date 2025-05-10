@@ -134,7 +134,7 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
         var target: FnafUPlayer? = null
         var closestDistance = Double.POSITIVE_INFINITY
         for (nearbyPlayer in nearbyPlayers) {
-            if (nearbyPlayer.type != FnafUPlayer.PlayerType.SURVIVOR) continue
+            if (nearbyPlayer.type != FnafUPlayer.Type.SURVIVOR) continue
             val distance = location.distance(nearbyPlayer.player.location)
             if (distance < closestDistance && canSee(nearbyPlayer)) {
                 target = nearbyPlayer

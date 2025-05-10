@@ -17,6 +17,7 @@ interface Kit : CustomComponent<MGUPlayer>{
         val SPRINGTRAP = ConstructableKit(listOf(), listOf(Items.PLUSHTRAP))
         val CAMERAMAN = ConstructableKit(listOf(Supplier{ FullCameraTablet.getWithColor() }), listOf())
         val DOORMAN = ConstructableKit(listOf(Supplier{ CutCameraTablet.getWithColor()}), listOf())
+        val SYSTEMMAN = ConstructableKit(listOf(), listOf(Items.SYSTEM_TABLET))
     }
 
     fun setUp(player: FnafUPlayer)

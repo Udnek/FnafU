@@ -2,11 +2,12 @@ package me.udnek.fnafu.map
 
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.map.location.LocationData
-import me.udnek.fnafu.mechanic.camera.CameraSystem
+import me.udnek.fnafu.mechanic.camera.Camera
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.door.Door
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.map.MGUMap
+import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import java.util.*
 
@@ -16,16 +17,16 @@ abstract class FnafUMap : MGUMap, Resettable {
 
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
     val doors: MutableList<ButtonDoorPair> = ArrayList()
-    val cameraSystem: CameraSystem
+    lateinit var cameras: List<Camera>
+    lateinit var cameraImage: Component
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())
         origin.pitch = 0f
         origin.yaw = 0f
         this.origin = origin
-        cameraSystem = CameraSystem()
+
         this.build()
-        cameraSystem.setOrigin(origin)
     }
 
     abstract fun build()
@@ -68,7 +69,6 @@ abstract class FnafUMap : MGUMap, Resettable {
     // MISC
     ///////////////////////////////////////////////////////////////////////////
     override fun reset() {
-        cameraSystem.reset()
         for (door in doors) door.door.open()
     }
 }

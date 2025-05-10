@@ -41,7 +41,7 @@ object GameTypes {
             if ((block.blockData as Powerable).isPowered) return
             getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
                 player ->
-                if (player.type != FnafUPlayer.PlayerType.SURVIVOR) return
+                if (player.type != FnafUPlayer.Type.SURVIVOR) return
                 for (pair in player.game.map.doors) {
                     if (pair.hasButtonAt(block.location)) {
                         player.game.onPlayerClicksDoorButton(event, player, pair)

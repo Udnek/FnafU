@@ -10,8 +10,6 @@ import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
 import org.bukkit.entity.Entity
-import org.bukkit.inventory.EquipmentSlot
-import org.bukkit.inventory.ItemStack
 
 open class SpectateEntityAbility : MGUAbilityInstance {
 
@@ -36,10 +34,6 @@ open class SpectateEntityAbility : MGUAbilityInstance {
 
     fun spectateSelf(player: FnafUPlayer){
         spectate(player, player.player)
-    }
-
-    fun getItem(player: FnafUPlayer): ItemStack {
-        return player.player.inventory.getItem(EquipmentSlot.HAND)
     }
 
     override fun getType(): CustomComponentType<out MGUAbilityHolderComponent, out CustomComponent<MGUAbilityHolderComponent>> {
