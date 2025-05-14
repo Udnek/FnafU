@@ -12,6 +12,7 @@ import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.component.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.location.LocationData
+import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.player.MGUAbstractPlayer
 import me.udnek.itemscoreu.customsound.CustomSound
@@ -21,28 +22,25 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
-import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import java.time.Duration
 import java.util.*
 
 class FnafUPlayer(private val player: Player, val type: Type, private val game: FnafUGame) : MGUAbstractPlayer(player, game), Resettable {
 
-    override fun getGame(): FnafUGame = game
-
-    override fun toString(): String = "[" + type + "] " + player.name
-
+    var isAlive = true
     var kit: Kit
         set(value) = components.set(value)
         get() = components.getOrDefault(Components.KIT)
 
+    override fun getGame(): FnafUGame = game
+
+    override fun toString(): String = "[" + type + "] " + player.name
 
     fun teleport(locationData: LocationData) { teleport(locationData.random) }
 
@@ -142,11 +140,15 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
             Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
     }
 
-    fun setUp(){
-        kit.setUp(this)
-        player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
-        player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
-            AttributeModifier(NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER))
+    fun setUp(){ kit.setUp(this) }
+
+    fun damage(location: LocationList) {
+        player.teleport(location.getFurthest(player.location))
+    }
+
+    fun death() {
+        isAlive = false
+        player.gameMode = GameMode.SPECTATOR
     }
 
     override fun reset() {

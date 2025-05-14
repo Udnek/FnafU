@@ -33,7 +33,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         task = object : BukkitRunnable() {
             override fun run() { tick() }
         }
-        (task as BukkitRunnable).runTaskTimer(FnafU.instance, 0, 1)
+        task!!.runTaskTimer(FnafU.instance, 0, 1)
     }
     @MustBeInvokedByOverriders
     override fun start(context: MGUCommandContext): MGUCommandType.ExecutionResult {

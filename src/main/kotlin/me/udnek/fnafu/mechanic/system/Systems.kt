@@ -70,20 +70,23 @@ open class Systems : Resettable {
         cursorPosition[cursorPosition.keys.toList()[getIndexCursorItem(inventory)]]?.invoke(player)
     }
 
-    fun getIndexCursorItem(inventory: Inventory): Int{
+    fun getIndexCursorItem(inventory: Inventory): Int {
         return cursorPosition.keys.toList().indexOf(inventory.first(cursorItem))
     }
 
-    fun fixAll(player: FnafUPlayer){
-        if (isAnyOfSystemRepair() or !cameraSystem.isBroken() or !audioSystem.isBroken() or !ventilationSystem.isBroken()) return
+    fun fixAll(player: FnafUPlayer) {
+        if (isAnyOfSystemRepair() or (!cameraSystem.isBroken() and !audioSystem.isBroken() and !ventilationSystem.isBroken())) return
         systemMenu.inventory.setItem(41, Items.REBOOT_ICON.item)
         audioSystem.repairingTask(player, systemMenu)
         cameraSystem.repairingTask(player, systemMenu)
         ventilationSystem.repairingTask(player, systemMenu)
+        audioSystem.setIsRepairing(true)
+        cameraSystem.setIsRepairing(true)
+        ventilationSystem.setIsRepairing(true)
     }
 
-    fun isAnyOfSystemRepair(): Boolean{
-        return audioSystem.isRepairing() or cameraSystem.isRepairing() or ventilationSystem.isRepairing()
+    fun isAnyOfSystemRepair(): Boolean {
+        return audioSystem.getIsRepairing() or cameraSystem.getIsRepairing() or ventilationSystem.getIsRepairing()
     }
 
     fun exitSystem(inventory: Inventory, player: FnafUPlayer) {
@@ -121,9 +124,11 @@ open class Systems : Resettable {
     }
 
     override fun reset() {
-        audioSystem.fix(systemMenu)
-        cameraSystem.fix(systemMenu)
-        ventilationSystem.fix(systemMenu)
+        if (this::systemMenu.isInitialized){
+            audioSystem.fix(systemMenu)
+            cameraSystem.fix(systemMenu)
+            ventilationSystem.fix(systemMenu)
+        }
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
             exitSystem(player.player.openInventory.topInventory , player)
             player.player.closeInventory()
