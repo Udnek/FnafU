@@ -22,6 +22,7 @@
   "sidebar.fnafu.audio_system": "Audio System",
   "sidebar.fnafu.ventilation_system": "Ventilation System",
   "sidebar.fnafu.camera_system": "Camera System",
+  "sidebar.fnafu.live_count": "Live Count: %s",
 
   "energy.fnafu.left": "Energy left",
   "energy.fnafu.usage": "Usage: ",

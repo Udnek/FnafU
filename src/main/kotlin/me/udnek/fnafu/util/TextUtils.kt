@@ -10,7 +10,7 @@ object TextUtils {
     fun getMapImage(offset: Int, size: Int, name: String): Component {
         return ComponentU.textWithNoSpaceSpaceFont(
             offset,
-            Component.translatable("fnafu.map.$name.image").font(Key.key("fnafu:camera")).color(TextColor.color(1f, 1f, 1f)),
+            Component.translatable("map.fnafu.$name.image").font(Key.key("fnafu:camera")).color(TextColor.color(1f, 1f, 1f)),
             size
         )
     }

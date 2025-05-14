@@ -43,7 +43,8 @@ abstract class System {
     }
 
     fun isBroken(): Boolean {return isBroken}
-    fun isRepairing(): Boolean {return isRepairing}
+    fun setIsRepairing(isRepairing: Boolean) {this.isRepairing = isRepairing}
+    fun getIsRepairing(): Boolean {return isRepairing}
 
     open fun startFix(player: FnafUPlayer, systemMenu: SystemMenu){
         if (!isBroken or isRepairing) return
