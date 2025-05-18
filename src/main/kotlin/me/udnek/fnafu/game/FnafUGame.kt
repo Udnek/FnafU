@@ -17,13 +17,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, CustomComponent<FnafUGame>> {
+
     val audioSystem: AudioSystem
     val cameraSystem: CameraSystem
     val ventilationSystem: VentilationSystem
     val systems: Systems
     val map: FnafUMap
-    fun findNearbyPlayers(location: Location, radius: Float): List<FnafUPlayer>
+    var survivorLives: Int
 
+    fun findNearbyPlayers(location: Location, radius: Float): List<FnafUPlayer>
+    fun updateSurvivorLives()
     fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer)
     fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair)
 }

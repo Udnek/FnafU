@@ -43,14 +43,12 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
 
     @MustBeInvokedByOverriders
     override fun stop(context: MGUCommandContext): MGUCommandType.ExecutionResult {
-        if (task == null) return MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "task is null")
-        if (task!!.isCancelled) return MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "task is cancelled")
         stop()
         return MGUCommandType.ExecutionResult.SUCCESS
     }
     @MustBeInvokedByOverriders
     open fun stop(){
-        task!!.cancel()
+        if (task != null) task?.cancel() ?: throw RuntimeException("dsadsa")
         isRunning = false
     }
 

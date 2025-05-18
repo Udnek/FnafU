@@ -1,13 +1,13 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/stars_on_ceil",
-		"particle": "block/stars_on_ceil"
+		"0": "fnafu:block/stars_on_ceil",
+		"particle": "fnafu:block/stars_on_ceil"
 	},
 	"elements": [
 		{
-			"from": [0, -12, 8],
-			"to": [16, 20, 8],
+			"from": [0, -16, 8],
+			"to": [16, 16, 8],
 			"faces": {
 				"north": {"uv": [0, 0, 8, 16], "texture": "#0"},
 				"east": {"uv": [0, 0, 0, 16], "texture": "#0"},
@@ -18,8 +18,8 @@
 			}
 		},
 		{
-			"from": [8, -12, 0],
-			"to": [8, 20, 16],
+			"from": [8, -16, 0],
+			"to": [8, 16, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, -8, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 16], "texture": "#0"},

@@ -30,6 +30,14 @@ class LocationSingle : LocationData {
         return first
     }
 
+    override fun getNearest(location: Location): Location {
+        return location
+    }
+
+    override fun getFarthest(location: Location): Location {
+        return location
+    }
+
     override fun setOrigin(origin: Location) {
         Preconditions.checkArgument(!frozen, "Location is frozen")
         location.setOrigin(origin)
@@ -49,6 +57,13 @@ class LocationSingle : LocationData {
             Preconditions.checkArgument(!frozen, "Location is frozen")
             val center = location.toCenterLocation()
             location.set(center.x, center.blockY.toDouble(), center.z)
+            return this
+        }
+
+    override val head: LocationSingle
+        get() {
+            Preconditions.checkArgument(!frozen, "LocationList is frozen")
+            location.add(0.0, 1.7, 0.0)
             return this
         }
 }

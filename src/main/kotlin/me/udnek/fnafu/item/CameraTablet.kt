@@ -19,7 +19,7 @@ class FullCameraTablet : ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(CameraComponent("main", Color.GREEN, NamedTextColor.GREEN))
+        components.set(CameraComponent("main_entrance", Color.GREEN, NamedTextColor.GREEN))
     }
 
     override fun getRawId(): String = "full_camera_tablet"
@@ -41,7 +41,7 @@ class CutCameraTablet : ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(CameraComponent("main", Color.WHITE, NamedTextColor.WHITE))
+        components.set(CameraComponent("main_entrance", Color.WHITE, NamedTextColor.WHITE))
     }
 
     override fun getRawId(): String = "cut_camera_tablet"

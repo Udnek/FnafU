@@ -61,7 +61,12 @@ open class CameraSystem : Resettable, Originable, System {
                             CustomModelData.customModelData().addFloat(camera.number.toFloat()).addColor(Color.GREEN))
                         topInventory.setItem(camera.tabletMenuPosition, item)
                     }
-                    else topInventory.setItem(it.tabletMenuPosition, CameraButton.getWithCamera(it, it.number))
+                    else {
+                        val item = CameraButton.getWithCamera(it, it.number)
+                        item.setData(DataComponentTypes.CUSTOM_MODEL_DATA,
+                            CustomModelData.customModelData().addFloat(it.number.toFloat()).addColor(Color.BLACK))
+                        topInventory.setItem(it.tabletMenuPosition, item)
+                    }
                 }
             }
         }.runTaskLater(FnafU.instance, 1)

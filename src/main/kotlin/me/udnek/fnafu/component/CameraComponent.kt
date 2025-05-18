@@ -3,7 +3,6 @@ package me.udnek.fnafu.component
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.KitMenu
 import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
@@ -44,7 +43,7 @@ open class CameraComponent : CustomComponent<CustomItem> {
     open fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
         event.item?.let {
             itemStack ->
-            event.player.getFnafU()?.let { player ->KitMenu().open(player.player)
+            event.player.getFnafU()?.let { player ->
                 player.game.cameraSystem.let { system ->
                     if (system.isBroken()) {
                         player.showNoise(noiseColor)
