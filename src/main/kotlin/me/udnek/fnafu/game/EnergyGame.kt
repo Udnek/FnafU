@@ -3,7 +3,6 @@ package me.udnek.fnafu.game
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
-import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.mechanic.*
 import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
@@ -34,13 +33,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     companion object {
         const val GAME_DURATION: Int = 60 * 20
         const val KIT_SETUP_DURATION: Long = 10 * 20
+        const val MAX_LIVES: Int = 5
     }
 
-    var survivorLives = 5
     var kitSetupTask: BukkitRunnable? = null
     val time: Time = Time(GAME_DURATION)
     val energy: Energy = Energy(this)
 
+    override var survivorLives = MAX_LIVES
     override var audioSystem = AudioSystem(this)
     override var cameraSystem = CameraSystem(this)
     override var ventilationSystem = VentilationSystem(this)
@@ -78,6 +78,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     override fun start() {
+        initializeBars()
         initializeTeams()
         val tSurvs = teamSurvivors!!
         val tAnims = teamAnimatronics!!
@@ -90,6 +91,9 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         tAnims.color(NamedTextColor.RED)
         tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
 
+        scoreboard.lines = mapOf(audioSystem.getSidebarView(), ventilationSystem.getSidebarView(), cameraSystem.getSidebarView())
+        updateSurvivorLives()
+
         for (player in playerContainer.getPlayers(false)) {
             player.reset()
 
@@ -99,11 +103,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> {
-                    player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
+                    player.teleport(map.getLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR)!!)
                     tSurvs.addPlayer(player.player)
                 }
                 FnafUPlayer.Type.ANIMATRONIC -> {
-                    player.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
+                    player.teleport(map.getLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC)!!)
                     tAnims.addPlayer(player.player)
                 }
             }
@@ -122,10 +126,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         energy.reset()
         winner = Winner.NONE
 
-        scoreboard.lines = mapOf(audioSystem.getSidebarView(), ventilationSystem.getSidebarView(), cameraSystem.getSidebarView())
-        updateSurvivorLives()
-
-        initializeBars()
+        showBossBarToAll(energyBar!!)
+        showBossBarToAll(timeBar!!)
 
         for (player in playerContainer.getPlayers(false)) {
             when (player.type) {
@@ -154,11 +156,10 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     private fun initializeBars() {
         energyBar =
             BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
-        showBossBarToAll(energyBar!!)
+        energyBar!!.addFlag(BossBar.Flag.CREATE_WORLD_FOG)
         updateEnergyBar()
         timeBar =
             BossBar.bossBar(Component.text(""), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
-        showBossBarToAll(timeBar!!)
         updateTimeBar()
     }
 
@@ -173,19 +174,19 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         energyBar = null
         timeBar = null
 
-
         map.reset()
         systems.reset()
         ventilationSystem.reset()
         audioSystem.reset()
 
         for (fnafUPlayer in players) {
+            fnafUPlayer.player.closeInventory()
             scoreboard.hide(fnafUPlayer.player)
             fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
             fnafUPlayer.reset()
         }
 
-        survivorLives = 5
+        survivorLives = MAX_LIVES
     }
 
     override fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer){
@@ -195,18 +196,15 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         }
 
         if (survivorLives == 0) {
-            victim.death()
             if (hasLivingSurvivors()) return
             winner = Winner.ANIMATRONICS
             stop()
             return
         }
 
-        survivorLives -= 1
-        victim.damage(map.getLocation(LocationType.RESPAWN_SURVIVOR)!! as LocationList)
-
+        victim.damage()
         updateSurvivorLives()
-        scoreboard.updateForAll()
+
     }
 
     fun hasLivingSurvivors(): Boolean {
@@ -245,7 +243,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             .decoration(TextDecoration.BOLD, true))
     }
 
-    private fun updateSurvivorLives() {
+    override fun updateSurvivorLives() {
         scoreboard.setLine(0, Component.translatable("sidebar.fnafu.live_count", Component.text(survivorLives)))
+        scoreboard.updateForAll()
     }
 }

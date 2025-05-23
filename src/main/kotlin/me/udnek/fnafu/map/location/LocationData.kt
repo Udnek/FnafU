@@ -10,6 +10,9 @@ interface LocationData : Originable {
     val size: Int
     val center: LocationData
     val centerFloor: LocationData
+    val head: LocationData
 
     fun get(n: Int): Location
+    fun getNearest(location: Location): Location
+    fun getFarthest(location: Location): Location
 }

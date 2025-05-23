@@ -26,7 +26,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
 
         object : BukkitRunnable(){
             override fun run() {
-                val origin = Location(Bukkit.getWorld("fnaf")!!, -224.0, 65.0, -3.0)
+                val origin = Location(Bukkit.getWorld("fnaf")!!, -159.0, 65.0, -34.0)
                 MGUManager.get().registerGame(
                     EnergyGame(Fnaf1PizzeriaMap(origin)))
             }

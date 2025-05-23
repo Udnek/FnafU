@@ -3,5 +3,7 @@ package me.udnek.fnafu.map
 enum class LocationType {
     SPAWN_ANIMATRONIC,
     SPAWN_SURVIVOR,
-    RESPAWN_SURVIVOR
+    RESPAWN_SURVIVOR,
+    PICK_STAGE_SPAWN_ANIMATRONIC,
+    PICK_STAGE_SPAWN_SURVIVOR
 }

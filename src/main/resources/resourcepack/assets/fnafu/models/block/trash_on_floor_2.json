@@ -1,8 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "block/trash_on_floor_1",
-	"textures": {
-		"0": "item/map",
-		"particle": "item/map"
-	}
-}

@@ -11,8 +11,8 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.component.Kit
 import me.udnek.fnafu.game.FnafUGame
+import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
-import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.player.MGUAbstractPlayer
 import me.udnek.itemscoreu.customsound.CustomSound
@@ -142,8 +142,15 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     fun setUp(){ kit.setUp(this) }
 
-    fun damage(location: LocationList) {
-        player.teleport(location.getFurthest(player.location))
+    fun damage() {
+        if (type != Type.SURVIVOR) return
+        if (game.survivorLives == 0){
+            this.death()
+            return
+        }
+        player.teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).getFarthest(player.location))
+        game.survivorLives -= 1
+        game.updateSurvivorLives()
     }
 
     fun death() {

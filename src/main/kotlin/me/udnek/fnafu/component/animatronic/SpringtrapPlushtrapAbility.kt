@@ -1,41 +1,30 @@
 package me.udnek.fnafu.component.animatronic
 
-import com.comphenix.protocol.PacketType
-import com.comphenix.protocol.ProtocolLibrary
-import com.comphenix.protocol.wrappers.WrappedDataValue
-import com.comphenix.protocol.wrappers.WrappedDataWatcher
-import com.comphenix.protocol.wrappers.WrappedWatchableObject
-import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
+import me.udnek.fnafu.entity.EntityTypes
+import me.udnek.fnafu.entity.plushtrap.Plushtrap
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Resettable
 import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityHolderComponent
 import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
 import me.udnek.itemscoreu.customcomponent.CustomComponent
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import org.bukkit.entity.Drowned
-import org.bukkit.entity.EntityType
-import org.bukkit.scheduler.BukkitRunnable
 
-open class SpringtrapPlustrapAbility : MGUAbilityInstance {
+
+open class SpringtrapPlushtrapAbility : MGUAbilityInstance, Resettable {
 
     companion object {
-        const val RUNNING_TIME: Int = 20 * 5
-        const val RUNNING_MULTIPLIER: Float = 0.2f
-        const val SEEK_TARGET_RADIUS: Float = 20f
-        const val NO_TARGET_DESPAWN_TIME: Int = 20 * 10
-
-        val DEFAULT = object : SpringtrapPlustrapAbility(){
+        val DEFAULT = object : SpringtrapPlushtrapAbility(){
             override fun activate(animatronic: FnafUPlayer) {
                 throwCanNotChangeDefault()
             }
         }
     }
 
-    private var plushtrap: Drowned? = null
-    val isSpawned: Boolean
-        get() = plushtrap != null && !plushtrap!!.isDead
+    private var plushtrap: Plushtrap? = null
+    var isSpawned: Boolean = false
 
-    private fun spawnPlushtrap(animatronic: FnafUPlayer) {
+    /*private fun spawnPlushtrap(animatronic: FnafUPlayer) {
         val location = animatronic.player.location
         location.pitch = 0f
         plushtrap = location.world.spawnEntity(location, EntityType.DROWNED) as Drowned
@@ -47,18 +36,19 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
                 glowPlushtrap(animatronic)
             }
         }.runTaskLater(FnafU.instance, 20)
-    }
+    }*/
 
     open fun activate(animatronic: FnafUPlayer) {
-        if (isSpawned) {
-            animatronic.player.sendMessage("ALREADY SPAWNED")
-            return
-        }
+        if (isSpawned) plushtrap!!.remove()
 
-        spawnPlushtrap(animatronic)
+        val location = animatronic.player.location
+        location.pitch = 0f
+        plushtrap = EntityTypes.PLUSHTRAP.spawnAndGet(location)
+        plushtrap!!.game = animatronic.game
+        plushtrap!!.ability = this
     }
 
-    private fun runPlushtrap(animatronic: FnafUPlayer) {
+    /*private fun runPlushtrap(animatronic: FnafUPlayer) {
         val direction = animatronic.player.location.direction.setY(0).multiply(RUNNING_MULTIPLIER)
         object : BukkitRunnable() {
             var runningTicks: Int = 0
@@ -112,13 +102,13 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
                 plushtrap.target = target!!.player
             }
         }.runTaskTimer(FnafU.instance, 0, 1)
-    }
+    }*/
 
-    private fun despawn(plushtrap: Drowned){
+    /*private fun despawn(plushtrap: Drowned){
         plushtrap.remove()
-    }
+    }*/
 
-    private fun canSee(target: FnafUPlayer): Boolean {
+    /*private fun canSee(target: FnafUPlayer): Boolean {
         val location = plushtrap!!.location
         val rayTraceResult =
             location.world.rayTraceBlocks(location, location.direction, location.distance(target.player.location))
@@ -167,28 +157,14 @@ open class SpringtrapPlustrapAbility : MGUAbilityInstance {
         packet.dataValueCollectionModifier.write(0, wrappedDataValueList)
 
         animatronic.sendPacket(packet)
-    }
+    }*/
 
     override fun getType(): CustomComponentType<out MGUAbilityHolderComponent, out CustomComponent<MGUAbilityHolderComponent>> {
-        return Abilities.SPECTATE_ENTITY
+        return Abilities.SPRINGTRAP_PLUSHTRAP
+    }
+
+    override fun reset() {
+        if (plushtrap != null) plushtrap!!.remove()
+        isSpawned = false
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
