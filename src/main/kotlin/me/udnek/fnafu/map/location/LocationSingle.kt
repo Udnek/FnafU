@@ -2,12 +2,13 @@ package me.udnek.fnafu.map.location
 
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.util.setOrigin
+import me.udnek.fnafu.util.toCenterFloor
 import org.bukkit.Location
 
 class LocationSingle : LocationData {
     private var frozen = false
 
-    private val location: Location
+    private var location: Location
 
     override val all: List<Location>
         get() = ArrayList(setOf(location))
@@ -55,8 +56,7 @@ class LocationSingle : LocationData {
     override val centerFloor: LocationSingle
         get() {
             Preconditions.checkArgument(!frozen, "Location is frozen")
-            val center = location.toCenterLocation()
-            location.set(center.x, center.blockY.toDouble(), center.z)
+            location = location.toCenterFloor()
             return this
         }
 

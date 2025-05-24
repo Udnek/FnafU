@@ -47,5 +47,6 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/entity.zombie/zombie.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/gui/sprites.boss_bar/yellow_progress.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/gui/sprites/boss_bar/yellow_background.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/gui/sprites/hud/experience_bar_background.png" charset="UTF-8" />
   </component>
 </project>

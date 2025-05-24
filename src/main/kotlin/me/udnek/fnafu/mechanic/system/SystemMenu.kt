@@ -25,16 +25,16 @@ class SystemMenu : ConstructableCustomInventory {
                 Items.DOWN_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.cursorDown(inventory) }
                 Items.UP_BUTTON ->  (event.whoClicked as Player).getFnafU()?.also { it.game.systems.cursorUp(inventory) }
                 Items.ENTER_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.enter(it, inventory) }
-                Items.SYSTEM_TABLET -> (event.whoClicked as Player).getFnafU()?.also {
+                Items.SYSTEM_TABLET, Items.EXIT_BUTTON -> (event.whoClicked as Player).getFnafU()?.also {
                     it.player.closeInventory()
-                    it.game.systems.exitSystem(inventory, it)
+                    it.game.systems.exitSystem(it)
                 }
             }
         }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.systems.exitSystem(inventory, it) }
+        (event.player as Player).getFnafU()?.also { it.game.systems.exitSystem(it) }
     }
 
     override fun getTitle(): Component? {

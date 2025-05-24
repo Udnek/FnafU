@@ -17,7 +17,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
     override fun onEnable() {
         instance = this
 
-        Components.CAMERA_COMPONENT
+        Components.TABLET_COMPONENT
         Items.FULL_CAMERA_TABLET
         Sounds.AMBIENCE_FNAF1
 

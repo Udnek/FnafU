@@ -9,6 +9,7 @@ import me.udnek.fnafu.mechanic.VentilationSystem
 import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -16,8 +17,12 @@ import org.bukkit.scheduler.BukkitRunnable
 
 open class Systems : Resettable {
 
+    companion object {
+        val STATION_BLOCK_TYPE = Material.BLUE_GLAZED_TERRACOTTA
+    }
+
     val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
-        9 to {player ->  audioSystem.startFix(player, systemMenu)},
+        9 to {player ->  audioSystem.destroy(systemMenu)},
         18 to {player ->  cameraSystem.startFix(player, systemMenu)},
         27 to {player ->  cameraSystem.destroy(systemMenu)},
         36 to {player ->  fixAll(player)})
@@ -28,7 +33,7 @@ open class Systems : Resettable {
     val enterButtons = listOf(15, 16, 17, 23, 24, 25, 26, 32, 33, 34, 35)
 
     private val playerInsideSystem = ArrayList<FnafUPlayer>()
-    private lateinit var systemMenu: SystemMenu
+    private var systemMenu: SystemMenu
     private var audioSystem: AudioSystem
     private var cameraSystem: CameraSystem
     private var ventilationSystem: VentilationSystem
@@ -37,6 +42,7 @@ open class Systems : Resettable {
         this.audioSystem = audioSystem
         this.cameraSystem = cameraSystem
         this.ventilationSystem = ventilationSystem
+        systemMenu = SystemMenu()
     }
 
     fun cursorUp(inventory: Inventory) {
@@ -89,18 +95,16 @@ open class Systems : Resettable {
         return audioSystem.getIsRepairing() or cameraSystem.getIsRepairing() or ventilationSystem.getIsRepairing()
     }
 
-    fun exitSystem(inventory: Inventory, player: FnafUPlayer) {
+    fun exitSystem(player: FnafUPlayer) {
         if (playerInsideSystem.isEmpty()) return
-        inventory.setItem(cursorPosition.keys.toList()[0], cursorItem)
-        inventory.setItem(getIndexCursorItem(inventory), ItemStack(Material.AIR))
+        /*inventory.setItem(getIndexCursorItem(inventory), ItemStack(Material.AIR))
+        inventory.setItem(cursorPosition.keys.toList()[0], cursorItem)*/
         playerInsideSystem.remove(player)
         player.kit.regive(player)
     }
 
     fun openMenu(player: FnafUPlayer) {
-        systemMenu = SystemMenu()
         val inventory = player.player.inventory
-
         for (i in upButtons) inventory.setItem(i, Items.UP_BUTTON.item)
         for (i in downButtons) inventory.setItem(i, Items.DOWN_BUTTON.item)
         for (i in enterButtons) inventory.setItem(i, Items.ENTER_BUTTON.item)
@@ -108,6 +112,7 @@ open class Systems : Resettable {
         val item = Items.SYSTEM_TABLET.item
         item.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents())
         item.setData(DataComponentTypes.HIDE_TOOLTIP)
+        item.setData(DataComponentTypes.ITEM_NAME, Component.empty())
         object : BukkitRunnable() {
             override fun run() {
                 for (i in 0..8) inventory.setItem(i, item)
@@ -124,13 +129,12 @@ open class Systems : Resettable {
     }
 
     override fun reset() {
-        if (this::systemMenu.isInitialized){
-            audioSystem.fix(systemMenu)
-            cameraSystem.fix(systemMenu)
-            ventilationSystem.fix(systemMenu)
-        }
+        audioSystem.fix(systemMenu)
+        cameraSystem.fix(systemMenu)
+        ventilationSystem.fix(systemMenu)
+
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
-            exitSystem(player.player.openInventory.topInventory , player)
+            exitSystem(player)
             player.player.closeInventory()
         }
     }

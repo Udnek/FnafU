@@ -3,6 +3,7 @@ package me.udnek.fnafu.mechanic
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.component.Kit
+import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
@@ -48,12 +49,14 @@ class KitMenu : ConstructableCustomInventory() {
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        if (event.reason != InventoryCloseEvent.Reason.TELEPORT) {
-            object : BukkitRunnable() { override fun run() {open(event.player as Player)} }.runTaskLater(FnafU.instance, 1)
+        (event.player as Player).getFnafU()?.also {
+            it.kit = kit ?: getFirstAllowedKit(it)
+            if (it.game.stage == FnafUGame.Stage.KIT) {
+                object : BukkitRunnable() { override fun run() {open(event.player as Player)} }.runTaskLater(FnafU.instance, 1)
+            }
         }
-        (event.player as Player).getFnafU()?.also { it.kit = kit ?: getFirstAllowedKit(it) }
     }
 
-    override fun getTitle(): Component? { return Component.text("глеб пидор") }
+    override fun getTitle(): Component? { return Component.text("Kit") }
     override fun getInventorySize(): Int { return 9 * 6 }
 }

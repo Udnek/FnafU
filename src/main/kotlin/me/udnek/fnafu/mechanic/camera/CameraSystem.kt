@@ -2,13 +2,11 @@ package me.udnek.fnafu.mechanic.camera
 
 import com.google.common.base.Preconditions
 import io.papermc.paper.datacomponent.DataComponentTypes
-import io.papermc.paper.datacomponent.item.CustomModelData
 import io.papermc.paper.datacomponent.item.Equippable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.game.EnergyGame
-import me.udnek.fnafu.item.CameraButton
 import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.mechanic.system.SystemMenu
 import me.udnek.fnafu.player.FnafUPlayer
@@ -17,7 +15,6 @@ import me.udnek.itemscoreu.custom.minigame.Originable
 import me.udnek.itemscoreu.customitem.CustomItem
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
@@ -50,27 +47,7 @@ open class CameraSystem : Resettable, Originable, System {
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
         val ability = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
-
-        object : BukkitRunnable(){
-            override fun run() {
-                val topInventory = player.player.openInventory.topInventory
-                cameras.forEach{
-                    if (it == camera) {
-                        val item = CameraButton.getWithCamera(camera, camera.number)
-                        item.setData(DataComponentTypes.CUSTOM_MODEL_DATA,
-                            CustomModelData.customModelData().addFloat(camera.number.toFloat()).addColor(Color.GREEN))
-                        topInventory.setItem(camera.tabletMenuPosition, item)
-                    }
-                    else {
-                        val item = CameraButton.getWithCamera(it, it.number)
-                        item.setData(DataComponentTypes.CUSTOM_MODEL_DATA,
-                            CustomModelData.customModelData().addFloat(it.number.toFloat()).addColor(Color.BLACK))
-                        topInventory.setItem(it.tabletMenuPosition, item)
-                    }
-                }
-            }
-        }.runTaskLater(FnafU.instance, 1)
-
+        cameraMenu.updateCameras(cameras, camera, cameraTablet)
         switchCameraOverlay(player, cameraTablet)
 
         val spectatingCamera = getSpectatingCamera(player)
@@ -138,8 +115,9 @@ open class CameraSystem : Resettable, Originable, System {
 
     private fun switchCameraOverlay(player: FnafUPlayer, item: ItemStack) {
         val inventory = player.player.inventory
-        val component = CustomItem.get(item)?.components?.getOrDefault(Components.CAMERA_COMPONENT) ?: return
+        val component = CustomItem.get(item)?.components?.getOrDefault(Components.TABLET_COMPONENT) ?: return
 
+        item.setData(DataComponentTypes.ITEM_NAME, Component.empty())
         object : BukkitRunnable() {
             override fun run() {
                 for (slot in 0..8) inventory.setItem(slot, item)
@@ -169,8 +147,8 @@ open class CameraSystem : Resettable, Originable, System {
         return this
     }
 
-    fun openMenu(player: FnafUPlayer) {
-        cameraMenu = CameraMenu(cameras, mapImage)
+    fun openMenu(player: FnafUPlayer, cameraTablet: ItemStack) {
+        cameraMenu = CameraMenu(cameras, mapImage, cameraTablet)
         cameraMenu.open(player.player)
     }
 

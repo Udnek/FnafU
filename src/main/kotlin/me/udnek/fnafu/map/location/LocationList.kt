@@ -2,6 +2,7 @@ package me.udnek.fnafu.map.location
 
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.util.setOrigin
+import me.udnek.fnafu.util.toCenterFloor
 import org.bukkit.Location
 import java.util.*
 
@@ -76,8 +77,8 @@ class LocationList : LocationData {
         get() {
             Preconditions.checkArgument(!frozen, "LocationList is frozen")
             for (location in locations) {
-                val center = location.toCenterLocation()
-                location[center.x, center.blockY.toDouble()] = center.z
+                val center = location.toCenterFloor()
+                location.set(center.x, center.y, center.z)
             }
             return this
         }

@@ -18,9 +18,9 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     companion object {
         const val RUNNING_TIME: Int = 20 * 5
         const val RUNNING_MULTIPLIER: Float = 0.2f
-        const val SEEK_TARGET_RADIUS: Float = 20f
+        const val SEEK_TARGET_RADIUS: Double = 20.0
         const val NO_TARGET_DESPAWN_TIME: Int = 20 * 10
-        const val KILL_TARGET_RADIUS: Float = 0.5f
+        const val KILL_TARGET_RADIUS: Double = 0.5
     }
 
     var step: Int = 0

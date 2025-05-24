@@ -1,6 +1,7 @@
 package me.udnek.fnafu.game
 
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.custom.minigame.game.MGUGameType
@@ -14,6 +15,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 
 
 object GameTypes {
@@ -36,16 +38,22 @@ object GameTypes {
         }
         @EventHandler
         fun onInteract(event: PlayerInteractEvent){
+            if (event.hand == EquipmentSlot.OFF_HAND) return
             val block = event.clickedBlock ?: return
-            if (!Tag.BUTTONS.isTagged(block.type)) return
-            if ((block.blockData as Powerable).isPowered) return
-            getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                player ->
-                if (player.type != FnafUPlayer.Type.SURVIVOR) return
-                for (pair in player.game.map.doors) {
-                    if (pair.hasButtonAt(block.location)) {
-                        player.game.onPlayerClicksDoorButton(event, player, pair)
+            if (Tag.BUTTONS.isTagged(block.type)) {
+                if ((block.blockData as Powerable).isPowered) return
+                getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
+                    if (it.type != FnafUPlayer.Type.SURVIVOR) return
+                    for (pair in it.game.map.doors) {
+                        if (pair.hasButtonAt(block.location)) {
+                            it.game.onPlayerClicksDoorButton(event, it, pair)
+                        }
                     }
+                }
+            } else if (block.type == Systems.STATION_BLOCK_TYPE){
+                getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
+                    if (it.type != FnafUPlayer.Type.SURVIVOR) return
+                    it.game.systems.openMenu(it)
                 }
             }
         }

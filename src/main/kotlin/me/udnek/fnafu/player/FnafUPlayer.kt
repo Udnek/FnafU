@@ -140,7 +140,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
             Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
     }
 
-    fun setUp(){ kit.setUp(this) }
+    fun setUp() = kit.setUp(this)
 
     fun damage() {
         if (type != Type.SURVIVOR) return

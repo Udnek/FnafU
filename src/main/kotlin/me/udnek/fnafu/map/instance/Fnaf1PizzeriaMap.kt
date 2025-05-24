@@ -7,6 +7,7 @@ import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.camera.Camera
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.door.Door
+import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.TextUtils
 import org.bukkit.Location
 
@@ -30,18 +31,20 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
         addDoor(ButtonDoorPair(6, 0, -10, Door.Direction.X, 4, 1, -11))
 
         cameras = listOf(
-            Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F),
-            Camera(LocationSingle(30.7, 2.2, 25.42, 70.12F, 32.89F).head, "backstage", 9, 0F),
-            Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "dining_area", 19, 0F),
-            Camera(LocationSingle(-21.3, 2.2, 12.3, 11.28F, 31.57F).head, "restrooms", 24, 0F),
-            Camera(LocationSingle(-34.7, 0.2, 4.3, -4.6F, 9.76F).head, "east_vent_corner", 35, 0F),
-            Camera(LocationSingle(23.7, 2.2, -5.7, 46.85F, 28.92F).head, "arcade_room", 37, 0F),
-            Camera(LocationSingle(3.7, 2.2, -3.7, 40.85F, 33.98F).head, "office", 40, 0F),
-            Camera(LocationSingle(-19.7, 2.2, -2.7, -40.58F, 26.75F).head, "kitchen", 42, 0F),
-            Camera(LocationSingle(3.3, 2.2, -14.7, -46.12F, 33.13F).head, "generator", 48, 0F),
-            Camera(LocationSingle(-8.7, 2.12, -8.7, -45.16F, 30.12F).head, "east_hall_corner", 50, 0F)
+            Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F, true),
+            Camera(LocationSingle(30.7, 2.2, 25.42, 70.12F, 32.89F).head, "backstage", 9, 0F, true),
+            Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "dining_area", 19, 0F, false),
+            Camera(LocationSingle(-21.3, 2.2, 12.3, 11.28F, 31.57F).head, "restrooms", 24, 0F, true),
+            Camera(LocationSingle(-34.7, 0.2, 4.3, -4.6F, 9.76F).head, "east_vent_corner", 35, 0F, false),
+            Camera(LocationSingle(23.7, 2.2, -5.7, 46.85F, 28.92F).head, "arcade_room", 37, 0F, false),
+            Camera(LocationSingle(3.7, 2.2, -3.7, 40.85F, 33.98F).head, "office", 40, 0F, false),
+            Camera(LocationSingle(-19.7, 2.2, -2.7, -40.58F, 26.75F).head, "kitchen", 42, 0F, false),
+            Camera(LocationSingle(3.3, 2.2, -14.7, -46.12F, 33.13F).head, "generator", 48, 0F, false),
+            Camera(LocationSingle(-8.7, 2.12, -8.7, -45.16F, 30.12F).head, "east_hall_corner", 50, 0F, true)
         )
 
         cameraImage = TextUtils.getMapImage(-8, 165, "fnaf1")
+
+        ambientSound = Sounds.AMBIENCE_FNAF1
     }
 }

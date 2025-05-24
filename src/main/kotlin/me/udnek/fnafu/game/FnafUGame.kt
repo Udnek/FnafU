@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, CustomComponent<FnafUGame>> {
 
+    val stage: Stage
     val audioSystem: AudioSystem
     val cameraSystem: CameraSystem
     val ventilationSystem: VentilationSystem
@@ -25,8 +26,15 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, Custo
     val map: FnafUMap
     var survivorLives: Int
 
-    fun findNearbyPlayers(location: Location, radius: Float): List<FnafUPlayer>
+    fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type? = null): List<FnafUPlayer>
     fun updateSurvivorLives()
     fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer)
     fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair)
+    override fun isRunning(): Boolean = stage != Stage.WAITING
+
+    enum class Stage {
+        WAITING,
+        KIT,
+        RUNNING
+    }
 }

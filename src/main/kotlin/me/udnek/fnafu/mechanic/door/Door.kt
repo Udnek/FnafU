@@ -2,6 +2,7 @@ package me.udnek.fnafu.mechanic.door
 
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.location.LocationSingle
+import me.udnek.fnafu.util.Sounds
 import me.udnek.itemscoreu.custom.minigame.Originable
 import org.bukkit.Location
 import org.bukkit.Material
@@ -37,6 +38,8 @@ open class Door(protected val location: LocationSingle, private val direction: D
         if (isClosed) return
         isClosed = true
 
+        Sounds.DOOR.play(location.first)
+
         val xStep = if (direction === Direction.X) 1 else 0
         val zStep = if (direction === Direction.X) 0 else 1
 
@@ -68,6 +71,8 @@ open class Door(protected val location: LocationSingle, private val direction: D
     fun open() {
         if (!isClosed) return
         isClosed = false
+
+        Sounds.DOOR.play(location.first)
 
         val xStep = if (direction === Direction.X) 1 else 0
         val zStep = if (direction === Direction.X) 0 else 1

@@ -10,6 +10,7 @@ import me.udnek.itemscoreu.customevent.ResourcepackInitializationEvent
 import me.udnek.itemscoreu.customitem.ConstructableCustomItem
 import me.udnek.itemscoreu.resourcepack.path.VirtualRpJsonFile
 import net.kyori.adventure.text.Component
+import org.bukkit.Color
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -20,15 +21,11 @@ class CameraButton : ConstructableCustomItem(), Listener {
     companion object {
         val PDC_KEY: NamespacedKey = NamespacedKey(FnafU.instance, "camera_id")
 
-        fun getWithCamera(camera: Camera, number: Int): ItemStack {
+        fun getWithCamera(camera: Camera, index: Int, color: Color): ItemStack {
             return Items.CAMERA_BUTTON.item.also {
-                item ->
-                item.editPersistentDataContainer {
-                    container -> container.set(PDC_KEY, PersistentDataType.STRING, camera.id)
-                }
-                item.setData(DataComponentTypes.ITEM_NAME, Component.text(camera.id))
-                val customModelData = CustomModelData.customModelData().addFloat(number.toFloat())
-                item.setData(DataComponentTypes.CUSTOM_MODEL_DATA, customModelData)
+                it.editPersistentDataContainer { container -> container.set(PDC_KEY, PersistentDataType.STRING, camera.id) }
+                it.setData(DataComponentTypes.ITEM_NAME, Component.text(camera.id))
+                it.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(index.toFloat()).addColor(color))
             }
         }
 

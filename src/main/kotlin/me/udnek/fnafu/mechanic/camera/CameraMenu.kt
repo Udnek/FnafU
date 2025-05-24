@@ -1,9 +1,9 @@
 package me.udnek.fnafu.mechanic.camera
 
-import io.papermc.paper.datacomponent.DataComponentTypes
-import io.papermc.paper.datacomponent.item.CustomModelData
+import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.item.CameraButton
 import me.udnek.fnafu.util.getCameraId
+import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
 import net.kyori.adventure.text.Component
@@ -11,19 +11,25 @@ import org.bukkit.Color
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.inventory.ItemStack
 
 open class CameraMenu : ConstructableCustomInventory{
     private var title: Component
 
-    constructor(cameras: List<Camera>, title: Component) : super() {
+    constructor(cameras: List<Camera>, title: Component, cameraTablet: ItemStack) : super() {
         this.title = title
-        for ((index, camera) in cameras.withIndex()) {
-            val item = CameraButton.getWithCamera(camera, index)
-            item.setData(DataComponentTypes.CUSTOM_MODEL_DATA,
-                CustomModelData.customModelData().addFloat(index.toFloat()).addColor(Color.BLACK))
-            inventory.setItem(camera.tabletMenuPosition, item)
+        updateCameras(cameras, null, cameraTablet)
+    }
+
+    fun updateCameras(cameras: List<Camera>, useCamera: Camera?, cameraTablet: ItemStack) {
+        val isCutTublet = cameraTablet.getCustom()?.components?.get(Components.TABLET_COMPONENT)?.isCut ?: return
+        for (camera in cameras) {
+            if (isCutTublet && !camera.isCut) continue
+            if (camera == useCamera) { inventory.setItem(useCamera.tabletMenuPosition, CameraButton.getWithCamera(useCamera, useCamera.number, Color.GREEN)) }
+            else { inventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(camera, camera.number, Color.BLACK)) }
         }
     }
+
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
         event.currentItem?.let {

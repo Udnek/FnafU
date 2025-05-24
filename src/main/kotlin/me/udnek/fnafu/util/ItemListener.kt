@@ -12,6 +12,6 @@ class ItemListener(plugin: Plugin) : SelfRegisteringListener(plugin) {
     fun onPlayerInteract(event: PlayerInteractEvent) {
         if (!event.action.isRightClick) return
         val customItem = CustomItem.get(event.item) ?: return
-        customItem.components.getOrDefault(Components.CAMERA_COMPONENT).onRightClick(customItem, event)
+        customItem.components.getOrDefault(Components.TABLET_COMPONENT).onRightClick(customItem, event)
     }
 }
