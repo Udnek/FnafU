@@ -4,13 +4,14 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-abstract class System {
+abstract class System : Resettable {
 
     abstract val game: EnergyGame
     abstract val sidebarPosition: Int
@@ -39,14 +40,15 @@ abstract class System {
     }
     open fun failedFix(systemMenu: SystemMenu){
         isRepairing = false
-        systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
+        systemMenu.inventory.setItem(41, ItemStack(Material.AIR))
+        if (isBroken()) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
 
     fun isBroken(): Boolean {return isBroken}
     fun setIsRepairing(isRepairing: Boolean) {this.isRepairing = isRepairing}
     fun getIsRepairing(): Boolean {return isRepairing}
 
-    open fun startFix(player: FnafUPlayer, systemMenu: SystemMenu){
+    open fun startFixing(player: FnafUPlayer, systemMenu: SystemMenu){
         if (!isBroken or isRepairing) return
         isRepairing = true
         systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
@@ -80,7 +82,7 @@ abstract class System {
     }
 
     fun getSidebarView(): Pair<Int, Component>{
-        return Pair(sidebarPosition, if (isBroken) sidebarComponent.append(Component.text("\u26A0")).color(NamedTextColor.RED)
+        return Pair(sidebarPosition, if (isBroken) sidebarComponent.append(Component.text(" \u26A0")).color(NamedTextColor.RED)
         else sidebarComponent.append(Component.text()).color(NamedTextColor.GREEN))
     }
 }

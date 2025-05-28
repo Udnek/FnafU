@@ -13,20 +13,23 @@ import net.kyori.adventure.key.Key
 import org.bukkit.NamespacedKey
 import org.bukkit.event.player.PlayerInteractEvent
 
-class Plushtrap : ConstructableCustomItem() {
+class BreakCameras: ConstructableCustomItem() {
+    override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
+        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "springtrap/ability/$rawId"))
+    override fun getRawId(): String = "break_cameras"
+
     override fun initializeComponents() {
         super.initializeComponents()
         components.set(AbilityIconFilesComponent(Kit.SPRINGTRAP))
-        components.set(object : RightClickableItem {
+        components.set(object : RightClickableItem{
             override fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
-                event.player.getFnafU()?.also {
-                    it.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_PLUSHTRAP).activate(it, event.item!!)
+                event.item?.let {
+                    event.player.getFnafU()?.let {
+                        it.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_CAMERA).activate(it, item)
+                    }
                 }
             }
         })
-    }
 
-    override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
-        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "springtrap/ability/$rawId"))
-    override fun getRawId(): String = "plushtrap"
+    }
 }

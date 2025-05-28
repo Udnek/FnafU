@@ -1,6 +1,7 @@
 package me.udnek.fnafu.component
 
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.component.survivor.TabletComponent
 import me.udnek.itemscoreu.customcomponent.ConstructableComponentType
 import me.udnek.itemscoreu.customcomponent.CustomComponentType
 import me.udnek.itemscoreu.customregistry.CustomRegistries

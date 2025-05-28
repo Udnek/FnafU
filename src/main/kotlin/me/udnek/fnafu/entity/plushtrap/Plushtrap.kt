@@ -47,13 +47,18 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         }
 
         if (noTargetTime >= NO_TARGET_DESPAWN_TIME) {
-            ability.isSpawned = false
+            ability.isActivated = false
             step = 0
             noTargetTime = 0
-            entity.remove()
+            remove()
         }
 
         step += tickDelay
+    }
+
+    override fun remove() {
+        ability.setBaseCooldown()
+        super.remove()
     }
 
     private fun damageNearestPlayers(){

@@ -76,8 +76,11 @@ open class CameraSystem : Resettable, Originable, System {
         spectateEntityAbility.spectatingEntity!!.remove()
         spectateEntityAbility.spectateSelf(player)
         setPlayerSpectatingCamera(player, null)
-        player.player.closeInventory()
+
         player.kit.regive(player)
+        val component = CustomItem.get(player.player.inventory.getItem(0))?.components?.getOrDefault(Components.TABLET_COMPONENT)?: return
+        player.showNoise(component.noiseColor)
+        player.player.closeInventory()
     }
 
     private fun cameraMovement(camera: Camera, cameraEntity: ArmorStand){
@@ -174,6 +177,13 @@ open class CameraSystem : Resettable, Originable, System {
     override fun destroy(systemMenu: SystemMenu) {
         reset()
         super.destroy(systemMenu)
+    }
+
+    override fun fix(systemMenu: SystemMenu) {
+        super.fix(systemMenu)
+        for (player in game.playerContainer.getAnimatronics(false)) {
+            player.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_CAMERA).fix()
+        }
     }
 
 }

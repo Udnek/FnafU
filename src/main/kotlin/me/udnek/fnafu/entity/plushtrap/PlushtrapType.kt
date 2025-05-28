@@ -22,7 +22,7 @@ class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEnt
         val plushtrap = super.spawnNewEntity(location)
         plushtrap.isAware = false
         plushtrap.setBaby()
-        plushtrap.getAttribute(Attribute.STEP_HEIGHT)!!.baseValue = 0.0
+        plushtrap.getAttribute(Attribute.STEP_HEIGHT)!!.baseValue = 0.5
         plushtrap.getAttribute(Attribute.JUMP_STRENGTH)!!.baseValue = 0.0
         if (plushtrap.isInsideVehicle) {
             val vehicle = plushtrap.vehicle

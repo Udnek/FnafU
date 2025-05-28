@@ -2,7 +2,7 @@ package me.udnek.fnafu.item
 
 import io.papermc.paper.datacomponent.item.CustomModelData
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.TabletComponent
+import me.udnek.fnafu.component.survivor.TabletComponent
 import me.udnek.itemscoreu.customitem.ConstructableCustomItem
 import me.udnek.itemscoreu.customitem.CustomItemProperties
 import net.kyori.adventure.key.Key

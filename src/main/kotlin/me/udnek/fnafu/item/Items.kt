@@ -21,6 +21,7 @@ object Items {
     val REBOOT_ICON: CustomItem = register(EmptyItem("reboot"))
 
     val PLUSHTRAP: CustomItem = register(Plushtrap())
+    val BREAK_CAMERAS: CustomItem = register(BreakCameras())
 
     private fun register(customItem: CustomItem): CustomItem {
         return CustomRegistries.ITEM.register(FnafU.instance, customItem)

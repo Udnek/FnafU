@@ -12,9 +12,12 @@ import org.bukkit.block.data.Powerable
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.LeavesDecayEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerDropItemEvent
+import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 
 
@@ -52,7 +55,7 @@ object GameTypes {
                 }
             } else if (block.type == Systems.STATION_BLOCK_TYPE){
                 getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                    if (it.type != FnafUPlayer.Type.SURVIVOR) return
+                    if (it.type != FnafUPlayer.Type.SURVIVOR && block.location.distance(it.player.location) < 1.5) return
                     it.game.systems.openMenu(it)
                 }
             }

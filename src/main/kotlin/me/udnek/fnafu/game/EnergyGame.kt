@@ -51,10 +51,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     val energy: Energy = Energy(this)
 
     override var survivorLives = MAX_LIVES
-    override var audioSystem = AudioSystem(this)
-    override var cameraSystem = CameraSystem(this)
-    override var ventilationSystem = VentilationSystem(this)
-    override var systems = Systems(audioSystem, cameraSystem, ventilationSystem)
+    override val systems = Systems(AudioSystem(this), CameraSystem(this), VentilationSystem(this))
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
@@ -65,9 +62,9 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     val scoreboard = CustomSidebar(id.asString(), Component.translatable("sidebar.fnafu.systems"))
 
     init {
-        map.cameras.forEach { cameraSystem.addCamera(it) }
-        cameraSystem.setOrigin(map.origin)
-        cameraSystem.setMapImage(map.cameraImage)
+        map.cameras.forEach { systems.camera.addCamera(it) }
+        systems.camera.setOrigin(map.origin)
+        systems.camera.setMapImage(map.cameraImage)
     }
 
     private fun isEveryNTicks(n: Int): Boolean {
@@ -87,7 +84,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
             for (animatronic in playerContainer.getAnimatronics(false)) {
-                if (animatronic.player.isSneaking) continue
+                if (animatronic.player.isSneaking && animatronic.player.walkSpeed != 0f) continue
                 for (survivor in playerContainer.getSurvivors(false)) {
                     Sounds.ANIMATRONIC_STEP.play(animatronic.player.location, survivor.player)
                 }
@@ -109,12 +106,13 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         tAnims.color(NamedTextColor.RED)
         tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
 
-        scoreboard.lines = mapOf(audioSystem.getSidebarView(), ventilationSystem.getSidebarView(), cameraSystem.getSidebarView())
+        scoreboard.lines = mapOf(systems.audio.getSidebarView(), systems.ventilation.getSidebarView(), systems.camera.getSidebarView())
         updateSurvivorLives()
 
         for (player in playerContainer.getPlayers(false)) {
             player.reset()
 
+            player.player.totalExperience = 0
             player.player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
             player.player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
                 AttributeModifier(NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER))
@@ -147,7 +145,9 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         winner = Winner.NONE
 
         showBossBarToAll(energyBar!!)
+        updateEnergyBar()
         showBossBarToAll(timeBar!!)
+        updateTimeBar()
 
         for (player in playerContainer.getPlayers(false)) {
             when (player.type) {
@@ -177,9 +177,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     private fun initializeBars() {
         energyBar = BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
         energyBar!!.addFlag(BossBar.Flag.CREATE_WORLD_FOG)
-        updateEnergyBar()
         timeBar = BossBar.bossBar(Component.text(""), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
-        updateTimeBar()
     }
 
     override fun stop(){
@@ -193,7 +191,9 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         energyBar = null
         timeBar = null
 
-        stopReset()
+        map.reset()
+        energy.reset()
+        systems.reset()
 
         for (fnafUPlayer in players) {
             map.ambientSound.stop(fnafUPlayer.player, SoundCategory.AMBIENT)
@@ -204,13 +204,6 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         }
 
         survivorLives = MAX_LIVES
-    }
-
-    private fun stopReset() {
-        map.reset()
-        systems.reset()
-        ventilationSystem.reset()
-        audioSystem.reset()
     }
 
     override fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer){

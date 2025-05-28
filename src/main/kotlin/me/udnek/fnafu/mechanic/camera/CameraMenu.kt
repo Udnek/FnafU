@@ -36,13 +36,13 @@ open class CameraMenu : ConstructableCustomInventory{
             val id = it.getCameraId() ?: return
 
             (event.whoClicked as Player).getFnafU()?.let {
-                it.game.cameraSystem.spectateCamera(it, id, it.player.inventory.getItem(1)!!)
+                it.game.systems.camera.spectateCamera(it, id, it.player.inventory.getItem(1)!!)
             }
         }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.let { it.game.cameraSystem.exitCamera(it) }
+        (event.player as Player).getFnafU()?.let { it.game.systems.camera.exitCamera(it) }
     }
 
     override fun getTitle(): Component? { return title }

@@ -1,7 +1,8 @@
-package me.udnek.fnafu.component
+package me.udnek.fnafu.component.survivor
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
+import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.util.getFnafU
 import me.udnek.itemscoreu.customcomponent.CustomComponent
@@ -27,7 +28,7 @@ open class TabletComponent : CustomComponent<CustomItem> {
     }
 
     companion object {
-        val EMPTY: TabletComponent = object : TabletComponent("",Color.WHITE, NamedTextColor.WHITE, false) {
+        val EMPTY: TabletComponent = object : TabletComponent("", Color.WHITE, NamedTextColor.WHITE, false) {
             override fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {  }
             override fun createGui(): ItemStack { throw RuntimeException("TabletComponent is default! Gui") }
         }
@@ -43,7 +44,7 @@ open class TabletComponent : CustomComponent<CustomItem> {
         event.item?.let {
             itemStack ->
             event.player.getFnafU()?.let { player ->
-                player.game.cameraSystem.let { system ->
+                player.game.systems.camera.let { system ->
                     if (system.isBroken()) {
                         player.showNoise(noiseColor)
                         return

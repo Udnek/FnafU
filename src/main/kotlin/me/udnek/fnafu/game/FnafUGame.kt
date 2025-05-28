@@ -1,9 +1,6 @@
 package me.udnek.fnafu.game
 
 import me.udnek.fnafu.map.FnafUMap
-import me.udnek.fnafu.mechanic.AudioSystem
-import me.udnek.fnafu.mechanic.VentilationSystem
-import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
@@ -19,9 +16,6 @@ import org.bukkit.event.player.PlayerInteractEvent
 interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, CustomComponent<FnafUGame>> {
 
     val stage: Stage
-    val audioSystem: AudioSystem
-    val cameraSystem: CameraSystem
-    val ventilationSystem: VentilationSystem
     val systems: Systems
     val map: FnafUMap
     var survivorLives: Int
