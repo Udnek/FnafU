@@ -1,10 +1,10 @@
 package me.udnek.fnafu.mechanic.system
 
+import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
-import me.udnek.itemscoreu.customitem.CustomItem
-import me.udnek.itemscoreu.util.ComponentU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -25,16 +25,16 @@ class SystemMenu : ConstructableCustomInventory {
                 Items.DOWN_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.cursorDown(inventory) }
                 Items.UP_BUTTON ->  (event.whoClicked as Player).getFnafU()?.also { it.game.systems.cursorUp(inventory) }
                 Items.ENTER_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.enter(it, inventory) }
-                Items.SYSTEM_TABLET -> (event.whoClicked as Player).getFnafU()?.also {
+                Items.SYSTEM_TABLET, Items.EXIT_BUTTON -> (event.whoClicked as Player).getFnafU()?.also {
                     it.player.closeInventory()
-                    it.game.systems.exitSystem(inventory, it)
+                    it.game.systems.exitSystem(it)
                 }
             }
         }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.systems.exitSystem(inventory, it) }
+        (event.player as Player).getFnafU()?.also { it.game.systems.exitSystem(it) }
     }
 
     override fun getTitle(): Component? {

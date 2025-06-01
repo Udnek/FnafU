@@ -1,17 +1,17 @@
 {
-  "ambience_fnaf1": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf1"] },
-  "ambience_fnaf2": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf2"] },
-  "door": { "subtitle": "subtitles.fnafu.door", "sounds": ["fnafu:door"] },
+  "ambience_fnaf1": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf1"], "type": "event" },
+  "ambience_fnaf2": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf2"], "type": "event" },
+  "door": { "subtitle": "subtitles.fnafu.door", "sounds": ["fnafu:door"], "type": "event" },
 
-  "animatronic_step": { "subtitle": "subtitles.fnafu.animatronic_step", "sounds": ["fnafu:animatronic_step/0", "fnafu:animatronic_step/1", "fnafu:animatronic_step/2"] },
+  "animatronic_step": { "subtitle": "subtitles.fnafu.animatronic_step", "sounds": ["fnafu:animatronic_step/0", "fnafu:animatronic_step/1", "fnafu:animatronic_step/2"], "type": "event" },
 
-  "freddy_laugh": { "subtitle": "subtitles.fnafu.freddy_laugh", "sounds": ["fnafu:freddy/laugh"] },
+  "freddy_laugh": { "subtitle": "subtitles.fnafu.freddy_laugh", "sounds": ["fnafu:freddy/laugh"], "type": "event" },
 
-  "springtrap_spawn": { "subtitle": "subtitles.fnafu.springtrap_spawn", "sounds": ["fnafu:springtrap/spawn"] },
-  "springtrap_rage_start": { "subtitle": "subtitles.fnafu.springtrap_rage_start", "sounds": ["fnafu:springtrap/rage_start"] },
-  "springtrap_rage_stop": { "subtitle": "subtitles.fnafu.springtrap_rage_stop", "sounds": ["fnafu:springtrap/rage_stop"] },
-  "springtrap_screamer": { "subtitle": "subtitles.fnafu.springtrap_screamer", "sounds": ["fnafu:springtrap/screamer"] },
+  "springtrap_spawn": { "subtitle": "subtitles.fnafu.springtrap_spawn", "sounds": ["fnafu:springtrap/spawn"], "type": "event" },
+  "springtrap_rage_start": { "subtitle": "subtitles.fnafu.springtrap_rage_start", "sounds": ["fnafu:springtrap/rage_start"], "type": "event" },
+  "springtrap_rage_stop": { "subtitle": "subtitles.fnafu.springtrap_rage_stop", "sounds": ["fnafu:springtrap/rage_stop"], "type": "event" },
+  "springtrap_jump_scare": { "subtitle": "subtitles.fnafu.springtrap_jump_scare", "sounds": ["fnafu:springtrap/jump_scare"], "type": "event" },
 
-  "plushtrap_run": { "subtitle": "subtitles.fnafu.plushtrap_run", "sounds": ["fnafu:springtrap/plushtrap/run"] },
-  "plushtrap_near": { "subtitle": "subtitles.fnafu.plushtrap_near", "sounds": ["fnafu:springtrap/plushtrap/near"] }
+  "plushtrap_run": { "subtitle": "subtitles.fnafu.plushtrap_run", "sounds": ["fnafu:springtrap/plushtrap/run"], "type": "event" },
+  "plushtrap_near": { "subtitle": "subtitles.fnafu.plushtrap_near", "sounds": ["fnafu:springtrap/plushtrap/near"], "type": "event" }
 }

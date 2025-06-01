@@ -37,7 +37,7 @@ class Energy(private val game: EnergyGame) : Resettable, Ticking {
         for (doorButtonPair in game.map.doors) {
             if (doorButtonPair.door.isClosed) closedAmount++
         }
-        usage = closedAmount
+        usage = closedAmount + 1
     }
 
     override fun reset() {

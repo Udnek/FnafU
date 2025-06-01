@@ -2,12 +2,13 @@ package me.udnek.fnafu.map.location
 
 import com.google.common.base.Preconditions
 import me.udnek.fnafu.util.setOrigin
+import me.udnek.fnafu.util.toCenterFloor
 import org.bukkit.Location
 
 class LocationSingle : LocationData {
     private var frozen = false
 
-    private val location: Location
+    private var location: Location
 
     override val all: List<Location>
         get() = ArrayList(setOf(location))
@@ -30,6 +31,14 @@ class LocationSingle : LocationData {
         return first
     }
 
+    override fun getNearest(location: Location): Location {
+        return location
+    }
+
+    override fun getFarthest(location: Location): Location {
+        return location
+    }
+
     override fun setOrigin(origin: Location) {
         Preconditions.checkArgument(!frozen, "Location is frozen")
         location.setOrigin(origin)
@@ -47,8 +56,14 @@ class LocationSingle : LocationData {
     override val centerFloor: LocationSingle
         get() {
             Preconditions.checkArgument(!frozen, "Location is frozen")
-            val center = location.toCenterLocation()
-            location.set(center.x, center.blockY.toDouble(), center.z)
+            location = location.toCenterFloor()
+            return this
+        }
+
+    override val head: LocationSingle
+        get() {
+            Preconditions.checkArgument(!frozen, "LocationList is frozen")
+            location.add(0.0, 1.7, 0.0)
             return this
         }
 }

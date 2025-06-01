@@ -1,6 +1,6 @@
 package me.udnek.fnafu.util
 
-import me.udnek.itemscoreu.util.ComponentU
+import me.udnek.coreu.util.ComponentU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor

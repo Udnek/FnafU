@@ -1,9 +1,10 @@
 package me.udnek.fnafu.util
 
+import me.udnek.coreu.mgu.MGUManager
+import me.udnek.coreu.mgu.Originable
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.fnafu.item.CameraButton
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.itemscoreu.custom.minigame.MGUManager
-import me.udnek.itemscoreu.custom.minigame.Originable
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -19,4 +20,14 @@ fun Location.setOrigin(origin: Location): Location {
 
 fun ItemStack.getCameraId(): String? {
     return CameraButton.getCameraId(this)
+}
+
+fun ItemStack.getCustom(): CustomItem? {
+    return CustomItem.get(this)
+}
+
+fun Location.toCenterFloor(): Location {
+    val center = this.toCenterLocation()
+    center.set(center.x, center.blockY.toDouble(), center.z)
+    return center
 }

@@ -1,20 +1,21 @@
 package me.udnek.fnafu.game
 
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentMap
+import me.udnek.coreu.mgu.command.MGUCommandContext
+import me.udnek.coreu.mgu.command.MGUCommandType
+import me.udnek.coreu.mgu.game.MGUAbstractGame
+import me.udnek.coreu.mgu.map.MGUMap
+import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
-import me.udnek.itemscoreu.custom.minigame.command.MGUCommandContext
-import me.udnek.itemscoreu.custom.minigame.command.MGUCommandType
-import me.udnek.itemscoreu.custom.minigame.game.MGUAbstractGame
-import me.udnek.itemscoreu.custom.minigame.map.MGUMap
-import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentMap
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 import org.jetbrains.annotations.MustBeInvokedByOverriders
 
@@ -24,12 +25,14 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
     val playerContainer: PlayerContainer = PlayerContainer()
     private var task: BukkitRunnable? = null
     protected var winner: Winner
+    override var stage: FnafUGame.Stage = FnafUGame.Stage.WAITING
+    override fun isRunning(): Boolean { return super<FnafUGame>.isRunning() }
 
     override fun getMap(): MGUMap = map
 
     @MustBeInvokedByOverriders
     open fun start(){
-        isRunning = true
+        stage = FnafUGame.Stage.RUNNING
         task = object : BukkitRunnable() {
             override fun run() { tick() }
         }
@@ -43,15 +46,13 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
 
     @MustBeInvokedByOverriders
     override fun stop(context: MGUCommandContext): MGUCommandType.ExecutionResult {
-        if (task == null) return MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "task is null")
-        if (task!!.isCancelled) return MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "task is cancelled")
         stop()
         return MGUCommandType.ExecutionResult.SUCCESS
     }
     @MustBeInvokedByOverriders
     open fun stop(){
-        task!!.cancel()
-        isRunning = false
+        if (task != null) task?.cancel() ?: throw RuntimeException("task is null")
+        stage = FnafUGame.Stage.WAITING
     }
 
 
@@ -93,17 +94,20 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         return debug
     }
 
-    override fun findNearbyPlayers(location: Location, radius: Float): List<FnafUPlayer> {
-        val nearbyEntities =
-            location.world.getNearbyEntities(location, radius.toDouble(), radius.toDouble(), radius.toDouble())
+    override fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type?): List<FnafUPlayer>{
+        val nearbyEntities = location.world.getNearbyEntities(location, radius, radius, radius)
         val players: MutableList<FnafUPlayer> = ArrayList()
         for (nearbyEntity in nearbyEntities) {
             if (nearbyEntity !is Player) continue
-            val fnafUPlayer = playerContainer.getPlayer(nearbyEntity)
-            if (fnafUPlayer != null) players.add(fnafUPlayer)
+            val fnafUPlayer = playerContainer.getPlayer(nearbyEntity) ?: continue
+            if (playerType == null || fnafUPlayer.type == playerType) players.add(fnafUPlayer)
         }
         return players
     }
+
+    override fun onPlayerLeave(event: PlayerQuitEvent, player: FnafUPlayer) {
+        /*player.createNPC()
+    */}
 
     override fun getPlayers(): MutableList<FnafUPlayer> = ArrayList(playerContainer.all)
 

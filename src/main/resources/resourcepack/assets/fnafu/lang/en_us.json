@@ -24,9 +24,9 @@
   "sidebar.fnafu.camera_system": "Camera System",
   "sidebar.fnafu.live_count": "Live Count: %s",
 
-  "energy.fnafu.left": "Energy left",
-  "energy.fnafu.usage": "Usage: ",
-  "energy.fnafu.image.0": "",
+  "container.fnafu.kit": "Kit Menu",
+
+  "energy.fnafu.bossbar": "Energy left: %s%% Usage: %s",
   "energy.fnafu.image.1": "\u00A7a1",
   "energy.fnafu.image.2": "\u00A7a11",
   "energy.fnafu.image.3": "\u00A7a11\u00A7e1",

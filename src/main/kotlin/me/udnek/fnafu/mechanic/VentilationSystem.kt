@@ -8,7 +8,7 @@ class VentilationSystem : Resettable, System {
     override val game: EnergyGame
     override val sidebarPosition: Int = 1
 
-    constructor(game: EnergyGame) : super(32, "sidebar.fnafu.ventilation_system") {
+    constructor(game: EnergyGame) : super(34, "sidebar.fnafu.ventilation_system") {
         this.game = game
     }
 

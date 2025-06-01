@@ -1,12 +1,13 @@
 package me.udnek.fnafu.map
 
 import com.google.common.base.Preconditions
+import me.udnek.coreu.custom.sound.CustomSound
+import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.mechanic.camera.Camera
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.door.Door
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.map.MGUMap
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import java.util.*
@@ -19,6 +20,7 @@ abstract class FnafUMap : MGUMap, Resettable {
     val doors: MutableList<ButtonDoorPair> = ArrayList()
     lateinit var cameras: List<Camera>
     lateinit var cameraImage: Component
+    lateinit var ambientSound: CustomSound
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())
