@@ -1,8 +1,8 @@
 package me.udnek.fnafu.item
 
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
-import me.udnek.itemscoreu.customitem.CustomItem
-import me.udnek.itemscoreu.customregistry.CustomRegistries
 
 object Items {
     val CAMERA_BUTTON: CustomItem = register(CameraButton())

@@ -1,12 +1,12 @@
 package me.udnek.fnafu.mechanic
 
+import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.component.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent

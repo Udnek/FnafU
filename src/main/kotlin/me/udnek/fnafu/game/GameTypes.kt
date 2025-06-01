@@ -1,21 +1,19 @@
 package me.udnek.fnafu.game
 
+import me.udnek.coreu.mgu.game.MGUGameType
+import me.udnek.coreu.custom.registry.AbstractRegistrable
+import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.custom.minigame.game.MGUGameType
-import me.udnek.itemscoreu.customregistry.AbstractRegistrable
-import me.udnek.itemscoreu.customregistry.CustomRegistries
 import org.bukkit.Tag
 import org.bukkit.block.data.Powerable
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.block.LeavesDecayEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -60,6 +58,20 @@ object GameTypes {
                 }
             }
         }
+        @EventHandler
+        fun onLeave(event: PlayerQuitEvent) {
+            getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
+                it.status = FnafUPlayer.Status.INACTIVE
+                it.game.onPlayerLeave(event, it)
+            }
+        }
+        /*@EventHandler
+        fun onJoin(event: PlayerJoinEvent) {
+            getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
+                it.status = FnafUPlayer.Status.INACTIVE
+                it.f
+            }
+        }*/
     })
 
     private fun register(type: MGUGameType): MGUGameType {

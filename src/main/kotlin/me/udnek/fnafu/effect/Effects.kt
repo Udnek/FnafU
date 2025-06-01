@@ -1,8 +1,8 @@
 package me.udnek.fnafu.effect
 
+import me.udnek.coreu.custom.effect.CustomEffect
+import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
-import me.udnek.itemscoreu.customeffect.CustomEffect
-import me.udnek.itemscoreu.customregistry.CustomRegistries
 
 object Effects {
     val STUN_EFFECT: CustomEffect = register(StunEffect())

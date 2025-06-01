@@ -1,7 +1,7 @@
 package me.udnek.fnafu.mechanic.door
 
+import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.map.location.LocationSingle
-import me.udnek.itemscoreu.custom.minigame.Originable
 import org.bukkit.Location
 
 class ButtonDoorPair(val door: Door, val button: DoorButton) : Originable {

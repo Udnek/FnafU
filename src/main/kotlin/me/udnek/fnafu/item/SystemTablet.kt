@@ -1,9 +1,9 @@
 package me.udnek.fnafu.item
 
+import me.udnek.coreu.custom.component.instance.RightClickableItem
+import me.udnek.coreu.custom.item.ConstructableCustomItem
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.customcomponent.instance.RightClickableItem
-import me.udnek.itemscoreu.customitem.ConstructableCustomItem
-import me.udnek.itemscoreu.customitem.CustomItem
 import org.bukkit.event.player.PlayerInteractEvent
 
 class SystemTablet: ConstructableCustomItem() {

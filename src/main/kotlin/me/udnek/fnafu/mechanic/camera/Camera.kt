@@ -1,7 +1,7 @@
 package me.udnek.fnafu.mechanic.camera
 
+import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.map.location.LocationSingle
-import me.udnek.itemscoreu.custom.minigame.Originable
 import org.bukkit.Location
 
 class Camera : Originable {

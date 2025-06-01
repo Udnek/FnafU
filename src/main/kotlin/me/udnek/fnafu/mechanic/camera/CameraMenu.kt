@@ -1,11 +1,11 @@
 package me.udnek.fnafu.mechanic.camera
 
+import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.item.CameraButton
 import me.udnek.fnafu.util.getCameraId
 import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.entity.Player

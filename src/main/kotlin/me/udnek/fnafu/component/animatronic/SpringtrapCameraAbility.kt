@@ -1,13 +1,13 @@
 package me.udnek.fnafu.component.animatronic
 
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.mgu.ability.MGUAbilityHolderComponent
+import me.udnek.coreu.mgu.ability.MGUAbilityInstance
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.AbilityCooldown
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityHolderComponent
-import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentType
 import org.bukkit.inventory.ItemStack
 
 
@@ -32,7 +32,7 @@ open class SpringtrapCameraAbility : MGUAbilityInstance, AbilityCooldown(20), Re
         systems.destroySystem(systems.camera)
     }
 
-    fun fix() {
+    fun repaired() {
         isActivated = false
         setBaseCooldown()
     }

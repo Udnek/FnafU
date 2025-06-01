@@ -1,15 +1,15 @@
 package me.udnek.fnafu.component
 
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.custom.registry.CustomRegistries
+import me.udnek.coreu.custom.registry.CustomRegistry
+import me.udnek.coreu.custom.registry.MappedCustomRegistry
+import me.udnek.coreu.custom.registry.Registrable
+import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import me.udnek.itemscoreu.customregistry.CustomRegistries
-import me.udnek.itemscoreu.customregistry.CustomRegistry
-import me.udnek.itemscoreu.customregistry.MappedCustomRegistry
-import me.udnek.itemscoreu.customregistry.Registrable
 
 interface Kit : CustomComponent<MGUPlayer>, Registrable{
 

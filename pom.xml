@@ -14,7 +14,7 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-        <lib.itemscoreu>H:\testFnaf\plugins\ItemsCoreU-1.0-SNAPSHOT-remapped.jar</lib.itemscoreu>
+        <lib.coreu>H:\testFnaf\plugins\CoreU-1.0-SNAPSHOT-remapped.jar</lib.coreu>
         <kotlin.version>2.1.20</kotlin.version>
     </properties>
 
@@ -59,6 +59,10 @@
                         <phase>none</phase>
                     </execution>
                 </executions>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -102,6 +106,11 @@
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/repository/public/</url>
         </repository>
+
+        <!--<repository>
+            <id>citizens-repo</id>
+            <url>https://maven.citizensnpcs.co/repo</url>
+        </repository>-->
     </repositories>
 
     <dependencies>
@@ -114,10 +123,10 @@
 
         <dependency>
             <groupId>me.udnek</groupId>
-            <artifactId>ItemsCoreU</artifactId>
+            <artifactId>CoreU</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${lib.itemscoreu}</systemPath>
+            <systemPath>${lib.coreu}</systemPath>
         </dependency>
 
         <dependency>
@@ -139,6 +148,20 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+<!--
+        <dependency>
+            <groupId>net.citizensnpcs</groupId>
+            <artifactId>citizens-main</artifactId>
+            <version>2.0.38-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
 
     </dependencies>
 </project>

@@ -22,9 +22,9 @@ open class Systems : Resettable {
     }
 
     private val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
-        9 to {player ->  audio.startFixing(player, systemMenu)},
-        18 to {player ->  camera.startFixing(player, systemMenu)},
-        27 to {player ->  ventilation.startFixing(player, systemMenu)},
+        9 to {player ->  audio.startRepairing(player, systemMenu)},
+        18 to {player ->  camera.startRepairing(player, systemMenu)},
+        27 to {player ->  ventilation.startRepairing(player, systemMenu)},
         36 to {player ->  fixAll(player)})
     private val cursorItem = Items.CURSOR_ICON.item
 
@@ -86,7 +86,7 @@ open class Systems : Resettable {
 
     fun fixAll(player: FnafUPlayer) {
         if (isAnyOfSystemsBeingRepaired()) return
-        systemMenu.inventory.setItem(41, Items.REBOOT_ICON.item)
+        systemMenu.inventory.setItem(System.REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
         all.forEach {
             it.repairingTask(player, systemMenu)
             it.setIsRepairing(true)
@@ -127,7 +127,7 @@ open class Systems : Resettable {
     override fun reset() {
         all.forEach {
             it.reset()
-            it.fix(systemMenu)
+            it.repaired(systemMenu)
         }
 
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {

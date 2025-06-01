@@ -1,8 +1,8 @@
 package me.udnek.fnafu.component
 
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.custom.registry.AbstractRegistrable
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.itemscoreu.customitem.CustomItem
-import me.udnek.itemscoreu.customregistry.AbstractRegistrable
 import org.bukkit.inventory.ItemStack
 
 open class ConstructableKit : Kit, AbstractRegistrable {

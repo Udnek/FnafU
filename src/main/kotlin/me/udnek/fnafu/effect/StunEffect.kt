@@ -1,7 +1,7 @@
 package me.udnek.fnafu.effect
 
+import me.udnek.coreu.custom.effect.ConstructableCustomEffect
 import me.udnek.fnafu.FnafU
-import me.udnek.itemscoreu.customeffect.ConstructableCustomEffect
 import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier

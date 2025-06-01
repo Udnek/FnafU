@@ -1,20 +1,21 @@
 package me.udnek.fnafu.game
 
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentMap
+import me.udnek.coreu.mgu.command.MGUCommandContext
+import me.udnek.coreu.mgu.command.MGUCommandType
+import me.udnek.coreu.mgu.game.MGUAbstractGame
+import me.udnek.coreu.mgu.map.MGUMap
+import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
-import me.udnek.itemscoreu.custom.minigame.command.MGUCommandContext
-import me.udnek.itemscoreu.custom.minigame.command.MGUCommandType
-import me.udnek.itemscoreu.custom.minigame.game.MGUAbstractGame
-import me.udnek.itemscoreu.custom.minigame.map.MGUMap
-import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentMap
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 import org.jetbrains.annotations.MustBeInvokedByOverriders
 
@@ -103,6 +104,10 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         }
         return players
     }
+
+    override fun onPlayerLeave(event: PlayerQuitEvent, player: FnafUPlayer) {
+        /*player.createNPC()
+    */}
 
     override fun getPlayers(): MutableList<FnafUPlayer> = ArrayList(playerContainer.all)
 

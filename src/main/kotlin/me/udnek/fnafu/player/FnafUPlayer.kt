@@ -7,6 +7,8 @@ import com.comphenix.protocol.wrappers.WrappedDataValue
 import com.comphenix.protocol.wrappers.WrappedDataWatcher
 import com.comphenix.protocol.wrappers.WrappedWatchableObject
 import it.unimi.dsi.fastutil.ints.IntArrayList
+import me.udnek.coreu.custom.sound.CustomSound
+import me.udnek.coreu.mgu.player.MGUAbstractPlayer
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.component.Kit
@@ -14,8 +16,6 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.player.MGUAbstractPlayer
-import me.udnek.itemscoreu.customsound.CustomSound
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -28,12 +28,19 @@ import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scoreboard.Team
+import java.lang.Byte
 import java.time.Duration
 import java.util.*
+import kotlin.Float
+import kotlin.Int
+import kotlin.String
+import kotlin.intArrayOf
 
 class FnafUPlayer(private val player: Player, val type: Type, private val game: FnafUGame) : MGUAbstractPlayer(player, game), Resettable {
 
-    var isAlive = true
+    var status: Status = Status.ALIVE
+    /*var cloneNPC: CitizensNPC? = null*/
     var kit: Kit
         set(value) = components.set(value)
         get() = components.getOrDefault(Components.KIT)
@@ -58,6 +65,13 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         )
         player.showTitle(titleData)
     }
+
+    fun getTeam(): Team? = game.getTeam(this)
+
+    /*fun createNPC() {
+        cloneNPC = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.player!!.name) as CitizensNPC
+        cloneNPC!!.spawn(player.player!!.location)
+    }*/
 
     fun playSound(location: Location, sound: CustomSound, range: Float) = sound.play(location, player, range/16f)
 
@@ -91,7 +105,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         realEntity.remove()
         watcher.setObject(
             0,
-            WrappedDataWatcher.Registry.get(java.lang.Byte::class.java),
+            WrappedDataWatcher.Registry.get(Byte::class.java),
             (0x40).toByte()
         ) //Set status to glowing, found on protocol page
         val wrappedDataValueList: MutableList<WrappedDataValue> = ArrayList()
@@ -148,25 +162,34 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
             this.death()
             return
         }
-        player.teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).getFarthest(player.location))
+        teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).getFarthest(player.location))
         game.survivorLives -= 1
         game.updateSurvivorLives()
     }
 
     fun death() {
-        isAlive = false
+        status = Status.DEAD
         player.gameMode = GameMode.SPECTATOR
+        game.mustWinAnimatronics()
     }
 
     override fun reset() {
+        status = Status.ALIVE
         player.inventory.clear()
         player.clearActivePotionEffects()
         player.getAttribute(Attribute.JUMP_STRENGTH)!!.removeModifier(NamespacedKey(FnafU.instance, "game_js"))
+        abilities.forEach { (it as? Resettable)?.reset() }
     }
 
     enum class Type {
         SURVIVOR,
         ANIMATRONIC
+    }
+
+    enum class Status {
+        ALIVE,
+        DEAD,
+        INACTIVE
     }
 
 }

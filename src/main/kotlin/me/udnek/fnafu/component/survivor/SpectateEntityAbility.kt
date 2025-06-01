@@ -3,12 +3,12 @@ package me.udnek.fnafu.component.survivor
 
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.mgu.ability.MGUAbilityHolderComponent
+import me.udnek.coreu.mgu.ability.MGUAbilityInstance
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityHolderComponent
-import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentType
 import org.bukkit.entity.Entity
 
 open class SpectateEntityAbility : MGUAbilityInstance {

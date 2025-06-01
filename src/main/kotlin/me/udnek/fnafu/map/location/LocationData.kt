@@ -1,6 +1,6 @@
 package me.udnek.fnafu.map.location
 
-import me.udnek.itemscoreu.custom.minigame.Originable
+import me.udnek.coreu.mgu.Originable
 import org.bukkit.Location
 
 interface LocationData : Originable {

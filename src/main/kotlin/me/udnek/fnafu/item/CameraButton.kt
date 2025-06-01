@@ -3,12 +3,12 @@ package me.udnek.fnafu.item
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
+import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
+import me.udnek.coreu.custom.event.ResourcepackInitializationEvent
+import me.udnek.coreu.custom.item.ConstructableCustomItem
+import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.mechanic.camera.Camera
-import me.udnek.itemscoreu.customcomponent.instance.AutoGeneratingFilesItem
-import me.udnek.itemscoreu.customevent.ResourcepackInitializationEvent
-import me.udnek.itemscoreu.customitem.ConstructableCustomItem
-import me.udnek.itemscoreu.resourcepack.path.VirtualRpJsonFile
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.NamespacedKey

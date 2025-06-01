@@ -1,10 +1,10 @@
 package me.udnek.fnafu.mechanic.system
 
+import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.custominventory.ConstructableCustomInventory
-import me.udnek.itemscoreu.customitem.CustomItem
-import me.udnek.itemscoreu.util.ComponentU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor

@@ -1,15 +1,15 @@
 package me.udnek.fnafu.component.animatronic
 
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.mgu.ability.MGUAbilityHolderComponent
+import me.udnek.coreu.mgu.ability.MGUAbilityInstance
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.entity.plushtrap.Plushtrap
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.AbilityCooldown
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityHolderComponent
-import me.udnek.itemscoreu.custom.minigame.ability.MGUAbilityInstance
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentType
 import org.bukkit.inventory.ItemStack
 
 
@@ -34,6 +34,11 @@ open class SpringtrapPlushtrapAbility : MGUAbilityInstance, Resettable, AbilityC
         plushtrap = EntityTypes.PLUSHTRAP.spawnAndGet(location)
         plushtrap!!.game = animatronic.game
         plushtrap!!.ability = this
+        animatronic.getTeam()?.addEntity(plushtrap!!.real)
+    }
+
+    fun remove() {
+        plushtrap = null
     }
 
     override fun getType(): CustomComponentType<out MGUAbilityHolderComponent, out CustomComponent<MGUAbilityHolderComponent>> {
@@ -41,7 +46,8 @@ open class SpringtrapPlushtrapAbility : MGUAbilityInstance, Resettable, AbilityC
     }
 
     override fun reset() {
-        if (plushtrap != null) plushtrap!!.remove()
-        isActivated = false
+        plushtrap?.remove()
+        remove()
+        setCooldown(0)
     }
 }

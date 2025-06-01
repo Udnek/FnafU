@@ -3,6 +3,8 @@ package me.udnek.fnafu.mechanic.camera
 import com.google.common.base.Preconditions
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.Equippable
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.component.Components
@@ -11,8 +13,6 @@ import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.mechanic.system.SystemMenu
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
-import me.udnek.itemscoreu.custom.minigame.Originable
-import me.udnek.itemscoreu.customitem.CustomItem
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -179,10 +179,10 @@ open class CameraSystem : Resettable, Originable, System {
         super.destroy(systemMenu)
     }
 
-    override fun fix(systemMenu: SystemMenu) {
-        super.fix(systemMenu)
+    override fun repaired(systemMenu: SystemMenu) {
+        super.repaired(systemMenu)
         for (player in game.playerContainer.getAnimatronics(false)) {
-            player.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_CAMERA).fix()
+            player.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_CAMERA).repaired()
         }
     }
 

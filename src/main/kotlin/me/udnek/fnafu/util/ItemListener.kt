@@ -1,8 +1,8 @@
 package me.udnek.fnafu.util
 
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.util.SelfRegisteringListener
 import me.udnek.fnafu.component.Components
-import me.udnek.itemscoreu.customitem.CustomItem
-import me.udnek.itemscoreu.util.SelfRegisteringListener
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.Plugin

@@ -2,19 +2,20 @@ package me.udnek.fnafu.component.survivor
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
+import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.custom.item.CustomItemComponent
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.customcomponent.CustomComponent
-import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import me.udnek.itemscoreu.customitem.CustomItem
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
-open class TabletComponent : CustomComponent<CustomItem> {
+open class TabletComponent : CustomItemComponent {
     val startCameraID: String
     val guiColor: Color
     val noiseColor: TextColor

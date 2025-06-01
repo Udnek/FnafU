@@ -1,7 +1,7 @@
 package me.udnek.fnafu.item
 
-import me.udnek.itemscoreu.customitem.ConstructableCustomItem
-import me.udnek.itemscoreu.customitem.CustomItemProperties
+import me.udnek.coreu.custom.item.ConstructableCustomItem
+import me.udnek.coreu.custom.item.CustomItemProperties
 import net.kyori.adventure.key.Key
 
 class EmptyItem(private var name: String): ConstructableCustomItem() {

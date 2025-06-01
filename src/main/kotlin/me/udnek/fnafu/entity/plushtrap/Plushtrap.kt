@@ -1,12 +1,16 @@
 package me.udnek.fnafu.entity.plushtrap
 
+import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntity
+import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
+import me.udnek.coreu.nms.Nms
 import me.udnek.fnafu.component.animatronic.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.customentitylike.entity.ConstructableCustomEntity
-import me.udnek.itemscoreu.customentitylike.entity.CustomTickingEntityType
+import org.bukkit.FluidCollisionMode
+import org.bukkit.Location
+import org.bukkit.Particle
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -27,36 +31,55 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     var noTargetTime: Int = 0
     lateinit var game: FnafUGame
     lateinit var ability: SpringtrapPlushtrapAbility
+    var target: FnafUPlayer? = null
 
     override fun delayedTick() {
+        damageNearestPlayers()
         if (step < RUNNING_TIME){
-            damageNearestPlayers()
             entity.velocity = entity.location.direction.setY(0).multiply(RUNNING_MULTIPLIER)
         } else if (step == RUNNING_TIME) {
             entity.velocity = Vector()
         } else {
-            val player = nearestVisiblePlayer()
-            if (player == null) {
-                noTargetTime += tickDelay
-                entity.isAware = false
+            if (target != null && getDistanceToVisibleSurvivor(target!!) != null){
+                target(target!!)
             } else {
-                noTargetTime = 0
-                entity.isAware = true
-                entity.target = player.player
+                val player = findNearestVisibleSurvivor()
+                if (player == null) noTarget()
+                else target(player)
+            }
+            print(target)
+            if (target != null) {
+                val distanceToVisibleSurvivor = getDistanceToVisibleSurvivor(target!!)
+                print(distanceToVisibleSurvivor)
             }
         }
 
-        if (noTargetTime >= NO_TARGET_DESPAWN_TIME) {
-            ability.isActivated = false
-            step = 0
-            noTargetTime = 0
-            remove()
-        }
+        if (noTargetTime >= NO_TARGET_DESPAWN_TIME) remove()
 
         step += tickDelay
     }
 
+    private fun noTarget() {
+        Nms.get().stop(entity)
+        noTargetTime += tickDelay
+        entity.isAware = false
+        target = null
+    }
+
+    private fun target(player: FnafUPlayer) {
+        noTargetTime = 0
+        Nms.get().follow(entity, player.player)
+        if (target != player) {
+            entity.isAware = true
+            target = player
+        }
+    }
+
     override fun remove() {
+        ability.isActivated = false
+        ability.remove()
+        step = 0
+        noTargetTime = 0
         ability.setBaseCooldown()
         super.remove()
     }
@@ -65,25 +88,38 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         game.findNearbyPlayers(entity.location, KILL_TARGET_RADIUS).forEach { it.damage() }
     }
 
-    private fun nearestVisiblePlayer() : FnafUPlayer? {
+    private fun findNearestVisibleSurvivor() : FnafUPlayer? {
         val visiblePlayers = HashMap<Double, FnafUPlayer>()
         for (player in game.findNearbyPlayers(entity.location, SEEK_TARGET_RADIUS)) {
             if (player.type != FnafUPlayer.Type.SURVIVOR) continue
-
-            val targetEyeLocation = player.player.eyeLocation
-            val entityEyeLocation = entity.eyeLocation
-            val distance = entityEyeLocation.distance(targetEyeLocation)
-            val rayTraceResult = entity.world.rayTraceEntities(entityEyeLocation, targetEyeLocation.toVector().subtract(entityEyeLocation.toVector()).normalize(),
-                distance) ?: return null
-
-            if (rayTraceResult.hitBlock != null) continue
-            visiblePlayers.put(distance, player)
+            visiblePlayers.put(getDistanceToVisibleSurvivor(player)?: continue, player)
         }
         return visiblePlayers.minByOrNull { it.key }?.value
     }
 
+    fun getDistanceToVisibleSurvivor(player: FnafUPlayer): Double? {
+        val targetEyeLocation = player.player.eyeLocation
+        val entityEyeLocation = entity.eyeLocation
+        val distance = entityEyeLocation.distance(targetEyeLocation)
+        debag(entityEyeLocation, targetEyeLocation.toVector().subtract(entityEyeLocation.toVector()).normalize())
+        val rayTraceResult = entity.world.rayTrace(entityEyeLocation, targetEyeLocation.toVector().subtract(entityEyeLocation.toVector()).normalize(),
+            distance, FluidCollisionMode.NEVER, true, 0.0, null) ?: return null
+
+        if (rayTraceResult.hitBlock == null) return distance
+        return null
+    }
+
+    fun debag(startLocation: Location, direction: Vector) {
+        val particle = Particle.SMALL_GUST
+        for (i in 1..7) {
+            val k = i / 2
+            val point = startLocation.clone().add(direction.clone().multiply(k));
+            startLocation.world.spawnParticle(particle, point, 1)
+        }
+    }
+
     fun onEntityHit(event: EntityDamageByEntityEvent) {
-        if (event.entity is Player) (event.entity as Player).getFnafU()?.also { it.damage() }
+        (event.entity as? Player)?.getFnafU()?.also { it.damage() }
         event.isCancelled = true
     }
 

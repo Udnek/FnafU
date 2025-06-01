@@ -1,14 +1,14 @@
 package me.udnek.fnafu.item
 
+import me.udnek.coreu.custom.component.instance.RightClickableItem
+import me.udnek.coreu.custom.item.ConstructableCustomItem
+import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.Abilities
 import me.udnek.fnafu.component.AbilityIconFilesComponent
 import me.udnek.fnafu.component.Kit
 import me.udnek.fnafu.util.getFnafU
-import me.udnek.itemscoreu.customcomponent.instance.RightClickableItem
-import me.udnek.itemscoreu.customitem.ConstructableCustomItem
-import me.udnek.itemscoreu.customitem.CustomItem
-import me.udnek.itemscoreu.customitem.CustomItemProperties
 import net.kyori.adventure.key.Key
 import org.bukkit.NamespacedKey
 import org.bukkit.event.player.PlayerInteractEvent

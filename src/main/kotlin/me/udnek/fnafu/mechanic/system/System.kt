@@ -12,6 +12,10 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
 abstract class System : Resettable {
+    
+    companion object {
+        const val REBOOT_ALL_ICON_POSITION = 41
+    }
 
     abstract val game: EnergyGame
     abstract val sidebarPosition: Int
@@ -31,16 +35,16 @@ abstract class System : Resettable {
         isBroken = true
         updateSidebar()
     }
-    open fun fix(systemMenu: SystemMenu){
+    open fun repaired(systemMenu: SystemMenu){
         systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
-        systemMenu.inventory.setItem(41, ItemStack(Material.AIR))
+        systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         isBroken = false
         isRepairing = false
         updateSidebar()
     }
-    open fun failedFix(systemMenu: SystemMenu){
+    open fun failedRepairing(systemMenu: SystemMenu){
         isRepairing = false
-        systemMenu.inventory.setItem(41, ItemStack(Material.AIR))
+        systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         if (isBroken()) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
 
@@ -48,7 +52,7 @@ abstract class System : Resettable {
     fun setIsRepairing(isRepairing: Boolean) {this.isRepairing = isRepairing}
     fun getIsRepairing(): Boolean {return isRepairing}
 
-    open fun startFixing(player: FnafUPlayer, systemMenu: SystemMenu){
+    open fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu){
         if (!isBroken or isRepairing) return
         isRepairing = true
         systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
@@ -58,16 +62,16 @@ abstract class System : Resettable {
 
     open fun repairingTask(player: FnafUPlayer, systemMenu: SystemMenu){
         object : BukkitRunnable(){
-            var tyme = 0
+            var time = 0
             override fun run() {
                 if (!systemMenu.isOpened(player.player)){
-                    failedFix(systemMenu)
+                    failedRepairing(systemMenu)
                     cancel()
                     return
                 }
-                tyme += 10
-                if (tyme >= fixTime){
-                    fix(systemMenu)
+                time += 10
+                if (time >= fixTime){
+                    repaired(systemMenu)
                     cancel()
                     return
                 }

@@ -1,13 +1,13 @@
 package me.udnek.fnafu
 
+import me.udnek.coreu.mgu.MGUManager
+import me.udnek.coreu.resourcepack.ResourcePackablePlugin
 import me.udnek.fnafu.component.Components
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
 import me.udnek.fnafu.util.ItemListener
 import me.udnek.fnafu.util.Sounds
-import me.udnek.itemscoreu.custom.minigame.MGUManager
-import me.udnek.itemscoreu.resourcepack.ResourcePackablePlugin
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.plugin.java.JavaPlugin

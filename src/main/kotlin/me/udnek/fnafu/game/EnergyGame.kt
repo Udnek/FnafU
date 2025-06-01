@@ -1,5 +1,9 @@
 package me.udnek.fnafu.game
 
+import me.udnek.coreu.custom.sidebar.CustomSidebar
+import me.udnek.coreu.mgu.game.MGUGameType
+import me.udnek.coreu.mgu.player.MGUPlayer
+import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.map.FnafUMap
@@ -11,10 +15,6 @@ import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.toCenterFloor
-import me.udnek.itemscoreu.custom.minigame.game.MGUGameType
-import me.udnek.itemscoreu.custom.minigame.player.MGUPlayer
-import me.udnek.itemscoreu.custom.sidebar.CustomSidebar
-import me.udnek.itemscoreu.util.Utils
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -212,19 +212,18 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             return
         }
 
-        if (survivorLives == 0) {
-            if (hasLivingSurvivors()) return
-            winner = Winner.ANIMATRONICS
-            stop()
-            return
-        }
+        if (!mustWinAnimatronics()) victim.damage()
+    }
 
-        victim.damage()
-        updateSurvivorLives()
+    override fun mustWinAnimatronics(): Boolean {
+        if (survivorLives != 0 || hasLivingSurvivors()) return false
+        winner = Winner.ANIMATRONICS
+        stop()
+        return true
     }
 
     fun hasLivingSurvivors(): Boolean {
-        players.forEach { if (it.isAlive and (it.type == FnafUPlayer.Type.SURVIVOR)) return true }
+        players.forEach { if (it.status != FnafUPlayer.Status.DEAD && it.type == FnafUPlayer.Type.SURVIVOR) return true }
         return false
     }
 
@@ -273,5 +272,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     override fun updateSurvivorLives() {
         scoreboard.setLine(0, Component.translatable("sidebar.fnafu.live_count", Component.text(survivorLives)))
         scoreboard.updateForAll()
+    }
+
+    override fun getTeam(fnafUPlayer: FnafUPlayer): Team? {
+        if (teamSurvivors?.hasPlayer(fnafUPlayer.player) ?: false) return teamSurvivors!!
+        if (teamAnimatronics?.hasPlayer(fnafUPlayer.player) ?: false) return teamAnimatronics!!
+        return null
     }
 }

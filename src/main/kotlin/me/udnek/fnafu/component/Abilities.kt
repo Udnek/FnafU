@@ -1,12 +1,12 @@
 package me.udnek.fnafu.component
 
+import me.udnek.coreu.custom.component.ConstructableComponentType
+import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.animatronic.SpringtrapCameraAbility
 import me.udnek.fnafu.component.animatronic.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.component.survivor.SpectateEntityAbility
-import me.udnek.itemscoreu.customcomponent.ConstructableComponentType
-import me.udnek.itemscoreu.customcomponent.CustomComponentType
-import me.udnek.itemscoreu.customregistry.CustomRegistries
 
 object Abilities {
 

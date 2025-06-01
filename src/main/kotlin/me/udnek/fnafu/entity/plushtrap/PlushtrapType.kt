@@ -1,8 +1,8 @@
 package me.udnek.fnafu.entity.plushtrap
 
+import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntityType
+import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.fnafu.entity.EntityTypes
-import me.udnek.itemscoreu.customentitylike.entity.ConstructableCustomEntityType
-import me.udnek.itemscoreu.customentitylike.entity.CustomTickingEntityType
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Drowned
@@ -11,6 +11,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.loot.LootTables
 
 class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEntityType<Plushtrap>, Listener {
 
@@ -24,6 +25,8 @@ class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEnt
         plushtrap.setBaby()
         plushtrap.getAttribute(Attribute.STEP_HEIGHT)!!.baseValue = 0.5
         plushtrap.getAttribute(Attribute.JUMP_STRENGTH)!!.baseValue = 0.0
+        plushtrap.equipment.clear()
+        plushtrap.lootTable = LootTables.BEE.lootTable
         if (plushtrap.isInsideVehicle) {
             val vehicle = plushtrap.vehicle
             plushtrap.leaveVehicle()
