@@ -10,7 +10,7 @@
   "springtrap_spawn": { "subtitle": "subtitles.fnafu.springtrap_spawn", "sounds": ["fnafu:springtrap/spawn"], "type": "event" },
   "springtrap_rage_start": { "subtitle": "subtitles.fnafu.springtrap_rage_start", "sounds": ["fnafu:springtrap/rage_start"], "type": "event" },
   "springtrap_rage_stop": { "subtitle": "subtitles.fnafu.springtrap_rage_stop", "sounds": ["fnafu:springtrap/rage_stop"], "type": "event" },
-  "springtrap_screamer": { "subtitle": "subtitles.fnafu.springtrap_screamer", "sounds": ["fnafu:springtrap/screamer"], "type": "event" },
+  "springtrap_jump_scare": { "subtitle": "subtitles.fnafu.springtrap_jump_scare", "sounds": ["fnafu:springtrap/jump_scare"], "type": "event" },
 
   "plushtrap_run": { "subtitle": "subtitles.fnafu.plushtrap_run", "sounds": ["fnafu:springtrap/plushtrap/run"], "type": "event" },
   "plushtrap_near": { "subtitle": "subtitles.fnafu.plushtrap_near", "sounds": ["fnafu:springtrap/plushtrap/near"], "type": "event" }
