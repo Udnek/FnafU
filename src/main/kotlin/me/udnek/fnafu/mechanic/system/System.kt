@@ -19,8 +19,10 @@ abstract class System : Resettable {
 
     abstract val game: EnergyGame
     abstract val sidebarPosition: Int
-    private var isBroken = false
-    private var isRepairing = false
+    var isBroken = false
+        protected set
+    var isRepairing = false
+        protected set
     private val fixTime = 20 * 7
     private var guiSlot: Int
     private var sidebarComponent: Component
@@ -35,7 +37,7 @@ abstract class System : Resettable {
         isBroken = true
         updateSidebar()
     }
-    open fun repaired(systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
+    open fun repairingDone(systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
         systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         /*if (!isFakeUse)*/ isBroken = false
@@ -45,12 +47,8 @@ abstract class System : Resettable {
     open fun failedRepairing(systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
         isRepairing = false
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
-        if (isBroken()) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
+        if (isBroken) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
-
-    fun isBroken(): Boolean {return isBroken}
-    fun setIsRepairing(isRepairing: Boolean) {this.isRepairing = isRepairing}
-    fun getIsRepairing(): Boolean {return isRepairing}
 
     open fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu){
         if (isRepairing) return
@@ -71,7 +69,7 @@ abstract class System : Resettable {
                 }
                 time += 10
                 if (time >= fixTime){
-                    repaired(systemMenu/*, isFakeUse*/)
+                    repairingDone(systemMenu/*, isFakeUse*/)
                     cancel()
                     return
                 }
