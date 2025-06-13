@@ -25,7 +25,7 @@ open class SpringtrapCameraAbility : MGUAbilityInstance, AbilityCooldown(20), Re
     open fun activate(animatronic: FnafUPlayer, item: ItemStack) {
         if (start(animatronic, item)) return
         val systems = animatronic.game.systems
-        if (systems.camera.isBroken()) {
+        if (systems.camera.isBroken) {
             setInfiniteCooldown()
             return
         }

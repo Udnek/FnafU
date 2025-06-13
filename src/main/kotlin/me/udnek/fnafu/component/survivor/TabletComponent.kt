@@ -46,7 +46,7 @@ open class TabletComponent : CustomItemComponent {
             itemStack ->
             event.player.getFnafU()?.let { player ->
                 player.game.systems.camera.let { system ->
-                    if (system.isBroken()) {
+                    if (system.isBroken) {
                         player.showNoise(noiseColor)
                         return
                     }

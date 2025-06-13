@@ -91,7 +91,7 @@ open class Systems : Resettable {
     }
 
     fun isAnyOfSystemsBeingRepaired(): Boolean {
-        all.forEach { if (it.getIsRepairing()) return true }
+        all.forEach { if (it.isRepairing) return true }
         return false
     }
 
@@ -124,7 +124,7 @@ open class Systems : Resettable {
     override fun reset() {
         all.forEach {
             it.reset()
-            it.repaired(systemMenu/*, false*/)
+            it.repairingDone(systemMenu/*, false*/)
         }
 
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
