@@ -35,14 +35,14 @@ abstract class System : Resettable {
         isBroken = true
         updateSidebar()
     }
-    open fun repaired(systemMenu: SystemMenu){
+    open fun repaired(systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
         systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
-        isBroken = false
+        /*if (!isFakeUse)*/ isBroken = false
         isRepairing = false
         updateSidebar()
     }
-    open fun failedRepairing(systemMenu: SystemMenu){
+    open fun failedRepairing(systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
         isRepairing = false
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         if (isBroken()) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
@@ -53,25 +53,25 @@ abstract class System : Resettable {
     fun getIsRepairing(): Boolean {return isRepairing}
 
     open fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu){
-        if (!isBroken or isRepairing) return
-        isRepairing = true
+        if (isRepairing) return
         systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
 
-        repairingTask(player, systemMenu)
+        repairingTask(player, systemMenu/*, !isBroken*/)
     }
 
-    open fun repairingTask(player: FnafUPlayer, systemMenu: SystemMenu){
+    open fun repairingTask(player: FnafUPlayer, systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
+        isRepairing = true
         object : BukkitRunnable(){
             var time = 0
             override fun run() {
-                if (!systemMenu.isOpened(player.player)){
-                    failedRepairing(systemMenu)
+                if (!systemMenu.isOpenedByAnyone){
+                    failedRepairing(systemMenu/*, isFakeUse*/)
                     cancel()
                     return
                 }
                 time += 10
                 if (time >= fixTime){
-                    repaired(systemMenu)
+                    repaired(systemMenu/*, isFakeUse*/)
                     cancel()
                     return
                 }

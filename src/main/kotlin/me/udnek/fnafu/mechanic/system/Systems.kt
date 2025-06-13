@@ -87,10 +87,7 @@ open class Systems : Resettable {
     fun fixAll(player: FnafUPlayer) {
         if (isAnyOfSystemsBeingRepaired()) return
         systemMenu.inventory.setItem(System.REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
-        all.forEach {
-            it.repairingTask(player, systemMenu)
-            it.setIsRepairing(true)
-        }
+        all.forEach { it.repairingTask(player, systemMenu/*, false*/) }
     }
 
     fun isAnyOfSystemsBeingRepaired(): Boolean {
@@ -127,7 +124,7 @@ open class Systems : Resettable {
     override fun reset() {
         all.forEach {
             it.reset()
-            it.repaired(systemMenu)
+            it.repaired(systemMenu/*, false*/)
         }
 
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
