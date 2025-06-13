@@ -179,8 +179,9 @@ open class CameraSystem : Resettable, Originable, System {
         super.destroy(systemMenu)
     }
 
-    override fun repaired(systemMenu: SystemMenu) {
-        super.repaired(systemMenu)
+    override fun repaired(systemMenu: SystemMenu, isFakeUse: Boolean) {
+        super.repaired(systemMenu, isFakeUse)
+        if (isFakeUse) return
         for (player in game.playerContainer.getAnimatronics(false)) {
             player.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_CAMERA).repaired()
         }

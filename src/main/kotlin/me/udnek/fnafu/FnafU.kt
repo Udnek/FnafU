@@ -33,6 +33,8 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         }.runTask(instance)
     }
 
+    override fun getPriority(): ResourcePackablePlugin.Priority = ResourcePackablePlugin.Priority.MAIN
+
     companion object {
         lateinit var instance: FnafU
             private set
