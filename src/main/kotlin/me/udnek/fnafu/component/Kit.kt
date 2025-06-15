@@ -18,7 +18,7 @@ interface Kit : CustomComponent<MGUPlayer>, Registrable{
 
         val SPRINGTRAP = register(ConstructableKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, Items.PLUSHTRAP.item, listOf(Items.PLUSHTRAP, Items.BREAK_CAMERAS)))
         val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, Items.FULL_CAMERA_TABLET.item,listOf(Items.FULL_CAMERA_TABLET)))
-        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, Items.CAMERA_OVERLAY.item, listOf(Items.CUT_CAMERA_TABLET)))
+        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, Items.DOOR_TABLET.item, listOf(Items.CUT_CAMERA_TABLET, Items.DOOR_TABLET)))
         val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, Items.SYSTEM_TABLET.item, listOf(Items.SYSTEM_TABLET, Items.CUT_CAMERA_TABLET)))
 
         fun register(kit: ConstructableKit): ConstructableKit {

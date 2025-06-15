@@ -30,13 +30,10 @@ open class CameraSystem : Resettable, Originable, System {
     private val cameras: MutableList<Camera> = ArrayList()
     private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
     private lateinit var cameraMenu: CameraMenu
-    private var mapImage: Component = Component.text("NOT SET")
 
     constructor(game: EnergyGame) : super(25, "sidebar.fnafu.camera_system") {
         this.game = game
     }
-
-    fun setMapImage(image: Component) { this.mapImage = image }
 
     fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
 
@@ -151,7 +148,7 @@ open class CameraSystem : Resettable, Originable, System {
     }
 
     fun openMenu(player: FnafUPlayer, cameraTablet: ItemStack) {
-        cameraMenu = CameraMenu(cameras, mapImage, cameraTablet)
+        cameraMenu = CameraMenu(cameras, game.map.mapImage, cameraTablet)
         cameraMenu.open(player.player)
     }
 

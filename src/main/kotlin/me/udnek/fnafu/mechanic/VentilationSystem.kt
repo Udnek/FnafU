@@ -5,6 +5,7 @@ import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.util.Resettable
 
 class VentilationSystem : Resettable, System {
+
     override val game: EnergyGame
     override val sidebarPosition: Int = 1
 

@@ -17,9 +17,9 @@ abstract class FnafUMap : MGUMap, Resettable {
     private val origin: Location
 
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
-    val doors: MutableList<ButtonDoorPair> = ArrayList()
+    var doors: MutableList<ButtonDoorPair> = ArrayList()
     lateinit var cameras: List<Camera>
-    lateinit var cameraImage: Component
+    lateinit var mapImage: Component
     lateinit var ambientSound: CustomSound
 
     constructor(origin: Location) {
@@ -29,6 +29,7 @@ abstract class FnafUMap : MGUMap, Resettable {
         this.origin = origin
 
         this.build()
+        this.doors = this.doors.sortedBy { it.door.tabletMenuPosition }.toMutableList()
     }
 
     abstract fun build()

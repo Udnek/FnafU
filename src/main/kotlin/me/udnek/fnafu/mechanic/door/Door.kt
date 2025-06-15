@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Wall
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
-open class Door(protected val location: LocationSingle, private val direction: Direction) : Originable {
+open class Door(protected val location: LocationSingle, private val direction: Direction, val tabletMenuPosition: Int) : Originable {
 
     companion object {
         const val CLOSE_DELAY: Int = 2

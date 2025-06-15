@@ -19,16 +19,16 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
         addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(-4.0, 12.0, -5.0, 0f, 0f).centerFloor)
         addLocation(LocationType.RESPAWN_SURVIVOR, LocationList().add(0.0, 0.0, 3.0, 180f, 0f).add(0.0, 5.0, 12.0, 180f, 0f))
 
-        addDoor(ButtonDoorPair(4, 0, -1, Door.Direction.Z, 3, 1, 1))
-        addDoor(ButtonDoorPair(9, 0, -1, Door.Direction.Z, 10, 1, 1))
-        addDoor(ButtonDoorPair(-5, 0, -1, Door.Direction.Z, -4, 1, 1))
-        addDoor(ButtonDoorPair(-10, 0, -1, Door.Direction.Z, -11, 1, 1))
-        addDoor(ButtonDoorPair(-17, 0, 5, Door.Direction.X, -19, 1, 4))
-        addDoor(ButtonDoorPair(-25, 0, 27, Door.Direction.Z, -26, 1, 29))
-        addDoor(ButtonDoorPair(-25, 0, 15, Door.Direction.Z, -26, 1, 13))
-        addDoor(ButtonDoorPair(20, 0, 28, Door.Direction.Z, 21, 1, 26))
-        addDoor(ButtonDoorPair(16, 0, 5, Door.Direction.X, 14, 1, 4))
-        addDoor(ButtonDoorPair(6, 0, -10, Door.Direction.X, 4, 1, -11))
+        addDoor(ButtonDoorPair(4, 0, -1, Door.Direction.Z, 39, 3, 1, 1))
+        addDoor(ButtonDoorPair(9, 0, -1, Door.Direction.Z, 38, 10, 1, 1))
+        addDoor(ButtonDoorPair(-5, 0, -1, Door.Direction.Z, 40, -4, 1, 1))
+        addDoor(ButtonDoorPair(-10, 0, -1, Door.Direction.Z, 41, -11, 1, 1))
+        addDoor(ButtonDoorPair(-17, 0, 5, Door.Direction.X, 33, -19, 1, 4))
+        addDoor(ButtonDoorPair(-25, 0, 27, Door.Direction.Z, 16, -26, 1, 29))
+        addDoor(ButtonDoorPair(-25, 0, 15, Door.Direction.Z, 25, -26, 1, 13))
+        addDoor(ButtonDoorPair(20, 0, 28, Door.Direction.Z, 10, 21, 1, 26))
+        addDoor(ButtonDoorPair(16, 0, 5, Door.Direction.X, 29, 14, 1, 4))
+        addDoor(ButtonDoorPair(6, 0, -10, Door.Direction.X, 48, 4, 1, -11))
 
         cameras = listOf(
             Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F, true),
@@ -43,7 +43,7 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
             Camera(LocationSingle(-8.7, 2.12, -8.7, -45.16F, 30.12F).head, "east_hall_corner", 50, 0F, true)
         )
 
-        cameraImage = TextUtils.getMapImage(-8, 165, "fnaf1")
+        mapImage = TextUtils.getMapImage(-8, 165, "fnaf1")
 
         ambientSound = Sounds.AMBIENCE_FNAF1
     }

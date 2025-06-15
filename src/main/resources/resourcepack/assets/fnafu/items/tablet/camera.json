@@ -13,18 +13,17 @@
       "property": "minecraft:view_entity",
       "on_false": {
         "type": "minecraft:model",
-        "model": "fnafu:item/camera/tablet_invisible",
+        "model": "fnafu:item/camera/tablet/invisible",
         "tints": [
           {
             "type": "minecraft:custom_model_data",
             "default": 0
           }
         ]
-
       },
       "on_true": {
         "type": "minecraft:model",
-        "model": "fnafu:item/camera/tablet",
+        "model": "fnafu:item/camera/tablet/full",
         "tints": [
           {
             "type": "minecraft:custom_model_data",

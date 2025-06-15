@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item
+package me.udnek.fnafu.item.tablet
 
 import io.papermc.paper.datacomponent.item.CustomModelData
 import me.udnek.coreu.custom.item.ConstructableCustomItem
@@ -29,7 +29,7 @@ class FullCameraTablet : ConstructableCustomItem() {
     }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
-        return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "camera_tablet"))
+        return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "tablet/camera"))
     }
 }
 
@@ -51,6 +51,6 @@ class CutCameraTablet : ConstructableCustomItem() {
     }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
-        return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "camera_tablet"))
+        return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "tablet/camera"))
     }
 }
