@@ -1,0 +1,19 @@
+{
+	"parent": "fnafu:item/door/tablet/full",
+	"textures": {
+		"1": "fnafu:item/door/tablet",
+		"2": "fnafu:item/door/tablet_screen/on",
+		"particle": "fnafu:item/door/tablet"
+	},
+	"display": {
+		"firstperson_righthand": {
+			"scale": [0, 0, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0, 0, 0]
+		},
+		"gui": {
+			"scale": [0, 0, 0]
+		}
+	}
+}

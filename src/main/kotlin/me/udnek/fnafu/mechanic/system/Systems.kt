@@ -4,9 +4,9 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.BundleContents
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.AudioSystem
 import me.udnek.fnafu.mechanic.VentilationSystem
 import me.udnek.fnafu.mechanic.camera.CameraSystem
+import me.udnek.fnafu.mechanic.door.DoorSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
@@ -22,7 +22,7 @@ open class Systems : Resettable {
     }
 
     private val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
-        9 to {player ->  audio.startRepairing(player, systemMenu)},
+        9 to {player ->  door.startRepairing(player, systemMenu)},
         18 to {player ->  camera.startRepairing(player, systemMenu)},
         27 to {player ->  ventilation.startRepairing(player, systemMenu)},
         36 to {player ->  fixAll(player)})
@@ -35,15 +35,15 @@ open class Systems : Resettable {
     private val playerInsideSystem = ArrayList<FnafUPlayer>()
     private var systemMenu: SystemMenu
     val all: List<System>
-    val audio: AudioSystem
+    val door: DoorSystem
     val camera: CameraSystem
     val ventilation: VentilationSystem
 
-    constructor(audioSystem: AudioSystem, cameraSystem: CameraSystem, ventilationSystem: VentilationSystem){
-        this.audio = audioSystem
+    constructor(doorSystem: DoorSystem, cameraSystem: CameraSystem, ventilationSystem: VentilationSystem){
+        this.door = doorSystem
         this.camera = cameraSystem
         this.ventilation = ventilationSystem
-        all = listOf(audioSystem, cameraSystem, ventilationSystem)
+        all = listOf(doorSystem, cameraSystem, ventilationSystem)
         systemMenu = SystemMenu()
     }
 

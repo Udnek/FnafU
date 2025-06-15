@@ -11,11 +11,12 @@ class ButtonDoorPair(val door: Door, val button: DoorButton) : Originable {
         doorY: Long,
         doorZ: Long,
         direction: Door.Direction,
+        tabletMenuPosition: Int,
         buttonX: Long,
         buttonY: Long,
         buttonZ: Long
     ) : this(
-        Door(LocationSingle(doorX.toDouble(), doorY.toDouble(), doorZ.toDouble()), direction),
+        Door(LocationSingle(doorX.toDouble(), doorY.toDouble(), doorZ.toDouble()), direction, tabletMenuPosition),
         DoorButton(LocationSingle(buttonX.toDouble(), buttonY.toDouble(), buttonZ.toDouble()))
     )
 

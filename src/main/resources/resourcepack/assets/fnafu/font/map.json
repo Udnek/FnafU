@@ -1,0 +1,22 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "fnafu:font/map/fnaf1.png",
+      "ascent": 13,
+      "height": 256,
+      "chars": ["1"]
+    },
+    {
+      "type": "bitmap",
+      "file": "fnafu:font/map/fnaf2.png",
+      "ascent": 13,
+      "height": 256,
+      "chars": ["2"]
+    },
+    {
+      "type": "reference",
+      "id": "space:default"
+    }
+  ]
+}
