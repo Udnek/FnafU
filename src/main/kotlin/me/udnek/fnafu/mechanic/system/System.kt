@@ -22,7 +22,8 @@ abstract class System : Resettable {
     abstract val sidebarPosition: Int
     var isBroken = false
         protected set
-    private var isRepairing = false
+    var isRepairing = false
+        protected set
     private val fixTime = 20 * 7
     private var guiSlot: Int
     private var sidebarComponent: Component
@@ -50,9 +51,6 @@ abstract class System : Resettable {
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         if (isBroken) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
-
-    fun setIsRepairing(isRepairing: Boolean) {this.isRepairing = isRepairing}
-    fun getIsRepairing(): Boolean {return isRepairing}
 
     open fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu){
         if (isRepairing) return

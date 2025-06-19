@@ -8,9 +8,13 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
-import me.udnek.fnafu.mechanic.*
+import me.udnek.fnafu.mechanic.Energy
+import me.udnek.fnafu.mechanic.KitMenu
+import me.udnek.fnafu.mechanic.Time
+import me.udnek.fnafu.mechanic.VentilationSystem
 import me.udnek.fnafu.mechanic.camera.CameraSystem
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Sounds
@@ -51,7 +55,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     val energy: Energy = Energy(this)
 
     override var survivorLives = MAX_LIVES
-    override val systems = Systems(AudioSystem(this), CameraSystem(this), VentilationSystem(this))
+    override val systems = Systems(DoorSystem(this), CameraSystem(this), VentilationSystem(this))
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
@@ -64,7 +68,6 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     init {
         map.cameras.forEach { systems.camera.addCamera(it) }
         systems.camera.setOrigin(map.origin)
-        systems.camera.setMapImage(map.cameraImage)
     }
 
     private fun isEveryNTicks(n: Int): Boolean {
@@ -106,7 +109,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         tAnims.color(NamedTextColor.RED)
         tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
 
-        scoreboard.lines = mapOf(systems.audio.getSidebarView(), systems.ventilation.getSidebarView(), systems.camera.getSidebarView())
+        scoreboard.lines = mapOf(systems.door.getSidebarView(), systems.ventilation.getSidebarView(), systems.camera.getSidebarView())
         updateSurvivorLives()
 
         for (player in playerContainer.getPlayers(false)) {

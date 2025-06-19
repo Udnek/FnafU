@@ -1,3 +1,5 @@
+package me.udnek.fnafu.item.survivor.door
+
 import me.udnek.coreu.custom.component.instance.RightClickableItem
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItem
@@ -6,10 +8,10 @@ import me.udnek.fnafu.util.getFnafU
 import net.kyori.adventure.text.Component
 import org.bukkit.event.player.PlayerInteractEvent
 
-class SystemTablet: ConstructableCustomItem() {
-    override fun getRawId(): String = "tablet/system"
+class DoorTablet: ConstructableCustomItem() {
+    override fun getRawId(): String = "tablet/door"
     override fun getItemName(): CustomItemProperties.DataSupplier<Component> {
-        return CustomItemProperties.DataSupplier.of(Component.translatable("item.fnafu.system_tablet"))
+        return CustomItemProperties.DataSupplier.of(Component.translatable("item.fnafu.door_tablet"))
     }
 
     override fun initializeComponents() {
@@ -18,7 +20,7 @@ class SystemTablet: ConstructableCustomItem() {
             override fun onRightClick(customItem: CustomItem, event: PlayerInteractEvent) {
                 event.item?.let {
                     event.player.getFnafU()?.let { player ->
-                        player.game.systems.openMenu(player)
+                        player.game.systems.door.openMenu(player)
                     }
                 }
             }

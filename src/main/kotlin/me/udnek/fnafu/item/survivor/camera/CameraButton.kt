@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item.survivor
+package me.udnek.fnafu.item.survivor.camera
 
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes

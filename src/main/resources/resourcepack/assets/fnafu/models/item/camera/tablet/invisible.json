@@ -1,5 +1,5 @@
 {
-	"parent": "fnafu:item/camera/tablet",
+	"parent": "fnafu:item/camera/tablet/full",
 	"display": {
 		"firstperson_righthand": {
 			"scale": [0, 0, 0]

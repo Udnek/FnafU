@@ -3,7 +3,7 @@ package me.udnek.fnafu.mechanic.camera
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.item.survivor.CameraButton
+import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.util.getCameraId
 import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFnafU
