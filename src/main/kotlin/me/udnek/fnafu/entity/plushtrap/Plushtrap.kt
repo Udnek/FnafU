@@ -10,8 +10,6 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
 import org.bukkit.FluidCollisionMode
-import org.bukkit.Location
-import org.bukkit.Particle
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -48,11 +46,6 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
                 if (player == null) noTarget()
                 else target(player)
             }
-            print(target)
-            if (target != null) {
-                val distanceToVisibleSurvivor = getDistanceToVisibleSurvivor(target!!)
-                print(distanceToVisibleSurvivor)
-            }
         }
 
         if (noTargetTime >= NO_TARGET_DESPAWN_TIME) remove()
@@ -61,7 +54,8 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun noTarget() {
-        Nms.get().stop(entity)
+        Nms.get().stopMoving(entity)
+        entity.velocity = Vector()
         noTargetTime += tickDelay
         entity.isAware = false
         target = null
@@ -69,7 +63,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
 
     private fun target(player: FnafUPlayer) {
         noTargetTime = 0
-        Nms.get().follow(entity, player.player)
+        Nms.get().moveTo(entity, player.player.location)
         if (target != player) {
             entity.isAware = true
             target = player
@@ -102,22 +96,21 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         val targetEyeLocation = player.player.eyeLocation
         val entityEyeLocation = entity.eyeLocation
         val distance = entityEyeLocation.distance(targetEyeLocation)
-        debag(entityEyeLocation, targetEyeLocation.toVector().subtract(entityEyeLocation.toVector()).normalize())
-        val rayTraceResult = entity.world.rayTrace(entityEyeLocation, targetEyeLocation.toVector().subtract(entityEyeLocation.toVector()).normalize(),
-            distance, FluidCollisionMode.NEVER, true, 0.0, null) ?: return null
+        if (distance > SEEK_TARGET_RADIUS) return null
 
-        if (rayTraceResult.hitBlock == null) return distance
+        val direction = targetEyeLocation.toVector().subtract(entityEyeLocation.toVector())
+        entity.world.rayTraceBlocks(entityEyeLocation, direction, distance, FluidCollisionMode.NEVER, true) ?: return distance
         return null
     }
 
-    fun debag(startLocation: Location, direction: Vector) {
+    /*fun debag(startLocation: Location, direction: Vector) {
         val particle = Particle.SMALL_GUST
         for (i in 1..7) {
             val k = i / 2
             val point = startLocation.clone().add(direction.clone().multiply(k));
             startLocation.world.spawnParticle(particle, point, 1)
         }
-    }
+    }*/
 
     fun onEntityHit(event: EntityDamageByEntityEvent) {
         (event.entity as? Player)?.getFnafU()?.also { it.damage() }

@@ -27,6 +27,7 @@ class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEnt
         plushtrap.getAttribute(Attribute.JUMP_STRENGTH)!!.baseValue = 0.0
         plushtrap.equipment.clear()
         plushtrap.lootTable = LootTables.BEE.lootTable
+        plushtrap.getAttribute(Attribute.MOVEMENT_SPEED)!!.baseValue = 0.175
         if (plushtrap.isInsideVehicle) {
             val vehicle = plushtrap.vehicle
             plushtrap.leaveVehicle()
