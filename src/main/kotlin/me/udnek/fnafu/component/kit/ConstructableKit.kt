@@ -1,4 +1,4 @@
-package me.udnek.fnafu.component
+package me.udnek.fnafu.component.kit
 
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.AbstractRegistrable
@@ -7,14 +7,12 @@ import org.bukkit.inventory.ItemStack
 
 open class ConstructableKit : Kit, AbstractRegistrable {
 
-    /*private val items: List<Supplier<ItemStack>>*/
     private val customItems: List<CustomItem>
     val type: FnafUPlayer.Type
     val displayItem: ItemStack
     private val id: String
 
-    constructor(id: String, type: FnafUPlayer.Type, displayItem: ItemStack, /*items: List<Supplier<ItemStack>>,*/ customItems: List<CustomItem>) {
-        /*this.items = items*/
+    constructor(id: String, type: FnafUPlayer.Type, displayItem: ItemStack, customItems: List<CustomItem>) {
         this.displayItem = displayItem
         this.customItems = customItems
         this.type = type
@@ -23,9 +21,6 @@ open class ConstructableKit : Kit, AbstractRegistrable {
 
     override fun setUp(player: FnafUPlayer) {
         player.player.inventory.clear()
-        /*for (item in items) {
-            player.player.inventory.addItem(item.get())
-        }*/
         for (customItem in customItems) {
             player.player.inventory.addItem(customItem.item)
         }

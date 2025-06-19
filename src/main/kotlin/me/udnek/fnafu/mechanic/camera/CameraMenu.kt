@@ -1,8 +1,9 @@
 package me.udnek.fnafu.mechanic.camera
 
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
-import me.udnek.fnafu.component.Components
-import me.udnek.fnafu.item.CameraButton
+import me.udnek.coreu.rpgu.component.RPGUComponents
+import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.item.survivor.CameraButton
 import me.udnek.fnafu.util.getCameraId
 import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFnafU
@@ -22,10 +23,11 @@ open class CameraMenu : ConstructableCustomInventory{
     }
 
     fun updateCameras(cameras: List<Camera>, useCamera: Camera?, cameraTablet: ItemStack) {
-        val isCutTublet = cameraTablet.getCustom()?.components?.get(Components.TABLET_COMPONENT)?.isCut ?: return
+        val isCutTublet = cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY)?.isCut ?: return
         for (camera in cameras) {
             if (isCutTublet && !camera.isCut) continue
-            if (camera == useCamera) { inventory.setItem(useCamera.tabletMenuPosition, CameraButton.getWithCamera(useCamera, useCamera.number, Color.GREEN)) }
+            if (camera == useCamera) {
+                inventory.setItem(useCamera.tabletMenuPosition, CameraButton.getWithCamera(useCamera, useCamera.number, Color.GREEN)) }
             else { inventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(camera, camera.number, Color.BLACK)) }
         }
     }

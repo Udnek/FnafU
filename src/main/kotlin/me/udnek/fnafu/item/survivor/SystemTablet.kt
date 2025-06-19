@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item
+package me.udnek.fnafu.item.survivor
 
 import me.udnek.coreu.custom.component.instance.RightClickableItem
 import me.udnek.coreu.custom.item.ConstructableCustomItem

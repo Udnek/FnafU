@@ -2,11 +2,11 @@ package me.udnek.fnafu
 
 import me.udnek.coreu.mgu.MGUManager
 import me.udnek.coreu.resourcepack.ResourcePackablePlugin
-import me.udnek.fnafu.component.Components
+import me.udnek.fnafu.component.ComponentListener
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
-import me.udnek.fnafu.util.ItemListener
 import me.udnek.fnafu.util.Sounds
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -17,12 +17,12 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
     override fun onEnable() {
         instance = this
 
-        Components.TABLET_COMPONENT
+        FnafUComponents.SPRINGTRAP_PLUSHTRAP_DATA
         Items.FULL_CAMERA_TABLET
         Sounds.AMBIENCE_FNAF1
 
 
-        ItemListener(this)
+        ComponentListener(this)
 
         object : BukkitRunnable(){
             override fun run() {
@@ -33,7 +33,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         }.runTask(instance)
     }
 
-    override fun getPriority(): ResourcePackablePlugin.Priority = ResourcePackablePlugin.Priority.MAIN
+    override fun getPriority(): ResourcePackablePlugin.Priority = ResourcePackablePlugin.Priority.BASE
 
     companion object {
         lateinit var instance: FnafU

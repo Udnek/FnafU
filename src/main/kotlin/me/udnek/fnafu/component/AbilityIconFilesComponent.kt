@@ -3,6 +3,7 @@ package me.udnek.fnafu.component
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
+import me.udnek.fnafu.component.kit.Kit
 import net.kyori.adventure.key.Key
 
 

@@ -5,10 +5,11 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.Equippable
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.mgu.Originable
+import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.Abilities
-import me.udnek.fnafu.component.Components
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.EnergyGame
+import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.mechanic.system.SystemMenu
 import me.udnek.fnafu.player.FnafUPlayer
@@ -46,7 +47,7 @@ open class CameraSystem : Resettable, Originable, System {
     }
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
-        val ability = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
+        val ability = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_ENTITY_DATA)
         cameraMenu.updateCameras(cameras, camera, cameraTablet)
         switchCameraOverlay(player, cameraTablet)
 
@@ -56,14 +57,6 @@ open class CameraSystem : Resettable, Originable, System {
         }
         setPlayerSpectatingCamera(player, camera)
 
-//        player.player.gameMode = GameMode.SPECTATOR
-//
-//        object : BukkitRunnable() {
-//            override fun run() {
-//                player.player.gameMode = GameMode.SURVIVAL
-//            }
-//        }.runTaskLater(FnafU.instance, 10)
-
         val cameraEntity =
             camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
         ability.spectate(player, cameraEntity)
@@ -72,14 +65,16 @@ open class CameraSystem : Resettable, Originable, System {
 
     fun exitCamera(player: FnafUPlayer) {
         if (getSpectatingCamera(player) == null) return
-        val spectateEntityAbility = player.abilities.getOrCreateDefault(Abilities.SPECTATE_ENTITY)
+        val spectateEntityAbility = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_ENTITY_DATA)
         spectateEntityAbility.spectatingEntity!!.remove()
         spectateEntityAbility.spectateSelf(player)
         setPlayerSpectatingCamera(player, null)
 
         player.kit.regive(player)
-        val component = CustomItem.get(player.player.inventory.getItem(0))?.components?.getOrDefault(Components.TABLET_COMPONENT)?: return
-        player.showNoise(component.noiseColor)
+        val tabletAbility = CustomItem.get(player.player.inventory.getItem(0))
+            ?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)
+            ?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY)?: return
+        player.showNoise(tabletAbility.noiseColor)
         player.player.closeInventory()
     }
 
@@ -118,7 +113,9 @@ open class CameraSystem : Resettable, Originable, System {
 
     private fun switchCameraOverlay(player: FnafUPlayer, item: ItemStack) {
         val inventory = player.player.inventory
-        val component = CustomItem.get(item)?.components?.getOrDefault(Components.TABLET_COMPONENT) ?: return
+        val component = CustomItem.get(item)
+            ?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)
+            ?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY) ?: return
 
         item.setData(DataComponentTypes.ITEM_NAME, Component.empty())
         object : BukkitRunnable() {
@@ -130,7 +127,7 @@ open class CameraSystem : Resettable, Originable, System {
         val cameraOverlay = Equippable.equippable(EquipmentSlot.HEAD).cameraOverlay(Key.key("fnafu:item/camera/frame_overlay"))
         item.setData(DataComponentTypes.EQUIPPABLE, cameraOverlay)
         inventory.setItem(EquipmentSlot.HEAD, item)
-        inventory.setItem(40, component.createGui())
+        inventory.setItem(40, component.getOverlay())
 
         player.showNoise(component.noiseColor)
     }
@@ -179,12 +176,8 @@ open class CameraSystem : Resettable, Originable, System {
         super.destroy(systemMenu)
     }
 
-    override fun repaired(systemMenu: SystemMenu/*, isFakeUse: Boolean*/) {
-        super.repaired(systemMenu/*, isFakeUse*/)
-        /*if (isFakeUse) return*/
-        for (player in game.playerContainer.getAnimatronics(false)) {
-            player.abilities.getOrCreateDefault(Abilities.SPRINGTRAP_CAMERA).repaired()
-        }
+    override fun repaired(systemMenu: SystemMenu) {
+        super.repaired(systemMenu)
     }
 
 }

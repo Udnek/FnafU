@@ -1,9 +1,9 @@
 package me.udnek.fnafu.util
 
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.mgu.MGUManager
 import me.udnek.coreu.mgu.Originable
-import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.fnafu.item.CameraButton
+import me.udnek.fnafu.item.survivor.CameraButton
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Location
 import org.bukkit.entity.Player

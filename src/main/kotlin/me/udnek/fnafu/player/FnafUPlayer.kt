@@ -10,8 +10,8 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.Components
-import me.udnek.fnafu.component.Kit
+import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
@@ -40,10 +40,10 @@ import kotlin.intArrayOf
 class FnafUPlayer(private val player: Player, val type: Type, private val game: FnafUGame) : MGUAbstractPlayer(player, game), Resettable {
 
     var status: Status = Status.ALIVE
-    /*var cloneNPC: CitizensNPC? = null*/
+
     var kit: Kit
         set(value) = components.set(value)
-        get() = components.getOrDefault(Components.KIT)
+        get() = components.getOrDefault(FnafUComponents.KIT)
 
     override fun getGame(): FnafUGame = game
 
@@ -67,11 +67,6 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     }
 
     fun getTeam(): Team? = game.getTeam(this)
-
-    /*fun createNPC() {
-        cloneNPC = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.player!!.name) as CitizensNPC
-        cloneNPC!!.spawn(player.player!!.location)
-    }*/
 
     fun playSound(location: Location, sound: CustomSound, range: Float) = sound.play(location, player, range/16f)
 
@@ -178,7 +173,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         player.inventory.clear()
         player.clearActivePotionEffects()
         player.getAttribute(Attribute.JUMP_STRENGTH)!!.removeModifier(NamespacedKey(FnafU.instance, "game_js"))
-        abilities.forEach { (it as? Resettable)?.reset() }
+        data.forEach { (it as? Resettable)?.reset() }
     }
 
     enum class Type {

@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item
+package me.udnek.fnafu.item.survivor
 
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes
@@ -8,6 +8,7 @@ import me.udnek.coreu.custom.event.ResourcepackInitializationEvent
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.camera.Camera
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
@@ -60,53 +61,5 @@ class CameraButton : ConstructableCustomItem(), Listener {
             )
         }
 
-        /*var definition = """
-                {
-                  "model": {
-                    "type": "minecraft:range_dispatch",
-                    "property": "minecraft:custom_model_data",
-                    "entries": [
-                      {
-                        "threshold": 0,
-                        "model": {
-                          "type": "minecraft:model",
-                          "model": "fnafu:item/camera/button/0",
-                          "tints": [
-                            {
-                              "type": "minecraft:custom_model_data",
-                              "default": -1
-                            }
-                          ]
-                        }
-                      } 
-                """
-        val definitionReferense = """,{
-                                     "threshold": %number%,
-                                     "model": {
-                                       "type": "minecraft:model",
-                                       "model": "fnafu:item/camera/button/%number%",
-                                       "tints": [
-                                         {
-                                           "type": "minecraft:custom_model_data",
-                                           "default": -1
-                                         }
-                                       ]
-                                     }
-                                   }"""
-        for (i in 1..12) {
-            definition += definitionReferense.replace("%number%", i.toString())
-        }
-        definition += """]
-                  }
-                }"""
-        println(definition)
-        event.addFile(
-            VirtualRpJsonFile(
-                JsonParser.parseString(definition).asJsonObject,
-                AutoGeneratingFilesItem.GENERATED.getDefinitionPath(
-                    NamespacedKey(FnafU.instance, "camera_button")
-                )
-            )
-        )*/
     }
 }

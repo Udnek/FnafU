@@ -3,7 +3,8 @@ package me.udnek.fnafu.entity.plushtrap
 import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntity
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.coreu.nms.Nms
-import me.udnek.fnafu.component.animatronic.SpringtrapPlushtrapAbility
+import me.udnek.coreu.rpgu.component.RPGUComponents
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
@@ -30,7 +31,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     var step: Int = 0
     var noTargetTime: Int = 0
     lateinit var game: FnafUGame
-    lateinit var ability: SpringtrapPlushtrapAbility
+    lateinit var owner: FnafUPlayer
     var target: FnafUPlayer? = null
 
     override fun delayedTick() {
@@ -76,11 +77,11 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     override fun remove() {
-        ability.isActivated = false
-        ability.remove()
-        step = 0
-        noTargetTime = 0
-        ability.setBaseCooldown()
+        owner.data.get(FnafUComponents.SPRINGTRAP_PLUSHTRAP_DATA)?.let {
+            it.plushtrap = null
+            it.abilityItem!!.components.getOrDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.getOrException(FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY)
+                .cooldown(it.abilityItem!!, owner.player)
+        }
         super.remove()
     }
 

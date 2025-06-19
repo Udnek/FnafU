@@ -1,13 +1,12 @@
-package me.udnek.fnafu.item
+package me.udnek.fnafu.item.survivor
 
 import io.papermc.paper.datacomponent.item.CustomModelData
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
+import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.survivor.TabletComponent
+import me.udnek.fnafu.component.survivor.CameraTabletAbility
 import net.kyori.adventure.key.Key
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Color
 import org.bukkit.NamespacedKey
 
@@ -19,14 +18,10 @@ class FullCameraTablet : ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(TabletComponent("main_entrance", Color.GREEN, NamedTextColor.GREEN, false))
+        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(CameraTabletAbility.FULL)
     }
 
     override fun getRawId(): String = "full_camera_tablet"
-
-    override fun getItemName(): CustomItemProperties.DataSupplier<Component> {
-        return CustomItemProperties.DataSupplier.of(Component.translatable("item.fnafu.camera_tablet"))
-    }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
         return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "camera_tablet"))
@@ -41,14 +36,11 @@ class CutCameraTablet : ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(TabletComponent("main_entrance", Color.WHITE, NamedTextColor.WHITE, true))
+        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(CameraTabletAbility.CUT)
     }
 
     override fun getRawId(): String = "cut_camera_tablet"
 
-    override fun getItemName(): CustomItemProperties.DataSupplier<Component> {
-        return CustomItemProperties.DataSupplier.of(Component.translatable("item.fnafu.camera_tablet"))
-    }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
         return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "camera_tablet"))

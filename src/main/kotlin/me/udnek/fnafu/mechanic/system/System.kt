@@ -1,6 +1,7 @@
 package me.udnek.fnafu.mechanic.system
 
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.event.SystemRepairedEvent
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
@@ -19,7 +20,8 @@ abstract class System : Resettable {
 
     abstract val game: EnergyGame
     abstract val sidebarPosition: Int
-    private var isBroken = false
+    var isBroken = false
+        protected set
     private var isRepairing = false
     private val fixTime = 20 * 7
     private var guiSlot: Int
@@ -41,14 +43,14 @@ abstract class System : Resettable {
         /*if (!isFakeUse)*/ isBroken = false
         isRepairing = false
         updateSidebar()
+        SystemRepairedEvent(this).callEvent()
     }
     open fun failedRepairing(systemMenu: SystemMenu/*, isFakeUse: Boolean*/){
         isRepairing = false
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
-        if (isBroken()) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
+        if (isBroken) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
 
-    fun isBroken(): Boolean {return isBroken}
     fun setIsRepairing(isRepairing: Boolean) {this.isRepairing = isRepairing}
     fun getIsRepairing(): Boolean {return isRepairing}
 

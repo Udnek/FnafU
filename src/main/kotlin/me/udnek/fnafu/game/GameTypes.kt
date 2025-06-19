@@ -1,8 +1,8 @@
 package me.udnek.fnafu.game
 
-import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.coreu.custom.registry.AbstractRegistrable
 import me.udnek.coreu.custom.registry.CustomRegistries
+import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer

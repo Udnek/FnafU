@@ -5,19 +5,16 @@ import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.mgu.ability.MGUAbilityHolderComponent
-import me.udnek.coreu.mgu.ability.MGUAbilityInstance
-import me.udnek.fnafu.component.Abilities
+import me.udnek.coreu.mgu.ability.MGUPlayerDataHolder
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.entity.Entity
 
-open class SpectateEntityAbility : MGUAbilityInstance {
+open class SpectateEntityData : CustomComponent<MGUPlayerDataHolder> {
 
     companion object {
-        val DEFAULT = object : SpectateEntityAbility() {
-             override fun spectate(player: FnafUPlayer, target: Entity){
-                 throw RuntimeException("Component is default!")
-             }
+        val DEFAULT = object : SpectateEntityData() {
+             override fun spectate(player: FnafUPlayer, target: Entity) = throwCanNotChangeDefault()
         }
     }
 
@@ -36,7 +33,7 @@ open class SpectateEntityAbility : MGUAbilityInstance {
         spectate(player, player.player)
     }
 
-    override fun getType(): CustomComponentType<out MGUAbilityHolderComponent, out CustomComponent<MGUAbilityHolderComponent>> {
-        return Abilities.SPECTATE_ENTITY
+    override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out CustomComponent<MGUPlayerDataHolder>> {
+        return FnafUComponents.SPECTATE_ENTITY_DATA
     }
 }

@@ -2,8 +2,8 @@ package me.udnek.fnafu.mechanic
 
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.Components
-import me.udnek.fnafu.component.Kit
+import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.getFnafU
@@ -37,7 +37,7 @@ class KitMenu : ConstructableCustomInventory() {
     }
 
     private fun getCurrentKit(itemStack: ItemStack) : Kit {
-        var playerKit: Kit = Components.KIT.default
+        var playerKit: Kit = FnafUComponents.KIT.default
         Kit.REGISTRY.getAll { if (it.displayItem == itemStack) playerKit = it }
         return playerKit
     }
