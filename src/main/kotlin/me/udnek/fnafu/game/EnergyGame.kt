@@ -8,6 +8,7 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
+import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.KitMenu
 import me.udnek.fnafu.mechanic.Time
@@ -18,6 +19,7 @@ import me.udnek.fnafu.mechanic.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Sounds
+import me.udnek.fnafu.util.getFarthest
 import me.udnek.fnafu.util.toCenterFloor
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
@@ -27,10 +29,13 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.SoundCategory
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
+import org.bukkit.block.BlockFace
+import org.bukkit.block.data.Directional
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.potion.PotionEffect
@@ -101,19 +106,10 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     override fun start() {
         initializeBars()
         initializeTeams()
-        val tSurvs = teamSurvivors!!
-        val tAnims = teamAnimatronics!!
-
-        baseSettingsForTeams(tSurvs)
-        tSurvs.color(NamedTextColor.GREEN)
-        tSurvs.prefix(Component.text("[S] ").color(TextColor.color(0f, 1f, 0f)))
-
-        baseSettingsForTeams(tAnims)
-        tAnims.color(NamedTextColor.RED)
-        tAnims.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
 
         scoreboard.lines = mapOf(systems.door.getSidebarView(), systems.ventilation.getSidebarView(), systems.camera.getSidebarView())
         updateSurvivorLives()
+        chooseSystemStations()
 
         for (player in playerContainer.getPlayers(false)) {
             player.reset()
@@ -126,11 +122,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> {
                     player.teleport(map.getLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR)!!)
-                    tSurvs.addPlayer(player.player)
+                    teamSurvivors!!.addPlayer(player.player)
                 }
                 FnafUPlayer.Type.ANIMATRONIC -> {
                     player.teleport(map.getLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC)!!)
-                    tAnims.addPlayer(player.player)
+                    teamAnimatronics!!.addPlayer(player.player)
                 }
             }
             KitMenu().open(player.player)
@@ -166,6 +162,34 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         }
     }
 
+    private fun chooseSystemStations() {
+        val systemStations = ArrayList(map.systemStations)
+        for (systemStation in systemStations) {
+            val location = systemStation.first.first
+            val world = location.world
+            world.setBlockData(location, Material.AIR.createBlockData())
+            world.setBlockData(location.set(0.0, -1.0, 0.0), Material.AIR.createBlockData())
+        }
+        for (i in 1 .. map.systemStationsAmount step 2) {
+            val systemStation = systemStations.random()
+            placeSystemStation(systemStations, systemStation)
+            if (i >= map.systemStationsAmount) break
+            val farthestSystemStation = systemStations.find{it.first.first == systemStations.map {it -> it.first.first}.getFarthest(systemStation.first.first)}!!
+            placeSystemStation(systemStations, farthestSystemStation)
+        }
+    }
+
+    private fun placeSystemStation(systemStations: ArrayList<Pair<LocationSingle, BlockFace>>, pair: Pair<LocationSingle, BlockFace>) {
+        val location = pair.first.first
+        val world = location.world
+        val station = Material.BLUE_GLAZED_TERRACOTTA.createBlockData() as Directional
+        station.facing = pair.second
+
+        world.setBlockData(location, station)
+        world.setBlockData(location.set(0.0, -1.0, 0.0), Material.BARRIER.createBlockData())
+        systemStations.remove(pair)
+    }
+
     private fun baseSettingsForTeams(team: Team) {
         team.setAllowFriendlyFire(false)
         team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS)
@@ -178,6 +202,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         val animatronicsTeamName = "anims_${id.asString()}"
         teamSurvivors = scoreboard.getTeam(survivorsTeamName) ?: scoreboard.registerNewTeam(survivorsTeamName)
         teamAnimatronics = scoreboard.getTeam(animatronicsTeamName) ?: scoreboard.registerNewTeam(animatronicsTeamName)
+
+        baseSettingsForTeams(teamSurvivors!!)
+        teamSurvivors!!.color(NamedTextColor.GREEN)
+        teamSurvivors!!.prefix(Component.text("[S] ").color(TextColor.color(0f, 1f, 0f)))
+
+        baseSettingsForTeams(teamAnimatronics!!)
+        teamAnimatronics!!.color(NamedTextColor.RED)
+        teamAnimatronics!!.prefix(Component.text("[A] ").color(TextColor.color(1f, 0f, 0f)))
     }
 
     private fun initializeBars() {
@@ -222,13 +254,13 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     override fun mustWinAnimatronics(): Boolean {
-        if (survivorLives != 0 || hasLivingSurvivors()) return false
+        if (survivorLives != 0 || hasAliveSurvivors()) return false
         winner = Winner.ANIMATRONICS
         stop()
         return true
     }
 
-    fun hasLivingSurvivors(): Boolean {
+    fun hasAliveSurvivors(): Boolean {
         players.forEach { if (it.status != FnafUPlayer.Status.DEAD && it.type == FnafUPlayer.Type.SURVIVOR) return true }
         return false
     }
@@ -238,6 +270,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         stunAnimatronicsAround(door.getLocation().toCenterFloor())
         door.toggle()
         energy.updateConsumption()
+        systems.door.updateDoorMenu()
     }
 
     private fun stunAnimatronicsAround(location: Location){

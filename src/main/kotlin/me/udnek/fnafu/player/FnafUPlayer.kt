@@ -16,6 +16,7 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.util.Resettable
+import me.udnek.fnafu.util.getFarthest
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -157,7 +158,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
             this.death()
             return
         }
-        teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).getFarthest(player.location))
+        teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).all.getFarthest(player.location))
         game.survivorLives -= 1
         game.updateSurvivorLives()
     }

@@ -4,21 +4,24 @@ import com.google.common.base.Preconditions
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.fnafu.map.location.LocationData
+import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.camera.Camera
 import me.udnek.fnafu.mechanic.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.door.Door
 import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
+import org.bukkit.block.BlockFace
 import java.util.*
 
 abstract class FnafUMap : MGUMap, Resettable {
 
     private val origin: Location
-
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
     var doors: MutableList<ButtonDoorPair> = ArrayList()
+    abstract var systemStationsAmount: Int
     lateinit var cameras: List<Camera>
+    lateinit var systemStations: List<Pair<LocationSingle, BlockFace>>
     lateinit var mapImage: Component
     lateinit var ambientSound: CustomSound
 
@@ -30,6 +33,7 @@ abstract class FnafUMap : MGUMap, Resettable {
 
         this.build()
         this.doors = this.doors.sortedBy { it.door.tabletMenuPosition }.toMutableList()
+        this.systemStations.forEach { it.first.setOrigin(origin) }
     }
 
     abstract fun build()

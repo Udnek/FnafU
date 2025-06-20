@@ -13,6 +13,4 @@ interface LocationData : Originable {
     val head: LocationData
 
     fun get(n: Int): Location
-    fun getNearest(location: Location): Location
-    fun getFarthest(location: Location): Location
 }

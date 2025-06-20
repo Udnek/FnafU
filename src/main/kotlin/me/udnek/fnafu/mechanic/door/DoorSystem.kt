@@ -27,6 +27,10 @@ class DoorSystem : Resettable, System {
         }.runTaskLater(FnafU.instance, 1)
     }
 
+    fun updateDoorMenu() {
+        doorMenu.updateDoors()
+    }
+
     fun updateEnergy() {
         game.energy.updateConsumption()
     }

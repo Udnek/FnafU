@@ -25,18 +25,14 @@ class LocationSingle : LocationData {
         location = Location(null, x, y, z, yaw, pitch)
     }
 
+    constructor(x: Int, y: Int, z: Int, yaw: Float, pitch: Float): this(x.toDouble(), y.toDouble(), z.toDouble(), yaw, pitch)
+
     constructor(x: Double, y: Double, z: Double): this(x, y, z, 0f, 0f)
+
+    constructor(x: Int, y: Int, z: Int): this(x.toDouble(), y.toDouble(), z.toDouble())
 
     override fun get(n: Int): Location {
         return first
-    }
-
-    override fun getNearest(location: Location): Location {
-        return location
-    }
-
-    override fun getFarthest(location: Location): Location {
-        return location
     }
 
     override fun setOrigin(origin: Location) {
