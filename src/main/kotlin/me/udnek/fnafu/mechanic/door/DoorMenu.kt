@@ -7,6 +7,7 @@ import me.udnek.fnafu.item.survivor.door.DoorTabletButton
 import me.udnek.fnafu.util.getFnafU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -16,10 +17,10 @@ class DoorMenu : ConstructableCustomInventory {
     private val title: Component
     private val doors: List<ButtonDoorPair>
     private val tabletBackground =
-        ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:doorman")).color(TextColor.color(1f, 1f, 1f)), 165)
+        ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:doorman")).color(TextColor.color(1f, 1f, 1f)), 175)
 
     constructor(title: Component, doors: List<ButtonDoorPair>) : super() {
-        this.title = tabletBackground.append(title)
+        this.title = tabletBackground.append(title.color(NamedTextColor.BLACK))
         this.doors = doors
         updateDoors()
     }

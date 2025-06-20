@@ -8,6 +8,7 @@ import me.udnek.fnafu.util.getCameraId
 import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFnafU
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -18,7 +19,7 @@ open class CameraMenu : ConstructableCustomInventory{
     private var title: Component
 
     constructor(cameras: List<Camera>, title: Component, cameraTablet: ItemStack) : super() {
-        this.title = title
+        this.title = title.color(TextColor.color(1F, 1F, 1F))
         updateCameras(cameras, null, cameraTablet)
     }
 

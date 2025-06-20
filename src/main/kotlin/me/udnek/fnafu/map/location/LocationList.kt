@@ -41,18 +41,6 @@ class LocationList : LocationData {
         return this
     }
 
-    override fun getNearest(location: Location): Location {
-        val distances = ArrayList<Double>()
-        for (loc in locations) distances.add(loc.distance(location))
-        return locations[distances.indexOf(Collections.min(distances))]
-    }
-
-    override fun getFarthest(location: Location): Location {
-        val distances = ArrayList<Double>()
-        for (loc in locations) distances.add(loc.distance(location))
-        return locations[distances.indexOf(Collections.max(distances))]
-    }
-
     override fun setOrigin(origin: Location) {
         Preconditions.checkArgument(!frozen, "LocationList is frozen")
         for (location in locations) location.setOrigin(origin)

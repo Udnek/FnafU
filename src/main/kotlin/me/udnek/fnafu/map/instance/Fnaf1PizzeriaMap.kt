@@ -10,13 +10,17 @@ import me.udnek.fnafu.mechanic.door.Door
 import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.TextUtils
 import org.bukkit.Location
+import org.bukkit.block.BlockFace
 
 class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
+
+    override var systemStationsAmount: Int = 3
+
     override fun build() {
-        addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0.0, 0.0, 3.0, 180f, 0f).centerFloor)
-        addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(0.0, 0.0, -3.0, 0f, 0f).centerFloor)
-        addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-4.0, 6.0, -5.0, 0f, 0f).centerFloor)
-        addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(-4.0, 12.0, -5.0, 0f, 0f).centerFloor)
+        addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 3, 180f, 0f).centerFloor)
+        addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(0, 0, -3, 0f, 0f).centerFloor)
+        addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-4, 6, -5, 0f, 0f).centerFloor)
+        addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(-4, 12, -5, 0f, 0f).centerFloor)
         addLocation(LocationType.RESPAWN_SURVIVOR, LocationList().add(0.0, 0.0, 3.0, 180f, 0f).add(0.0, 5.0, 12.0, 180f, 0f))
 
         addDoor(ButtonDoorPair(4, 0, -1, Door.Direction.Z, 39, 3, 1, 1))
@@ -41,6 +45,17 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
             Camera(LocationSingle(-19.7, 2.2, -2.7, -40.58F, 26.75F).head, "kitchen", 42, 0F, false),
             Camera(LocationSingle(3.3, 2.2, -14.7, -46.12F, 33.13F).head, "generator", 48, 0F, false),
             Camera(LocationSingle(-8.7, 2.12, -8.7, -45.16F, 30.12F).head, "east_hall_corner", 50, 0F, true)
+        )
+
+        systemStations = listOf(
+            Pair(LocationSingle(3, 1, -15), BlockFace.EAST),
+            Pair(LocationSingle(-9, 2, 33), BlockFace.NORTH),
+            Pair(LocationSingle(22, 1, 23), BlockFace.SOUTH),
+            Pair(LocationSingle(-35, 1, 30), BlockFace.NORTH),
+            Pair(LocationSingle(10, 1, 2), BlockFace.EAST),
+            Pair(LocationSingle(3, 1, -4), BlockFace.SOUTH),
+            Pair(LocationSingle(-19, 1, -3), BlockFace.SOUTH),
+            Pair(LocationSingle(-1, 1, 35), BlockFace.SOUTH)
         )
 
         mapImage = TextUtils.getMapImage(-8, 165, "fnaf1")

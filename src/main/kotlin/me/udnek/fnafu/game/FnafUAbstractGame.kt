@@ -7,12 +7,15 @@ import me.udnek.coreu.mgu.command.MGUCommandType
 import me.udnek.coreu.mgu.game.MGUAbstractGame
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.coreu.mgu.player.MGUPlayer
+import me.udnek.coreu.nms.Nms
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.FnafUMap
+import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
@@ -63,6 +66,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
     }
 
     override fun getCommandOptions(context: MGUCommandContext): MutableList<String> {
+        if (context.commandType == MGUCommandType.DEBUG) return mutableListOf("10")
         if (context.commandType == MGUCommandType.JOIN) return mutableListOf("survivors", "animatronics")
         return super.getCommandOptions(context)
     }
@@ -86,12 +90,27 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         }
     }
 
-    override fun getDebug(): MutableList<Component> {
-        val debug = super.getDebug()
+    override fun getDebug(context: MGUCommandContext): MutableList<Component> {
+        val time = context.args[2].toIntOrNull()
+        if (time != null) getDebugLocation(time * 20)
+        val debug = super.getDebug(context)
         debug.add(Component.text("winner: $winner"))
         debug.add(Component.text("task: $task"))
         debug.add(Component.text("task running: ${!(task?.isCancelled?:true)}"))
         return debug
+    }
+
+    fun getDebugLocation(time: Int) {
+        LocationType.entries.forEach { locationType ->
+            map.getLocation(locationType)?.all?.forEach {  Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), time, locationType.name) } }
+        map.cameras.forEach { Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), time, it.id) }
+        for (i in 0 until map.doors.count()) {
+            Nms.get().showDebugBlock(map.doors[i].door.getLocation(), Color.ORANGE.asRGB(), time, i.toString())
+            Nms.get().showDebugBlock(map.doors[i].button.location, Color.RED.asRGB(), time, i.toString())
+        }
+        map.systemStations.forEach {
+            Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation " + it.second.name)
+        }
     }
 
     override fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type?): List<FnafUPlayer>{
