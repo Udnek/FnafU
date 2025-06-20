@@ -14,12 +14,16 @@
   "subtitles.fnafu.plushtrap_run": "",
   "subtitles.fnafu.plushtrap_near": "",
 
-  "item.fnafu.camera_tablet": "Camera Tablet",
-  "item.fnafu.plushtrap": "Plushtrap",
+  "item.fnafu.cut_camera_tablet": "Cut Camera Tablet",
+  "item.fnafu.full_camera_tablet": "Full Camera Tablet",
   "item.fnafu.system_tablet": "System Tablet",
+  "item.fnafu.door_tablet": "Door Tablet",
+
+  "item.fnafu.springtrap_plushtrap": "Plushtrap",
+  "item.fnafu.springtrap_break_cameras": "Break Cameras",
 
   "sidebar.fnafu.systems": "Systems",
-  "sidebar.fnafu.audio_system": "Audio System",
+  "sidebar.fnafu.door_system": "Door System",
   "sidebar.fnafu.ventilation_system": "Ventilation System",
   "sidebar.fnafu.camera_system": "Camera System",
   "sidebar.fnafu.live_count": "Live Count: %s",

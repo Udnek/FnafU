@@ -83,7 +83,10 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         }
 
         if (isEveryNTicks(20)) updateEnergyBar()
-        if (isEveryNTicks(10)) energy.tick()
+        if (isEveryNTicks(10)) {
+            systems.ventilation.tick()
+            energy.tick()
+        }
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
             for (animatronic in playerContainer.getAnimatronics(false)) {

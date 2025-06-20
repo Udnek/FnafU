@@ -18,7 +18,7 @@ class SpringtrapBreakCamerasItem: ConstructableCustomItem() {
     }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
-        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "springtrap/ability/$rawId"))
+        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "springtrap/ability/break_cameras"))
 
     override fun getRawId(): String = "springtrap_break_cameras"
 }
