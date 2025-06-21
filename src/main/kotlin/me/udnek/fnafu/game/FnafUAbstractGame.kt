@@ -91,7 +91,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
     }
 
     override fun getDebug(context: MGUCommandContext): MutableList<Component> {
-        val time = context.args[2].toIntOrNull()
+        val time = context.args.getOrNull(2)?.toIntOrNull()
         if (time != null) getDebugLocation(time * 20)
         val debug = super.getDebug(context)
         debug.add(Component.text("winner: $winner"))
@@ -102,11 +102,16 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
 
     fun getDebugLocation(time: Int) {
         LocationType.entries.forEach { locationType ->
-            map.getLocation(locationType)?.all?.forEach {  Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), time, locationType.name) } }
-        map.cameras.forEach { Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), time, it.id) }
-        for (i in 0 until map.doors.count()) {
-            Nms.get().showDebugBlock(map.doors[i].door.getLocation(), Color.ORANGE.asRGB(), time, i.toString())
-            Nms.get().showDebugBlock(map.doors[i].button.location, Color.RED.asRGB(), time, i.toString())
+            map.getLocation(locationType)?.all?.forEach {
+                Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), time, "loc " + locationType.name)
+            }
+        }
+        map.cameras.forEach {
+            Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), time, "cam ${it.id} (${it.number})")
+        }
+        map.doors.forEachIndexed { index, door ->
+            Nms.get().showDebugBlock(door.door.getLocation(), Color.ORANGE.asRGB(), time, "door $index")
+            Nms.get().showDebugBlock(door.button.location, Color.RED.asRGB(), time, "button $index")
         }
         map.systemStations.forEach {
             Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation " + it.second.name)

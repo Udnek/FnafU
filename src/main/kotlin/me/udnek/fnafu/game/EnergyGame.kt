@@ -134,11 +134,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
         stage = FnafUGame.Stage.KIT
 
-        kitSetupTask = object : BukkitRunnable() { override fun run() { gameStart() } }
+        kitSetupTask = object : BukkitRunnable() { override fun run() { mainCycleStart() } }
         kitSetupTask!!.runTaskLater(FnafU.instance, KIT_SETUP_DURATION)
     }
 
-    fun gameStart(){
+    fun mainCycleStart(){
         super.start()
         time.reset()
         energy.reset()
@@ -166,15 +166,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         val systemStations = ArrayList(map.systemStations)
         for (systemStation in systemStations) {
             val location = systemStation.first.first
-            val world = location.world
-            world.setBlockData(location, Material.AIR.createBlockData())
-            world.setBlockData(location.set(0.0, -1.0, 0.0), Material.AIR.createBlockData())
+            location.block.type = Material.AIR
+            location.add(0.0, -1.0, 0.0).block.type = Material.AIR
         }
         for (i in 1 .. map.systemStationsAmount step 2) {
-            val systemStation = systemStations.random()
+            val systemStation: Pair<LocationSingle, BlockFace> = systemStations.random()
             placeSystemStation(systemStations, systemStation)
             if (i >= map.systemStationsAmount) break
-            val farthestSystemStation = systemStations.find{it.first.first == systemStations.map {it -> it.first.first}.getFarthest(systemStation.first.first)}!!
+            val farthestSystemStation = systemStations.maxByOrNull { pair -> pair.first.first.distance(systemStation.first.first) }!!
             placeSystemStation(systemStations, farthestSystemStation)
         }
     }
@@ -186,7 +185,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         station.facing = pair.second
 
         world.setBlockData(location, station)
-        world.setBlockData(location.set(0.0, -1.0, 0.0), Material.BARRIER.createBlockData())
+        world.setBlockData(location.add(0.0, -1.0, 0.0), Material.BARRIER.createBlockData())
         systemStations.remove(pair)
     }
 

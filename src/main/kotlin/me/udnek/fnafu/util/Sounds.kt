@@ -10,7 +10,7 @@ import org.bukkit.SoundCategory
 object Sounds {
     val AMBIENCE_FNAF1 : CustomSound = register(ConstructableCustomSound(getName("ambience_fnaf1"), SoundCategory.AMBIENT))
     val AMBIENCE_FNAF2 : CustomSound = register(ConstructableCustomSound(getName("ambience_fnaf2"), SoundCategory.AMBIENT))
-    val DOOR : CustomSound = register(ConstructableCustomSound(getName("door"), SoundCategory.AMBIENT))
+    val DOOR : CustomSound = register(ConstructableCustomSound(getName("door"), SoundCategory.AMBIENT, 3f, 1f))
 
     val ANIMATRONIC_STEP : CustomSound = register(ConstructableCustomSound(getName("animatronic_step"), SoundCategory.HOSTILE))
 

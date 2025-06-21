@@ -35,13 +35,13 @@ fun Location.toCenterFloor(): Location {
 }
 
 fun List<Location>.getNearest(location: Location): Location {
-    val distances = ArrayList<Double>()
-    for (loc in this) distances.add(loc.distance(location))
-    return this[distances.indexOf(Collections.min(distances))]
+    return sortedByDistance(location).first()
+}
+
+fun List<Location>.sortedByDistance(location: Location): List<Location> {
+    return this.sortedBy { l -> l.distance(location) }
 }
 
 fun List<Location>.getFarthest(location: Location): Location {
-    val distances = ArrayList<Double>()
-    for (loc in this) distances.add(loc.distance(location))
-    return this[distances.indexOf(Collections.max(distances))]
+    return this.sortedByDistance(location).last()
 }
