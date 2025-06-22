@@ -34,6 +34,6 @@ open class SpectateEntityData : CustomComponent<MGUPlayerDataHolder> {
     }
 
     override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out CustomComponent<MGUPlayerDataHolder>> {
-        return FnafUComponents.SPECTATE_ENTITY_DATA
+        return FnafUComponents.SPECTATE_CAMERA_DATA
     }
 }

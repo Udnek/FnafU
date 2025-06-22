@@ -1,4 +1,4 @@
-package me.udnek.fnafu.mechanic.camera
+package me.udnek.fnafu.mechanic.system.camera
 
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.rpgu.component.RPGUComponents

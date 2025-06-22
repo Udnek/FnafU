@@ -21,25 +21,22 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
 open class CameraTabletAbility : FnafUActiveAbility {
-    val startCameraID: String
     val guiColor: Color
     val noiseColor: TextColor
     val isCut: Boolean
 
 
     companion object {
-        val CUT: CameraTabletAbility = CameraTabletAbility("main_entrance", Color.WHITE, NamedTextColor.WHITE, true)
-        val FULL: CameraTabletAbility = CameraTabletAbility("main_entrance", Color.GREEN, NamedTextColor.GREEN, false)
+        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true)
+        val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false)
     }
 
 
-    constructor(startCameraID: String, guiColor: Color, noiseColor: TextColor, isCut: Boolean){
-        this.startCameraID = startCameraID
+    constructor(guiColor: Color, noiseColor: TextColor, isCut: Boolean){
         this.guiColor = guiColor
         this.noiseColor = noiseColor
         this.isCut = isCut
     }
-
 
     open fun getOverlay() : ItemStack {
         val item = Items.CAMERA_OVERLAY.item
@@ -63,7 +60,8 @@ open class CameraTabletAbility : FnafUActiveAbility {
             return ActionResult.NO_COOLDOWN
         }
         cameras.openMenu(player, event.item!!)
-        cameras.spectateCamera(player, startCameraID, event.item!!)
+        val lastCamera = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA).lastCamera
+        cameras.spectateCamera(player, lastCamera ?: cameras.cameras.first(), event.item!!)
         return ActionResult.FULL_COOLDOWN
     }
 

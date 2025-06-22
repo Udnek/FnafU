@@ -1,4 +1,4 @@
-package me.udnek.fnafu.mechanic.door
+package me.udnek.fnafu.mechanic.system.door
 
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.FnafU
@@ -11,7 +11,6 @@ import org.bukkit.block.BlockFace
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Wall
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.util.Vector
 
 open class Door(protected val location: LocationSingle, private val direction: Direction, val tabletMenuPosition: Int) : Originable {
 
@@ -23,7 +22,10 @@ open class Door(protected val location: LocationSingle, private val direction: D
     var isClosed: Boolean = false
         private set
 
-    fun toggle() = if (isClosed) open() else close()
+    fun toggle() = {
+        if (isClosed) open()
+        else close()
+    }
 
     private fun getLayerBlockData(layer: Int): BlockData {
         return when (layer) {
@@ -110,8 +112,8 @@ open class Door(protected val location: LocationSingle, private val direction: D
         return location.first
     }
 
-    enum class Direction(vector: Vector) {
-        X(Vector(1, 0, 0)) {
+    enum class Direction() {
+        X {
             override fun modifyBlockState(blockData: Wall): Wall {
                 blockData.setHeight(BlockFace.WEST, Wall.Height.TALL)
                 blockData.setHeight(BlockFace.EAST, Wall.Height.TALL)
@@ -119,7 +121,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
                 return blockData
             }
         },
-        Z(Vector(0, 0, 1)) {
+        Z {
             override fun modifyBlockState(blockData: Wall): Wall {
                 blockData.setHeight(BlockFace.SOUTH, Wall.Height.TALL)
                 blockData.setHeight(BlockFace.NORTH, Wall.Height.TALL)
@@ -127,11 +129,6 @@ open class Door(protected val location: LocationSingle, private val direction: D
                 return blockData
             }
         };
-
-        private val vector = vector.normalize()
-
-        val alignedVector: Vector
-            get() = vector.clone()
 
         abstract fun modifyBlockState(blockData: Wall): Wall
     }

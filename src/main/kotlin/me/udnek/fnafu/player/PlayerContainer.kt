@@ -3,7 +3,7 @@ package me.udnek.fnafu.player
 import org.bukkit.entity.Player
 
 
-class PlayerContainer {
+class PlayerContainer : Iterable<FnafUPlayer>{
     private val players: MutableList<FnafUPlayer> = ArrayList()
 
     val all: List<FnafUPlayer>
@@ -12,9 +12,7 @@ class PlayerContainer {
         }
 
     val aliveSurvivorsAmount: Int
-        get() {
-            return getSurvivors(false).size
-        }
+        get() = getSurvivors(false).count { it.status == FnafUPlayer.Status.ALIVE }
 
 
     fun getPlayer(player: Player): FnafUPlayer? {
@@ -65,4 +63,6 @@ class PlayerContainer {
     }
 
     fun contains(player: Player): Boolean = players.any { it.player == player }
+
+    override fun iterator(): Iterator<FnafUPlayer> = players.iterator()
 }

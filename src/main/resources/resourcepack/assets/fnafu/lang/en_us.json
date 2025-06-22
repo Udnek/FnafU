@@ -1,6 +1,6 @@
 {
-  "subtitles.fnafu.ambience": "",
-  "subtitles.fnafu.door": "",
+  "subtitles.fnafu.ambience": "Ambience",
+  "subtitles.fnafu.door": "Door switches",
 
   "subtitles.fnafu.animatronic_step": "",
 
@@ -9,15 +9,15 @@
   "subtitles.fnafu.springtrap_spawn": "",
   "subtitles.fnafu.springtrap_rage_start": "",
   "subtitles.fnafu.springtrap_rage_stop": "",
-  "subtitles.fnafu.springtrap_screamer": "",
+  "subtitles.fnafu.springtrap_jumpscare": "Springtrap jumpscare",
 
-  "subtitles.fnafu.plushtrap_run": "",
-  "subtitles.fnafu.plushtrap_near": "",
+  "subtitles.fnafu.plushtrap_run": "Plushtrap runs",
+  "subtitles.fnafu.plushtrap_near": "Plushtrap in near",
 
   "item.fnafu.cut_camera_tablet": "Cut Camera Tablet",
   "item.fnafu.full_camera_tablet": "Full Camera Tablet",
   "item.fnafu.system_tablet": "System Tablet",
-  "item.fnafu.door_tablet": "Door Tablet",
+  "item.fnafu.doorman_tablet": "Doorman Tablet",
 
   "item.fnafu.springtrap_plushtrap": "Plushtrap",
   "item.fnafu.springtrap_break_cameras": "Break Cameras",

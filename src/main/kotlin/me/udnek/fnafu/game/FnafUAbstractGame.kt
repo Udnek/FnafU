@@ -25,9 +25,9 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders
 
 abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame(), FnafUGame {
 
-    val playerContainer: PlayerContainer = PlayerContainer()
+    override val playerContainer: PlayerContainer = PlayerContainer()
     private var task: BukkitRunnable? = null
-    protected var winner: Winner
+    protected var winner: Winner = Winner.NONE
     override var stage: FnafUGame.Stage = FnafUGame.Stage.WAITING
     override fun isRunning(): Boolean { return super<FnafUGame>.isRunning() }
 
@@ -139,10 +139,6 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         SURVIVORS(TextColor.color(0f, 1f, 0f)),
         ANIMATRONICS(TextColor.color(1f, 0f, 0f)),
         NONE(TextColor.color(0.7f, 0.7f, 0.7f))
-    }
-
-    init {
-        this.winner = Winner.NONE
     }
 
     private var components: CustomComponentMap<FnafUGame, CustomComponent<FnafUGame>> = CustomComponentMap()

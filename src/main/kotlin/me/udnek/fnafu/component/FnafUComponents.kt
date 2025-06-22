@@ -9,14 +9,20 @@ import me.udnek.fnafu.component.springtrap.SpringtrapBreakCamerasAbility
 import me.udnek.fnafu.component.springtrap.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.component.springtrap.SpringtrapPlushtrapData
 import me.udnek.fnafu.component.survivor.CameraTabletAbility
+import me.udnek.fnafu.component.survivor.DoormanTabletAbility
+import me.udnek.fnafu.component.survivor.SpectateCameraData
 import me.udnek.fnafu.component.survivor.SpectateEntityData
+import me.udnek.fnafu.component.survivor.SystemTabletAbility
 
 object FnafUComponents {
 
     val KIT = register(ConstructableComponentType("kit", Kit.CAMERAMAN))
     val CAMERA_TABLET_ABILITY = register(ConstructableComponentType("camera_tablet_ability", CameraTabletAbility.FULL))
+    val DOORMAN_TABLET_ABILITY = register(ConstructableComponentType("doorman_tablet_ability", DoormanTabletAbility.DEFAULT))
+    val SYSTEM_TABLET_ABILITY = register(ConstructableComponentType("system_tablet_ability", SystemTabletAbility.DEFAULT))
 
     val SPECTATE_ENTITY_DATA = register(ConstructableComponentType("spectate_entity_data", SpectateEntityData.DEFAULT) { SpectateEntityData() })
+    val SPECTATE_CAMERA_DATA = register(ConstructableComponentType("spectate_camera_data", SpectateCameraData.DEFAULT) { SpectateCameraData() })
 
     val SPRINGTRAP_PLUSHTRAP_ABILITY = register(ConstructableComponentType("springtrap_plushtrap_ability", SpringtrapPlushtrapAbility.DEFAULT))
     val SPRINGTRAP_PLUSHTRAP_DATA = register(ConstructableComponentType("springtrap_plushtrap_data", SpringtrapPlushtrapData.DEFAULT) { SpringtrapPlushtrapData() })

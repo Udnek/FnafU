@@ -9,7 +9,7 @@ import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.camera.Camera
+import me.udnek.fnafu.mechanic.system.camera.Camera
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.NamespacedKey

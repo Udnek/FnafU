@@ -17,46 +17,39 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class KitMenu : ConstructableCustomInventory() {
 
-    private var kit: Kit? = null
+    private var chosenKit: Kit? = null
 
     override fun onPlayerOpensInventory(event: InventoryOpenEvent) {
         var i = 0
         (event.player as Player).getFnafU()?.also { player ->
-            Kit.REGISTRY.getAll {
-                if (it.type == player.type) {
-                    inventory.setItem(i, it.displayItem)
-                    i++
-                }
+            Kit.REGISTRY.getAll().filter { it.playerType == player.type }.forEach {
+                inventory.setItem(i++, it.displayItem)
             }
         }
     }
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
-        event.currentItem?.let { itemStack -> (event.whoClicked as Player).getFnafU()?.also { kit = getCurrentKit(itemStack) } }
+        event.currentItem?.let { itemStack -> (event.whoClicked as Player).getFnafU()?.also { chosenKit = getCurrentKit(itemStack) } }
     }
 
     private fun getCurrentKit(itemStack: ItemStack) : Kit {
-        var playerKit: Kit = FnafUComponents.KIT.default
-        Kit.REGISTRY.getAll { if (it.displayItem == itemStack) playerKit = it }
-        return playerKit
+        return Kit.REGISTRY.getAll().firstOrNull { it.displayItem == itemStack} ?: FnafUComponents.KIT.default
     }
 
     private fun getFirstAllowedKit(player: FnafUPlayer) : Kit {
-        var playerKit: Kit = player.kit
-        Kit.REGISTRY.getAll { if (it.type == player.type) playerKit = it; return@getAll }
-        return playerKit
+        return Kit.REGISTRY.getAll().firstOrNull { it.playerType == player.type} ?: player.kit
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
         (event.player as Player).getFnafU()?.also {
-            it.kit = kit ?: getFirstAllowedKit(it)
+            it.kit = chosenKit ?: getFirstAllowedKit(it)
             if (it.game.stage == FnafUGame.Stage.KIT) {
                 object : BukkitRunnable() { override fun run() {open(event.player as Player)} }.runTaskLater(FnafU.instance, 1)
             }
         }
     }
 
-    override fun getTitle(): Component? { return Component.text("Kit") }
-    override fun getInventorySize(): Int { return 9 * 6 }
+    override fun getTitle(): Component = Component.translatable("container.fnafu.kit")
+    override fun getInventorySize(): Int = 9 * 6
 }

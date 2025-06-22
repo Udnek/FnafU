@@ -7,6 +7,7 @@ import com.comphenix.protocol.wrappers.WrappedDataValue
 import com.comphenix.protocol.wrappers.WrappedDataWatcher
 import com.comphenix.protocol.wrappers.WrappedWatchableObject
 import it.unimi.dsi.fastutil.ints.IntArrayList
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
 import me.udnek.fnafu.FnafU
@@ -16,6 +17,7 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.util.Resettable
+import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFarthest
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -43,8 +45,12 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     var status: Status = Status.ALIVE
 
     var kit: Kit
-        set(value) = components.set(value)
-        get() = components.getOrDefault(FnafUComponents.KIT)
+        set(value) = data.set(value)
+        get() = data.getOrDefault(FnafUComponents.KIT)
+
+
+    val abilityItems: List<CustomItem>
+        get() = kit.items.mapNotNull { stack -> stack.getCustom() }
 
     override fun getGame(): FnafUGame = game
 
@@ -155,7 +161,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     fun damage() {
         if (type != Type.SURVIVOR) return
         if (game.survivorLives == 0){
-            this.death()
+            this.die()
             return
         }
         teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).all.getFarthest(player.location))
@@ -163,10 +169,10 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         game.updateSurvivorLives()
     }
 
-    fun death() {
+    fun die() {
         status = Status.DEAD
         player.gameMode = GameMode.SPECTATOR
-        game.mustWinAnimatronics()
+        game.checkForEndConditions()
     }
 
     override fun reset() {
@@ -184,8 +190,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     enum class Status {
         ALIVE,
-        DEAD,
-        INACTIVE
+        DEAD
     }
 
 }

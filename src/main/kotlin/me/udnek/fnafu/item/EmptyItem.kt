@@ -14,7 +14,7 @@ class EmptyItem(private var name: String): ConstructableCustomItem() {
     }
 
     override fun getRawId(): String = name
-    override fun getHideTooltip(): Boolean? = true
+    override fun getHideTooltip(): Boolean = true
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key?>? {
         return if (model == null) super.getItemModel() else model
     }

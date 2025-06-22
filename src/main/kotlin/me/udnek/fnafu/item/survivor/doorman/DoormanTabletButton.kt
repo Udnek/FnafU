@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item.survivor.door
+package me.udnek.fnafu.item.survivor.doorman
 
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes
@@ -9,7 +9,7 @@ import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.door.Door
+import me.udnek.fnafu.mechanic.system.door.Door
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.NamespacedKey
@@ -17,7 +17,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 
-class DoorTabletButton : ConstructableCustomItem(), Listener {
+class DoormanTabletButton : ConstructableCustomItem(), Listener {
     companion object {
         fun getWithCamera(door: Door, index: Int): ItemStack {
             val color: Color
@@ -32,7 +32,7 @@ class DoorTabletButton : ConstructableCustomItem(), Listener {
 
     override fun update(itemStack: ItemStack): ItemStack = itemStack
 
-    override fun getRawId(): String = "door_button"
+    override fun getRawId(): String = "doorman_tablet_button"
 
     @EventHandler
     fun onGenerate(event: ResourcepackInitializationEvent) {

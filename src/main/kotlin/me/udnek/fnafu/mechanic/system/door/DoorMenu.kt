@@ -1,9 +1,9 @@
-package me.udnek.fnafu.mechanic.door
+package me.udnek.fnafu.mechanic.system.door
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.util.ComponentU
-import me.udnek.fnafu.item.survivor.door.DoorTabletButton
+import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
 import me.udnek.fnafu.util.getFnafU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -26,10 +26,8 @@ class DoorMenu : ConstructableCustomInventory {
     }
 
     fun updateDoors() {
-        var i = 0
-        for (door in doors) {
-            inventory.setItem(door.door.tabletMenuPosition, DoorTabletButton.getWithCamera(door.door, i))
-            i++
+        doors.forEachIndexed { index, door ->
+            inventory.setItem(door.door.tabletMenuPosition, DoormanTabletButton.getWithCamera(door.door, index))
         }
     }
 
@@ -41,7 +39,7 @@ class DoorMenu : ConstructableCustomInventory {
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.systems.door.exitSystem(it) }
+        (event.player as Player).getFnafU()?.also { it.game.systems.door.exitMenu(it) }
     }
 
     override fun getTitle(): Component = title

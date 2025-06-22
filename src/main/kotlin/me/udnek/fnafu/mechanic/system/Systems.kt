@@ -4,9 +4,9 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.BundleContents
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.VentilationSystem
-import me.udnek.fnafu.mechanic.camera.CameraSystem
-import me.udnek.fnafu.mechanic.door.DoorSystem
+import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
+import me.udnek.fnafu.mechanic.system.camera.CameraSystem
+import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
@@ -18,14 +18,15 @@ import org.bukkit.scheduler.BukkitRunnable
 open class Systems : Resettable {
 
     companion object {
-        val STATION_BLOCK_TYPE = Material.BLUE_GLAZED_TERRACOTTA
+        val STATION_BLOCK_MATERIAL = Material.BLUE_GLAZED_TERRACOTTA
+        const val REBOOT_ALL_ICON_POSITION = 41
     }
 
     private val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
         9 to {player ->  door.startRepairing(player, systemMenu)},
         18 to {player ->  camera.startRepairing(player, systemMenu)},
         27 to {player ->  ventilation.startRepairing(player, systemMenu)},
-        36 to {player ->  fixAll(player)})
+        36 to {player ->  repairAll(player)})
     private val cursorItem = Items.CURSOR_ICON.item
 
     private val upButtons = listOf(9, 10, 18, 19, 27, 28)
@@ -84,10 +85,10 @@ open class Systems : Resettable {
         return cursorPosition.keys.toList().indexOf(inventory.first(cursorItem))
     }
 
-    fun fixAll(player: FnafUPlayer) {
+    fun repairAll(player: FnafUPlayer) {
         if (isAnyOfSystemsBeingRepaired()) return
-        systemMenu.inventory.setItem(System.REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
-        all.forEach { it.repairingTask(player, systemMenu/*, false*/) }
+        systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
+        all.forEach { it.startRepairing(player, systemMenu) }
     }
 
     fun isAnyOfSystemsBeingRepaired(): Boolean {
@@ -95,7 +96,7 @@ open class Systems : Resettable {
         return false
     }
 
-    fun exitSystem(player: FnafUPlayer) {
+    fun exitMenu(player: FnafUPlayer) {
         if (playerInsideSystem.isEmpty()) return
         playerInsideSystem.remove(player)
         player.kit.regive(player)
@@ -124,11 +125,10 @@ open class Systems : Resettable {
     override fun reset() {
         all.forEach {
             it.reset()
-            it.repaired(systemMenu/*, false*/)
         }
 
         for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
-            exitSystem(player)
+            exitMenu(player)
             player.player.closeInventory()
         }
     }

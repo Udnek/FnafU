@@ -10,7 +10,7 @@ import org.bukkit.event.Listener
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.potion.PotionEffectTypeCategory
 
-class StunEffect : ConstructableCustomEffect(), Listener {
+class StunEffect : ConstructableCustomEffect(){
     override fun getCategory(): PotionEffectTypeCategory = PotionEffectTypeCategory.HARMFUL
     override fun getVanillaDisguise(): PotionEffectType? = PotionEffectType.SLOWNESS
     override fun getRawId(): String = "stun"

@@ -21,8 +21,8 @@ class ComponentListener(plugin: Plugin) : SelfRegisteringListener(plugin){
 
     @EventHandler
     fun onSystemRepaired(event: SystemRepairedEvent){
-        event.system.game.players.forEach { player ->
-            player.allItemAbilities.forEach { item ->
+        event.system.game.playerContainer.forEach { player ->
+            player.abilityItems.forEach { item ->
                 item
                     .components.getOrDefault(RPGUComponents.ACTIVE_ABILITY_ITEM)
                     .components.get(FnafUComponents.SPRINGTRAP_BREAK_CAMERAS_ABILITY)

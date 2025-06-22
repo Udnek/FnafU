@@ -1,4 +1,4 @@
-package me.udnek.fnafu.mechanic.camera
+package me.udnek.fnafu.mechanic.system.camera
 
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.map.location.LocationSingle

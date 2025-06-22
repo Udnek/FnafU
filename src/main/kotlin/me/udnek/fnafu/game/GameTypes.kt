@@ -45,23 +45,24 @@ object GameTypes {
                 if ((block.blockData as Powerable).isPowered) return
                 getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
                     if (it.type != FnafUPlayer.Type.SURVIVOR) return
-                    for (pair in it.game.map.doors) {
+                    for (pair in it.game.systems.door.doors) {
                         if (pair.hasButtonAt(block.location)) {
                             it.game.onPlayerClicksDoorButton(event, it, pair)
                         }
                     }
                 }
-            } else if (block.type == Systems.STATION_BLOCK_TYPE){
+            } else if (block.type == Systems.STATION_BLOCK_MATERIAL){
                 getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                    if (it.type != FnafUPlayer.Type.SURVIVOR && block.location.distance(it.player.location) < 1.5) return
-                    it.game.systems.openMenu(it)
+                    if (it.type == FnafUPlayer.Type.SURVIVOR && block.location.distance(it.player.location) < 1.5){
+                        it.game.systems.openMenu(it)
+                    }
                 }
             }
         }
         @EventHandler
         fun onLeave(event: PlayerQuitEvent) {
             getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                it.status = FnafUPlayer.Status.INACTIVE
+                //it.status = FnafUPlayer.Status.INACTIVE
                 it.game.onPlayerLeave(event, it)
             }
         }

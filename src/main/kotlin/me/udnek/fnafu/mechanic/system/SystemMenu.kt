@@ -27,17 +27,17 @@ class SystemMenu : ConstructableCustomInventory {
                 Items.ENTER_BUTTON -> (event.whoClicked as Player).getFnafU()?.also { it.game.systems.enter(it, inventory) }
                 Items.SYSTEM_TABLET, Items.EXIT_BUTTON -> (event.whoClicked as Player).getFnafU()?.also {
                     it.player.closeInventory()
-                    it.game.systems.exitSystem(it)
+                    it.game.systems.exitMenu(it)
                 }
             }
         }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.systems.exitSystem(it) }
+        (event.player as Player).getFnafU()?.also { it.game.systems.exitMenu(it) }
     }
 
-    override fun getTitle(): Component? {
+    override fun getTitle(): Component {
         return ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:system")).color(TextColor.color(1f, 1f, 1f)), 165)
     }
     override fun getInventorySize(): Int { return 9 * 6 }

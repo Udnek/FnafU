@@ -1,4 +1,4 @@
-package me.udnek.fnafu.mechanic.door
+package me.udnek.fnafu.mechanic.system.door
 
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.map.location.LocationSingle

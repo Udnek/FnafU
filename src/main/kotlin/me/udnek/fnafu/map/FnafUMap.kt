@@ -5,9 +5,8 @@ import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.map.location.LocationSingle
-import me.udnek.fnafu.mechanic.camera.Camera
-import me.udnek.fnafu.mechanic.door.ButtonDoorPair
-import me.udnek.fnafu.mechanic.door.Door
+import me.udnek.fnafu.mechanic.system.camera.Camera
+import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -47,10 +46,6 @@ abstract class FnafUMap : MGUMap, Resettable {
     }
 
 
-    fun getDoorByButtonLocation(location: Location): Door? {
-        return doors.firstOrNull { it.hasButtonAt(location) }?.door
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     // LOCATIONS
     ///////////////////////////////////////////////////////////////////////////
@@ -75,7 +70,5 @@ abstract class FnafUMap : MGUMap, Resettable {
     ///////////////////////////////////////////////////////////////////////////
     // MISC
     ///////////////////////////////////////////////////////////////////////////
-    override fun reset() {
-        for (door in doors) door.door.open()
-    }
+    override fun reset() {}
 }

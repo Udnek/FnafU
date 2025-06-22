@@ -12,14 +12,13 @@ import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.KitMenu
 import me.udnek.fnafu.mechanic.Time
-import me.udnek.fnafu.mechanic.VentilationSystem
-import me.udnek.fnafu.mechanic.camera.CameraSystem
-import me.udnek.fnafu.mechanic.door.ButtonDoorPair
-import me.udnek.fnafu.mechanic.door.DoorSystem
+import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
+import me.udnek.fnafu.mechanic.system.camera.CameraSystem
+import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Sounds
-import me.udnek.fnafu.util.getFarthest
 import me.udnek.fnafu.util.toCenterFloor
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
@@ -45,7 +44,7 @@ import org.bukkit.scoreboard.Team
 
 class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     companion object {
-        const val GAME_DURATION: Int = 60 * 20
+        const val GAME_DURATION: Int = 5 * 60 * 20
         const val KIT_SETUP_DURATION: Long = 4 * 20
         const val MAX_LIVES: Int = 5
 
@@ -57,10 +56,10 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
     var kitSetupTask: BukkitRunnable? = null
     val time: Time = Time(GAME_DURATION)
-    val energy: Energy = Energy(this)
+    override val energy: Energy = Energy(this)
 
     override var survivorLives = MAX_LIVES
-    override val systems = Systems(DoorSystem(this), CameraSystem(this), VentilationSystem(this))
+    override val systems: Systems = Systems(DoorSystem(this, map.doors), CameraSystem(this), VentilationSystem(this))
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
@@ -68,16 +67,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     private var teamSurvivors: Team? = null
     private var teamAnimatronics: Team? = null
 
-    val scoreboard = CustomSidebar(id.asString(), Component.translatable("sidebar.fnafu.systems"))
+    override val scoreboard = CustomSidebar(id.asString(), Component.translatable("sidebar.fnafu.systems"))
 
     init {
         map.cameras.forEach { systems.camera.addCamera(it) }
         systems.camera.setOrigin(map.origin)
     }
 
-    private fun isEveryNTicks(n: Int): Boolean {
-        return time.ticks % n == 0
-    }
+    private fun isEveryNTicks(n: Int): Boolean = time.ticks % n == 0
 
     override fun tick() {
         time.tick()
@@ -107,7 +104,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         initializeBars()
         initializeTeams()
 
-        scoreboard.lines = mapOf(systems.door.getSidebarView(), systems.ventilation.getSidebarView(), systems.camera.getSidebarView())
+        scoreboard.lines = systems.all.associate { system -> system.getSidebarView() }
+
         updateSurvivorLives()
         chooseSystemStations()
 
@@ -249,20 +247,16 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             return
         }
 
-        if (!mustWinAnimatronics()) victim.damage()
+        victim.damage()
     }
 
-    override fun mustWinAnimatronics(): Boolean {
-        if (survivorLives != 0 || hasAliveSurvivors()) return false
-        winner = Winner.ANIMATRONICS
-        stop()
-        return true
+    override fun checkForEndConditions() {
+        if (survivorLives == 0 && playerContainer.aliveSurvivorsAmount == 0){
+            winner = Winner.ANIMATRONICS
+            stop()
+        }
     }
 
-    fun hasAliveSurvivors(): Boolean {
-        players.forEach { if (it.status != FnafUPlayer.Status.DEAD && it.type == FnafUPlayer.Type.SURVIVOR) return true }
-        return false
-    }
 
     override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
         val door = button.door

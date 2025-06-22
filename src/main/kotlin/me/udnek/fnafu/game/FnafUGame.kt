@@ -2,12 +2,15 @@ package me.udnek.fnafu.game
 
 import me.udnek.coreu.custom.component.ComponentHolder
 import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameInstance
 import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.map.FnafUMap
-import me.udnek.fnafu.mechanic.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.Energy
+import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.player.PlayerContainer
 import me.udnek.fnafu.util.Ticking
 import org.bukkit.Location
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -21,11 +24,14 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, Custo
     val systems: Systems
     val map: FnafUMap
     var survivorLives: Int
+    val scoreboard: CustomSidebar
+    val playerContainer: PlayerContainer
+    val energy: Energy
 
     fun getTeam(fnafUPlayer: FnafUPlayer): Team?
     fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type? = null): List<FnafUPlayer>
     fun updateSurvivorLives()
-    fun mustWinAnimatronics(): Boolean
+    fun checkForEndConditions()
     fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer)
     fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair)
     fun onPlayerLeave(event: PlayerQuitEvent, player: FnafUPlayer)

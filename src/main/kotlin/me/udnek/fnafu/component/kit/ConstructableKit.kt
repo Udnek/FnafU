@@ -7,15 +7,20 @@ import org.bukkit.inventory.ItemStack
 
 open class ConstructableKit : Kit, AbstractRegistrable {
 
+
     private val customItems: List<CustomItem>
-    val type: FnafUPlayer.Type
-    val displayItem: ItemStack
     private val id: String
+
+    final override val playerType: FnafUPlayer.Type
+    final override val displayItem: ItemStack
+
+    override val items: List<ItemStack>
+        get() = customItems.map { it.item }
 
     constructor(id: String, type: FnafUPlayer.Type, displayItem: ItemStack, customItems: List<CustomItem>) {
         this.displayItem = displayItem
         this.customItems = customItems
-        this.type = type
+        this.playerType = type
         this.id = id
     }
 

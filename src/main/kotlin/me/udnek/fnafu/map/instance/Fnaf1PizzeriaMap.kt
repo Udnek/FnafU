@@ -4,9 +4,9 @@ import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
-import me.udnek.fnafu.mechanic.camera.Camera
-import me.udnek.fnafu.mechanic.door.ButtonDoorPair
-import me.udnek.fnafu.mechanic.door.Door
+import me.udnek.fnafu.mechanic.system.camera.Camera
+import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.system.door.Door
 import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.TextUtils
 import org.bukkit.Location
