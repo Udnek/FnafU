@@ -5,12 +5,13 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-class DoorSystem : AbstractSystem {
+class DoorSystem : AbstractSystem, Ticking {
 
     override val sidebarPosition: Int = 3
     val doors: MutableList<ButtonDoorPair>
@@ -21,6 +22,15 @@ class DoorSystem : AbstractSystem {
     constructor(game: FnafUGame, doors: MutableList<ButtonDoorPair>) : super(game){
         this.doors = ArrayList(doors)
         this.menu = DoorMenu(game.map.mapImage, this.doors)
+    }
+
+    override fun tick() {
+        if (game.energy.isEndedUp) {
+            doors.forEach {
+                it.door.open()
+                it.door.isLocked = true
+            }
+        }
     }
 
 
@@ -45,7 +55,6 @@ class DoorSystem : AbstractSystem {
         game.applyForEveryAbility { component, player, item ->
             component.components.get(FnafUComponents.DOORMAN_TABLET_ABILITY)?.onPlayerClickButton(item, player)
         }
-
     }
 
     fun updateEnergy() {

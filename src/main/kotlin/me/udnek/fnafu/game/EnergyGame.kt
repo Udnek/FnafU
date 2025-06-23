@@ -85,7 +85,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
         if (isEveryNTicks(20)) updateEnergyBar()
         if (isEveryNTicks(10)) {
-            systems.ventilation.tick()
+            systems.tick()
             energy.tick()
         }
         if (isEveryNTicks(5)) updateTimeBar()

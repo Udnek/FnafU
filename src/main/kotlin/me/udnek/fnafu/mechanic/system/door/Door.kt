@@ -21,6 +21,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
 
     var isClosed: Boolean = false
         private set
+    var isLocked: Boolean = false
 
     fun toggle() {
         if (isClosed) open()
@@ -37,7 +38,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
     }
 
     fun close() {
-        if (isClosed) return
+        if (isClosed or isLocked) return
         isClosed = true
 
         Sounds.DOOR.play(location.first)
@@ -69,7 +70,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
     }
 
     fun open() {
-        if (!isClosed) return
+        if (!isClosed or isLocked) return
         isClosed = false
 
         Sounds.DOOR.play(location.first)
