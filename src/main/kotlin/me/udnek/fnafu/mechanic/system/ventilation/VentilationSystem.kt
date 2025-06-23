@@ -7,7 +7,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class VentilationSystem(game: FnafUGame) : AbstractSystem(game), Ticking {
+class VentilationSystem(game: FnafUGame) : AbstractSystem(game) {
 
     override val sidebarPosition: Int = 1
     private var timeBroken: Int = 0

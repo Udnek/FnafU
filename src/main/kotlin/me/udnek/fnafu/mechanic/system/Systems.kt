@@ -9,13 +9,14 @@ import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
+import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-open class Systems : Resettable {
+open class Systems : Resettable, Ticking {
 
     companion object {
         val STATION_BLOCK_MATERIAL = Material.BLUE_GLAZED_TERRACOTTA
@@ -46,6 +47,10 @@ open class Systems : Resettable {
         this.ventilation = ventilationSystem
         all = listOf(doorSystem, cameraSystem, ventilationSystem)
         systemMenu = SystemMenu()
+    }
+
+    override fun tick() {
+        all.forEach { it.tick() }
     }
 
     fun destroySystem(system: System) {

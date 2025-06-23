@@ -31,10 +31,15 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
     override var guiSlot: Int = 25
     override var sidebarComponent: Component = Component.translatable("sidebar.fnafu.camera_system")
 
+    override fun tick() {
+        if (game.energy.isEndedUp) playerSpectatingCameras.forEach { (player, _) -> exitCamera(player)}
+    }
+
     fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
 
     fun spectateCamera(player: FnafUPlayer, id: String, cameraTablet: ItemStack) {
         val camera = getCamera(id) ?: throw RuntimeException("camera's id is wrong: $id")
+        if (game.energy.isEndedUp) return
         spectateCamera(player, camera, cameraTablet)
     }
 
