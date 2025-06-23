@@ -18,7 +18,8 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
 
     override fun build() {
         addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 3, 180f, 0f).centerFloor)
-        addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(0, 0, -3, 0f, 0f).centerFloor)
+        addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(-20.01, 0.0, 33.3, -88.93f, 3.95f).centerFloor)
+        addLocation(LocationType.PRESPAWN_ANIMATRONIC, LocationSingle(-24.39, 0.0, 35.51, -89.84f, 2.28f).centerFloor)
         addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-4, 6, -5, 0f, 0f).centerFloor)
         addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(-4, 12, -5, 0f, 0f).centerFloor)
         addLocation(LocationType.RESPAWN_SURVIVOR, LocationList().add(0.0, 0.0, 3.0, 180f, 0f).add(0.0, 5.0, 12.0, 180f, 0f))
