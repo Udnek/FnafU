@@ -22,7 +22,7 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
         fun getWithCamera(door: Door, index: Int): ItemStack {
             val color: Color
             if (door.isClosed) color = Color.BLACK
-            else color = Color.ORANGE
+            else color = Color.fromRGB(189, 75, 33)
             return Items.DOOR_BUTTON.item.also {
                 it.setData(DataComponentTypes.ITEM_NAME, Component.text(index))
                 it.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(index.toFloat()).addColor(color))
