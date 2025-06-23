@@ -165,6 +165,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         animatronicWaitingTask = object : BukkitRunnable() { override fun run() {
             playerContainer.getAnimatronics(false).forEach {
                 it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
+                it.showNoise(NamedTextColor.RED)
             }
         } }
         animatronicWaitingTask!!.runTaskLater(FnafU.instance, ANIMATRONIC_WAITING_DURATION)
