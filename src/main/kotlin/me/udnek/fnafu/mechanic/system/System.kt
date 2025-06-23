@@ -3,9 +3,10 @@ package me.udnek.fnafu.mechanic.system
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
+import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.text.Component
 
-interface System : Resettable {
+interface System : Resettable, Ticking {
 
     val isRepairing: Boolean
     val isBroken: Boolean

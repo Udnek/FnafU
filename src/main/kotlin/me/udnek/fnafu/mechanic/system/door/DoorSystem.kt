@@ -11,7 +11,7 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-class DoorSystem : AbstractSystem, Ticking {
+class DoorSystem : AbstractSystem {
 
     override val sidebarPosition: Int = 3
     val doors: MutableList<ButtonDoorPair>

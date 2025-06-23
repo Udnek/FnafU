@@ -12,7 +12,6 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.mechanic.system.SystemMenu
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -23,7 +22,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.abs
 
-open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game), Ticking {
+open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
 
     override val sidebarPosition: Int = 2
     val cameras: MutableList<Camera> = ArrayList()

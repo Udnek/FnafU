@@ -50,9 +50,7 @@ open class Systems : Resettable, Ticking {
     }
 
     override fun tick() {
-        ventilation.tick()
-        door.tick()
-        camera.tick()
+        all.forEach { it.ti }
     }
 
     fun destroySystem(system: System) {
