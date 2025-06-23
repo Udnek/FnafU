@@ -50,7 +50,7 @@ open class Systems : Resettable, Ticking {
     }
 
     override fun tick() {
-        all.forEach { it.ti }
+        all.forEach { it.tick() }
     }
 
     fun destroySystem(system: System) {
