@@ -114,6 +114,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             player.reset()
 
             player.player.exp = 0f
+            player.player.level = 0
             player.player.gameMode = GameMode.ADVENTURE
             player.player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
             player.player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
