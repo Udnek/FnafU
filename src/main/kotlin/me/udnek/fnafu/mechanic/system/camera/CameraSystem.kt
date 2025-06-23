@@ -39,7 +39,6 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
 
     fun spectateCamera(player: FnafUPlayer, id: String, cameraTablet: ItemStack) {
         val camera = getCamera(id) ?: throw RuntimeException("camera's id is wrong: $id")
-        if (game.energy.isEndedUp) return
         spectateCamera(player, camera, cameraTablet)
     }
 

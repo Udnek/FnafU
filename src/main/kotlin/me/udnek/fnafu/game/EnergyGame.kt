@@ -45,6 +45,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     companion object {
         const val GAME_DURATION: Int = 5 * 60 * 20
         const val KIT_SETUP_DURATION: Long = 4 * 20
+        const val ANIMATRONIC_WAITING_DURATION: Long = 8 * 20
         const val MAX_LIVES: Int = 5
 
         const val DOOR_STUN_RADIUS: Double = 1.0
@@ -54,6 +55,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     var kitSetupTask: BukkitRunnable? = null
+    var animatronicWaitingTask: BukkitRunnable? = null
     val time: Time = Time(GAME_DURATION)
     override val energy: Energy = Energy(this)
 
@@ -111,7 +113,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         for (player in playerContainer.getPlayers(false)) {
             player.reset()
 
-            player.player.totalExperience = 0
+            player.player.exp = 0f
             player.player.gameMode = GameMode.ADVENTURE
             player.player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
             player.player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
@@ -152,12 +154,19 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         for (player in playerContainer.getPlayers(false)) {
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> { player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!) }
-                FnafUPlayer.Type.ANIMATRONIC -> { player.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!) }
+                FnafUPlayer.Type.ANIMATRONIC -> { player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!) }
             }
             map.ambientSound.play(player.player)
             scoreboard.show(player.player)
             player.setUp()
         }
+
+        animatronicWaitingTask = object : BukkitRunnable() { override fun run() {
+            playerContainer.getAnimatronics(false).forEach {
+                it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
+            }
+        } }
+        animatronicWaitingTask!!.runTaskLater(FnafU.instance, ANIMATRONIC_WAITING_DURATION)
     }
 
     private fun chooseSystemStations() {
@@ -223,6 +232,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         removeBossBar(timeBar!!)
 
         kitSetupTask!!.cancel()
+        animatronicWaitingTask!!.cancel()
         energyBar = null
         timeBar = null
 
