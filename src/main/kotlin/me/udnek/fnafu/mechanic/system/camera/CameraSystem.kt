@@ -43,7 +43,6 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
         val spectateData = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_ENTITY_DATA)
-        val cameraData = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA)
 
         cameraMenu.updateCameras(cameras, camera, cameraTablet)
         cameraOverlay(player, cameraTablet)
