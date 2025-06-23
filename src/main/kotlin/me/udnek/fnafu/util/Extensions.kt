@@ -8,8 +8,6 @@ import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.ArrayList
-import java.util.Collections
 
 
 fun Player.getFnafU(): FnafUPlayer? {

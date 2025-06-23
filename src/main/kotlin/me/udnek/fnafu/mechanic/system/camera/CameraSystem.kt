@@ -8,13 +8,10 @@ import me.udnek.coreu.mgu.Originable
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.mechanic.system.SystemMenu
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location

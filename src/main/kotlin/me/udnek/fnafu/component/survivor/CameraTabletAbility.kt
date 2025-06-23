@@ -9,9 +9,8 @@ import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.util.Either
-import me.udnek.coreu.util.LoreBuilder
-import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.FnafUActiveAbility
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.format.NamedTextColor

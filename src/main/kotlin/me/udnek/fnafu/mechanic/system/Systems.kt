@@ -4,9 +4,9 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.BundleContents
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.mechanic.system.camera.CameraSystem
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
+import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component

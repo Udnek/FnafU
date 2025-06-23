@@ -1,17 +1,14 @@
 package me.udnek.fnafu.mechanic.system.door
 
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.game.EnergyGame
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.mechanic.system.System
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.ArrayList
 
 class DoorSystem : AbstractSystem {
 
@@ -21,7 +18,7 @@ class DoorSystem : AbstractSystem {
     override var sidebarComponent: Component = Component.translatable("sidebar.fnafu.door_system")
     private val menu: DoorMenu
 
-    constructor(game: EnergyGame, doors: MutableList<ButtonDoorPair>) : super(game){
+    constructor(game: FnafUGame, doors: MutableList<ButtonDoorPair>) : super(game){
         this.doors = ArrayList(doors)
         this.menu = DoorMenu(game.map.mapImage, this.doors)
     }
@@ -40,6 +37,15 @@ class DoorSystem : AbstractSystem {
 
     fun updateDoorMenu() {
         menu.updateDoors()
+    }
+
+    fun onPlayerClickButton(player: FnafUPlayer) {
+        updateEnergy()
+        player.player.closeInventory()
+        game.applyForEveryAbility { component, player, item ->
+            component.components.get(FnafUComponents.DOORMAN_TABLET_ABILITY)?.onPlayerClickButton(item, player)
+        }
+
     }
 
     fun updateEnergy() {

@@ -5,15 +5,12 @@ import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.rpgu.attribute.RPGUAttributes
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
-import me.udnek.coreu.rpgu.component.ability.property.function.PropertyFunctions
 import me.udnek.coreu.util.Either
-import me.udnek.coreu.util.LoreBuilder
-import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.FnafUActiveAbility
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.entity.plushtrap.Plushtrap
 import me.udnek.fnafu.player.FnafUPlayer

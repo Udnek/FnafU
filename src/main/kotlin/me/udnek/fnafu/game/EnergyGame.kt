@@ -1,8 +1,11 @@
 package me.udnek.fnafu.game
 
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.coreu.mgu.player.MGUPlayer
+import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.effect.Effects
@@ -12,11 +15,11 @@ import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.KitMenu
 import me.udnek.fnafu.mechanic.Time
-import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
+import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.mechanic.system.camera.CameraSystem
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
-import me.udnek.fnafu.mechanic.system.Systems
+import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.toCenterFloor
@@ -26,11 +29,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.NamespacedKey
-import org.bukkit.SoundCategory
+import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.block.BlockFace
@@ -113,6 +112,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             player.reset()
 
             player.player.totalExperience = 0
+            player.player.gameMode = GameMode.ADVENTURE
             player.player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
             player.player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
                 AttributeModifier(NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER))
@@ -215,7 +215,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         timeBar = BossBar.bossBar(Component.text(""), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
     }
 
-    override fun stop(){
+    override fun stop() {
         super.stop()
         teamAnimatronics!!.unregister()
         teamSurvivors!!.unregister()
@@ -310,5 +310,13 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         if (teamSurvivors?.hasPlayer(fnafUPlayer.player) ?: false) return teamSurvivors!!
         if (teamAnimatronics?.hasPlayer(fnafUPlayer.player) ?: false) return teamAnimatronics!!
         return null
+    }
+
+    override fun applyForEveryAbility(function: (component: RPGUActiveAbilityItem, player: FnafUPlayer, item: CustomItem) -> Unit) {
+        this.playerContainer.forEach { player ->
+            player.abilityItems.forEach { item ->
+                function.invoke(item.components.getOrDefault(RPGUComponents.ACTIVE_ABILITY_ITEM), player, item)
+            }
+        }
     }
 }

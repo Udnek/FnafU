@@ -22,7 +22,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
     var isClosed: Boolean = false
         private set
 
-    fun toggle() = {
+    fun toggle() {
         if (isClosed) open()
         else close()
     }
@@ -42,8 +42,8 @@ open class Door(protected val location: LocationSingle, private val direction: D
 
         Sounds.DOOR.play(location.first)
 
-        val xStep = if (direction === Direction.X) 1 else 0
-        val zStep = if (direction === Direction.X) 0 else 1
+        val xStep = if (direction == Direction.X) 1 else 0
+        val zStep = if (direction == Direction.X) 0 else 1
 
         object : BukkitRunnable() {
             var step: Int = 0
@@ -58,9 +58,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
                     val blockData = getLayerBlockData(layer)
 
                     doorLocation.add(0.0, -1.0, 0.0)
-                    for (i in 0..2) {
-                        world.setBlockData(doorLocation.add(xStep.toDouble(), 0.0, zStep.toDouble()), blockData)
-                    }
+                    repeat(3) { world.setBlockData(doorLocation.add(xStep.toDouble(), 0.0, zStep.toDouble()), blockData) }
                     doorLocation.add((-xStep * 3).toDouble(), 0.0, (-zStep * 3).toDouble())
                 }
 
@@ -92,9 +90,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
                     val blockData = getLayerBlockData(layer)
 
                     doorLocation.add(0.0, -1.0, 0.0)
-                    for (i in 0..2) {
-                        world.setBlockData(doorLocation.add(xStep.toDouble(), 0.0, zStep.toDouble()), blockData)
-                    }
+                    repeat(3) { world.setBlockData(doorLocation.add(xStep.toDouble(), 0.0, zStep.toDouble()), blockData) }
                     doorLocation.add((-xStep * 3).toDouble(), 0.0, (-zStep * 3).toDouble())
                 }
 
@@ -112,7 +108,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
         return location.first
     }
 
-    enum class Direction() {
+    enum class Direction {
         X {
             override fun modifyBlockState(blockData: Wall): Wall {
                 blockData.setHeight(BlockFace.WEST, Wall.Height.TALL)

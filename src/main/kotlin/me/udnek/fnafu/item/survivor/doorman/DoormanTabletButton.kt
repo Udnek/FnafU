@@ -34,6 +34,8 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
 
     override fun getRawId(): String = "doorman_tablet_button"
 
+    override fun getHideTooltip(): Boolean = true
+
     @EventHandler
     fun onGenerate(event: ResourcepackInitializationEvent) {
         val model = """

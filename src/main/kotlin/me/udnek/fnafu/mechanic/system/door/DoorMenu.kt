@@ -33,9 +33,11 @@ class DoorMenu : ConstructableCustomInventory {
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
-        event.currentItem?.let { doors[it.getData(DataComponentTypes.CUSTOM_MODEL_DATA)!!.floats()[0].toInt()].door.toggle() }
+        doors[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return].door.toggle()
         updateDoors()
-        (event.whoClicked as Player).getFnafU()?.also { it.game.systems.door.updateEnergy() }
+        (event.whoClicked as Player).getFnafU()?.also {
+            it.game.systems.door.onPlayerClickButton(it)
+        }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {

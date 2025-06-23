@@ -4,7 +4,6 @@ import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.rpgu.component.ability.RPGUItemAbstractAbility
 import me.udnek.coreu.rpgu.component.ability.active.RPGUConstructableActiveAbility
 import me.udnek.coreu.rpgu.component.ability.active.RPGUItemActiveAbility
 import me.udnek.coreu.util.Either
