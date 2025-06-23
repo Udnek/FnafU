@@ -9,8 +9,8 @@ import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.util.Either
-import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.FnafUActiveAbility
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.event.player.PlayerInteractEvent
 
@@ -37,7 +37,11 @@ open class DoormanTabletAbility : FnafUActiveAbility {
         val doors = player.game.systems.door
         if (doors.isBroken) return ActionResult.NO_COOLDOWN
         doors.openMenu(player)
-        return ActionResult.FULL_COOLDOWN
+        return ActionResult.NO_COOLDOWN
+    }
+
+    fun onPlayerClickButton(item: CustomItem, player: FnafUPlayer) {
+        cooldown(item, player.player)
     }
 
 }

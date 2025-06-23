@@ -39,6 +39,7 @@ object GameTypes {
         }
         @EventHandler
         fun onInteract(event: PlayerInteractEvent){
+            if ((getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.stage ?: return) == FnafUGame.Stage.WAITING) return
             if (event.hand == EquipmentSlot.OFF_HAND) return
             val block = event.clickedBlock ?: return
             if (Tag.BUTTONS.isTagged(block.type)) {

@@ -9,9 +9,8 @@ import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.util.Either
-import me.udnek.coreu.util.LoreBuilder
-import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.FnafUActiveAbility
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.event.SystemRepairedEvent
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.event.player.PlayerInteractEvent

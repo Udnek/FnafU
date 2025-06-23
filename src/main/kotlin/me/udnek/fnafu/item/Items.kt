@@ -1,14 +1,14 @@
 package me.udnek.fnafu.item
 
-import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
-import me.udnek.fnafu.item.survivor.camera.FullCameraTablet
-import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.springtrap.SpringtrapBreakCamerasItem
 import me.udnek.fnafu.item.springtrap.SpringtrapPlushtrapItem
+import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.fnafu.item.survivor.camera.CameraButton
+import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
+import me.udnek.fnafu.item.survivor.camera.FullCameraTablet
 import me.udnek.fnafu.item.survivor.doorman.DoormanTablet
 import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
 

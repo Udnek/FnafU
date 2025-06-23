@@ -37,7 +37,7 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
         cameras = listOf(
             Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F, true),
             Camera(LocationSingle(30.7, 2.2, 25.42, 70.12F, 32.89F).head, "backstage", 9, 0F, true),
-            Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "dining_area", 19, 0F, false),
+            Camera(LocationSingle(20.49, 5.2, 17.52, 79.58F, 26.58F).head, "dining_area", 19, 0F, false),
             Camera(LocationSingle(-21.3, 2.2, 12.3, 11.28F, 31.57F).head, "restrooms", 24, 0F, true),
             Camera(LocationSingle(-34.7, 0.2, 4.3, -4.6F, 9.76F).head, "east_vent_corner", 35, 0F, false),
             Camera(LocationSingle(23.7, 2.2, -5.7, 46.85F, 28.92F).head, "arcade_room", 37, 0F, false),

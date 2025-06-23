@@ -34,7 +34,7 @@ class Energy(private val game: EnergyGame) : Resettable, Ticking {
 
     private fun updateUsage() {
         var closedAmount = 0
-        for (doorButtonPair in game.map.doors) {
+        for (doorButtonPair in game.systems.door.doors) {
             if (doorButtonPair.door.isClosed) closedAmount++
         }
         usage = closedAmount + 1

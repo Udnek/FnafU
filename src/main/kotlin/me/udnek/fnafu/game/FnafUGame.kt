@@ -2,13 +2,15 @@ package me.udnek.fnafu.game
 
 import me.udnek.coreu.custom.component.ComponentHolder
 import me.udnek.coreu.custom.component.CustomComponent
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameInstance
 import me.udnek.coreu.mgu.player.MGUPlayer
+import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.mechanic.Energy
-import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.Systems
+import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
 import me.udnek.fnafu.util.Ticking
@@ -28,6 +30,7 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, Custo
     val playerContainer: PlayerContainer
     val energy: Energy
 
+    fun applyForEveryAbility(function: (component: RPGUActiveAbilityItem, player: FnafUPlayer, item: CustomItem) -> Unit)
     fun getTeam(fnafUPlayer: FnafUPlayer): Team?
     fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type? = null): List<FnafUPlayer>
     fun updateSurvivorLives()

@@ -106,10 +106,10 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
                 Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), time, "loc " + locationType.name)
             }
         }
-        map.cameras.forEach {
+        systems.camera.cameras.forEach {
             Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), time, "cam ${it.id} (${it.number})")
         }
-        map.doors.forEachIndexed { index, door ->
+        systems.door.doors.forEachIndexed { index, door ->
             Nms.get().showDebugBlock(door.door.getLocation(), Color.ORANGE.asRGB(), time, "door $index")
             Nms.get().showDebugBlock(door.button.location, Color.RED.asRGB(), time, "button $index")
         }

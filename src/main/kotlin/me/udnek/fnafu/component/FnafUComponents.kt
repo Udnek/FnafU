@@ -8,11 +8,7 @@ import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.springtrap.SpringtrapBreakCamerasAbility
 import me.udnek.fnafu.component.springtrap.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.component.springtrap.SpringtrapPlushtrapData
-import me.udnek.fnafu.component.survivor.CameraTabletAbility
-import me.udnek.fnafu.component.survivor.DoormanTabletAbility
-import me.udnek.fnafu.component.survivor.SpectateCameraData
-import me.udnek.fnafu.component.survivor.SpectateEntityData
-import me.udnek.fnafu.component.survivor.SystemTabletAbility
+import me.udnek.fnafu.component.survivor.*
 
 object FnafUComponents {
 

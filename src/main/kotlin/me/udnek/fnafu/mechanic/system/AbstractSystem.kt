@@ -2,7 +2,6 @@ package me.udnek.fnafu.mechanic.system
 
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.event.SystemRepairedEvent
-import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
