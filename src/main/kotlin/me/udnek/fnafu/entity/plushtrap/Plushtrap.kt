@@ -49,7 +49,10 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
             }
         }
 
-        if (noTargetTime >= NO_TARGET_DESPAWN_TIME) remove()
+        if (noTargetTime >= NO_TARGET_DESPAWN_TIME) {
+            Sounds.PLUSHTRAP_RUN.play(entity.location)
+            remove()
+        }
 
         step += tickDelay
     }
