@@ -56,9 +56,16 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     override fun toString(): String = "[" + type + "] " + player.name
 
-    fun teleport(locationData: LocationData) { teleport(locationData.random) }
+    fun teleport(locationData: LocationData) = teleport(locationData.random, null)
 
-    fun teleport(location: Location) { player.teleport(location) }
+    fun teleport(location: Location) = teleport(location, null)
+
+    fun teleport(locationData: LocationData, maskColor: TextColor?) = teleport(locationData.random, maskColor)
+
+    fun teleport(location: Location, maskColor: TextColor?) {
+        if (maskColor != null) showNoise(maskColor)
+        player.teleport(location)
+    }
 
     fun showTitle(title: Component, subtitle: Component, fadeIn: Int, stay: Int, fadeOut: Int) {
         val titleData = Title.title(

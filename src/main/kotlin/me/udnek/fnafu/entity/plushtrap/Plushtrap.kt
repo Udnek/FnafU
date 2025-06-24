@@ -8,6 +8,7 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.getFnafU
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.Drowned
@@ -32,9 +33,12 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     lateinit var owner: FnafUPlayer
     var target: FnafUPlayer? = null
 
+    private fun isEveryNTicks(n: Int) = step % n == 0
+
     override fun delayedTick() {
         damageNearestPlayers()
         if (step < RUNNING_TIME){
+            if (isEveryNTicks(20)) Sounds.PLUSHTRAP_NEAR.play(entity.location)
             entity.velocity = entity.location.direction.setY(0).multiply(RUNNING_MULTIPLIER)
         } else if (step == RUNNING_TIME) {
             entity.velocity = Vector()
@@ -54,6 +58,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun noTarget() {
+        if (isEveryNTicks(20)) Sounds.PLUSHTRAP_NEAR.play(entity.location)
         Nms.get().stopMoving(entity)
         entity.velocity = Vector()
         noTargetTime += tickDelay
@@ -62,6 +67,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun target(player: FnafUPlayer) {
+        if (isEveryNTicks(20)) Sounds.PLUSHTRAP_RUN.play(entity.location)
         noTargetTime = 0
         Nms.get().moveTo(entity, player.player.location)
         if (target != player) {
