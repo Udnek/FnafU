@@ -30,6 +30,11 @@
 
   "container.fnafu.kit": "Kit Menu",
 
+  "kit.fnafu.springtrap": "Springtrap",
+  "kit.fnafu.cameraman": "Cameraman",
+  "kit.fnafu.system": "Systemman",
+  "kit.fnafu.doorman": "Doorman",
+
   "energy.fnafu.bossbar": "Energy left: %s%% Usage: %s",
   "energy.fnafu.image.1": "\u00A7a1",
   "energy.fnafu.image.2": "\u00A7a11",
