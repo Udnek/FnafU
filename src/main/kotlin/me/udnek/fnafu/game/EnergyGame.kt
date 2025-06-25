@@ -1,5 +1,6 @@
 package me.udnek.fnafu.game
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameType

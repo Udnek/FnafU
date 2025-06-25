@@ -2,4 +2,4 @@ name: FnafU
 version: '${project.version}'
 main: me.udnek.fnafu.FnafU
 api-version: '1.21.4'
-depend: [ ProtocolLib ]
+depend: [ ProtocolLib, SkinsRestorer ]
