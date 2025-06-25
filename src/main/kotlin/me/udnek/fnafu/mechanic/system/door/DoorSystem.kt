@@ -5,7 +5,6 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -63,6 +62,6 @@ class DoorSystem : AbstractSystem {
 
     override fun reset() {
         super.reset()
-        doors.forEach { it.door.open() }
+        doors.forEach { it.reset() }
     }
 }

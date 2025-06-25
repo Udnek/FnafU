@@ -1,8 +1,10 @@
 package me.udnek.fnafu.component.kit
 
+import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.AbstractRegistrable
 import me.udnek.fnafu.player.FnafUPlayer
+import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
 
 open class ConstructableKit : Kit, AbstractRegistrable {
@@ -18,6 +20,7 @@ open class ConstructableKit : Kit, AbstractRegistrable {
         get() = customItems.map { it.item }
 
     constructor(id: String, type: FnafUPlayer.Type, displayItem: ItemStack, customItems: List<CustomItem>) {
+        displayItem.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.fnafu.$id"))
         this.displayItem = displayItem
         this.customItems = customItems
         this.playerType = type

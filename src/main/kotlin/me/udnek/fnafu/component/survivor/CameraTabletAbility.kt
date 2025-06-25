@@ -54,7 +54,7 @@ open class CameraTabletAbility : FnafUActiveAbility {
         event: PlayerInteractEvent
     ): ActionResult {
         val cameras = player.game.systems.camera
-        if (cameras.isBroken) {
+        if (cameras.isBroken || player.game.energy.isEndedUp) {
             player.showNoise(noiseColor)
             return ActionResult.NO_COOLDOWN
         }
