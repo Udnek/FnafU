@@ -15,7 +15,7 @@ interface System : Resettable, Ticking {
 
     fun destroy(systemMenu: SystemMenu)
 
-    fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu)
+    fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu, setRepairIcon: Boolean = true)
 
     fun getSidebarView(): Pair<Int, Component>
 }

@@ -1,4 +1,4 @@
-package me.udnek.fnafu.component.springtrap
+package me.udnek.fnafu.component.animatronic.springtrap
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType

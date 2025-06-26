@@ -29,9 +29,9 @@ abstract class AbstractSystem(override var game: FnafUGame) : System {
         updateSidebar()
     }
 
-    override fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu){
+    override fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu, setRepairIcon: Boolean){
         if (isRepairing) return
-        systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
+        if (setRepairIcon) systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
         startRepairingTask(player, systemMenu)
     }
 
@@ -45,6 +45,7 @@ abstract class AbstractSystem(override var game: FnafUGame) : System {
     }
     protected open fun failedRepairing(systemMenu: SystemMenu) {
         isRepairing = false
+        systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
         systemMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         if (isBroken) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }

@@ -93,7 +93,7 @@ open class Systems : Resettable, Ticking {
     fun repairAll(player: FnafUPlayer) {
         if (isAnyOfSystemsBeingRepaired()) return
         systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
-        all.forEach { it.startRepairing(player, systemMenu) }
+        all.forEach { it.startRepairing(player, systemMenu, false) }
     }
 
     fun isAnyOfSystemsBeingRepaired(): Boolean {

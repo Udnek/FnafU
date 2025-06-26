@@ -23,7 +23,6 @@ class CutCameraTablet : ConstructableCustomItem() {
 
     override fun getRawId(): String = "cut_camera_tablet"
 
-
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> {
         return CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "tablet/camera"))
     }

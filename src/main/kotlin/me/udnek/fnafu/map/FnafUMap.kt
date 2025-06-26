@@ -21,8 +21,8 @@ abstract class FnafUMap : MGUMap, Resettable {
     abstract var systemStationsAmount: Int
     lateinit var cameras: List<Camera>
     lateinit var systemStations: List<Pair<LocationSingle, BlockFace>>
-    lateinit var mapImage: Component
-    lateinit var ambientSound: CustomSound
+    abstract var mapImage: Component
+    abstract var ambientSound: CustomSound
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())

@@ -14,14 +14,17 @@ open class ConstructableKit : Kit, AbstractRegistrable {
     private val id: String
 
     final override val playerType: FnafUPlayer.Type
-    final override val displayItem: ItemStack
+
+    private val displayCustomItem: CustomItem
+
+    override val displayItem: ItemStack
+        get() = displayCustomItem.item.also{ it.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.fnafu.$id")) }
 
     override val items: List<ItemStack>
         get() = customItems.map { it.item }
 
-    constructor(id: String, type: FnafUPlayer.Type, displayItem: ItemStack, customItems: List<CustomItem>) {
-        displayItem.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.fnafu.$id"))
-        this.displayItem = displayItem
+    constructor(id: String, type: FnafUPlayer.Type, displayItem: CustomItem, customItems: List<CustomItem>) {
+        this.displayCustomItem = displayItem
         this.customItems = customItems
         this.playerType = type
         this.id = id

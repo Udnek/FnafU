@@ -54,7 +54,7 @@ object GameTypes {
                 }
             } else if (block.type == Systems.STATION_BLOCK_MATERIAL){
                 getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                    if (it.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(it.player.location) < 1.5){
+                    if (it.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(it.player.eyeLocation) < 1.5){
                         it.game.systems.openMenu(it)
                     }
                 }

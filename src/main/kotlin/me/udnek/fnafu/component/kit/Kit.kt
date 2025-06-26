@@ -24,11 +24,11 @@ interface Kit : CustomComponent<MGUPlayerDataHolder>, Registrable{
     companion object {
         val REGISTRY: CustomRegistry<Kit> = CustomRegistries.addRegistry(FnafU.instance, MappedCustomRegistry("kit"))
 
-        val SPRINGTRAP = register(AnimatronicKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, SPRINGTRAP_PLUSHTRAP_ABILITY.item,
+        val SPRINGTRAP = register(AnimatronicKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, SPRINGTRAP_PLUSHTRAP_ABILITY,
             listOf(SPRINGTRAP_PLUSHTRAP_ABILITY, SPRINGTRAP_BREAK_CAMERAS, SPRINGTRAP_MASK), "5eb93aaaf701c868a525a9d3dd98daed9374d2a118003bd6f3464778c361e1e8"))
-        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET.item, listOf(FULL_CAMERA_TABLET)))
-        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET.item, listOf(CUT_CAMERA_TABLET, DOOR_TABLET)))
-        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, SYSTEM_TABLET.item, listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET)))
+        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET, listOf(FULL_CAMERA_TABLET)))
+        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET, listOf(CUT_CAMERA_TABLET, DOOR_TABLET)))
+        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, SYSTEM_TABLET, listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET)))
 
         fun register(kit: ConstructableKit): ConstructableKit {
             return REGISTRY.register(FnafU.instance, kit)

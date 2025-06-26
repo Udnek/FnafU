@@ -4,10 +4,11 @@ import me.udnek.coreu.custom.component.ConstructableComponentType
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.component.animatronic.springtrap.MovementTrackerComponent
 import me.udnek.fnafu.component.kit.Kit
-import me.udnek.fnafu.component.springtrap.SpringtrapBreakCamerasAbility
-import me.udnek.fnafu.component.springtrap.SpringtrapPlushtrapAbility
-import me.udnek.fnafu.component.springtrap.SpringtrapPlushtrapData
+import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapBreakCamerasAbility
+import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbility
+import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapData
 import me.udnek.fnafu.component.survivor.*
 
 object FnafUComponents {
@@ -19,6 +20,8 @@ object FnafUComponents {
 
     val SPECTATE_ENTITY_DATA = register(ConstructableComponentType("spectate_entity_data", SpectateEntityData.DEFAULT) { SpectateEntityData() })
     val SPECTATE_CAMERA_DATA = register(ConstructableComponentType("spectate_camera_data", SpectateCameraData.DEFAULT) { SpectateCameraData() })
+
+    val MOVEMENT_TRACKER_DATA = register(ConstructableComponentType("movement_tracker_data", MovementTrackerComponent.DEFAULT) { MovementTrackerComponent() })
 
     val SPRINGTRAP_PLUSHTRAP_ABILITY = register(ConstructableComponentType("springtrap_plushtrap_ability", SpringtrapPlushtrapAbility.DEFAULT))
     val SPRINGTRAP_PLUSHTRAP_DATA = register(ConstructableComponentType("springtrap_plushtrap_data", SpringtrapPlushtrapData.DEFAULT) { SpringtrapPlushtrapData() })

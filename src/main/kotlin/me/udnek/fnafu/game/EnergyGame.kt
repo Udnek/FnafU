@@ -8,6 +8,7 @@ import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
@@ -93,10 +94,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
             for (animatronic in playerContainer.getAnimatronics(false)) {
-                if (animatronic.player.isSneaking && animatronic.player.walkSpeed != 0f) continue
-                for (survivor in playerContainer.getSurvivors(false)) {
-                    Sounds.ANIMATRONIC_STEP.play(animatronic.player.location, survivor.player)
+                val movement = animatronic.data.getOrCreateDefault(FnafUComponents.MOVEMENT_TRACKER_DATA)
+                if (!animatronic.player.isSneaking && movement.hasMoved(animatronic.player.location)) {
+                    for (survivor in playerContainer.getSurvivors(false)) {
+                        Sounds.ANIMATRONIC_STEP.play(animatronic.player.location, survivor.player)
+                    }
                 }
+                movement.lastLocation = animatronic.player.location
+
             }
         }
     }

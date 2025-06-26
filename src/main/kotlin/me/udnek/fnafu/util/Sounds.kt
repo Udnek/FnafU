@@ -21,7 +21,7 @@ object Sounds {
     val SPRINGTRAP_RAGE_STOP : CustomSound = register(ConstructableCustomSound(getName("springtrap_rage_stop"), SoundCategory.HOSTILE))
     val SPRINGTRAP_JUMP_SCARE : CustomSound = register(ConstructableCustomSound(getName("springtrap_jump_scare"), SoundCategory.HOSTILE))
 
-    val PLUSHTRAP_RUN : CustomSound = register(ConstructableCustomSound(getName("plushtrap_run"), SoundCategory.HOSTILE))
+    val PLUSHTRAP_RUN : CustomSound = register(ConstructableCustomSound(getName("plushtrap_run"), SoundCategory.HOSTILE, 2f, 1f))
     val PLUSHTRAP_NEAR : CustomSound = register(ConstructableCustomSound(getName("plushtrap_near"), SoundCategory.HOSTILE))
 
     private fun register(sound: CustomSound): CustomSound {

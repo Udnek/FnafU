@@ -1,5 +1,6 @@
 package me.udnek.fnafu.map.instance
 
+import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationList
@@ -9,20 +10,31 @@ import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.Door
 import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.TextUtils
+import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 
 class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
 
     override var systemStationsAmount: Int = 3
+    override var ambientSound: CustomSound = Sounds.AMBIENCE_FNAF1
+    override var mapImage: Component = TextUtils.getMapImage(-8, 165, "fnaf1")
 
     override fun build() {
         addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 3, 180f, 0f).centerFloor)
-        addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(-20.01, 0.0, 33.3, -88.93f, 3.95f).centerFloor)
-        addLocation(LocationType.PRESPAWN_ANIMATRONIC, LocationSingle(-24.39, 0.0, 35.51, -89.84f, 2.28f).centerFloor)
+        addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(-20.01, 0.0, 33.3, -88.93f, 0f).centerFloor)
+        addLocation(LocationType.PRESPAWN_ANIMATRONIC, LocationSingle(-24.39, 0.0, 35.51, -89.84f, 0f).centerFloor)
         addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-4, 6, -5, 0f, 0f).centerFloor)
         addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(-4, 12, -5, 0f, 0f).centerFloor)
-        addLocation(LocationType.RESPAWN_SURVIVOR, LocationList().add(0.0, 0.0, 3.0, 180f, 0f).add(0.0, 5.0, 12.0, 180f, 0f))
+        addLocation(LocationType.RESPAWN_SURVIVOR, LocationList()
+            .add(0.0, 0.0, 3.0, 180f, 0f)
+            .add(18.58, .0, 37.79, 137.5f, 0f)
+            .add(-18.39, .0, 38.41, -138.8f, 0f)
+            .add(6.47, .0, -14.36, -39.4f, 0f)
+            .add(23.23, .0, -.84, 52.3f, 0f)
+            .add(-16.89, .0, .43, -47.8f, 0f)
+            .add(-31.33, .0, 19.7, 179.2f, 0f)
+        )
 
         addDoor(ButtonDoorPair(4, 0, -1, Door.Direction.Z, 39, 3, 1, 1))
         addDoor(ButtonDoorPair(9, 0, -1, Door.Direction.Z, 38, 10, 1, 1))
@@ -58,9 +70,5 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
             Pair(LocationSingle(-19, 1, -3), BlockFace.SOUTH),
             Pair(LocationSingle(-1, 1, 35), BlockFace.SOUTH)
         )
-
-        mapImage = TextUtils.getMapImage(-8, 165, "fnaf1")
-
-        ambientSound = Sounds.AMBIENCE_FNAF1
     }
 }

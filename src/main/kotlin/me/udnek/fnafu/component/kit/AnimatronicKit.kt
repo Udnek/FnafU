@@ -4,13 +4,12 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.fnafu.player.FnafUPlayer
 import net.skinsrestorer.api.SkinsRestorerProvider
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 class AnimatronicKit : ConstructableKit {
 
     private val skinHash: String
 
-    constructor(id: String, type: FnafUPlayer.Type, displayItem: ItemStack, customItems: List<CustomItem>, skinHash: String)
+    constructor(id: String, type: FnafUPlayer.Type, displayItem: CustomItem, customItems: List<CustomItem>, skinHash: String)
             : super(id, type, displayItem, customItems) {
         this.skinHash = skinHash
     }
