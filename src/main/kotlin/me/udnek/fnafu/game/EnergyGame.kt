@@ -1,6 +1,5 @@
 package me.udnek.fnafu.game
 
-import com.comphenix.protocol.wrappers.WrappedGameProfile
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameType
@@ -155,8 +154,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
         for (player in playerContainer.getPlayers(false)) {
             when (player.type) {
-                FnafUPlayer.Type.SURVIVOR -> { player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!) }
-                FnafUPlayer.Type.ANIMATRONIC -> { player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!) }
+                FnafUPlayer.Type.SURVIVOR -> player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
+                FnafUPlayer.Type.ANIMATRONIC -> player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!)
             }
             map.ambientSound.play(player.player)
             scoreboard.show(player.player)
@@ -164,10 +163,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         }
 
         animatronicWaitingTask = object : BukkitRunnable() { override fun run() {
-            playerContainer.getAnimatronics(false).forEach {
-                it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!)
-                it.showNoise(NamedTextColor.RED)
-            }
+            playerContainer.getAnimatronics(false).forEach { it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!, NamedTextColor.RED) }
         } }
         animatronicWaitingTask!!.runTaskLater(FnafU.instance, ANIMATRONIC_WAITING_DURATION)
     }
@@ -234,8 +230,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         removeBossBar(energyBar!!)
         removeBossBar(timeBar!!)
 
-        kitSetupTask!!.cancel()
-        animatronicWaitingTask!!.cancel()
+        kitSetupTask?.cancel()
+        animatronicWaitingTask?.cancel()
         energyBar = null
         timeBar = null
 
@@ -244,6 +240,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         systems.reset()
 
         for (fnafUPlayer in players) {
+            fnafUPlayer.clearSkin()
             map.ambientSound.stop(fnafUPlayer.player, SoundCategory.AMBIENT)
             fnafUPlayer.player.closeInventory()
             scoreboard.hide(fnafUPlayer.player)

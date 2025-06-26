@@ -3,6 +3,7 @@ package me.udnek.fnafu.entity.plushtrap
 import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntityType
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.fnafu.entity.EntityTypes
+import me.udnek.fnafu.util.Sounds
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Drowned
@@ -21,6 +22,7 @@ class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEnt
 
     override fun spawnNewEntity(location: Location): Drowned {
         val plushtrap = super.spawnNewEntity(location)
+        Sounds.PLUSHTRAP_RUN.play(location)
         plushtrap.isAware = false
         plushtrap.setBaby()
         plushtrap.getAttribute(Attribute.STEP_HEIGHT)!!.baseValue = 0.5
