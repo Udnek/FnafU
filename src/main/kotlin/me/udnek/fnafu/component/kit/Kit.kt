@@ -9,7 +9,13 @@ import me.udnek.coreu.custom.registry.Registrable
 import me.udnek.coreu.mgu.ability.MGUPlayerDataHolder
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.item.Items
+import me.udnek.fnafu.item.Items.CUT_CAMERA_TABLET
+import me.udnek.fnafu.item.Items.DOOR_TABLET
+import me.udnek.fnafu.item.Items.FULL_CAMERA_TABLET
+import me.udnek.fnafu.item.Items.SPRINGTRAP_BREAK_CAMERAS
+import me.udnek.fnafu.item.Items.SPRINGTRAP_MASK
+import me.udnek.fnafu.item.Items.SPRINGTRAP_PLUSHTRAP_ABILITY
+import me.udnek.fnafu.item.Items.SYSTEM_TABLET
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.inventory.ItemStack
 
@@ -18,10 +24,11 @@ interface Kit : CustomComponent<MGUPlayerDataHolder>, Registrable{
     companion object {
         val REGISTRY: CustomRegistry<Kit> = CustomRegistries.addRegistry(FnafU.instance, MappedCustomRegistry("kit"))
 
-        val SPRINGTRAP = register(ConstructableKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, Items.SPRINGTRAP_PLUSHTRAP_ABILITY.item, listOf(Items.SPRINGTRAP_PLUSHTRAP_ABILITY, Items.SPRINGTRAP_BREAK_CAMERAS)))
-        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, Items.FULL_CAMERA_TABLET.item,listOf(Items.FULL_CAMERA_TABLET)))
-        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, Items.DOOR_TABLET.item, listOf(Items.CUT_CAMERA_TABLET, Items.DOOR_TABLET)))
-        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, Items.SYSTEM_TABLET.item, listOf(Items.SYSTEM_TABLET, Items.CUT_CAMERA_TABLET)))
+        val SPRINGTRAP = register(AnimatronicKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, SPRINGTRAP_PLUSHTRAP_ABILITY.item,
+            listOf(SPRINGTRAP_PLUSHTRAP_ABILITY, SPRINGTRAP_BREAK_CAMERAS, SPRINGTRAP_MASK), "eb1465af7d7306f4a3eb4d1ce6d103649a91caf4218f54cea473eefbfdfdc2e7"))
+        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET.item, listOf(FULL_CAMERA_TABLET)))
+        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET.item, listOf(CUT_CAMERA_TABLET, DOOR_TABLET)))
+        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, SYSTEM_TABLET.item, listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET)))
 
         fun register(kit: ConstructableKit): ConstructableKit {
             return REGISTRY.register(FnafU.instance, kit)

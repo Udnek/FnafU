@@ -1,6 +1,5 @@
 package me.udnek.fnafu.game
 
-import com.comphenix.protocol.wrappers.WrappedGameProfile
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameType
@@ -241,6 +240,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
         systems.reset()
 
         for (fnafUPlayer in players) {
+            fnafUPlayer.clearSkin()
             map.ambientSound.stop(fnafUPlayer.player, SoundCategory.AMBIENT)
             fnafUPlayer.player.closeInventory()
             scoreboard.hide(fnafUPlayer.player)

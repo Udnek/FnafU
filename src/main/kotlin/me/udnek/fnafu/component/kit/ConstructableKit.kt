@@ -30,7 +30,9 @@ open class ConstructableKit : Kit, AbstractRegistrable {
     override fun setUp(player: FnafUPlayer) {
         player.player.inventory.clear()
         for (customItem in customItems) {
-            player.player.inventory.addItem(customItem.item)
+            if (customItem.item.hasData(DataComponentTypes.EQUIPPABLE)){
+                player.player.inventory.setItem(customItem.item.getData(DataComponentTypes.EQUIPPABLE)!!.slot(), customItem.item)
+            } else player.player.inventory.addItem(customItem.item)
         }
     }
 
