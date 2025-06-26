@@ -8,6 +8,7 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.getFnafU
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.Drowned
@@ -48,7 +49,10 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
             }
         }
 
-        if (noTargetTime >= NO_TARGET_DESPAWN_TIME) remove()
+        if (noTargetTime >= NO_TARGET_DESPAWN_TIME) {
+            Sounds.PLUSHTRAP_RUN.play(entity.location)
+            remove()
+        }
 
         step += tickDelay
     }
@@ -62,6 +66,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun target(player: FnafUPlayer) {
+        if (step % 20 == 0) Sounds.PLUSHTRAP_NEAR.play(entity.location)
         noTargetTime = 0
         Nms.get().moveTo(entity, player.player.location)
         if (target != player) {

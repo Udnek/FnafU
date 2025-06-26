@@ -13,6 +13,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -25,9 +26,8 @@ object GameTypes {
         override fun getRawId(): String = "energy"
         @EventHandler
         fun onItemDrop(event: PlayerDropItemEvent){
-            getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                event.isCancelled = it.game.isRunning
-            }
+            if (!(getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return)) return
+            event.isCancelled = true
         }
         @EventHandler
         fun onAttack(event: EntityDamageByEntityEvent) {
@@ -39,7 +39,7 @@ object GameTypes {
         }
         @EventHandler
         fun onInteract(event: PlayerInteractEvent){
-            if ((getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.stage ?: return) == FnafUGame.Stage.WAITING) return
+            if (!(getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return)) return
             if (event.hand == EquipmentSlot.OFF_HAND) return
             val block = event.clickedBlock ?: return
             if (Tag.BUTTONS.isTagged(block.type)) {
@@ -58,7 +58,7 @@ object GameTypes {
                         it.game.systems.openMenu(it)
                     }
                 }
-            }
+            } else event.isCancelled = true
         }
         @EventHandler
         fun onLeave(event: PlayerQuitEvent) {
@@ -74,6 +74,11 @@ object GameTypes {
                 it.f
             }
         }*/
+        @EventHandler
+        fun onInventoryMoveItem(event: InventoryClickEvent) {
+            if (!(getIfPlayerInThisGame<FnafUPlayer>(event.whoClicked as Player)?.game?.isRunning ?: return)) return
+            event.isCancelled = true
+        }
     })
 
     private fun register(type: MGUGameType): MGUGameType {

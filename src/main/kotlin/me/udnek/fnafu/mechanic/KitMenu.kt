@@ -30,11 +30,11 @@ class KitMenu : ConstructableCustomInventory() {
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
-        event.currentItem?.let { itemStack -> (event.whoClicked as Player).getFnafU()?.also { chosenKit = getCurrentKit(itemStack) } }
+        chosenKit = getCurrentKit(event.currentItem?: return)
     }
 
     private fun getCurrentKit(itemStack: ItemStack) : Kit {
-        return Kit.REGISTRY.getAll().firstOrNull { it.displayItem == itemStack} ?: FnafUComponents.KIT.default
+        return Kit.REGISTRY.getAll().firstOrNull { it.displayItem == itemStack } ?: FnafUComponents.KIT.default
     }
 
     private fun getFirstAllowedKit(player: FnafUPlayer) : Kit {
@@ -52,4 +52,5 @@ class KitMenu : ConstructableCustomInventory() {
 
     override fun getTitle(): Component = Component.translatable("container.fnafu.kit")
     override fun getInventorySize(): Int = 9 * 6
+    override fun shouldAutoUpdateItems(): Boolean = false
 }

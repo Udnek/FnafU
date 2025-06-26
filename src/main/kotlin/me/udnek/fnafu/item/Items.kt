@@ -4,6 +4,7 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.springtrap.SpringtrapBreakCamerasItem
+import me.udnek.fnafu.item.springtrap.SpringtrapMask
 import me.udnek.fnafu.item.springtrap.SpringtrapPlushtrapItem
 import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.fnafu.item.survivor.camera.CameraButton
@@ -35,6 +36,7 @@ object Items {
 
     val SPRINGTRAP_PLUSHTRAP_ABILITY: CustomItem = register(SpringtrapPlushtrapItem())
     val SPRINGTRAP_BREAK_CAMERAS: CustomItem = register(SpringtrapBreakCamerasItem())
+    val SPRINGTRAP_MASK: CustomItem = register(SpringtrapMask())
 
     private fun register(customItem: CustomItem): CustomItem {
         return CustomRegistries.ITEM.register(FnafU.instance, customItem)
