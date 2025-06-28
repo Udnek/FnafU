@@ -59,10 +59,6 @@ abstract class FnafUMap : MGUMap, Resettable {
     }
 
     fun getLocation(locationType: LocationType): LocationData? {
-        Preconditions.checkArgument(
-            locations.containsKey(locationType),
-            "LocationType $locationType does not exists!"
-        )
         return locations[locationType]
     }
 

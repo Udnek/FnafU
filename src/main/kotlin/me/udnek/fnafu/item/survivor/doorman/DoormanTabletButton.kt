@@ -9,7 +9,7 @@ import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.system.door.Door
+import me.udnek.fnafu.mechanic.system.door.door.Door
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.NamespacedKey

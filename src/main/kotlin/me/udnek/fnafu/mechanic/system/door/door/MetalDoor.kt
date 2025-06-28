@@ -1,8 +1,9 @@
-package me.udnek.fnafu.mechanic.system.door
+package me.udnek.fnafu.mechanic.system.door.door
 
-import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.location.LocationSingle
+import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.system.door.DoorButton
 import me.udnek.fnafu.util.Sounds
 import org.bukkit.Location
 import org.bukkit.Material
@@ -12,21 +13,32 @@ import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Wall
 import org.bukkit.scheduler.BukkitRunnable
 
-open class Door(protected val location: LocationSingle, private val direction: Direction, val tabletMenuPosition: Int) : Originable {
+open class MetalDoor(location: LocationSingle, private val direction: Direction, tabletMenuPosition: Int) : AbstractDoor(location, tabletMenuPosition) {
 
     companion object {
-        const val CLOSE_DELAY: Int = 2
-        const val OPEN_DELAY: Int = 8
+
+        const val CLOSE_TICKRATE: Int = 2
+        const val OPEN_TICKRATE: Int = 8
+
+        fun pairOf(doorX: Long,
+                   doorY: Long,
+                   doorZ: Long,
+                   direction: Direction,
+                   tabletMenuPosition: Int,
+                   buttonX: Long,
+                   buttonY: Long,
+                   buttonZ: Long): ButtonDoorPair {
+            return ButtonDoorPair(
+                MetalDoor(
+                    LocationSingle(doorX.toDouble(), doorY.toDouble(), doorZ.toDouble()),
+                    direction,
+                    tabletMenuPosition
+                ),
+                DoorButton(LocationSingle(buttonX.toDouble(), buttonY.toDouble(), buttonZ.toDouble()))
+            )
+        }
     }
 
-    var isClosed: Boolean = false
-        private set
-    var isLocked: Boolean = false
-
-    fun toggle() {
-        if (isClosed) open()
-        else close()
-    }
 
     private fun getLayerBlockData(layer: Int): BlockData {
         return when (layer) {
@@ -37,10 +49,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
         }
     }
 
-    fun close() {
-        if (isClosed or isLocked) return
-        isClosed = true
-
+    override fun physicallyClose() {
         Sounds.DOOR.play(location.first)
 
         val xStep = if (direction == Direction.X) 1 else 0
@@ -66,13 +75,10 @@ open class Door(protected val location: LocationSingle, private val direction: D
                 if (step == 2) cancel()
                 step += 1
             }
-        }.runTaskTimer(FnafU.instance, 0, CLOSE_DELAY.toLong())
+        }.runTaskTimer(FnafU.instance, 0, CLOSE_TICKRATE.toLong())
     }
 
-    fun open() {
-        if (!isClosed or isLocked) return
-        isClosed = false
-
+    override fun physicallyOpen() {
         Sounds.DOOR.play(location.first)
 
         val xStep = if (direction === Direction.X) 1 else 0
@@ -98,15 +104,7 @@ open class Door(protected val location: LocationSingle, private val direction: D
                 if (step == 2) cancel()
                 step += 1
             }
-        }.runTaskTimer(FnafU.instance, 0, OPEN_DELAY.toLong())
-    }
-
-    override fun setOrigin(origin: Location) {
-        location.setOrigin(origin)
-    }
-
-    fun getLocation(): Location {
-        return location.first
+        }.runTaskTimer(FnafU.instance, 0, OPEN_TICKRATE.toLong())
     }
 
     enum class Direction {
@@ -129,6 +127,4 @@ open class Door(protected val location: LocationSingle, private val direction: D
 
         abstract fun modifyBlockState(blockData: Wall): Wall
     }
-
-
 }

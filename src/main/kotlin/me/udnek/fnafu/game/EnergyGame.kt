@@ -22,8 +22,8 @@ import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.util.Resettable
 import me.udnek.fnafu.util.Sounds
-import me.udnek.fnafu.util.toCenterFloor
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -42,7 +42,7 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.Team
 
-class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
+class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     companion object {
         const val GAME_DURATION: Int = 5 * 60 * 20
         const val KIT_SETUP_DURATION: Long = 4 * 20
@@ -107,6 +107,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
     }
 
     override fun start() {
+        reset()
         initializeBars()
         initializeTeams()
 
@@ -230,19 +231,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
     override fun stop() {
         super.stop()
-        teamAnimatronics!!.unregister()
-        teamSurvivors!!.unregister()
-        removeBossBar(energyBar!!)
-        removeBossBar(timeBar!!)
-
-        kitSetupTask?.cancel()
-        animatronicWaitingTask?.cancel()
-        energyBar = null
-        timeBar = null
-
-        map.reset()
-        energy.reset()
-        systems.reset()
+        reset()
 
         for (fnafUPlayer in players) {
             fnafUPlayer.clearSkin()
@@ -252,6 +241,26 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
             fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
             fnafUPlayer.reset()
         }
+    }
+
+    override fun reset() {
+
+        try {
+            teamAnimatronics?.unregister()
+            teamSurvivors?.unregister()
+        } catch (_: Exception){}
+
+        removeBossBar(energyBar)
+        removeBossBar(timeBar)
+
+        kitSetupTask?.cancel()
+        animatronicWaitingTask?.cancel()
+        energyBar = null
+        timeBar = null
+
+        map.reset()
+        energy.reset()
+        systems.reset()
 
         survivorLives = MAX_LIVES
     }
@@ -275,7 +284,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
     override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
         val door = button.door
-        stunAnimatronicsAround(door.getLocation().toCenterFloor())
+        stunAnimatronicsAround(door.stunCenter)
         door.toggle()
         energy.updateConsumption()
         systems.door.updateDoorMenu()
@@ -292,12 +301,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map) {
 
     override fun getType(): MGUGameType = GameTypes.ENERGY
 
-    private fun removeBossBar(bossBar: BossBar) {
-        for (fnafUPlayer in players) bossBar.removeViewer(fnafUPlayer.player)
+    private fun removeBossBar(bossBar: BossBar?) {
+        for (fnafUPlayer in players) bossBar?.removeViewer(fnafUPlayer.player)
     }
 
-    private fun showBossBarToAll(bossBar: BossBar) {
-        for (fnafUPlayer in players) bossBar.addViewer(fnafUPlayer.player)
+    private fun showBossBarToAll(bossBar: BossBar?) {
+        for (fnafUPlayer in players) bossBar?.addViewer(fnafUPlayer.player)
     }
 
     private fun updateEnergyBar() {

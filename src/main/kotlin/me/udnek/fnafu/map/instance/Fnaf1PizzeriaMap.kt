@@ -6,8 +6,7 @@ import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
-import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
-import me.udnek.fnafu.mechanic.system.door.Door
+import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
 import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.TextUtils
 import net.kyori.adventure.text.Component
@@ -36,16 +35,16 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
             .add(-31.33, .0, 19.7, 179.2f, 0f)
         )
 
-        addDoor(ButtonDoorPair(4, 0, -1, Door.Direction.Z, 39, 3, 1, 1))
-        addDoor(ButtonDoorPair(9, 0, -1, Door.Direction.Z, 38, 10, 1, 1))
-        addDoor(ButtonDoorPair(-5, 0, -1, Door.Direction.Z, 40, -4, 1, 1))
-        addDoor(ButtonDoorPair(-10, 0, -1, Door.Direction.Z, 41, -11, 1, 1))
-        addDoor(ButtonDoorPair(-17, 0, 5, Door.Direction.X, 33, -19, 1, 4))
-        addDoor(ButtonDoorPair(-25, 0, 27, Door.Direction.Z, 16, -26, 1, 29))
-        addDoor(ButtonDoorPair(-25, 0, 15, Door.Direction.Z, 25, -26, 1, 13))
-        addDoor(ButtonDoorPair(20, 0, 28, Door.Direction.Z, 10, 21, 1, 26))
-        addDoor(ButtonDoorPair(16, 0, 5, Door.Direction.X, 29, 14, 1, 4))
-        addDoor(ButtonDoorPair(6, 0, -10, Door.Direction.X, 48, 4, 1, -11))
+        addDoor(MetalDoor.pairOf(4, 0, -1, MetalDoor.Direction.Z, 39, 3, 1, 1))
+        addDoor(MetalDoor.pairOf(9, 0, -1, MetalDoor.Direction.Z, 38, 10, 1, 1))
+        addDoor(MetalDoor.pairOf(-5, 0, -1, MetalDoor.Direction.Z, 40, -4, 1, 1))
+        addDoor(MetalDoor.pairOf(-10, 0, -1, MetalDoor.Direction.Z, 41, -11, 1, 1))
+        addDoor(MetalDoor.pairOf(-17, 0, 5, MetalDoor.Direction.X, 33, -19, 1, 4))
+        addDoor(MetalDoor.pairOf(-25, 0, 27, MetalDoor.Direction.Z, 16, -26, 1, 29))
+        addDoor(MetalDoor.pairOf(-25, 0, 15, MetalDoor.Direction.Z, 25, -26, 1, 13))
+        addDoor(MetalDoor.pairOf(20, 0, 28, MetalDoor.Direction.Z, 10, 21, 1, 26))
+        addDoor(MetalDoor.pairOf(16, 0, 5, MetalDoor.Direction.X, 29, 14, 1, 4))
+        addDoor(MetalDoor.pairOf(6, 0, -10, MetalDoor.Direction.X, 48, 4, 1, -11))
 
         cameras = listOf(
             Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F, true),

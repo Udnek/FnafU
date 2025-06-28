@@ -53,7 +53,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         return MGUCommandType.ExecutionResult.SUCCESS
     }
     @MustBeInvokedByOverriders
-    open fun stop(){
+    override fun stop(){
         if (task != null) task?.cancel() ?: throw RuntimeException("task is null")
         stage = FnafUGame.Stage.WAITING
     }
@@ -110,8 +110,10 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
             Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), time, "cam ${it.id} (${it.number})")
         }
         systems.door.doors.forEachIndexed { index, door ->
-            Nms.get().showDebugBlock(door.door.getLocation(), Color.ORANGE.asRGB(), time, "door $index")
-            Nms.get().showDebugBlock(door.button.location, Color.RED.asRGB(), time, "button $index")
+            door.button.locationData.all.forEach {
+                Nms.get().showDebugBlock(it, Color.RED.asRGB(), time, "button $index")
+            }
+            Nms.get().showDebugBlock(door.door.debugLocation, Color.ORANGE.asRGB(), time, "door $index")
         }
         map.systemStations.forEach {
             Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation " + it.second.name)
