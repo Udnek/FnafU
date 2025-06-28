@@ -8,7 +8,7 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Sounds
+import me.udnek.fnafu.sound.Sounds
 import me.udnek.fnafu.util.getFnafU
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.Drowned
@@ -85,7 +85,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun damageNearestPlayers(){
-        game.findNearbyPlayers(entity.location, KILL_TARGET_RADIUS).forEach { it.damage() }
+        game.findNearbyPlayers(entity.location, KILL_TARGET_RADIUS).forEach { it.damage(Sounds.SPRINGTRAP_JUMP_SCARE) }
     }
 
     private fun findNearestVisibleSurvivor() : FnafUPlayer? {
@@ -104,21 +104,13 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         if (distance > SEEK_TARGET_RADIUS) return null
 
         val direction = targetEyeLocation.toVector().subtract(entityEyeLocation.toVector())
-        entity.world.rayTraceBlocks(entityEyeLocation, direction, distance, FluidCollisionMode.NEVER, true) ?: return distance
+        entity.world.rayTraceBlocks(entityEyeLocation, direction, distance, FluidCollisionMode.NEVER, true)
+            ?: return distance
         return null
     }
 
-    /*fun debag(startLocation: Location, direction: Vector) {
-        val particle = Particle.SMALL_GUST
-        for (i in 1..7) {
-            val k = i / 2
-            val point = startLocation.clone().add(direction.clone().multiply(k));
-            startLocation.world.spawnParticle(particle, point, 1)
-        }
-    }*/
-
     fun onEntityHit(event: EntityDamageByEntityEvent) {
-        (event.entity as? Player)?.getFnafU()?.also { it.damage() }
+        (event.entity as? Player)?.getFnafU()?.also { it.damage(Sounds.PLUSHTRAP_RUN) }
         event.isCancelled = true
     }
 

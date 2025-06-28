@@ -3,7 +3,7 @@ package me.udnek.fnafu.entity.plushtrap
 import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntityType
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.fnafu.entity.EntityTypes
-import me.udnek.fnafu.util.Sounds
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Drowned

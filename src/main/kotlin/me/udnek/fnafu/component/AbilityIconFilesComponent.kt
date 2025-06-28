@@ -29,14 +29,14 @@ class AbilityIconFilesComponent(val kit: Kit) : AutoGeneratingFilesItem.Generate
                         "when": "firstperson_righthand",
                         "model": {
                           "type": "minecraft:model",
-                          "model": "fnafu:item/%playerClass%/hand"
+                          "model": "fnafu:item/animatronic/%playerClass%/hand"
                         }
                       },
                       {
                         "when": "firstperson_lefthand",
                         "model": {
                           "type": "minecraft:model",
-                          "model": "fnafu:item/%playerClass%/hand"
+                          "model": "fnafu:item/animatronic/%playerClass%/hand"
                         }
                       }
                     ],

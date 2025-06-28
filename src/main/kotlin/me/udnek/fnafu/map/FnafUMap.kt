@@ -1,12 +1,12 @@
 package me.udnek.fnafu.map
 
 import com.google.common.base.Preconditions
-import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.util.Resettable
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -22,7 +22,7 @@ abstract class FnafUMap : MGUMap, Resettable {
     lateinit var cameras: List<Camera>
     lateinit var systemStations: List<Pair<LocationSingle, BlockFace>>
     abstract var mapImage: Component
-    abstract var ambientSound: CustomSound
+    abstract var ambientSound: LoopedSound
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())

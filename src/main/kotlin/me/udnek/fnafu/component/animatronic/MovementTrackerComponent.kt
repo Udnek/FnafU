@@ -1,4 +1,4 @@
-package me.udnek.fnafu.component.animatronic.springtrap
+package me.udnek.fnafu.component.animatronic
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
@@ -6,9 +6,9 @@ import me.udnek.coreu.mgu.ability.MGUPlayerDataHolder
 import me.udnek.fnafu.component.FnafUComponents
 import org.bukkit.Location
 
-open class MovementTrackerComponent : CustomComponent<MGUPlayerDataHolder>{
+open class MovementTrackerComponent : CustomComponent<MGUPlayerDataHolder> {
 
-    open var lastLocation: Location = Location(null, 0.0,0.0,0.0)
+    open var lastLocation: Location = Location(null, 0.0, 0.0, 0.0)
 
     companion object {
         val DEFAULT = object : MovementTrackerComponent(){

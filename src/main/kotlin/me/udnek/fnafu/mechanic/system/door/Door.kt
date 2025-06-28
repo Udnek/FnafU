@@ -3,7 +3,7 @@ package me.udnek.fnafu.mechanic.system.door
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.location.LocationSingle
-import me.udnek.fnafu.util.Sounds
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
