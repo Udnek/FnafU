@@ -82,7 +82,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
 
     override fun tick() {
         time.tick()
-        if (time.isEnded || !super<FnafUAbstractGame>.isRunning()) {
+        if (time.isEnded || !super.isRunning()) {
             winner = Winner.SURVIVORS
             stop()
             return
@@ -109,8 +109,9 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 if (!survivor.player.isSprinting) continue
                 val random = ThreadLocalRandom.current()
                 repeat(10) {
-                    val location = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
-                    Particle.TRAIL.builder().location(location).data(Particle.Trail(location.add(0.0, 0.2, 0.0), Color.RED, 100)).spawn()
+                    val from = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
+                    val to = from.clone().add(0.0, 0.2, 0.0)
+                    Particle.TRAIL.builder().location(from).offset(0.0, 0.05, 0.0).data(Particle.Trail(to, Color.RED, 100)).spawn()
                 }
             }
         }
