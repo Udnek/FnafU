@@ -22,6 +22,9 @@ import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
+import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.util.toCenterFloor
 import me.udnek.fnafu.util.Resettable
 import me.udnek.fnafu.util.Sounds
 import net.kyori.adventure.bossbar.BossBar
@@ -41,6 +44,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.Team
+import java.util.concurrent.ThreadLocalRandom
 
 class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     companion object {
@@ -103,6 +107,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 movement.lastLocation = animatronic.player.location
 
             }
+            for (survivor in playerContainer.getSurvivors(false)) {
+                if (!survivor.player.isSprinting) continue
+                val random = ThreadLocalRandom.current()
+                repeat(10) {
+                    val location = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
+                    Particle.TRAIL.builder().location(location).data(Particle.Trail(location.add(0.0, 0.2, 0.0), Color.RED, 100)).spawn()
+                }
+            }
         }
     }
 
@@ -163,7 +175,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 FnafUPlayer.Type.SURVIVOR -> player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
                 FnafUPlayer.Type.ANIMATRONIC -> player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!)
             }
-            map.ambientSound.play(player.player)
+            map.ambientSound.activate { it.play(player.player) }
             scoreboard.show(player.player)
             player.setUp()
         }
@@ -233,9 +245,10 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         super.stop()
         reset()
 
+        map.ambientSound.stop(players)
+
         for (fnafUPlayer in players) {
             fnafUPlayer.clearSkin()
-            map.ambientSound.stop(fnafUPlayer.player, SoundCategory.AMBIENT)
             fnafUPlayer.player.closeInventory()
             scoreboard.hide(fnafUPlayer.player)
             fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
@@ -271,7 +284,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             return
         }
 
-        victim.damage()
+        victim.damage(damager.player.getFnafU()?.kit?.jumpScareSound ?: return)
     }
 
     override fun checkForEndConditions() {

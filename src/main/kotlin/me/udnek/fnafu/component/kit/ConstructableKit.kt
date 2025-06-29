@@ -3,6 +3,7 @@ package me.udnek.fnafu.component.kit
 import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.AbstractRegistrable
+import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
@@ -14,6 +15,7 @@ open class ConstructableKit : Kit, AbstractRegistrable {
     private val id: String
 
     final override val playerType: FnafUPlayer.Type
+    override var jumpScareSound: CustomSound? = null
 
     private val displayCustomItem: CustomItem
 

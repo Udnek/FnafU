@@ -3,9 +3,12 @@ package me.udnek.fnafu.item
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.item.springtrap.SpringtrapBreakCamerasItem
-import me.udnek.fnafu.item.springtrap.SpringtrapMask
-import me.udnek.fnafu.item.springtrap.SpringtrapPlushtrapItem
+import me.udnek.fnafu.item.animatronic.AnimatronicMask
+import me.udnek.fnafu.item.animatronic.freddy.FreddySetTrapItem
+import me.udnek.fnafu.item.animatronic.freddy.FreddyShadowItem
+import me.udnek.fnafu.item.animatronic.freddy.FreddyTeleportToTrapItem
+import me.udnek.fnafu.item.animatronic.springtrap.SpringtrapBreakCamerasItem
+import me.udnek.fnafu.item.animatronic.springtrap.SpringtrapPlushtrapItem
 import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
@@ -36,7 +39,12 @@ object Items {
 
     val SPRINGTRAP_PLUSHTRAP_ABILITY: CustomItem = register(SpringtrapPlushtrapItem())
     val SPRINGTRAP_BREAK_CAMERAS: CustomItem = register(SpringtrapBreakCamerasItem())
-    val SPRINGTRAP_MASK: CustomItem = register(SpringtrapMask())
+    val SPRINGTRAP_MASK: CustomItem = register(AnimatronicMask("springtrap"))
+
+    val FREDDY_SHADOW: CustomItem = register(FreddyShadowItem())
+    val FREDDY_MASK: CustomItem = register(AnimatronicMask("freddy"))
+    val FREDDY_SET_TRAP: CustomItem = register(FreddySetTrapItem())
+    val FREDDY_TELEPORT_TO_TRAP: CustomItem = register(FreddyTeleportToTrapItem())
 
     private fun register(customItem: CustomItem): CustomItem {
         return CustomRegistries.ITEM.register(FnafU.instance, customItem)

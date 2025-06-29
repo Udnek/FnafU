@@ -4,7 +4,11 @@ import me.udnek.coreu.custom.component.ConstructableComponentType
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.animatronic.springtrap.MovementTrackerComponent
+import me.udnek.fnafu.component.animatronic.MovementTrackerComponent
+import me.udnek.fnafu.component.animatronic.freddy.FreddySetTrapAbility
+import me.udnek.fnafu.component.animatronic.freddy.FreddyShadowAbility
+import me.udnek.fnafu.component.animatronic.freddy.FreddyTeleportToTrapAbility
+import me.udnek.fnafu.component.animatronic.freddy.FreddyTrapData
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapBreakCamerasAbility
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbility
@@ -27,9 +31,10 @@ object FnafUComponents {
     val SPRINGTRAP_PLUSHTRAP_DATA = register(ConstructableComponentType("springtrap_plushtrap_data", SpringtrapPlushtrapData.DEFAULT) { SpringtrapPlushtrapData() })
     val SPRINGTRAP_BREAK_CAMERAS_ABILITY = register(ConstructableComponentType("springtrap_breaks_camera_ability", SpringtrapBreakCamerasAbility.DEFAULT))
 
-
-
-
+    val FREDDY_SHADOW_ABILITY = register(ConstructableComponentType("freddy_shadow_ability", FreddyShadowAbility.DEFAULT))
+    val FREDDY_SET_TRAP_ABILITY = register(ConstructableComponentType("freddy_set_trap_ability", FreddySetTrapAbility.DEFAULT))
+    val FREDDY_TELEPORT_TO_TRAP_ABILITY = register(ConstructableComponentType("freddy_teleport_to_trap_ability", FreddyTeleportToTrapAbility.DEFAULT))
+    val FREDDY_TRAP_DATA = register(ConstructableComponentType("freddy_trap_data", FreddyTrapData.DEFAULT) { FreddyTrapData() })
 
     private fun <C : CustomComponentType<*, *>> register(type: C): C {
         return CustomRegistries.COMPONENT_TYPE.register(FnafU.instance, type)

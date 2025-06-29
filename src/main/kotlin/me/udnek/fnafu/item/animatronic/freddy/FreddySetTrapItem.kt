@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item.springtrap
+package me.udnek.fnafu.item.animatronic.freddy
 
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
@@ -10,15 +10,15 @@ import me.udnek.fnafu.component.kit.Kit
 import net.kyori.adventure.key.Key
 import org.bukkit.NamespacedKey
 
-class SpringtrapPlushtrapItem : ConstructableCustomItem() {
+class FreddySetTrapItem : ConstructableCustomItem() {
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(AbilityIconFilesComponent(Kit.SPRINGTRAP))
-        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY.createNewDefault())
+        components.set(AbilityIconFilesComponent(Kit.FREDDY))
+        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(FnafUComponents.FREDDY_SET_TRAP_ABILITY.createNewDefault())
     }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
-        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "springtrap/ability/plushtrap"))
+        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "animatronic/freddy/ability/set_trap"))
 
-    override fun getRawId(): String = "springtrap_plushtrap"
+    override fun getRawId(): String = "set_trap"
 }

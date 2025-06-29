@@ -2,6 +2,7 @@ package me.udnek.fnafu.mechanic.system.door.door
 
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.location.LocationSingle
+import me.udnek.fnafu.sound.Sounds
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorButton
 import me.udnek.fnafu.util.Sounds
@@ -38,7 +39,6 @@ open class MetalDoor(location: LocationSingle, private val direction: Direction,
             )
         }
     }
-
 
     private fun getLayerBlockData(layer: Int): BlockData {
         return when (layer) {

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"1": "fnafu:item/springtrap/skin",
-		"2": "fnafu:item/springtrap/ears"
+		"1": "fnafu:item/animatronic/springtrap/skin",
+		"2": "fnafu:item/animatronic/springtrap/ears"
 	},
 	"elements": [
 		{

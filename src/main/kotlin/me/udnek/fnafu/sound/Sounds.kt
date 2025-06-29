@@ -1,4 +1,4 @@
-package me.udnek.fnafu.util
+package me.udnek.fnafu.sound
 
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.custom.sound.ConstructableCustomSound

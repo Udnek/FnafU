@@ -44,7 +44,8 @@ object GameTypes {
             val player = getIfPlayerInThisGame<FnafUPlayer>(event.player) ?: return
             if (!player.game.isRunning) return
             val block = event.clickedBlock ?: return
-            if (!Tag.BUTTONS.isTagged(block.type)) event.isCancelled = true
+            if (!Tag.BUTTONS.isTagged(block.type)) event.isCancelled = truegit checkout -b PUBKABOZKAX-main main
+                    
             proceedButton(player, event)
             if (block.type == Systems.STATION_BLOCK_MATERIAL){
                 if (player.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(player.player.eyeLocation) < 1.5){

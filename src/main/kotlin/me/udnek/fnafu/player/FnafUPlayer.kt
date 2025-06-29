@@ -173,8 +173,9 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     fun setUp() = kit.setUp(this)
 
-    fun damage() {
+    fun damage(damageSound: CustomSound) {
         if (type != Type.SURVIVOR) return
+        damageSound.play(player.location)
         if (game.survivorLives == 0){
             this.die()
             return
