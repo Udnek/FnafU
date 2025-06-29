@@ -34,9 +34,6 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
                 MGUManager.get().registerGame(EnergyGame(Fnaf1PizzeriaMap(Location(world, -159.0, 65.0, -34.0))))
                 MGUManager.get().registerGame(EnergyGame(Fnaf4PizzeriaMap(Location(world, -97.0, 65.0, -109.0))))
                 world.setGameRule(GameRule.RANDOM_TICK_SPEED, 0)
-                val origin = Location(world, -159.0, 65.0, -34.0)
-                MGUManager.get().registerGame(
-                    EnergyGame(Fnaf1PizzeriaMap(origin)))
             }
         }.runTask(instance)
     }
