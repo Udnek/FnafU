@@ -39,27 +39,31 @@ object GameTypes {
         }
         @EventHandler
         fun onInteract(event: PlayerInteractEvent){
-            if (!(getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return)) return
-            if (event.hand == EquipmentSlot.OFF_HAND) return
+            if (event.hand != EquipmentSlot.HAND) return
+            if (!event.action.isRightClick) return
+            val player = getIfPlayerInThisGame<FnafUPlayer>(event.player) ?: return
+            if (!player.game.isRunning) return
             val block = event.clickedBlock ?: return
-            if (Tag.BUTTONS.isTagged(block.type)) {
-                if ((block.blockData as Powerable).isPowered) return
-                getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                    if (it.type != FnafUPlayer.Type.SURVIVOR) return
-                    for (pair in it.game.systems.door.doors) {
-                        if (pair.hasButtonAt(block.location)) {
-                            it.game.onPlayerClicksDoorButton(event, it, pair)
-                        }
-                    }
+            if (!Tag.BUTTONS.isTagged(block.type)) event.isCancelled = true
+            proceedButton(player, event)
+            if (block.type == Systems.STATION_BLOCK_MATERIAL){
+                if (player.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(player.player.eyeLocation) < 1.5){
+                    player.game.systems.openMenu(player)
                 }
-            } else if (block.type == Systems.STATION_BLOCK_MATERIAL){
-                getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {
-                    if (it.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(it.player.eyeLocation) < 1.5){
-                        it.game.systems.openMenu(it)
-                    }
-                }
-            } else event.isCancelled = true
+            }
         }
+
+        private fun proceedButton(player: FnafUPlayer, event: PlayerInteractEvent) {
+            val block = event.clickedBlock ?: return
+            if (player.type != FnafUPlayer.Type.SURVIVOR) return
+            if ((block.blockData as? Powerable)?.isPowered == true) return
+            for (pair in player.game.systems.door.doors) {
+                if (pair.button.hasAt(block.location)) {
+                    player.game.onPlayerClicksDoorButton(event, player, pair)
+                }
+            }
+        }
+
         @EventHandler
         fun onLeave(event: PlayerQuitEvent) {
             getIfPlayerInThisGame<FnafUPlayer>(event.player)?.let {

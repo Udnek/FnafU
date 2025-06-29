@@ -21,9 +21,11 @@ class LocationSingle : LocationData {
 
     override val size: Int = 1
 
-    constructor(x: Double, y: Double, z: Double, yaw: Float, pitch: Float){
-        location = Location(null, x, y, z, yaw, pitch)
+    constructor(location: Location){
+        this.location = location.clone()
     }
+
+    constructor(x: Double, y: Double, z: Double, yaw: Float, pitch: Float) : this(Location(null, x, y, z, yaw, pitch))
 
     constructor(x: Int, y: Int, z: Int, yaw: Float, pitch: Float): this(x.toDouble(), y.toDouble(), z.toDouble(), yaw, pitch)
 
