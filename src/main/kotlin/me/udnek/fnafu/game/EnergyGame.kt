@@ -23,10 +23,8 @@ import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.getFnafU
-import me.udnek.fnafu.util.toCenterFloor
 import me.udnek.fnafu.util.Resettable
-import me.udnek.fnafu.util.Sounds
+import me.udnek.fnafu.util.getFnafU
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -175,7 +173,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 FnafUPlayer.Type.SURVIVOR -> player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
                 FnafUPlayer.Type.ANIMATRONIC -> player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!)
             }
-            map.ambientSound.activate { it.play(player.player) }
+            map.ambientSound.loop { it.play(player.player) }
             scoreboard.show(player.player)
             player.setUp()
         }

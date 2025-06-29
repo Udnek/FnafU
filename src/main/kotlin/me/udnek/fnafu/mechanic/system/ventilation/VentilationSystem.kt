@@ -2,7 +2,6 @@ package me.udnek.fnafu.mechanic.system.ventilation
 
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.text.Component
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType

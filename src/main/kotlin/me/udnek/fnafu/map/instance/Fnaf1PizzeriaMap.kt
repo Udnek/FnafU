@@ -5,21 +5,20 @@ import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
-import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
-import me.udnek.fnafu.mechanic.system.door.Door
+import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
-import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.util.TextUtils
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
+import java.time.Duration
+
 
 class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
 
     override var systemStationsAmount: Int = 3
-    override var ambientSound: LoopedSound = LoopedSound(Sounds.AMBIENCE_FNAF1, 10 * 60 + 4)
+    override var ambientSound: LoopedSound = LoopedSound(Sounds.AMBIENCE_FNAF1, Duration.ofSeconds(10*60+4))
     override var mapImage: Component = TextUtils.getMapImage(-8, 165, "fnaf1")
 
     override fun build() {

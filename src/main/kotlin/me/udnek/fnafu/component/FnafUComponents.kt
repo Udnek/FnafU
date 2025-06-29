@@ -9,10 +9,10 @@ import me.udnek.fnafu.component.animatronic.freddy.FreddySetTrapAbility
 import me.udnek.fnafu.component.animatronic.freddy.FreddyShadowAbility
 import me.udnek.fnafu.component.animatronic.freddy.FreddyTeleportToTrapAbility
 import me.udnek.fnafu.component.animatronic.freddy.FreddyTrapData
-import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapBreakCamerasAbility
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapData
+import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.survivor.*
 
 object FnafUComponents {

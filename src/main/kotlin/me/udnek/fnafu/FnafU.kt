@@ -7,10 +7,9 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
+import me.udnek.fnafu.map.instance.Fnaf4PizzeriaMap
 import me.udnek.fnafu.sound.Sounds
 import me.udnek.fnafu.util.CoralFixer
-import me.udnek.fnafu.map.instance.Fnaf4PizzeriaMap
-import me.udnek.fnafu.util.Sounds
 import org.bukkit.Bukkit
 import org.bukkit.GameRule
 import org.bukkit.Location

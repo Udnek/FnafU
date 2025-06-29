@@ -1,6 +1,5 @@
 package me.udnek.fnafu.mechanic.system.door
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.map.location.LocationData
 import org.bukkit.Location
