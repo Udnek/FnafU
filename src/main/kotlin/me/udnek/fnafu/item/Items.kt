@@ -11,6 +11,7 @@ import me.udnek.fnafu.item.animatronic.springtrap.SpringtrapBreakCamerasItem
 import me.udnek.fnafu.item.animatronic.springtrap.SpringtrapPlushtrapItem
 import me.udnek.fnafu.item.decor.ArcadeMachineItem
 import me.udnek.fnafu.item.decor.NightstandItem
+import me.udnek.fnafu.item.survivor.PetrolCanister
 import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
@@ -50,6 +51,8 @@ object Items {
 
     val ARCADE_MACHINE : CustomItem = register(ArcadeMachineItem())
     val NIGHTSTAND : CustomItem = register(NightstandItem())
+
+    val PETROL_CANISTER: CustomItem = register(PetrolCanister())
 
     private fun register(customItem: CustomItem): CustomItem {
         return CustomRegistries.ITEM.register(FnafU.instance, customItem)

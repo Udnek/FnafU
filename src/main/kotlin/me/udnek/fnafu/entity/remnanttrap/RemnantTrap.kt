@@ -1,4 +1,4 @@
-package me.udnek.fnafu.entity.trap
+package me.udnek.fnafu.entity.remnanttrap
 
 import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntity
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
@@ -9,7 +9,7 @@ import org.bukkit.entity.BlockDisplay
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class Trap : ConstructableCustomEntity<BlockDisplay>() {
+class RemnantTrap : ConstructableCustomEntity<BlockDisplay>() {
 
     companion object {
         const val FIND_RADIUS: Double = 10.0
@@ -26,5 +26,5 @@ class Trap : ConstructableCustomEntity<BlockDisplay>() {
         }
     }
 
-    override fun getType(): CustomTickingEntityType<*> = EntityTypes.TRAP
+    override fun getType(): CustomTickingEntityType<*> = EntityTypes.REMNANT_TRAP
 }

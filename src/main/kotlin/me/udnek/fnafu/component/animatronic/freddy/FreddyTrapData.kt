@@ -6,13 +6,13 @@ import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.entity.trap.Trap
+import me.udnek.fnafu.entity.remnanttrap.RemnantTrap
 
 open class FreddyTrapData : MGUPlayerData, Resettable{
 
     companion object{
         val DEFAULT = object : FreddyTrapData(){
-            override var trap: Trap?
+            override var trap: RemnantTrap?
                 get() = super.trap
                 set(value) {throwCanNotChangeDefault()}
             override var abilityItem: CustomItem?
@@ -21,7 +21,7 @@ open class FreddyTrapData : MGUPlayerData, Resettable{
         }
     }
 
-    open var trap: Trap? = null
+    open var trap: RemnantTrap? = null
     open var abilityItem: CustomItem? = null
 
     override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out MGUPlayerData> {

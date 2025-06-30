@@ -56,7 +56,6 @@ object GameTypes {
 
         private fun proceedButton(player: FnafUPlayer, event: PlayerInteractEvent) {
             val block = event.clickedBlock ?: return
-            if (player.type != FnafUPlayer.Type.SURVIVOR) return
             if ((block.blockData as? Powerable)?.isPowered == true) return
             for (pair in player.game.systems.door.doors) {
                 if (pair.button.hasAt(block.location)) {

@@ -4,7 +4,6 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.game.MGUGameType
-import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.Utils
@@ -314,10 +313,15 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     }
 
 
-    override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
+    override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: FnafUPlayer, button: ButtonDoorPair) {
         val door = button.door
-        stunAnimatronicsAround(door.stunCenter)
-        door.toggle()
+        if (player.type == FnafUPlayer.Type.ANIMATRONIC){
+            if (door.isClosed) door.open()
+        } else{
+            door.toggle()
+            stunAnimatronicsAround(door.stunCenter)
+        }
+
         energy.updateConsumption()
         systems.door.updateDoorMenu()
     }

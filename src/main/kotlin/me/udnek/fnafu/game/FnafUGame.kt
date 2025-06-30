@@ -5,7 +5,6 @@ import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameInstance
-import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.mechanic.Energy
@@ -36,7 +35,7 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, Custo
     fun updateSurvivorLives()
     fun checkForEndConditions()
     fun onPlayerDamagePlayer(event: EntityDamageByEntityEvent, damager: FnafUPlayer, victim: FnafUPlayer)
-    fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair)
+    fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: FnafUPlayer, button: ButtonDoorPair)
     fun onPlayerLeave(event: PlayerQuitEvent, player: FnafUPlayer)
     override fun isRunning(): Boolean = stage != Stage.WAITING
 

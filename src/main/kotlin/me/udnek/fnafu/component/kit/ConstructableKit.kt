@@ -4,6 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.AbstractRegistrable
 import me.udnek.coreu.custom.sound.CustomSound
+import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
@@ -33,6 +34,15 @@ open class ConstructableKit : Kit, AbstractRegistrable {
     }
 
     override fun setUp(player: FnafUPlayer) {
+        giveItems(player)
+        player.abilityItems.forEach { item ->
+            item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.forEach { ability ->
+                ability.cooldown(item, player.player)
+            }
+        }
+    }
+
+    protected fun giveItems(player: FnafUPlayer){
         player.player.inventory.clear()
         for (customItem in customItems) {
             if (customItem.item.hasData(DataComponentTypes.EQUIPPABLE)){
@@ -42,10 +52,8 @@ open class ConstructableKit : Kit, AbstractRegistrable {
     }
 
     override fun regive(player: FnafUPlayer) {
-        setUp(player)
+        giveItems(player)
     }
 
-    override fun getRawId(): String {
-        return id
-    }
+    override fun getRawId(): String = id
 }

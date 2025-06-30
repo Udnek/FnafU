@@ -24,19 +24,20 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         const val RUNNING_MULTIPLIER: Float = 0.2f
         const val SEEK_TARGET_RADIUS: Double = 20.0
         const val NO_TARGET_DESPAWN_TIME: Int = 20 * 10
-        const val KILL_TARGET_RADIUS: Double = 0.5
+        const val KILL_TARGET_RADIUS: Double = 0.6
     }
 
     var step: Int = 0
     var noTargetTime: Int = 0
     lateinit var game: FnafUGame
     lateinit var owner: FnafUPlayer
+    lateinit var initialDirection: Vector
     var target: FnafUPlayer? = null
 
     override fun delayedTick() {
         damageNearestPlayers()
         if (step < RUNNING_TIME){
-            entity.velocity = entity.location.direction.setY(0).multiply(RUNNING_MULTIPLIER)
+            Nms.get().moveNaturally(entity, initialDirection.clone().setY(0).multiply(RUNNING_MULTIPLIER))
         } else if (step == RUNNING_TIME) {
             entity.velocity = Vector()
             entity.setRotation(entity.yaw + 180, entity.pitch)
@@ -59,7 +60,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun noTarget() {
-        Nms.get().stopMoving(entity)
+        Nms.get().stopMovingWithPathfind(entity)
         entity.velocity = Vector()
         noTargetTime += tickDelay
         entity.isAware = false
@@ -69,7 +70,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     private fun target(player: FnafUPlayer) {
         if (step % 20 == 0) Sounds.PLUSHTRAP_NEAR.play(entity.location)
         noTargetTime = 0
-        Nms.get().moveTo(entity, player.player.location)
+        Nms.get().moveWithPathfind(entity, player.player.location)
         if (target != player) {
             entity.isAware = true
             target = player
@@ -120,5 +121,5 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         return EntityTypes.PLUSHTRAP
     }
 
-    override fun getTickDelay() = 2
+    override fun getTickDelay() = 1
 }

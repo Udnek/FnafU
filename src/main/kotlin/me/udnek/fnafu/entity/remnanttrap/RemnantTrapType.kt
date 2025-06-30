@@ -1,4 +1,4 @@
-package me.udnek.fnafu.entity.trap
+package me.udnek.fnafu.entity.remnanttrap
 
 import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntityType
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
@@ -8,12 +8,12 @@ import org.bukkit.entity.BlockDisplay
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 
-class TrapType : ConstructableCustomEntityType<BlockDisplay>(), CustomTickingEntityType<Trap> {
+class RemnantTrapType : ConstructableCustomEntityType<BlockDisplay>(), CustomTickingEntityType<RemnantTrap> {
     override fun getVanillaType() = EntityType.BLOCK_DISPLAY
-    override fun getRawId() = "trap"
+    override fun getRawId() = "remnant_trap"
     override fun load(p0: Entity) {}
     override fun unload(p0: Entity) {}
-    override fun createNewClass() = Trap()
+    override fun createNewClass() = RemnantTrap()
 
     override fun spawnNewEntity(location: Location): BlockDisplay {
         val trap = super.spawnNewEntity(location)

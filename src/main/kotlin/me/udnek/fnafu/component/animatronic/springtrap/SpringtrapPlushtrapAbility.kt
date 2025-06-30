@@ -49,8 +49,9 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility, Resettable{
         location.pitch = 0f
         val plushtrap = EntityTypes.PLUSHTRAP.spawnAndGet(location)
         plushtrap.owner = player
-        setPlushtrap(player, plushtrap, item)
         plushtrap.game = player.game
+        plushtrap.initialDirection = player.player.location.direction
+        setPlushtrap(player, plushtrap, item)
         player.getTeam()?.addEntity(plushtrap.real)
         return ActionResult.INFINITE_COOLDOWN
     }
