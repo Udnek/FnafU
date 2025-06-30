@@ -30,9 +30,9 @@ class VentilationSystem(game: FnafUGame) : AbstractSystem(game) {
             return
         }
         if (timeBroken >= SECOND_STAGE_TIME) {
-            game.playerContainer.getSurvivors(false).forEach { it.player.addPotionEffect(getEffect(SECOND_STAGE_EFFECT_LEVEL)) }
+            game.playerContainer.getAliveSurvivors(false).forEach { it.player.addPotionEffect(getEffect(SECOND_STAGE_EFFECT_LEVEL)) }
         } else if (timeBroken >= FIRST_STAGE_TIME) {
-            game.playerContainer.getSurvivors(false).forEach { it.player.addPotionEffect(getEffect(FIRST_STAGE_EFFECT_LEVEL)) }
+            game.playerContainer.getAliveSurvivors(false).forEach { it.player.addPotionEffect(getEffect(FIRST_STAGE_EFFECT_LEVEL)) }
         }
         timeBroken += TIME_BETWEEN_TICK
     }

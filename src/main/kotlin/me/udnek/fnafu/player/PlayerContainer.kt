@@ -25,19 +25,18 @@ class PlayerContainer : Iterable<FnafUPlayer>{
     }
 
     fun remove(player: Player): Boolean {
-        val playerList = players
-        for (i in playerList.indices) {
-            if (playerList[i].player == player) {
-                playerList.removeAt(i)
-                return true
-            }
-        }
-        return false
+        return players.removeIf { it.player == player }
     }
 
     fun getSurvivors(returnCopy: Boolean): MutableList<FnafUPlayer> {
         val survivors = getPlayersWithType(FnafUPlayer.Type.SURVIVOR)
         if (returnCopy) return ArrayList(survivors)
+        return survivors
+    }
+
+    fun getAliveSurvivors(returnCopy: Boolean):  MutableList<FnafUPlayer> {
+        val survivors = getSurvivors(returnCopy)
+        survivors.removeAll { it.status != FnafUPlayer.Status.ALIVE }
         return survivors
     }
 

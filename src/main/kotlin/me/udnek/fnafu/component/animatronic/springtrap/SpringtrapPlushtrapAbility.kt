@@ -5,6 +5,7 @@ import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
@@ -14,7 +15,6 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.entity.plushtrap.Plushtrap
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Resettable
 import org.bukkit.event.player.PlayerInteractEvent
 
 
@@ -25,7 +25,7 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility, Resettable{
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(10.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     fun getPlushtrap(player: FnafUPlayer) : Plushtrap? {

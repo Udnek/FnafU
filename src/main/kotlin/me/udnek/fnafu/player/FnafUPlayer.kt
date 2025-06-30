@@ -9,14 +9,15 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
+import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
-import me.udnek.fnafu.util.Resettable
 import me.udnek.fnafu.util.getCustom
 import me.udnek.fnafu.util.getFarthest
 import net.kyori.adventure.key.Key
@@ -171,10 +172,9 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         skinsRestorerAPI.getSkinApplier(Player::class.java).applySkin(player)
     }
 
-    fun setUp() = kit.setUp(this)
-
     fun damage(damageSound: CustomSound) {
         if (type != Type.SURVIVOR) return
+        if (status != Status.ALIVE) return
         damageSound.play(player.location)
         if (game.survivorLives == 0){
             this.die()
@@ -192,11 +192,11 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     }
 
     override fun reset() {
+        super.reset()
         status = Status.ALIVE
         player.inventory.clear()
         player.clearActivePotionEffects()
         player.getAttribute(Attribute.JUMP_STRENGTH)!!.removeModifier(NamespacedKey(FnafU.instance, "game_js"))
-        data.forEach { (it as? Resettable)?.reset() }
     }
 
     enum class Type {

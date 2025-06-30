@@ -1,6 +1,6 @@
 package me.udnek.fnafu.mechanic
 
-import me.udnek.fnafu.util.Resettable
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.util.Ticking
 
 class Time(private val maxTime: Int) : Resettable, Ticking {

@@ -1,14 +1,15 @@
 package me.udnek.fnafu.mechanic
 
-import me.udnek.fnafu.game.EnergyGame
-import me.udnek.fnafu.util.Resettable
+import me.udnek.coreu.mgu.Resettable
+import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.util.Ticking
 
-class Energy(private val game: EnergyGame) : Resettable, Ticking {
+class Energy(private val game: FnafUGame) : Resettable, Ticking {
 
     companion object {
-        var MAX_ENERGY: Float = 100f
-        var MIN_ENERGY: Float = 0f
+        const val MAX_ENERGY: Float = 100f
+        const val MIN_ENERGY: Float = 0f
+        const val TICKRATE = 15
     }
 
     var energy: Float = MAX_ENERGY
@@ -22,22 +23,17 @@ class Energy(private val game: EnergyGame) : Resettable, Ticking {
         get() = energy <= MIN_ENERGY
 
     override fun tick() {
-        energy -= consumption
-        if (energy < MIN_ENERGY) energy = MIN_ENERGY
-        else if (energy > MAX_ENERGY) energy = MAX_ENERGY
+        energy -= consumption * TICKRATE
+        energy = Math.clamp(energy, MIN_ENERGY, MAX_ENERGY)
     }
 
     fun updateConsumption() {
         updateUsage()
-        consumption = usage / 5f
+        consumption = (usage / 20f) * 0.25f
     }
 
     private fun updateUsage() {
-        var closedAmount = 0
-        for (doorButtonPair in game.systems.door.doors) {
-            if (doorButtonPair.door.isClosed) closedAmount++
-        }
-        usage = closedAmount + 1
+        usage = game.systems.door.doors.count{it.door.isClosed} + 1
     }
 
     override fun reset() {

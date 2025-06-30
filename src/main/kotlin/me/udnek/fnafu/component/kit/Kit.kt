@@ -1,13 +1,13 @@
 package me.udnek.fnafu.component.kit
 
-import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.custom.registry.CustomRegistry
 import me.udnek.coreu.custom.registry.MappedCustomRegistry
 import me.udnek.coreu.custom.registry.Registrable
 import me.udnek.coreu.custom.sound.CustomSound
-import me.udnek.coreu.mgu.ability.MGUPlayerDataHolder
+import me.udnek.coreu.mgu.component.MGUPlayerData
+import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items.CUT_CAMERA_TABLET
@@ -25,7 +25,7 @@ import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import org.bukkit.inventory.ItemStack
 
-interface Kit : CustomComponent<MGUPlayerDataHolder>, Registrable{
+interface Kit : MGUPlayerData, Registrable{
 
     companion object {
         val REGISTRY: CustomRegistry<Kit> = CustomRegistries.addRegistry(FnafU.instance, MappedCustomRegistry("kit"))
@@ -54,7 +54,9 @@ interface Kit : CustomComponent<MGUPlayerDataHolder>, Registrable{
 
     fun regive(player: FnafUPlayer)
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out CustomComponent<MGUPlayerDataHolder>> {
+    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out MGUPlayerData> {
         return FnafUComponents.KIT
     }
+
+    override fun reset() {}
 }

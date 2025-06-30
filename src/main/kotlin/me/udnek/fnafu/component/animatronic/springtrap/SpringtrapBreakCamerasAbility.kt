@@ -23,7 +23,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(40.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     override fun action(

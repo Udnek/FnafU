@@ -1,12 +1,12 @@
 package me.udnek.fnafu.component.animatronic
 
-import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.mgu.ability.MGUPlayerDataHolder
+import me.udnek.coreu.mgu.component.MGUPlayerData
+import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.component.FnafUComponents
 import org.bukkit.Location
 
-open class MovementTrackerComponent : CustomComponent<MGUPlayerDataHolder> {
+open class MovementTrackerComponent : MGUPlayerData {
 
     open var lastLocation: Location = Location(null, 0.0, 0.0, 0.0)
 
@@ -25,8 +25,12 @@ open class MovementTrackerComponent : CustomComponent<MGUPlayerDataHolder> {
     }
 
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out CustomComponent<MGUPlayerDataHolder>> {
+    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out MGUPlayerData> {
         return FnafUComponents.MOVEMENT_TRACKER_DATA
+    }
+
+    override fun reset() {
+        lastLocation = Location(null, 0.0, 0.0, 0.0)
     }
 
 }

@@ -39,6 +39,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
             entity.velocity = entity.location.direction.setY(0).multiply(RUNNING_MULTIPLIER)
         } else if (step == RUNNING_TIME) {
             entity.velocity = Vector()
+            entity.setRotation(entity.yaw + 180, entity.pitch)
         } else {
             if (target != null && getDistanceToVisibleSurvivor(target!!) != null){
                 target(target!!)
@@ -92,6 +93,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         val visiblePlayers = HashMap<Double, FnafUPlayer>()
         for (player in game.findNearbyPlayers(entity.location, SEEK_TARGET_RADIUS)) {
             if (player.type != FnafUPlayer.Type.SURVIVOR) continue
+            if (player.status != FnafUPlayer.Status.ALIVE) continue
             visiblePlayers.put(getDistanceToVisibleSurvivor(player)?: continue, player)
         }
         return visiblePlayers.minByOrNull { it.key }?.value

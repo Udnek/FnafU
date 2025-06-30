@@ -1,8 +1,8 @@
 package me.udnek.fnafu.mechanic.system
 
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Resettable
 import me.udnek.fnafu.util.Ticking
 import net.kyori.adventure.text.Component
 

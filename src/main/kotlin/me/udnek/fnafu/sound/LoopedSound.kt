@@ -17,7 +17,7 @@ class LoopedSound(val sound: CustomSound, val loopTime: Duration) {
     }
 
     fun stop(players: List<FnafUPlayer>) {
-        players.forEach { sound.stop(it.player) }
         task?.cancel()
+        players.forEach { sound.stop(it.player) }
     }
 }

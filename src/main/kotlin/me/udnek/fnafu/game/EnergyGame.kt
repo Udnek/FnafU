@@ -2,6 +2,7 @@ package me.udnek.fnafu.game
 
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
@@ -23,7 +24,6 @@ import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.Resettable
 import me.udnek.fnafu.util.getFnafU
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
@@ -89,9 +89,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         }
 
         if (isEveryNTicks(20)) updateEnergyBar()
-        if (isEveryNTicks(10)) {
-            systems.tick()
+        if (isEveryNTicks(Energy.TICKRATE)) {
+            energy.updateConsumption()
             energy.tick()
+        }
+        if (isEveryNTicks(10)){
+            systems.tick()
         }
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
@@ -105,13 +108,16 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 movement.lastLocation = animatronic.player.location
 
             }
-            for (survivor in playerContainer.getSurvivors(false)) {
+        }
+        if (isEveryNTicks(10)){
+            for (survivor in playerContainer.getAliveSurvivors(false)) {
                 if (!survivor.player.isSprinting) continue
                 val random = ThreadLocalRandom.current()
                 repeat(10) {
                     val from = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
                     val to = from.clone().add(0.0, 0.2, 0.0)
-                    Particle.TRAIL.builder().location(from).offset(0.0, 0.05, 0.0).data(Particle.Trail(to, Color.RED, 100)).spawn()
+                    Particle.TRAIL.builder().location(from).offset(0.0, 0.05, 0.0)
+                        .data(Particle.Trail(to, Color.fromRGB(255, random.nextInt(0, 128), 0), 100)).spawn()
                 }
             }
         }
@@ -152,7 +158,9 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
 
         stage = FnafUGame.Stage.KIT
 
-        kitSetupTask = object : BukkitRunnable() { override fun run() { mainCycleStart() } }
+        kitSetupTask = object : BukkitRunnable() {
+            override fun run() { mainCycleStart() }
+        }
         kitSetupTask!!.runTaskLater(FnafU.instance, KIT_SETUP_DURATION)
     }
 
@@ -176,11 +184,23 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             }
             map.ambientSound.loop { it.play(player.player) }
             scoreboard.show(player.player)
-            player.setUp()
+            // INVISIBLE COOLDOWN FIX
+            player.kit.setUp(player)
+            object : BukkitRunnable(){
+                override fun run() {
+                    player.abilityItems.forEach { item ->
+                        item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.forEach { ability ->
+                            ability.cooldown(item, player.player)
+                        }
+                    }
+                }
+            }.runTaskLater(FnafU.instance, 5)
         }
 
         animatronicWaitingTask = object : BukkitRunnable() { override fun run() {
-            playerContainer.getAnimatronics(false).forEach { it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!, NamedTextColor.RED) }
+            playerContainer.getAnimatronics(false).forEach {
+                it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!, NamedTextColor.RED)
+            }
         } }
         animatronicWaitingTask!!.runTaskLater(FnafU.instance, ANIMATRONIC_WAITING_DURATION)
     }
