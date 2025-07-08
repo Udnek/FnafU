@@ -1,4 +1,4 @@
-package me.udnek.fnafu.block
+package me.udnek.fnafu.block.decor
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.DyedItemColor
@@ -17,10 +17,7 @@ import org.bukkit.loot.LootTable
 class NightstandBlock : RotatableCustomBlockType() {
     override fun getFakeDisplay(): ItemStack = Items.NIGHTSTAND.item
 
-
-    override fun getLoot(): Either<LootTable?, List<ItemStack?>?> {
-        return Either(null, listOf(Items.NIGHTSTAND.item))
-    }
+    override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
 
     override fun placeAndReturnDisplay(location: Location, context: CustomBlockPlaceContext): ItemDisplay {
         val display = super.placeAndReturnDisplay(location, context)

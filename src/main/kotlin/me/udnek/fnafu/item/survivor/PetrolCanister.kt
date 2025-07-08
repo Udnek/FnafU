@@ -1,17 +1,37 @@
 package me.udnek.fnafu.item.survivor
 
-import io.papermc.paper.datacomponent.item.Consumable
-import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation
-import io.papermc.paper.registry.keys.SoundEventKeys
 import me.udnek.coreu.custom.item.ConstructableCustomItem
-import me.udnek.coreu.custom.item.CustomItemProperties
+import me.udnek.coreu.rpgu.component.RPGUComponents
+import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.component.survivor.PetrolCanisterAbility
+import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
-class PetrolCanister : ConstructableCustomItem() {
-    override fun getRawId(): String = "petrol_canister"
+class PetrolCanister(val component: PetrolCanisterAbility, val rawID: String) : ConstructableCustomItem() {
 
-    override fun getConsumable(): CustomItemProperties.DataSupplier<Consumable?> {
-        return CustomItemProperties.DataSupplier.of(Consumable.consumable()
-                .consumeSeconds(1.0E10f).sound(SoundEventKeys.INTENTIONALLY_EMPTY).animation(ItemUseAnimation.BOW).build()
-        )
+    companion object {
+
+        val PDC_KEY: NamespacedKey = NamespacedKey(FnafU.instance, "petrol")
+
+        fun setPetrol(item: ItemStack, amount: Float){
+            item.editPersistentDataContainer { container -> container.set(PDC_KEY, PersistentDataType.FLOAT, amount) }
+        }
+        fun getPetrol(item: ItemStack): Float {
+            return item.persistentDataContainer.get(PDC_KEY, PersistentDataType.FLOAT) ?: 0f
+        }
+    }
+
+    override fun getRawId(): String = rawID
+
+//    override fun getConsumable(): CustomItemProperties.DataSupplier<Consumable?> {
+//        return CustomItemProperties.DataSupplier.of(Consumable.consumable()
+//                .consumeSeconds(1.0E10f).sound(SoundEventKeys.INTENTIONALLY_EMPTY).animation(ItemUseAnimation.BOW).build()
+//        )
+//    }
+
+    override fun initializeComponents() {
+        super.initializeComponents()
+        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(component)
     }
 }

@@ -1,4 +1,4 @@
-package me.udnek.fnafu.util
+package me.udnek.fnafu.misc
 
 import me.udnek.coreu.util.SelfRegisteringListener
 import org.bukkit.GameRule

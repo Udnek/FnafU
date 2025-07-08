@@ -3,7 +3,7 @@ package me.udnek.fnafu.mechanic.system
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Ticking
+import me.udnek.fnafu.misc.Ticking
 import net.kyori.adventure.text.Component
 
 interface System : Resettable, Ticking {
@@ -12,10 +12,11 @@ interface System : Resettable, Ticking {
     val isBroken: Boolean
     var guiSlot: Int
     var game: FnafUGame
+    var durability: Float
 
-    fun destroy(systemMenu: SystemMenu)
+    fun destroy()
 
-    fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu, setRepairIcon: Boolean = true)
+    fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu, repairDuration: Int, setRepairIcon: Boolean = true)
 
-    fun getSidebarView(): Pair<Int, Component>
+    fun getSidebarLine(): Pair<Int, Component>
 }

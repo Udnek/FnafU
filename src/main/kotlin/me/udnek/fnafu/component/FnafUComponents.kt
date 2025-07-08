@@ -16,14 +16,15 @@ import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.survivor.*
 
 object FnafUComponents {
-
-    val KIT = register(ConstructableComponentType("kit", Kit.CAMERAMAN))
     val CAMERA_TABLET_ABILITY = register(ConstructableComponentType("camera_tablet_ability", CameraTabletAbility.FULL))
     val DOORMAN_TABLET_ABILITY = register(ConstructableComponentType("doorman_tablet_ability", DoormanTabletAbility.DEFAULT))
     val SYSTEM_TABLET_ABILITY = register(ConstructableComponentType("system_tablet_ability", SystemTabletAbility.DEFAULT))
+    val FUEL_CANISTER_ABILITY = register(ConstructableComponentType("fuel_canister_ability", PetrolCanisterAbility.SMALL))
 
     val SPECTATE_ENTITY_DATA = register(ConstructableComponentType("spectate_entity_data", SpectateEntityData.DEFAULT) { SpectateEntityData() })
     val SPECTATE_CAMERA_DATA = register(ConstructableComponentType("spectate_camera_data", SpectateCameraData.DEFAULT) { SpectateCameraData() })
+
+    val CURRENT_INVENTORY_DATA = register(ConstructableComponentType("current_inventory_data", CurrentInventoryData.DEFAULT) { CurrentInventoryData()} )
 
     val MOVEMENT_TRACKER_DATA = register(ConstructableComponentType("movement_tracker_data", MovementTrackerComponent.DEFAULT) { MovementTrackerComponent() })
 
@@ -35,6 +36,9 @@ object FnafUComponents {
     val FREDDY_SET_TRAP_ABILITY = register(ConstructableComponentType("freddy_set_trap_ability", FreddySetTrapAbility.DEFAULT))
     val FREDDY_TELEPORT_TO_TRAP_ABILITY = register(ConstructableComponentType("freddy_teleport_to_trap_ability", FreddyTeleportToTrapAbility.DEFAULT))
     val FREDDY_TRAP_DATA = register(ConstructableComponentType("freddy_trap_data", FreddyTrapData.DEFAULT) { FreddyTrapData() })
+
+    val KIT = register(ConstructableComponentType("kit", Kit.CAMERAMAN))
+    val KIT_STAGE_DATA = register(ConstructableComponentType("kit_stage_data", KitStageData.DEFAULT) { KitStageData() })
 
     private fun <C : CustomComponentType<*, *>> register(type: C): C {
         return CustomRegistries.COMPONENT_TYPE.register(FnafU.instance, type)

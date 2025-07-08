@@ -1,8 +1,8 @@
 package me.udnek.fnafu.map.location
 
 import com.google.common.base.Preconditions
-import me.udnek.fnafu.util.setOrigin
-import me.udnek.fnafu.util.toCenterFloor
+import me.udnek.fnafu.misc.setOrigin
+import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
 import java.util.*
 

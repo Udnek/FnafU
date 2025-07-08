@@ -10,14 +10,14 @@ class Camera : Originable {
     val tabletMenuPosition: Int
     val rotationAngle: Float
     var number: Int = 0
-    val isCut: Boolean
+    val isInCutMenu: Boolean
 
     constructor(location: LocationSingle, id: String, tabletMenuPosition: Int, rotationAngle: Float, isCut: Boolean) {
         this.location = location
         this.id = id
         this.tabletMenuPosition = tabletMenuPosition
         this.rotationAngle = rotationAngle
-        this.isCut = isCut
+        this.isInCutMenu = isCut
     }
 
     override fun setOrigin(origin: Location) {

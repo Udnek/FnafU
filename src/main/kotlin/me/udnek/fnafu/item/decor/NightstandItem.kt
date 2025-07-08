@@ -7,12 +7,11 @@ import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.nms.Nms
 import me.udnek.fnafu.block.Blocks
+import me.udnek.fnafu.item.FnafUBlockDecorItem
+import me.udnek.fnafu.item.FnafUBlockItem
 import org.bukkit.Material
 
-class NightstandItem : ConstructableCustomItem() {
-    override fun getRawId(): String = "nightstand"
-
-    override fun getMaterial(): Material = DEFAULT_MATERIAL_FOR_BLOCK_PLACEABLE
+class NightstandItem : FnafUBlockDecorItem("nightstand", Blocks.NIGHTSTAND) {
 
     override fun getDyedColor(): CustomItemProperties.DataSupplier<DyedItemColor?> {
         return CustomItemProperties.DataSupplier.of(DyedItemColor.dyedItemColor(Nms.get().getColorByDye(Material.BLUE_DYE)!!.fireworkColor(), true))
@@ -20,7 +19,6 @@ class NightstandItem : ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(BlockPlacingItem(Blocks.NIGHTSTAND))
         components.set(AutoGeneratingFilesItem.DYE_COLORABLE)
     }
 }

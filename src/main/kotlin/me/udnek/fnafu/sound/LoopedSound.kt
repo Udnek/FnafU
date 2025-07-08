@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.time.Duration
 
 class LoopedSound(val sound: CustomSound, val loopTime: Duration) {
-    var task: BukkitRunnable? = null
+    private var task: BukkitRunnable? = null
 
     fun loop(action: (CustomSound) -> Unit) {
         task = object : BukkitRunnable() {

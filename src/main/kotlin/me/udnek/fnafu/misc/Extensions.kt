@@ -1,11 +1,13 @@
-package me.udnek.fnafu.util
+package me.udnek.fnafu.misc
 
+import me.udnek.coreu.custom.entitylike.block.CustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.mgu.MGUManager
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Location
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -24,6 +26,10 @@ fun ItemStack.getCameraId(): String? {
 
 fun ItemStack.getCustom(): CustomItem? {
     return CustomItem.get(this)
+}
+
+fun Block.getCustom(): CustomBlockType? {
+    return CustomBlockType.get(this)
 }
 
 fun Location.toCenterFloor(): Location {

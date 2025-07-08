@@ -9,7 +9,7 @@ import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.misc.getFnafU
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Player
@@ -68,7 +68,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun target(player: FnafUPlayer) {
-        if (step % 20 == 0) Sounds.PLUSHTRAP_NEAR.play(entity.location)
+        if (step % 20 == 0) Sounds.PLUSHTRAP_NEAR.play(player.player)
         noTargetTime = 0
         Nms.get().moveWithPathfind(entity, player.player.location)
         if (target != player) {
@@ -101,6 +101,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     fun getDistanceToVisibleSurvivor(player: FnafUPlayer): Double? {
+        if (player.status == FnafUPlayer.Status.DEAD) return null
         val targetEyeLocation = player.player.eyeLocation
         val entityEyeLocation = entity.eyeLocation
         val distance = entityEyeLocation.distance(targetEyeLocation)

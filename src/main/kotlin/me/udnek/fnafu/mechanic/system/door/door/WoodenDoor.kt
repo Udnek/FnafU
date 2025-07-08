@@ -4,7 +4,7 @@ import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorButton
-import me.udnek.fnafu.util.toCenterFloor
+import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.BlockFace

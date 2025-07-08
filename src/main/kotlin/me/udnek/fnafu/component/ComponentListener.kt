@@ -3,7 +3,7 @@ package me.udnek.fnafu.component
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.SelfRegisteringListener
 import me.udnek.fnafu.event.SystemRepairedEvent
-import me.udnek.fnafu.util.getCustom
+import me.udnek.fnafu.misc.getCustom
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.Plugin

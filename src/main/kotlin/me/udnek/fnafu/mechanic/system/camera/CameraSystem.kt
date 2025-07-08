@@ -10,9 +10,9 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.mechanic.system.SystemMenu
+import me.udnek.fnafu.misc.getCameraId
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.getCustom
+import me.udnek.fnafu.misc.getCustom
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -30,12 +30,11 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
     override val sidebarPosition: Int = 2
     val cameras: MutableList<Camera> = ArrayList()
     private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
-    private lateinit var cameraMenu: CameraMenu
     override var guiSlot: Int = 25
-    override var sidebarComponent: Component = Component.translatable("sidebar.fnafu.camera_system")
+    override var sidebarLine: Component = Component.translatable("system.fnafu.camera")
 
     override fun tick() {
-        if (game.energy.isEndedUp) playerSpectatingCameras.forEach { (player, _) -> exitCamera(player)}
+        if (game.energy.isEndedUp || isBroken) exitAll()
     }
 
     fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
@@ -57,8 +56,9 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
         val spectateData = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_ENTITY_DATA)
+        val cameraData = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA)
 
-        cameraMenu.updateCameras(cameras, camera, cameraTablet)
+        cameraData.cameraMenu!!.updateCameras(cameras, camera, cameraTablet)
         cameraOverlay(player, cameraTablet)
 
         val spectatingCamera = getSpectatingCamera(player)
@@ -75,7 +75,10 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
 
         playCameraRotation(camera, cameraEntity)
 
-        player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
+        val isCut = cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.getOrCreateDefault(FnafUComponents.CAMERA_TABLET_ABILITY)?.isCut ?: false
+        if (!isCut){
+            player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
+        }
     }
 
     fun exitCamera(player: FnafUPlayer) {
@@ -86,7 +89,7 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
         spectateEntityAbility.spectatingEntity!!.remove()
         spectateEntityAbility.spectateSelf(player)
 
-        player.kit.regive(player)
+        player.regiveInventory()
         player.player.closeInventory()
         player.player.removePotionEffect(PotionEffectType.NIGHT_VISION)
 
@@ -157,8 +160,9 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
     }
 
     fun openMenu(player: FnafUPlayer, cameraTablet: ItemStack) {
-        cameraMenu = CameraMenu(cameras, game.map.mapImage, cameraTablet)
-        cameraMenu.open(player.player)
+        val menu = CameraMenu(cameras, game.map.mapImage, cameraTablet)
+        player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA).cameraMenu = menu
+        menu.open(player.player)
     }
 
     fun getCamera(id: String): Camera? {
@@ -167,7 +171,9 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
     }
 
     fun exitAll(){
-        playerSpectatingCameras.keys.forEach { exitCamera(it) }
+        while (!playerSpectatingCameras.isEmpty()){
+            exitCamera(playerSpectatingCameras.keys.first())
+        }
     }
 
     override fun reset() {
@@ -179,8 +185,8 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
         for (camera in cameras) camera.setOrigin(origin)
     }
 
-    override fun destroy(systemMenu: SystemMenu) {
-        super.destroy(systemMenu)
+    override fun destroy() {
+        super.destroy()
         exitAll()
     }
 

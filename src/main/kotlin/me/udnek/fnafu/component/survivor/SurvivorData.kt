@@ -1,5 +1,5 @@
-package me.udnek.fnafu.component.survivor;
+package me.udnek.fnafu.component.survivor
 
-public class SurvivorData {
+class SurvivorData {
     // TODO
 }

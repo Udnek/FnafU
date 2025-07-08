@@ -1,17 +1,19 @@
-package me.udnek.fnafu.item.decor
+package me.udnek.fnafu.item
 
 import me.udnek.coreu.custom.component.instance.BlockPlacingItem
+import me.udnek.coreu.custom.entitylike.block.CustomBlockType
 import me.udnek.coreu.custom.item.ConstructableCustomItem
-import me.udnek.fnafu.block.Blocks
 import org.bukkit.Material
 
-class ArcadeMachineItem : ConstructableCustomItem() {
-    override fun getRawId(): String = "arcade_machine"
+open class FnafUBlockItem(val rawID: String, val block: CustomBlockType) : ConstructableCustomItem(){
 
     override fun getMaterial(): Material = DEFAULT_MATERIAL_FOR_BLOCK_PLACEABLE
 
+    override fun getRawId(): String = rawID
+
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(BlockPlacingItem(Blocks.ARCADE_MACHINE))
+        components.set(BlockPlacingItem(block))
     }
+
 }

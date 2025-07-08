@@ -8,16 +8,21 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
+import me.udnek.coreu.rpgu.lore.ability.ActiveAbilityLorePart
 import me.udnek.coreu.util.Either
+import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.player.FnafUPlayer
+import net.kyori.adventure.text.Component
 import org.bukkit.event.player.PlayerInteractEvent
 
 open class DoormanTabletAbility : FnafUActiveAbility {
 
     companion object {
         val DEFAULT = DoormanTabletAbility()
+        const val DAMAGE_PER_USAGE = EnergyGame.SURVIVOR_TOGGLE_DOOR_DAMAGE * 2
     }
 
     constructor(){
@@ -28,6 +33,11 @@ open class DoormanTabletAbility : FnafUActiveAbility {
         return FnafUComponents.DOORMAN_TABLET_ABILITY
     }
 
+    override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
+        super.addPropertyLines(componentable)
+        componentable.addAbilityStat(Component.translatable("ability.fnafu.doorman_tablet.damage_per_usage", listOf(Component.text(Utils.roundToTwoDigits(DAMAGE_PER_USAGE*100.0)))))
+    }
+
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
@@ -35,7 +45,7 @@ open class DoormanTabletAbility : FnafUActiveAbility {
         event: PlayerInteractEvent
     ): ActionResult {
         val doors = player.game.systems.door
-        if (doors.isBroken) return ActionResult.NO_COOLDOWN
+        if (doors.isBroken || player.game.energy.isEndedUp) return ActionResult.NO_COOLDOWN
         doors.openMenu(player)
         return ActionResult.NO_COOLDOWN
     }
@@ -43,5 +53,4 @@ open class DoormanTabletAbility : FnafUActiveAbility {
     fun onPlayerClickButton(item: CustomItem, player: FnafUPlayer) {
         cooldown(item, player.player)
     }
-
 }

@@ -7,7 +7,7 @@ import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.door.door.WoodenDoor
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.TextUtils
+import me.udnek.fnafu.misc.TextUtils
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import java.time.Duration

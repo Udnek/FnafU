@@ -11,7 +11,7 @@ class VentilationSystem(game: FnafUGame) : AbstractSystem(game) {
     override val sidebarPosition: Int = 1
     private var timeBroken: Int = 0
     override var guiSlot: Int = 34
-    override var sidebarComponent: Component = Component.translatable("sidebar.fnafu.ventilation_system")
+    override var sidebarLine: Component = Component.translatable("system.fnafu.ventilation")
 
     companion object {
         const val TIME_BETWEEN_TICK: Int = 10
@@ -30,9 +30,9 @@ class VentilationSystem(game: FnafUGame) : AbstractSystem(game) {
             return
         }
         if (timeBroken >= SECOND_STAGE_TIME) {
-            game.playerContainer.getAliveSurvivors(false).forEach { it.player.addPotionEffect(getEffect(SECOND_STAGE_EFFECT_LEVEL)) }
+            game.playerContainer.aliveSurvivors.forEach { it.player.addPotionEffect(getEffect(SECOND_STAGE_EFFECT_LEVEL)) }
         } else if (timeBroken >= FIRST_STAGE_TIME) {
-            game.playerContainer.getAliveSurvivors(false).forEach { it.player.addPotionEffect(getEffect(FIRST_STAGE_EFFECT_LEVEL)) }
+            game.playerContainer.aliveSurvivors.forEach { it.player.addPotionEffect(getEffect(FIRST_STAGE_EFFECT_LEVEL)) }
         }
         timeBroken += TIME_BETWEEN_TICK
     }

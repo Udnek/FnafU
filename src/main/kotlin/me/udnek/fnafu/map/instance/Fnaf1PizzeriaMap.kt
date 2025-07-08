@@ -8,7 +8,7 @@ import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.TextUtils
+import me.udnek.fnafu.misc.TextUtils
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
@@ -22,13 +22,13 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
     override var mapImage: Component = TextUtils.getMapImage(-8, 165, "fnaf1")
 
     override fun build() {
-        addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 3, 180f, 0f).centerFloor)
+        addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
         addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(-19.5, .0, 33.5, -90f, 0f).centerFloor)
         addLocation(LocationType.PRESPAWN_ANIMATRONIC, LocationSingle(-24.38, .0, 35.49, -90f, 0f).centerFloor)
         addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-4, 6, -5, 0f, 0f).centerFloor)
         addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(-4, 12, -5, 0f, 0f).centerFloor)
         addLocation(LocationType.RESPAWN_SURVIVOR, LocationList()
-            .add(0.0, 0.0, 3.0, 180f, 0f)
+            .add(0.0, 0.0, 0.0, 0f, 0f)
             .add(18.58, .0, 37.79, 137.5f, 0f)
             .add(-18.39, .0, 38.41, -138.8f, 0f)
             .add(6.47, .0, -14.36, -39.4f, 0f)
@@ -37,16 +37,16 @@ class Fnaf1PizzeriaMap(origin: Location) : FnafUMap(origin) {
             .add(-31.33, .0, 19.7, 179.2f, 0f)
         )
 
-        addDoor(MetalDoor.pairOf(4, 0, -1, MetalDoor.Direction.Z, 39, 3, 1, 1))
-        addDoor(MetalDoor.pairOf(9, 0, -1, MetalDoor.Direction.Z, 38, 10, 1, 1))
-        addDoor(MetalDoor.pairOf(-5, 0, -1, MetalDoor.Direction.Z, 40, -4, 1, 1))
-        addDoor(MetalDoor.pairOf(-10, 0, -1, MetalDoor.Direction.Z, 41, -11, 1, 1))
-        addDoor(MetalDoor.pairOf(-17, 0, 5, MetalDoor.Direction.X, 33, -19, 1, 4))
-        addDoor(MetalDoor.pairOf(-25, 0, 27, MetalDoor.Direction.Z, 16, -26, 1, 29))
-        addDoor(MetalDoor.pairOf(-25, 0, 15, MetalDoor.Direction.Z, 25, -26, 1, 13))
-        addDoor(MetalDoor.pairOf(20, 0, 28, MetalDoor.Direction.Z, 10, 21, 1, 26))
-        addDoor(MetalDoor.pairOf(16, 0, 5, MetalDoor.Direction.X, 29, 14, 1, 4))
-        addDoor(MetalDoor.pairOf(6, 0, -10, MetalDoor.Direction.X, 48, 4, 1, -11))
+        addDoor(MetalDoor.pairOf3x3(4, 0, -1, MetalDoor.Direction.Z, 39, 3, 1, 1))
+        addDoor(MetalDoor.pairOf3x3(9, 0, -1, MetalDoor.Direction.Z, 38, 10, 1, 1))
+        addDoor(MetalDoor.pairOf3x3(-5, 0, -1, MetalDoor.Direction.Z, 40, -4, 1, 1))
+        addDoor(MetalDoor.pairOf3x3(-10, 0, -1, MetalDoor.Direction.Z, 41, -11, 1, 1))
+        addDoor(MetalDoor.pairOf3x3(-17, 0, 5, MetalDoor.Direction.X, 33, -19, 1, 4))
+        addDoor(MetalDoor.pairOf3x3(-25, 0, 27, MetalDoor.Direction.Z, 16, -26, 1, 29))
+        addDoor(MetalDoor.pairOf3x3(-25, 0, 15, MetalDoor.Direction.Z, 25, -26, 1, 13))
+        addDoor(MetalDoor.pairOf3x3(20, 0, 28, MetalDoor.Direction.Z, 10, 21, 1, 26))
+        addDoor(MetalDoor.pairOf3x3(16, 0, 5, MetalDoor.Direction.X, 29, 14, 1, 4))
+        addDoor(MetalDoor.pairOf3x3(6, 0, -10, MetalDoor.Direction.X, 48, 4, 1, -11))
 
         cameras = listOf(
             Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F, true),

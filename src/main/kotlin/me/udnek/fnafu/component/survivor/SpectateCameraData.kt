@@ -5,6 +5,7 @@ import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.mechanic.system.camera.Camera
+import me.udnek.fnafu.mechanic.system.camera.CameraMenu
 import org.bukkit.inventory.ItemStack
 
 open class SpectateCameraData: MGUPlayerData {
@@ -17,11 +18,15 @@ open class SpectateCameraData: MGUPlayerData {
             override var tablet: ItemStack?
                 get() = super.tablet
                 set(value) {throwCanNotChangeDefault()}
+            override var cameraMenu: CameraMenu?
+                get() = super.cameraMenu
+                set(value) {throwCanNotChangeDefault()}
         }
     }
 
     open var lastCamera: Camera? = null
     open var tablet: ItemStack? = null
+    open var cameraMenu: CameraMenu? = null
 
     override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out MGUPlayerData> {
         return FnafUComponents.SPECTATE_CAMERA_DATA

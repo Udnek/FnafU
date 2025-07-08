@@ -4,12 +4,13 @@ import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.survivor.camera.CameraButton
-import me.udnek.fnafu.util.getCameraId
-import me.udnek.fnafu.util.getCustom
-import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.misc.getCameraId
+import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -26,10 +27,15 @@ open class CameraMenu : ConstructableCustomInventory{
     fun updateCameras(cameras: List<Camera>, useCamera: Camera?, cameraTablet: ItemStack) {
         val isCutTublet = cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY)?.isCut ?: return
         for (camera in cameras) {
-            if (isCutTublet && !camera.isCut) continue
-            if (camera == useCamera) {
-                inventory.setItem(useCamera.tabletMenuPosition, CameraButton.getWithCamera(useCamera, useCamera.number, Color.GREEN)) }
-            else { inventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(camera, camera.number, Color.BLACK)) }
+            if (isCutTublet && !camera.isInCutMenu){
+                inventory.setItem(camera.tabletMenuPosition, ItemStack(Material.AIR))
+            }
+            else if (camera == useCamera) {
+                inventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(useCamera, useCamera.number, Color.GREEN))
+            }
+            else {
+                inventory.setItem(camera.tabletMenuPosition, CameraButton.getWithCamera(camera, camera.number, Color.BLACK))
+            }
         }
     }
 
@@ -39,7 +45,7 @@ open class CameraMenu : ConstructableCustomInventory{
             val id = it.getCameraId() ?: return
 
             (event.whoClicked as Player).getFnafU()?.let {
-                it.game.systems.camera.spectateCamera(it, id, it.player.inventory.getItem(1)!!)
+                it.game.systems.camera.spectateCamera(it, id, it.data.getOrDefault(FnafUComponents.SPECTATE_CAMERA_DATA).tablet!!)
             }
         }
     }

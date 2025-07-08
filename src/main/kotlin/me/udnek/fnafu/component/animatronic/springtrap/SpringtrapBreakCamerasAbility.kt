@@ -34,7 +34,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
     ): ActionResult {
         val systems = player.game.systems
         if (!systems.camera.isBroken) {
-            systems.destroySystem(systems.camera)
+            systems.camera.destroy()
         }
 
         return ActionResult.INFINITE_COOLDOWN

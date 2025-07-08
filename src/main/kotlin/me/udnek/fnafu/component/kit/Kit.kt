@@ -10,6 +10,7 @@ import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.item.Items.LARGE_PETROL_CANISTER
 import me.udnek.fnafu.item.Items.CUT_CAMERA_TABLET
 import me.udnek.fnafu.item.Items.DOOR_TABLET
 import me.udnek.fnafu.item.Items.FREDDY_MASK
@@ -17,6 +18,7 @@ import me.udnek.fnafu.item.Items.FREDDY_SET_TRAP
 import me.udnek.fnafu.item.Items.FREDDY_SHADOW
 import me.udnek.fnafu.item.Items.FREDDY_TELEPORT_TO_TRAP
 import me.udnek.fnafu.item.Items.FULL_CAMERA_TABLET
+import me.udnek.fnafu.item.Items.SMALL_PETROL_CANISTER
 import me.udnek.fnafu.item.Items.SPRINGTRAP_BREAK_CAMERAS
 import me.udnek.fnafu.item.Items.SPRINGTRAP_MASK
 import me.udnek.fnafu.item.Items.SPRINGTRAP_PLUSHTRAP_ABILITY
@@ -33,11 +35,12 @@ interface Kit : MGUPlayerData, Registrable{
         val SPRINGTRAP = register(AnimatronicKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, SPRINGTRAP_PLUSHTRAP_ABILITY,
             listOf(SPRINGTRAP_PLUSHTRAP_ABILITY, SPRINGTRAP_BREAK_CAMERAS, SPRINGTRAP_MASK), "5eb93aaaf701c868a525a9d3dd98daed9374d2a118003bd6f3464778c361e1e8",
             Sounds.SPRINGTRAP_JUMP_SCARE))
-        val FREDDY = register(AnimatronicKit("freddy", FnafUPlayer.Type.ANIMATRONIC, FREDDY_SHADOW, listOf(FREDDY_SHADOW, FREDDY_MASK, FREDDY_SET_TRAP,
-            FREDDY_TELEPORT_TO_TRAP), "3395fc7b2c8b4c57371271b8f5f6671ba56191d9b38fa1d9593cb856147bb91e", Sounds.SPRINGTRAP_JUMP_SCARE))
-        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET, listOf(FULL_CAMERA_TABLET)))
-        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET, listOf(CUT_CAMERA_TABLET, DOOR_TABLET)))
-        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, SYSTEM_TABLET, listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET)))
+        val FREDDY = register(AnimatronicKit("freddy", FnafUPlayer.Type.ANIMATRONIC, FREDDY_SHADOW, listOf(FREDDY_SHADOW, FREDDY_SET_TRAP,
+            FREDDY_TELEPORT_TO_TRAP, FREDDY_MASK), "3395fc7b2c8b4c57371271b8f5f6671ba56191d9b38fa1d9593cb856147bb91e", Sounds.SPRINGTRAP_JUMP_SCARE))
+        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET, listOf(FULL_CAMERA_TABLET), listOf(SMALL_PETROL_CANISTER)))
+        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET, listOf(DOOR_TABLET, CUT_CAMERA_TABLET), listOf(SMALL_PETROL_CANISTER)))
+        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, SYSTEM_TABLET, listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET), listOf(SMALL_PETROL_CANISTER)))
+        val REFUELLER = register(ConstructableKit("refueller", FnafUPlayer.Type.SURVIVOR, LARGE_PETROL_CANISTER, listOf(CUT_CAMERA_TABLET), listOf(LARGE_PETROL_CANISTER)))
 
         fun register(kit: Kit): Kit {
             return REGISTRY.register(FnafU.instance, kit)
@@ -46,13 +49,16 @@ interface Kit : MGUPlayerData, Registrable{
 
 
     val displayItem: ItemStack
-    val items: List<ItemStack>
+    val permanentItems: List<ItemStack>
+    val inventoryItems: List<ItemStack>
     val playerType: FnafUPlayer.Type
     var jumpScareSound: CustomSound?
 
     fun setUp(player: FnafUPlayer)
 
     fun regive(player: FnafUPlayer)
+
+    fun regiveCurrentInventory(player: FnafUPlayer)
 
     override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out MGUPlayerData> {
         return FnafUComponents.KIT

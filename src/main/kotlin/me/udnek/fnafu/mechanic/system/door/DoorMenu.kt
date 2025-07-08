@@ -4,7 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
-import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -22,10 +22,10 @@ class DoorMenu : ConstructableCustomInventory {
     constructor(title: Component, doors: List<ButtonDoorPair>) : super() {
         this.title = tabletBackground.append(title.color(NamedTextColor.BLACK))
         this.doors = doors
-        updateDoors()
+        updateDoorIcons()
     }
 
-    fun updateDoors() {
+    fun updateDoorIcons() {
         doors.forEachIndexed { index, door ->
             inventory.setItem(door.door.tabletMenuPosition, DoormanTabletButton.getWithCamera(door.door, index))
         }
@@ -33,15 +33,15 @@ class DoorMenu : ConstructableCustomInventory {
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
-        doors[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return].door.toggle()
-        updateDoors()
-        (event.whoClicked as Player).getFnafU()?.also {
-            it.game.systems.door.onPlayerClickButton(it)
+        val door = doors[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return].door
+        (event.whoClicked as Player).getFnafU()?.let {
+            it.game.systems.door.onPlayerClickButtonInMenu(door, it)
         }
+        updateDoorIcons()
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.systems.door.exitMenu(it) }
+        (event.player as Player).getFnafU()?.let { it.game.systems.door.onMenuExit(it) }
     }
 
     override fun getTitle(): Component = title

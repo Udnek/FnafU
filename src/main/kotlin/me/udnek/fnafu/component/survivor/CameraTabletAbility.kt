@@ -8,33 +8,36 @@ import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUComponents
+import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
+import me.udnek.coreu.rpgu.lore.ability.ActiveAbilityLorePart
 import me.udnek.coreu.util.Either
+import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
-open class CameraTabletAbility : FnafUActiveAbility {
-    val guiColor: Color
-    val noiseColor: TextColor
-    val isCut: Boolean
+open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, val isCut: Boolean, val damagePerUsage: Float) : FnafUActiveAbility() {
 
-
-    companion object {
-        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true)
-        val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false)
+    init {
+        components.set(AttributeBasedProperty(0.5*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
+    companion object {
+        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true, 0.06f)
+        val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false, 0.03f)
+    }
 
-    constructor(guiColor: Color, noiseColor: TextColor, isCut: Boolean){
-        this.guiColor = guiColor
-        this.noiseColor = noiseColor
-        this.isCut = isCut
+    override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
+        super.addPropertyLines(componentable)
+        componentable.addAbilityStat(Component.translatable("ability.fnafu.camera_tablet.damage_per_usage", listOf(Component.text(Utils.roundToTwoDigits(damagePerUsage*100.0)))))
     }
 
     open fun getOverlay() : ItemStack {
@@ -54,14 +57,14 @@ open class CameraTabletAbility : FnafUActiveAbility {
         event: PlayerInteractEvent
     ): ActionResult {
         val cameras = player.game.systems.camera
+        print(cameras.durability)
+        cameras.durability -= damagePerUsage
         if (cameras.isBroken || player.game.energy.isEndedUp) {
-            player.showNoise(noiseColor)
             return ActionResult.NO_COOLDOWN
         }
         cameras.openMenu(player, event.item!!)
         val lastCamera = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA).lastCamera
-        cameras.spectateCamera(player, lastCamera ?: cameras.cameras.first(), event.item!!)
+        cameras.spectateCamera(player, lastCamera ?: cameras.cameras.firstOrNull{it.isInCutMenu}!!, event.item!!)
         return ActionResult.FULL_COOLDOWN
     }
-
 }

@@ -1,7 +1,10 @@
 {
   "ambience_fnaf1": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf1"], "type": "event" },
   "ambience_fnaf2": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf2"], "type": "event" },
+  "ambience_fnaf3": { "subtitle": "subtitles.fnafu.ambience", "sounds": ["fnafu:ambience/fnaf3"], "type": "event" },
   "door": { "subtitle": "subtitles.fnafu.door", "sounds": ["fnafu:door"], "type": "event" },
+  "power_outage": { "subtitle": "subtitles.fnafu.power_outage", "sounds": ["fnafu:power_outage"], "type": "event" },
+  "petrol_canister_pour": { "subtitle": "subtitles.fnafu.petrol_canister_pour", "sounds": ["fnafu:petrol_canister_pour"], "type": "event" },
 
   "animatronic_step": { "subtitle": "subtitles.fnafu.animatronic_step", "sounds": ["fnafu:animatronic_step/0", "fnafu:animatronic_step/1", "fnafu:animatronic_step/2"], "type": "event" },
 

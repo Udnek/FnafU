@@ -18,7 +18,7 @@ import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.event.player.PlayerInteractEvent
 
 
-class SpringtrapPlushtrapAbility : FnafUActiveAbility, Resettable{
+class SpringtrapPlushtrapAbility : FnafUActiveAbility{
 
     companion object {
         val DEFAULT = SpringtrapPlushtrapAbility()
@@ -52,15 +52,11 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility, Resettable{
         plushtrap.game = player.game
         plushtrap.initialDirection = player.player.location.direction
         setPlushtrap(player, plushtrap, item)
-        player.getTeam()?.addEntity(plushtrap.real)
+        player.team?.addEntity(plushtrap.real)
         return ActionResult.INFINITE_COOLDOWN
     }
 
     override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
         return FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY
-    }
-
-    override fun reset() {
-        // TODO
     }
 }

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "fnafu:item/arcade_machine",
-		"particle": "fnafu:item/arcade_machine"
+		"0": "fnafu:item/decor/arcade_machine",
+		"particle": "fnafu:item/decor/arcade_machine"
 	},
 	"elements": [
 		{

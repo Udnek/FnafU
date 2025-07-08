@@ -1,4 +1,4 @@
-package me.udnek.fnafu.util
+package me.udnek.fnafu.misc
 
 import me.udnek.coreu.util.ComponentU
 import net.kyori.adventure.key.Key
