@@ -14,7 +14,7 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-        <lib.coreu>C:\Users\glebd\OneDrive\Documents\CODING\Java\CoreU\target\CoreU-1.0-SNAPSHOT-remapped.jar</lib.coreu>
+        <lib.coreu>C:\Users\PC\IdeaProjects\CoreU\target\CoreU-1.0-SNAPSHOT-remapped.jar</lib.coreu>
         <kotlin.version>2.1.20</kotlin.version>
     </properties>
 
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.7-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
