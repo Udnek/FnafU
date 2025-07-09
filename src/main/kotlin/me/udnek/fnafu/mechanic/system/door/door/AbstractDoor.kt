@@ -1,7 +1,7 @@
 package me.udnek.fnafu.mechanic.system.door.door
 
 import me.udnek.fnafu.map.location.LocationSingle
-import me.udnek.fnafu.util.toCenterFloor
+import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
 
 abstract class AbstractDoor(protected val location: LocationSingle, override val tabletMenuPosition: Int) : Door{

@@ -1,15 +1,20 @@
 package me.udnek.fnafu.game
 
+import me.udnek.coreu.custom.entitylike.block.BlockUtils
+import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.game.MGUGameType
-import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.block.Blocks
+import me.udnek.fnafu.block.SystemStationBlock
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.effect.Effects
+import me.udnek.fnafu.event.EnergyEndedUpEvent
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationSingle
@@ -22,11 +27,8 @@ import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Resettable
-import me.udnek.fnafu.util.Sounds
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.getFnafU
-import me.udnek.fnafu.util.toCenterFloor
+import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -37,7 +39,6 @@ import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.block.BlockFace
-import org.bukkit.block.data.Directional
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.potion.PotionEffect
@@ -49,7 +50,6 @@ import java.util.concurrent.ThreadLocalRandom
 class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     companion object {
         const val GAME_DURATION: Int = 5 * 60 * 20
-        const val KIT_SETUP_DURATION: Long = 4 * 20
         const val ANIMATRONIC_WAITING_DURATION: Long = 8 * 20
         const val MAX_LIVES: Int = 5
 
@@ -57,6 +57,10 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         const val DOOR_STUN_TIME: Int = 1 * 20
         const val DOOR_SLOWNESS_RADIUS: Double = 3.0
         const val DOOR_SLOWNESS_TIME: Int = 3 * 20
+
+        // TODO MAKE ATTRIBUTE
+        const val ANIMATRONIC_OPEN_DOOR_DAMAGE: Float = 0.7f
+        const val SURVIVOR_TOGGLE_DOOR_DAMAGE: Float = 0.05f
     }
 
     var kitSetupTask: BukkitRunnable? = null
@@ -64,7 +68,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     val time: Time = Time(GAME_DURATION)
     override val energy: Energy = Energy(this)
 
-    override var survivorLives = MAX_LIVES
+    override var survivorLives: Int = MAX_LIVES
+        set(value) {
+            field = value
+            updateSidebar()
+        }
     override val systems: Systems = Systems(DoorSystem(this, map.doors), CameraSystem(this), VentilationSystem(this))
 
     private var timeBar: BossBar? = null
@@ -73,7 +81,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     private var teamSurvivors: Team? = null
     private var teamAnimatronics: Team? = null
 
-    override val scoreboard = CustomSidebar(id.asString(), Component.translatable("sidebar.fnafu.systems"))
+    override val sidebar = CustomSidebar(id.asString(), Component.empty())
 
     init {
         map.cameras.forEach { systems.camera.addCamera(it) }
@@ -84,38 +92,55 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
 
     override fun tick() {
         time.tick()
-        if (time.isEnded || !super<FnafUAbstractGame>.isRunning()) {
+        if (time.isEnded || !super.isRunning()) {
             winner = Winner.SURVIVORS
             stop()
             return
         }
 
-        if (isEveryNTicks(20)) updateEnergyBar()
-        if (isEveryNTicks(10)) {
-            systems.tick()
+        if (isEveryNTicks(5)) updateEnergyBar()
+        if (isEveryNTicks(Energy.TICKRATE)) {
+            energy.updateConsumption()
             energy.tick()
+            if (!energy.endedUpAlreadyChecked && energy.isEndedUp) {
+                energy.endedUpAlreadyChecked = true
+                EnergyEndedUpEvent(this).callEvent()
+            }
+        }
+        if (isEveryNTicks(10)){
+            systems.tick()
         }
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
-            for (animatronic in playerContainer.getAnimatronics(false)) {
+            for (animatronic in playerContainer.animatronics) {
                 val movement = animatronic.data.getOrCreateDefault(FnafUComponents.MOVEMENT_TRACKER_DATA)
                 if (!animatronic.player.isSneaking && movement.hasMoved(animatronic.player.location)) {
-                    for (survivor in playerContainer.getSurvivors(false)) {
+                    for (survivor in playerContainer.survivors) {
                         Sounds.ANIMATRONIC_STEP.play(animatronic.player.location, survivor.player)
                     }
                 }
                 movement.lastLocation = animatronic.player.location
 
             }
-            for (survivor in playerContainer.getSurvivors(false)) {
+        }
+        if (isEveryNTicks(10)){
+            for (survivor in playerContainer.aliveSurvivors) {
                 if (!survivor.player.isSprinting) continue
                 val random = ThreadLocalRandom.current()
                 repeat(10) {
-                    val location = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
-                    Particle.TRAIL.builder().location(location).data(Particle.Trail(location.add(0.0, 0.2, 0.0), Color.RED, 100)).spawn()
+                    val from = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
+                    val to = from.clone().add(0.0, 0.2, 0.0)
+                    Particle.TRAIL.builder().location(from).offset(0.0, 0.05, 0.0)
+                        .data(Particle.Trail(to, Color.fromRGB(255, random.nextInt(0, 128), 0), 100)).spawn()
                 }
             }
         }
+    }
+
+    override fun updateSidebar() {
+        sidebar.lines = systems.all.associate { system -> system.getSidebarLine() }
+        sidebar.setLine(0, Component.translatable("sidebar.fnafu.live_count", Component.text(survivorLives)))
+        sidebar.updateForAll()
     }
 
     override fun start() {
@@ -123,12 +148,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         initializeBars()
         initializeTeams()
 
-        scoreboard.lines = systems.all.associate { system -> system.getSidebarView() }
+        updateSidebar()
 
-        updateSurvivorLives()
         chooseSystemStations()
 
-        for (player in playerContainer.getPlayers(false)) {
+        stage = FnafUGame.Stage.KIT
+        for (player in players) {
             player.reset()
 
             player.player.exp = 0f
@@ -137,6 +162,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             player.player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
             player.player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
                 AttributeModifier(NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER))
+            player.player.getAttribute(Attribute.MOVEMENT_SPEED)!!.addModifier(
+                AttributeModifier(NamespacedKey(FnafU.instance, "game_ms"), -0.15, AttributeModifier.Operation.ADD_SCALAR))
 
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> {
@@ -151,10 +178,16 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             KitMenu().open(player.player)
         }
 
-        stage = FnafUGame.Stage.KIT
+        KitMenu.updateFor(players)
 
-        kitSetupTask = object : BukkitRunnable() { override fun run() { mainCycleStart() } }
-        kitSetupTask!!.runTaskLater(FnafU.instance, KIT_SETUP_DURATION)
+        kitSetupTask = object : BukkitRunnable() {
+            override fun run() {
+                if (players.count { !KitMenu.getKitStageData(it).isReady } != 0) return
+                cancel()
+                mainCycleStart()
+            }
+        }
+        kitSetupTask!!.runTaskTimer(FnafU.instance, 20,20)
     }
 
     fun mainCycleStart(){
@@ -164,24 +197,32 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         map.reset()
         energy.updateConsumption()
         winner = Winner.NONE
+        survivorLives = MAX_LIVES
 
         showBossBarToAll(energyBar!!)
         updateEnergyBar()
         showBossBarToAll(timeBar!!)
         updateTimeBar()
 
-        for (player in playerContainer.getPlayers(false)) {
+        for (player in players) {
+            player.kit = KitMenu.getKitStageData(player).chosenKit
+        }
+
+        for (player in playerContainer.all) {
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
                 FnafUPlayer.Type.ANIMATRONIC -> player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!)
             }
-            map.ambientSound.activate { it.play(player.player) }
-            scoreboard.show(player.player)
-            player.setUp()
+            map.ambientSound.loop { it.play(player.player) }
+            sidebar.show(player.player)
+            player.player.inventory.clear()
+            player.kit.setUp(player)
         }
 
         animatronicWaitingTask = object : BukkitRunnable() { override fun run() {
-            playerContainer.getAnimatronics(false).forEach { it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!, NamedTextColor.RED) }
+            playerContainer.animatronics.forEach {
+                it.teleport(map.getLocation(LocationType.SPAWN_ANIMATRONIC)!!, NamedTextColor.RED)
+            }
         } }
         animatronicWaitingTask!!.runTaskLater(FnafU.instance, ANIMATRONIC_WAITING_DURATION)
     }
@@ -190,14 +231,14 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         val systemStations = ArrayList(map.systemStations)
         for (systemStation in systemStations) {
             val location = systemStation.first.first
-            location.block.type = Material.AIR
-            location.add(0.0, -1.0, 0.0).block.type = Material.AIR
+            BlockUtils.safeSet(location.block, Material.AIR)
+            BlockUtils.safeSet(location.add(0.0, -1.0, 0.0).block, Material.AIR)
         }
         for (i in 1 .. map.systemStationsAmount step 2) {
             val systemStation: Pair<LocationSingle, BlockFace> = systemStations.random()
             placeSystemStation(systemStations, systemStation)
             if (i >= map.systemStationsAmount) break
-            val farthestSystemStation = systemStations.maxByOrNull { pair -> pair.first.first.distance(systemStation.first.first) }!!
+            val farthestSystemStation = systemStations.maxBy { pair -> pair.first.first.distance(systemStation.first.first) }
             placeSystemStation(systemStations, farthestSystemStation)
         }
     }
@@ -205,11 +246,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     private fun placeSystemStation(systemStations: ArrayList<Pair<LocationSingle, BlockFace>>, pair: Pair<LocationSingle, BlockFace>) {
         val location = pair.first.first
         val world = location.world
-        val station = Material.BLUE_GLAZED_TERRACOTTA.createBlockData() as Directional
-        station.facing = pair.second
 
-        world.setBlockData(location, station)
         world.setBlockData(location.add(0.0, -1.0, 0.0), Material.BARRIER.createBlockData())
+        Blocks.SYSTEM_STATION.place(location.add(0.0, 1.0, 0.0), CustomBlockPlaceContext.EMPTY)
+        (Blocks.SYSTEM_STATION as SystemStationBlock).setFacing(location.block, pair.second)
+
         systemStations.remove(pair)
     }
 
@@ -250,7 +291,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         for (fnafUPlayer in players) {
             fnafUPlayer.clearSkin()
             fnafUPlayer.player.closeInventory()
-            scoreboard.hide(fnafUPlayer.player)
+            sidebar.hide(fnafUPlayer.player)
             fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
             fnafUPlayer.reset()
         }
@@ -295,10 +336,21 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     }
 
 
-    override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: MGUPlayer, button: ButtonDoorPair) {
+    override fun onPlayerClicksDoorButton(event: PlayerInteractEvent, player: FnafUPlayer, button: ButtonDoorPair) {
+        if (energy.isEndedUp) return
+        if (systems.door.isBroken) return
         val door = button.door
-        stunAnimatronicsAround(door.stunCenter)
-        door.toggle()
+        if (player.type == FnafUPlayer.Type.ANIMATRONIC){
+            if (door.isClosed) {
+                door.open()
+                systems.door.durability -= ANIMATRONIC_OPEN_DOOR_DAMAGE
+            }
+        } else{
+            door.toggle()
+            stunAnimatronicsAround(door.stunCenter)
+            systems.door.durability -= SURVIVOR_TOGGLE_DOOR_DAMAGE
+        }
+
         energy.updateConsumption()
         systems.door.updateDoorMenu()
     }
@@ -338,10 +390,6 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             .decoration(TextDecoration.BOLD, true))
     }
 
-    override fun updateSurvivorLives() {
-        scoreboard.setLine(0, Component.translatable("sidebar.fnafu.live_count", Component.text(survivorLives)))
-        scoreboard.updateForAll()
-    }
 
     override fun getTeam(fnafUPlayer: FnafUPlayer): Team? {
         if (teamSurvivors?.hasPlayer(fnafUPlayer.player) ?: false) return teamSurvivors!!

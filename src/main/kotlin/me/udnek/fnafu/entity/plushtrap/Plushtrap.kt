@@ -9,7 +9,7 @@ import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.misc.getFnafU
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Player
@@ -24,21 +24,23 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         const val RUNNING_MULTIPLIER: Float = 0.2f
         const val SEEK_TARGET_RADIUS: Double = 20.0
         const val NO_TARGET_DESPAWN_TIME: Int = 20 * 10
-        const val KILL_TARGET_RADIUS: Double = 0.5
+        const val KILL_TARGET_RADIUS: Double = 0.6
     }
 
     var step: Int = 0
     var noTargetTime: Int = 0
     lateinit var game: FnafUGame
     lateinit var owner: FnafUPlayer
+    lateinit var initialDirection: Vector
     var target: FnafUPlayer? = null
 
     override fun delayedTick() {
         damageNearestPlayers()
         if (step < RUNNING_TIME){
-            entity.velocity = entity.location.direction.setY(0).multiply(RUNNING_MULTIPLIER)
+            Nms.get().moveNaturally(entity, initialDirection.clone().setY(0).multiply(RUNNING_MULTIPLIER))
         } else if (step == RUNNING_TIME) {
             entity.velocity = Vector()
+            entity.setRotation(entity.yaw + 180, entity.pitch)
         } else {
             if (target != null && getDistanceToVisibleSurvivor(target!!) != null){
                 target(target!!)
@@ -58,7 +60,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun noTarget() {
-        Nms.get().stopMoving(entity)
+        Nms.get().stopMovingWithPathfind(entity)
         entity.velocity = Vector()
         noTargetTime += tickDelay
         entity.isAware = false
@@ -66,9 +68,9 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     private fun target(player: FnafUPlayer) {
-        if (step % 20 == 0) Sounds.PLUSHTRAP_NEAR.play(entity.location)
+        if (step % 20 == 0) Sounds.PLUSHTRAP_NEAR.play(player.player)
         noTargetTime = 0
-        Nms.get().moveTo(entity, player.player.location)
+        Nms.get().moveWithPathfind(entity, player.player.location)
         if (target != player) {
             entity.isAware = true
             target = player
@@ -92,12 +94,14 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         val visiblePlayers = HashMap<Double, FnafUPlayer>()
         for (player in game.findNearbyPlayers(entity.location, SEEK_TARGET_RADIUS)) {
             if (player.type != FnafUPlayer.Type.SURVIVOR) continue
+            if (player.status != FnafUPlayer.Status.ALIVE) continue
             visiblePlayers.put(getDistanceToVisibleSurvivor(player)?: continue, player)
         }
         return visiblePlayers.minByOrNull { it.key }?.value
     }
 
     fun getDistanceToVisibleSurvivor(player: FnafUPlayer): Double? {
+        if (player.status == FnafUPlayer.Status.DEAD) return null
         val targetEyeLocation = player.player.eyeLocation
         val entityEyeLocation = entity.eyeLocation
         val distance = entityEyeLocation.distance(targetEyeLocation)
@@ -118,5 +122,5 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
         return EntityTypes.PLUSHTRAP
     }
 
-    override fun getTickDelay() = 2
+    override fun getTickDelay() = 1
 }

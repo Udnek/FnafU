@@ -8,7 +8,7 @@ import me.udnek.coreu.rpgu.component.ability.active.RPGUConstructableActiveAbili
 import me.udnek.coreu.rpgu.component.ability.active.RPGUItemActiveAbility
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.misc.getFnafU
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent

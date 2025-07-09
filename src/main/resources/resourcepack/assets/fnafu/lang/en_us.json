@@ -1,40 +1,52 @@
 {
   "subtitles.fnafu.ambience": "Ambience",
   "subtitles.fnafu.door": "Door switches",
+  "subtitles.fnafu.petrol_canister_pour": "Canister pours",
+  "subtitles.fnafu.power_outage": "Power is out",
 
-  "subtitles.fnafu.animatronic_step": "",
-
-  "subtitles.fnafu.freddy_laugh": "",
-
-  "subtitles.fnafu.springtrap_spawn": "",
-  "subtitles.fnafu.springtrap_rage_start": "",
-  "subtitles.fnafu.springtrap_rage_stop": "",
+  "subtitles.fnafu.animatronic_step": "Animatronic steps",
+  "subtitles.fnafu.freddy_laugh": "Freddy laughs",
+  "subtitles.fnafu.springtrap_spawn": "Springtrap spawns",
+  "subtitles.fnafu.springtrap_rage_start": "Springtrap rages",
+  "subtitles.fnafu.springtrap_rage_stop": "Springtrap stops rage",
   "subtitles.fnafu.springtrap_jumpscare": "Springtrap jumpscare",
 
   "subtitles.fnafu.plushtrap_run": "Plushtrap runs",
-  "subtitles.fnafu.plushtrap_near": "Plushtrap in near",
+  "subtitles.fnafu.plushtrap_near": "Plushtrap is near",
 
   "item.fnafu.cut_camera_tablet": "Cut Camera Tablet",
   "item.fnafu.full_camera_tablet": "Full Camera Tablet",
   "item.fnafu.system_tablet": "System Tablet",
   "item.fnafu.doorman_tablet": "Doorman Tablet",
+  "item.fnafu.small_petrol_canister": "Small Petrol Canister",
+  "item.fnafu.large_petrol_canister": "Large Petrol Canister",
 
   "item.fnafu.springtrap_plushtrap": "Plushtrap",
   "item.fnafu.springtrap_break_cameras": "Break Cameras",
   "item.fnafu.springtrap_mask": "Spring Bonnie's Mask",
 
-  "sidebar.fnafu.systems": "Systems",
-  "sidebar.fnafu.door_system": "Door System",
-  "sidebar.fnafu.ventilation_system": "Ventilation System",
-  "sidebar.fnafu.camera_system": "Camera System",
+  "system.fnafu.broken_icon": "\u26A0",
+  "system.fnafu.door": "Door System",
+  "system.fnafu.ventilation": "Ventilation System",
+  "system.fnafu.camera": "Camera System",
+
+  "sidebar.fnafu.systems": "Systems:",
   "sidebar.fnafu.live_count": "Live Count: %s",
 
   "container.fnafu.kit": "Kit Menu",
 
   "kit.fnafu.springtrap": "Springtrap",
   "kit.fnafu.cameraman": "Cameraman",
-  "kit.fnafu.system": "Systemman",
+  "kit.fnafu.systemman": "Systemman",
   "kit.fnafu.doorman": "Doorman",
+  "kit.fnafu.refueller": "Refueller",
+
+  "ability.fnafu.camera_tablet.damage_per_usage": "System damage per usage: %s%%",
+  "ability.fnafu.doorman_tablet.damage_per_usage": "System damage per usage: %s%%",
+
+  "ability.fnafu.petrol_canister.max_capacity": "Max Capacity: %s",
+  "ability.fnafu.petrol_canister.current_fuel": "Fuel: %s / %s",
+  "ability.fnafu.petrol_canister.bandwidth": "Bandwidth: %s",
 
   "energy.fnafu.bossbar": "Energy left: %s%% Usage: %s",
   "energy.fnafu.image.1": "\u00A7a1",
@@ -58,5 +70,6 @@
   "time.fnafu.6": "6 AM",
 
   "map.fnafu.fnaf1.image": "1",
-  "map.fnafu.fnaf2.image": "2"
+  "map.fnafu.fnaf2.image": "2",
+  "map.fnafu.fnaf3.image": "3"
 }

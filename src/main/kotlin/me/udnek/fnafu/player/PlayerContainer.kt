@@ -7,12 +7,19 @@ class PlayerContainer : Iterable<FnafUPlayer>{
     private val players: MutableList<FnafUPlayer> = ArrayList()
 
     val all: List<FnafUPlayer>
-        get() {
-            return players
-        }
+        get() = players
 
     val aliveSurvivorsAmount: Int
-        get() = getSurvivors(false).count { it.status == FnafUPlayer.Status.ALIVE }
+        get() = aliveSurvivors.size
+
+    val aliveSurvivors: List<FnafUPlayer>
+        get() = survivors.filter{ it.status == FnafUPlayer.Status.ALIVE }
+
+    val survivors: List<FnafUPlayer>
+        get() = getPlayersWithType(FnafUPlayer.Type.SURVIVOR)
+
+    val animatronics: List<FnafUPlayer>
+        get() = getPlayersWithType(FnafUPlayer.Type.ANIMATRONIC)
 
 
     fun getPlayer(player: Player): FnafUPlayer? {
@@ -25,41 +32,12 @@ class PlayerContainer : Iterable<FnafUPlayer>{
     }
 
     fun remove(player: Player): Boolean {
-        val playerList = players
-        for (i in playerList.indices) {
-            if (playerList[i].player == player) {
-                playerList.removeAt(i)
-                return true
-            }
-        }
-        return false
+        return players.removeIf { it.player == player }
     }
 
-    fun getSurvivors(returnCopy: Boolean): MutableList<FnafUPlayer> {
-        val survivors = getPlayersWithType(FnafUPlayer.Type.SURVIVOR)
-        if (returnCopy) return ArrayList(survivors)
-        return survivors
-    }
 
-    fun getAnimatronics(returnCopy: Boolean): MutableList<FnafUPlayer> {
-        val animatronics = getPlayersWithType(FnafUPlayer.Type.ANIMATRONIC)
-        if (returnCopy) return ArrayList(animatronics)
-        return animatronics
-    }
-
-    fun getPlayersWithType(type: FnafUPlayer.Type): ArrayList<FnafUPlayer>{
-        val playersWithType = ArrayList<FnafUPlayer>()
-        for (player in players){
-            if (player.type == type){
-                playersWithType.add(player)
-            }
-        }
-        return playersWithType
-    }
-
-    fun getPlayers(returnCopy: Boolean): MutableList<FnafUPlayer> {
-        if (returnCopy) return ArrayList(players)
-        return players
+    fun getPlayersWithType(type: FnafUPlayer.Type): List<FnafUPlayer>{
+        return players.filter { it.type == type }
     }
 
     fun contains(player: Player): Boolean = players.any { it.player == player }

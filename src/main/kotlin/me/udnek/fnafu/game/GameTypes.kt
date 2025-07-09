@@ -4,9 +4,12 @@ import me.udnek.coreu.custom.registry.AbstractRegistrable
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.mechanic.system.Systems
+import me.udnek.fnafu.block.Blocks
+import me.udnek.fnafu.event.EnergyEndedUpEvent
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.getFnafU
+import me.udnek.fnafu.sound.Sounds
+import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.misc.getFnafU
 import org.bukkit.Tag
 import org.bukkit.block.data.Powerable
 import org.bukkit.entity.Player
@@ -15,6 +18,8 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
+import org.bukkit.event.player.PlayerInteractAtEntityEvent
+import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -45,17 +50,28 @@ object GameTypes {
             if (!player.game.isRunning) return
             val block = event.clickedBlock ?: return
             if (!Tag.BUTTONS.isTagged(block.type)) event.isCancelled = true
+
             proceedButton(player, event)
-            if (block.type == Systems.STATION_BLOCK_MATERIAL){
+            if (block.getCustom() == Blocks.SYSTEM_STATION){
                 if (player.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(player.player.eyeLocation) < 1.5){
                     player.game.systems.openMenu(player)
                 }
             }
         }
 
+        @EventHandler
+        fun onPlayerInteractEntity(event: PlayerInteractEntityEvent) {
+            if (getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: false) event.isCancelled = true
+        }
+
+        @EventHandler
+        fun onPlayerInteractAtEntity(event: PlayerInteractAtEntityEvent) {
+            if (getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: false) event.isCancelled = true
+        }
+
+
         private fun proceedButton(player: FnafUPlayer, event: PlayerInteractEvent) {
             val block = event.clickedBlock ?: return
-            if (player.type != FnafUPlayer.Type.SURVIVOR) return
             if ((block.blockData as? Powerable)?.isPowered == true) return
             for (pair in player.game.systems.door.doors) {
                 if (pair.button.hasAt(block.location)) {
@@ -82,6 +98,12 @@ object GameTypes {
         fun onInventoryMoveItem(event: InventoryClickEvent) {
             if (!(getIfPlayerInThisGame<FnafUPlayer>(event.whoClicked as Player)?.game?.isRunning ?: return)) return
             event.isCancelled = true
+        }
+
+        @EventHandler
+        fun onEnergyEndedUp(event: EnergyEndedUpEvent){
+            event.game.systems.door.doors.forEach { it.door.open() }
+            Sounds.POWER_OUTAGE.play(event.game.map.origin)
         }
     })
 

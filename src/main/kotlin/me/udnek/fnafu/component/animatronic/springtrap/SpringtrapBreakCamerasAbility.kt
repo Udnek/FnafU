@@ -23,7 +23,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(40.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     override fun action(
@@ -34,7 +34,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
     ): ActionResult {
         val systems = player.game.systems
         if (!systems.camera.isBroken) {
-            systems.destroySystem(systems.camera)
+            systems.camera.destroy()
         }
 
         return ActionResult.INFINITE_COOLDOWN

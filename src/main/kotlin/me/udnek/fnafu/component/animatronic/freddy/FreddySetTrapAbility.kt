@@ -36,7 +36,7 @@ open class FreddySetTrapAbility : FnafUActiveAbility {
         val location = player.player.eyeLocation
         location.pitch = 0f
         location.yaw = 0f
-        val trap = EntityTypes.TRAP.spawnAndGet(location)
+        val trap = EntityTypes.REMNANT_TRAP.spawnAndGet(location)
         trap.game = player.game
         player.data.getOrCreateDefault(FnafUComponents.FREDDY_TRAP_DATA).trap = trap
         return ActionResult.FULL_COOLDOWN

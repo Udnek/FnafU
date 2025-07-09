@@ -2,14 +2,14 @@ package me.udnek.fnafu.mechanic.system
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.BundleContents
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.camera.CameraSystem
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.util.Resettable
-import me.udnek.fnafu.util.Ticking
+import me.udnek.fnafu.misc.Ticking
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
@@ -19,14 +19,15 @@ import org.bukkit.scheduler.BukkitRunnable
 open class Systems : Resettable, Ticking {
 
     companion object {
-        val STATION_BLOCK_MATERIAL = Material.BLUE_GLAZED_TERRACOTTA
-        const val REBOOT_ALL_ICON_POSITION = 41
+        const val REBOOT_ALL_ICON_POSITION = 43
+        const val SINGLE_REPAIR_DURATION = 8*10
+        const val ALL_REPAIR_DURATION = 15*10
     }
 
     private val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
-        9 to {player ->  door.startRepairing(player, systemMenu)},
-        18 to {player ->  camera.startRepairing(player, systemMenu)},
-        27 to {player ->  ventilation.startRepairing(player, systemMenu)},
+        9 to {player ->  door.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        18 to {player ->  camera.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        27 to {player ->  ventilation.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
         36 to {player ->  repairAll(player)})
     private val cursorItem = Items.CURSOR_ICON.item
 
@@ -35,7 +36,8 @@ open class Systems : Resettable, Ticking {
     private val enterButtons = listOf(15, 16, 17, 23, 24, 25, 26, 32, 33, 34, 35)
 
     private val playerInsideSystem = ArrayList<FnafUPlayer>()
-    private var systemMenu: SystemMenu
+    var menu: SystemMenu
+        protected set
     val all: List<System>
     val door: DoorSystem
     val camera: CameraSystem
@@ -46,15 +48,11 @@ open class Systems : Resettable, Ticking {
         this.camera = cameraSystem
         this.ventilation = ventilationSystem
         all = listOf(doorSystem, cameraSystem, ventilationSystem)
-        systemMenu = SystemMenu()
+        menu = SystemMenu()
     }
 
     override fun tick() {
         all.forEach { it.tick() }
-    }
-
-    fun destroySystem(system: System) {
-        system.destroy(systemMenu)
     }
 
     fun cursorUp(inventory: Inventory) {
@@ -92,8 +90,8 @@ open class Systems : Resettable, Ticking {
 
     fun repairAll(player: FnafUPlayer) {
         if (isAnyOfSystemsBeingRepaired()) return
-        systemMenu.inventory.setItem(REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
-        all.forEach { it.startRepairing(player, systemMenu, false) }
+        menu.inventory.setItem(REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
+        all.forEach { it.startRepairing(player, menu, ALL_REPAIR_DURATION, false) }
     }
 
     fun isAnyOfSystemsBeingRepaired(): Boolean {
@@ -104,7 +102,7 @@ open class Systems : Resettable, Ticking {
     fun exitMenu(player: FnafUPlayer) {
         if (playerInsideSystem.isEmpty()) return
         playerInsideSystem.remove(player)
-        player.kit.regive(player)
+        player.regiveInventory()
     }
 
     fun openMenu(player: FnafUPlayer) {
@@ -124,7 +122,7 @@ open class Systems : Resettable, Ticking {
         }.runTaskLater(FnafU.instance, 1)
 
         playerInsideSystem.add(player)
-        systemMenu.open(player.player)
+        menu.open(player.player)
     }
 
     override fun reset() {

@@ -4,7 +4,7 @@ import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorButton
-import me.udnek.fnafu.util.toCenterFloor
+import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
@@ -58,13 +58,10 @@ class WoodenDoor(downLeftCorner: LocationSingle, private val direction: Directio
         }
     }
 
-    override fun physicallyClose() {
-        set(false)
-    }
+    override fun physicallyClose() = set(false)
 
-    override fun physicallyOpen() {
-        set(true)
-    }
+    override fun physicallyOpen() = set(true)
+
 
     private fun set(open: Boolean){
         var xMul = 0
@@ -100,18 +97,20 @@ class WoodenDoor(downLeftCorner: LocationSingle, private val direction: Directio
         location.clone().add(0.0, 0.0, 0.0).block.setBlockData(doorData, false)
         doorData.half = Bisected.Half.TOP
         location.clone().add(0.0, 1.0, 0.0).block.setBlockData(doorData, false)
+        location.clone().add(0.0, 2.0, 0.0).block.setBlockData(doorData, false)
 
         doorData.hinge = org.bukkit.block.data.type.Door.Hinge.LEFT
         doorData.half = Bisected.Half.BOTTOM
         location.clone().add(1.0*xMul, 0.0, 1.0*zMul).block.setBlockData(doorData, false)
         doorData.half = Bisected.Half.TOP
         location.clone().add(1.0*xMul, 1.0, 1.0*zMul).block.setBlockData(doorData, false)
+        location.clone().add(1.0*xMul, 2.0, 1.0*zMul).block.setBlockData(doorData, false)
 
-        val trapData = Material.PALE_OAK_TRAPDOOR.createBlockData() as org.bukkit.block.data.type.TrapDoor
-        trapData.facing = face
-        trapData.isOpen = true
-        location.clone().add(0.0, 2.0, 0.0).block.setBlockData(trapData)
-        location.clone().add(1.0*xMul, 2.0, 1.0*zMul).block.setBlockData(trapData)
+//        val trapData = Material.PALE_OAK_TRAPDOOR.createBlockData() as org.bukkit.block.data.type.TrapDoor
+//        trapData.facing = face
+//        trapData.isOpen = true
+//        location.clone().add(0.0, 2.0, 0.0).block.setBlockData(trapData)
+//        location.clone().add(1.0*xMul, 2.0, 1.0*zMul).block.setBlockData(trapData)
     }
 
 

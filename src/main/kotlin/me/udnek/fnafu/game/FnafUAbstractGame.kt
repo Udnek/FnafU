@@ -92,7 +92,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
 
     override fun getDebug(context: MGUCommandContext): MutableList<Component> {
         val time = context.args.getOrNull(2)?.toIntOrNull()
-        if (time != null) getDebugLocation(time * 20)
+        if (time != null) showDebugLocations(time * 20)
         val debug = super.getDebug(context)
         debug.add(Component.text("winner: $winner"))
         debug.add(Component.text("task: $task"))
@@ -100,7 +100,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         return debug
     }
 
-    fun getDebugLocation(time: Int) {
+    fun showDebugLocations(time: Int) {
         LocationType.entries.forEach { locationType ->
             map.getLocation(locationType)?.all?.forEach {
                 Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), time, "loc " + locationType.name)
@@ -118,6 +118,7 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         map.systemStations.forEach {
             Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation " + it.second.name)
         }
+        Nms.get().showDebugBlock(map.origin, Color.SILVER.asRGB(), time, "origin")
     }
 
     override fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type?): List<FnafUPlayer>{

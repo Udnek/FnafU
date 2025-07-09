@@ -18,7 +18,7 @@ class SpringtrapPlushtrapItem : ConstructableCustomItem() {
     }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
-        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "springtrap/ability/plushtrap"))
+        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "animatronic/springtrap/ability/plushtrap"))
 
     override fun getRawId(): String = "springtrap_plushtrap"
 }

@@ -9,16 +9,17 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.kit.Kit
+import me.udnek.fnafu.component.survivor.CurrentInventoryData
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
-import me.udnek.fnafu.util.Resettable
-import me.udnek.fnafu.util.getCustom
-import me.udnek.fnafu.util.getFarthest
+import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.misc.getFarthest
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -33,6 +34,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.Team
+import org.bukkit.util.Vector
 import java.lang.Byte
 import java.time.Duration
 import java.util.*
@@ -49,22 +51,34 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         set(value) = data.set(value)
         get() = data.getOrDefault(FnafUComponents.KIT)
 
+    var currentInventory: CurrentInventoryData
+        set(value) = data.set(value)
+        get() = data.getOrCreateDefault(FnafUComponents.CURRENT_INVENTORY_DATA)
+
+    val team: Team?
+        get() = game.getTeam(this)
 
     val abilityItems: List<CustomItem>
-        get() = kit.items.mapNotNull { stack -> stack.getCustom() }
+        get() {
+            val items = ArrayList(kit.permanentItems.mapNotNull { stack -> stack.getCustom() })
+            items.addAll(currentInventory.items.mapNotNull { stack -> stack.getCustom() })
+            return items
+        }
 
     override fun getGame(): FnafUGame = game
 
     override fun toString(): String = "[" + type + "] " + player.name
 
-    fun teleport(locationData: LocationData) = teleport(locationData.random, null)
+    fun regiveInventory(){
+        player.inventory.clear()
+        kit.regive(this)
+        currentInventory.give(this)
+    }
 
-    fun teleport(location: Location) = teleport(location, null)
+    fun teleport(locationData: LocationData, noiseColor: TextColor? = null) = teleport(locationData.random, noiseColor)
 
-    fun teleport(locationData: LocationData, maskColor: TextColor?) = teleport(locationData.random, maskColor)
-
-    fun teleport(location: Location, maskColor: TextColor?) {
-        if (maskColor != null) showNoise(maskColor)
+    fun teleport(location: Location, noiseColor: TextColor? = null) {
+        if (noiseColor != null) showNoise(noiseColor)
         player.teleport(location)
     }
 
@@ -80,8 +94,6 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         )
         player.showTitle(titleData)
     }
-
-    fun getTeam(): Team? = game.getTeam(this)
 
     fun playSound(location: Location, sound: CustomSound, range: Float) = sound.play(location, player, range/16f)
 
@@ -171,18 +183,22 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         skinsRestorerAPI.getSkinApplier(Player::class.java).applySkin(player)
     }
 
-    fun setUp() = kit.setUp(this)
-
     fun damage(damageSound: CustomSound) {
         if (type != Type.SURVIVOR) return
+        if (status != Status.ALIVE) return
         damageSound.play(player.location)
         if (game.survivorLives == 0){
             this.die()
             return
         }
+        player.velocity = Vector()
         teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).all.getFarthest(player.location))
+        player.inventory.clear()
+        currentInventory.reset()
+        kit.regiveCurrentInventory(this)
+        kit.regive(this)
+        currentInventory.give(this)
         game.survivorLives -= 1
-        game.updateSurvivorLives()
     }
 
     fun die() {
@@ -192,11 +208,12 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     }
 
     override fun reset() {
+        super.reset()
         status = Status.ALIVE
         player.inventory.clear()
         player.clearActivePotionEffects()
         player.getAttribute(Attribute.JUMP_STRENGTH)!!.removeModifier(NamespacedKey(FnafU.instance, "game_js"))
-        data.forEach { (it as? Resettable)?.reset() }
+        player.getAttribute(Attribute.MOVEMENT_SPEED)!!.removeModifier(NamespacedKey(FnafU.instance, "game_ms"))
     }
 
     enum class Type {

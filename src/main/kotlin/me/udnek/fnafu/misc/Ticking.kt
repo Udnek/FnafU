@@ -1,4 +1,4 @@
-package me.udnek.fnafu.util
+package me.udnek.fnafu.misc
 
 interface Ticking {
     fun tick()

@@ -10,8 +10,9 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.mechanic.system.SystemMenu
+import me.udnek.fnafu.misc.getCameraId
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.misc.getCustom
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -19,6 +20,8 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.abs
 
@@ -27,15 +30,24 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
     override val sidebarPosition: Int = 2
     val cameras: MutableList<Camera> = ArrayList()
     private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
-    private lateinit var cameraMenu: CameraMenu
     override var guiSlot: Int = 25
-    override var sidebarComponent: Component = Component.translatable("sidebar.fnafu.camera_system")
+    override var sidebarLine: Component = Component.translatable("system.fnafu.camera")
 
     override fun tick() {
-        if (game.energy.isEndedUp) playerSpectatingCameras.forEach { (player, _) -> exitCamera(player)}
+        if (game.energy.isEndedUp || isBroken) exitAll()
     }
 
     fun getSpectatingCamera(player: FnafUPlayer): Camera? { return playerSpectatingCameras[player] }
+
+    private fun setSpectatingCamera(player: FnafUPlayer, camera: Camera?, tablet: ItemStack?) {
+        if (camera == null) playerSpectatingCameras.remove(player)
+        else {
+            playerSpectatingCameras[player] = camera
+            val data = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA)
+            data.lastCamera = camera
+            data.tablet = tablet
+        }
+    }
 
     fun spectateCamera(player: FnafUPlayer, id: String, cameraTablet: ItemStack) {
         val camera = getCamera(id) ?: throw RuntimeException("camera's id is wrong: $id")
@@ -44,41 +56,50 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
 
     fun spectateCamera(player: FnafUPlayer, camera: Camera, cameraTablet: ItemStack) {
         val spectateData = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_ENTITY_DATA)
+        val cameraData = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA)
 
-        cameraMenu.updateCameras(cameras, camera, cameraTablet)
+        cameraData.cameraMenu!!.updateCameras(cameras, camera, cameraTablet)
         cameraOverlay(player, cameraTablet)
 
         val spectatingCamera = getSpectatingCamera(player)
         if (spectatingCamera != null) {
             spectateData.spectatingEntity!!.remove()
         }
-        setPlayerSpectatingCamera(player, camera)
+        setSpectatingCamera(player, camera, cameraTablet)
 
-        val cameraEntity =
-            camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
+        val cameraEntity = camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
+        cameraEntity.isInvisible = true
+        cameraEntity.setGravity(false)
+        cameraEntity.isMarker = true
         spectateData.spectate(player, cameraEntity)
-        switchCamera(camera, cameraEntity)
+
+        playCameraRotation(camera, cameraEntity)
+
+        val isCut = cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.getOrCreateDefault(FnafUComponents.CAMERA_TABLET_ABILITY)?.isCut ?: false
+        if (!isCut){
+            player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
+        }
     }
 
     fun exitCamera(player: FnafUPlayer) {
         if (getSpectatingCamera(player) == null) return
         val spectateEntityAbility = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_ENTITY_DATA)
+        val spectateCameraAbility = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA)
+        setSpectatingCamera(player, null, null)
         spectateEntityAbility.spectatingEntity!!.remove()
         spectateEntityAbility.spectateSelf(player)
-        setPlayerSpectatingCamera(player, null)
 
-        player.kit.regive(player)
-        val tabletAbility = CustomItem.get(player.player.inventory.getItem(0))
-            ?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)
-            ?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY)?: return
-        player.showNoise(tabletAbility.noiseColor)
+        player.regiveInventory()
         player.player.closeInventory()
+        player.player.removePotionEffect(PotionEffectType.NIGHT_VISION)
+
+        val tabletAbility = spectateCameraAbility.tablet?.getCustom()
+            ?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)
+            ?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY)?: FnafUComponents.CAMERA_TABLET_ABILITY.default
+        player.showNoise(tabletAbility.noiseColor)
     }
 
-    private fun switchCamera(camera: Camera, cameraEntity: ArmorStand){
-        cameraEntity.setGravity(false)
-        cameraEntity.isMarker = true
-
+    private fun playCameraRotation(camera: Camera, cameraEntity: ArmorStand){
         if (camera.rotationAngle == 0f) return
         object : BukkitRunnable() {
             var rotateCounter: Float = 0f
@@ -129,14 +150,6 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
         player.showNoise(component.noiseColor)
     }
 
-    private fun setPlayerSpectatingCamera(player: FnafUPlayer, camera: Camera?) {
-        if (camera == null) playerSpectatingCameras.remove(player)
-        else {
-            playerSpectatingCameras[player] = camera
-            player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA).lastCamera = camera
-        }
-    }
-
     fun addCamera(camera: Camera) {
         Preconditions.checkArgument(
             getCamera(camera.id) == null,
@@ -147,8 +160,9 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
     }
 
     fun openMenu(player: FnafUPlayer, cameraTablet: ItemStack) {
-        cameraMenu = CameraMenu(cameras, game.map.mapImage, cameraTablet)
-        cameraMenu.open(player.player)
+        val menu = CameraMenu(cameras, game.map.mapImage, cameraTablet)
+        player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA).cameraMenu = menu
+        menu.open(player.player)
     }
 
     fun getCamera(id: String): Camera? {
@@ -156,23 +170,24 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
         return cameras.find { camera -> camera.id == id }
     }
 
-    fun kickAll(){
-        playerSpectatingCameras.keys.forEach { exitCamera(it) }
-        playerSpectatingCameras.clear()
+    fun exitAll(){
+        while (!playerSpectatingCameras.isEmpty()){
+            exitCamera(playerSpectatingCameras.keys.first())
+        }
     }
 
     override fun reset() {
         super.reset()
-        kickAll()
+        exitAll()
     }
 
     override fun setOrigin(origin: Location) {
         for (camera in cameras) camera.setOrigin(origin)
     }
 
-    override fun destroy(systemMenu: SystemMenu) {
-        super.destroy(systemMenu)
-        kickAll()
+    override fun destroy() {
+        super.destroy()
+        exitAll()
     }
 
 }
