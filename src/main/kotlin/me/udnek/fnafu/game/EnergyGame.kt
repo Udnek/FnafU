@@ -130,8 +130,8 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 repeat(10) {
                     val from = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
                     val to = from.clone().add(0.0, 0.2, 0.0)
-                    Particle.TRAIL.builder().location(from).offset(0.0, 0.05, 0.0)
-                        .data(Particle.Trail(to, Color.fromRGB(255, random.nextInt(0, 128), 0), 100)).spawn()
+                    Particle.TRAIL.builder().location(Utils.rayTraceBlockUnder(from) ?: from).offset(0.0, 0.05, 0.0)
+                        .data(Particle.Trail(Utils.rayTraceBlockUnder(to) ?: to, Color.fromRGB(255, random.nextInt(0, 128), 0), 100)).spawn()
                 }
             }
         }
