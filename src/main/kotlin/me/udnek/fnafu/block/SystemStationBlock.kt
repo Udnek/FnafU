@@ -2,6 +2,7 @@ package me.udnek.fnafu.block
 
 import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
 import me.udnek.coreu.custom.entitylike.block.constructabletype.RotatableCustomBlockType
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.nms.Nms
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
@@ -14,7 +15,7 @@ import org.bukkit.loot.LootTable
 import org.bukkit.scheduler.BukkitRunnable
 
 class SystemStationBlock : RotatableCustomBlockType() {
-    override fun getFakeDisplay(): ItemStack = Items.SYSTEM_STATION.item
+    override fun getItem(): CustomItem = Items.SYSTEM_STATION
 
     override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
 

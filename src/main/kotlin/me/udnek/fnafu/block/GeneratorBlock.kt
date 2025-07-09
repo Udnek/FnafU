@@ -1,6 +1,7 @@
 package me.udnek.fnafu.block
 
 import me.udnek.coreu.custom.entitylike.block.constructabletype.RotatableCustomBlockType
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.item.Items
 import org.bukkit.Material
@@ -10,7 +11,7 @@ import org.bukkit.loot.LootTable
 
 class GeneratorBlock : RotatableCustomBlockType() {
 
-    override fun getFakeDisplay(): ItemStack = Items.GENERATOR.item
+    override fun getItem(): CustomItem = Items.GENERATOR
 
     override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
 

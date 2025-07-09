@@ -10,9 +10,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.loot.LootTable
 
 open class FnafUBlock(val rawID: String) : DisplayBasedConstructableBlockType(){
-
     override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
-    override fun getFakeDisplay(): ItemStack = CustomRegistries.ITEM.getOrException(id).item
+    override fun getItem(): CustomItem? = CustomRegistries.ITEM.getOrException(id)
     override fun getRawId(): String = rawID
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
     override fun load(p0: TileState) {}

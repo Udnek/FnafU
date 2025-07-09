@@ -4,6 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.DyedItemColor
 import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
 import me.udnek.coreu.custom.entitylike.block.constructabletype.RotatableCustomBlockType
+import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.nms.Nms
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.item.Items
@@ -15,7 +16,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.loot.LootTable
 
 class NightstandBlock : RotatableCustomBlockType() {
-    override fun getFakeDisplay(): ItemStack = Items.NIGHTSTAND.item
+    override fun getItem(): CustomItem = Items.NIGHTSTAND
 
     override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
 
