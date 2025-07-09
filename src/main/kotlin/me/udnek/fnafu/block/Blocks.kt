@@ -18,6 +18,7 @@ object Blocks {
     val NIGHTSTAND = register(NightstandBlock())
     val GREY_STARS_ON_CEIL = register(FnafUBlock("grey_stars_on_ceil"))
     val GOLDEN_STARS_ON_CEIL = register(FnafUBlock("golden_stars_on_ceil"))
+    val UNIVERSAL_SLAB = register(UniversalSlabBlock())
 
     private fun register(customBlockType: CustomBlockType): CustomBlockType {
         return CustomRegistries.BLOCK_TYPE.register(FnafU.instance, customBlockType)

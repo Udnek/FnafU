@@ -71,6 +71,7 @@ object Items {
     val TRASH_ON_FLOOR: CustomItem = register(FnafUVanillaBasedItem("trash_on_floor", Material.DEAD_BUBBLE_CORAL))
     val DIRTY_FLOOR: CustomItem = register(FnafUVanillaBasedItem("dirty_floor", Material.DEAD_TUBE_CORAL))
     val BLOOD: CustomItem = register(FnafUVanillaBasedItem("blood", Material.REDSTONE))
+    val UNIVERSAL_SLAB = register(UniversalSlab())
 
     private fun register(customItem: CustomItem): CustomItem {
         return CustomRegistries.ITEM.register(FnafU.instance, customItem)

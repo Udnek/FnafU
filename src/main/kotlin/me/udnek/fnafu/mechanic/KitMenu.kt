@@ -28,8 +28,8 @@ class KitMenu : ConstructableCustomInventory() {
 
         fun updateFor(players: List<FnafUPlayer>){
             for (receiver in players) {
-                var survCursor = -1
-                var animCursor = 9
+                var survCursor = -9
+                var animCursor = 9*7
                 val menu = CustomInventory.get(receiver.player.openInventory.topInventory) as? KitMenu ?: continue
                 val downMenu = receiver.player.inventory
                 menu.inventory.clear()
@@ -38,11 +38,11 @@ class KitMenu : ConstructableCustomInventory() {
                     // CHOOSING POSITION
                     val cursor: Int
                     if (currentPlayer.type == FnafUPlayer.Type.SURVIVOR) {
-                        survCursor += 1
+                        survCursor += 9
                         cursor = survCursor
                     }
                     else {
-                        animCursor -= 1
+                        animCursor -= 9
                         cursor = animCursor
                     }
                     // READY OR NOT
@@ -53,28 +53,34 @@ class KitMenu : ConstructableCustomInventory() {
                     // PROFILE ICON
                     val profileIcon = ItemStack(Material.PLAYER_HEAD)
                     profileIcon.setData(DataComponentTypes.PROFILE, ResolvableProfile.resolvableProfile(currentPlayer.player.playerProfile))
-                    menu.setItem(cursor + 9, profileIcon)
+                    menu.setItem(cursor+1, profileIcon)
                     // ITEMS
                     if (receiver.type == currentPlayer.type){
                         val kitItems = ArrayList(kitStageData.chosenKit.permanentItems)
                         kitItems.addAll(kitStageData.chosenKit.inventoryItems)
                         kitItems.forEachIndexed { i, item ->
-                            if (i >= 4) return@forEachIndexed
-                            menu.setItem(cursor + 9*(i+2), item)
+                            if (i >= 6) return@forEachIndexed
+                            menu.setItem(cursor + 2 + i, item)
                         }
                     } else {
-                        for (i in 2..5){
-                            menu.setItem(cursor + 9*i, Material.BLACK_STAINED_GLASS_PANE)
+                        for (i in 2..7){
+                            menu.setItem(cursor + i, Material.BLACK_STAINED_GLASS_PANE)
                         }
                     }
                 }
 
                 // KITS
-                var index = 9
-                for (kit in getAllowedKits(receiver)) downMenu.setItem(index++, kit.displayItem)
+                var i = 0
+                val kits = getAllowedKits(receiver)
+                main@for (y in listOf(9, 18, 27)){
+                    for (x in 0..5){
+                        downMenu.setItem(y+x, kits[i++].displayItem)
+                        if (i >= kits.size) break@main
+                    }
+                }
 
                 val button = if (getKitStageData(receiver).isReady) Items.CANCEL_BUTTON.item else Items.READY_BUTTON.item
-                for (i in listOf(16, 17, 25, 26)) {
+                for (i in 2..6) {
                     downMenu.setItem(i, button)
                 }
             }
