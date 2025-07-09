@@ -24,7 +24,7 @@ class NightstandBlock : RotatableCustomBlockType() {
         val player = context.player() ?: return display
         val dye = Nms.get().getColorByDye(player.inventory.itemInOffHand.type) ?: return display
         val item = display.itemStack
-        item.setData(DataComponentTypes.DYED_COLOR, DyedItemColor.dyedItemColor(dye.fireworkColor(), true))
+        item.setData(DataComponentTypes.DYED_COLOR, DyedItemColor.dyedItemColor(dye.fireworkColor()))
         display.setItemStack(item)
         return display
     }

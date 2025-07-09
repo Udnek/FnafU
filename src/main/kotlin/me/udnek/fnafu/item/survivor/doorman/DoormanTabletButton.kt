@@ -3,9 +3,11 @@ package me.udnek.fnafu.item.survivor.doorman
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
+import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
 import me.udnek.coreu.custom.event.ResourcepackInitializationEvent
 import me.udnek.coreu.custom.item.ConstructableCustomItem
+import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
@@ -34,7 +36,7 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
 
     override fun getRawId(): String = "doorman_tablet_button"
 
-    override fun getHideTooltip(): Boolean = true
+    override fun getTooltipDisplay() = CustomItemProperties.DataSupplier.of(TooltipDisplay.tooltipDisplay().hideTooltip(true).build())
 
     @EventHandler
     fun onGenerate(event: ResourcepackInitializationEvent) {

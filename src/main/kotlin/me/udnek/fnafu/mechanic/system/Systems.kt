@@ -2,6 +2,7 @@ package me.udnek.fnafu.mechanic.system
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.BundleContents
+import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
@@ -113,7 +114,7 @@ open class Systems : Resettable, Ticking {
 
         val item = Items.SYSTEM_TABLET.item
         item.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents())
-        item.setData(DataComponentTypes.HIDE_TOOLTIP)
+        item.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
         item.setData(DataComponentTypes.ITEM_NAME, Component.empty())
         object : BukkitRunnable() {
             override fun run() {
