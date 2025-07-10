@@ -155,6 +155,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         stage = FnafUGame.Stage.KIT
         for (player in players) {
             player.reset()
+            player.saveSkin()
 
             player.player.exp = 0f
             player.player.level = 0
