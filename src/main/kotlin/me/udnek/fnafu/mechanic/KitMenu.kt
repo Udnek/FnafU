@@ -4,6 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.ResolvableProfile
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.custom.inventory.CustomInventory
+import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.KitStageData
@@ -14,7 +15,9 @@ import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -63,7 +66,7 @@ class KitMenu : ConstructableCustomInventory() {
                             menu.setItem(cursor + 2 + i, item)
                         }
                     } else {
-                        for (i in 2..7){
+                        for (i in 2..6){
                             menu.setItem(cursor + i, Material.BLACK_STAINED_GLASS_PANE)
                         }
                     }
@@ -137,7 +140,9 @@ class KitMenu : ConstructableCustomInventory() {
         }
     }
 
-    override fun getTitle(): Component = Component.translatable("container.fnafu.kit")
+    override fun getTitle(): Component =
+        ComponentU.textWithNoSpaceSpaceFont(-8,  Component.translatable("container.fnafu.kit.image").font(NamespacedKey(FnafU.instance, "kit")), 171)
+            .append(Component.translatable("container.fnafu.kit")).color(NamedTextColor.WHITE)
     override fun getInventorySize(): Int = 9 * 6
     override fun shouldAutoUpdateItems(): Boolean = false
 }

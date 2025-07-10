@@ -34,7 +34,10 @@ class UniversalSlabBlock : AbstractCustomBlockType(){
         var item : ItemStack? = context.event?.let {
             return@let context.player?.inventory?.getItem(it.hand.oppositeHand)
         }
-        if (item == null || item.isEmpty) item = ItemStack(location.clone().add(0.0, -1.0, 0.0).block.type)
+        if (item == null || item.isEmpty) {
+            val type = location.clone().add(0.0, -1.0, 0.0).block.type
+            if (type.isItem) item = ItemStack(type)
+        }
 
         campfire.setItem(0, item)
         campfire.update()
