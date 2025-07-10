@@ -29,7 +29,7 @@ class KitMenu : ConstructableCustomInventory() {
         fun updateFor(players: List<FnafUPlayer>){
             for (receiver in players) {
                 var survCursor = -9
-                var animCursor = 9*7
+                var animCursor = 9*6
                 val menu = CustomInventory.get(receiver.player.openInventory.topInventory) as? KitMenu ?: continue
                 val downMenu = receiver.player.inventory
                 menu.inventory.clear()
