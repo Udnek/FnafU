@@ -47,7 +47,6 @@ interface Kit : MGUPlayerData, Registrable{
         }
     }
 
-
     val displayItem: ItemStack
     val permanentItems: List<ItemStack>
     val inventoryItems: List<ItemStack>
