@@ -4,7 +4,9 @@ import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntityType
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.sound.Sounds
+import org.bukkit.Color
 import org.bukkit.Location
+import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Entity
@@ -15,6 +17,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.loot.LootTables
 
 class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEntityType<Plushtrap>, Listener {
+
+    companion object {
+        fun spawnParticle(plushtrap: Drowned) {
+            Particle.DUST.builder().location(plushtrap.eyeLocation.add(0.0, -0.2, 0.0)).data(Particle.DustOptions(Color.fromRGB(102, 99, 12), 2.4f))
+                .count(50).offset(0.3, 0.3, 0.3).spawn()
+        }
+    }
 
     override fun getVanillaType(): EntityType { return EntityType.DROWNED }
 
@@ -36,6 +45,7 @@ class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEnt
             plushtrap.leaveVehicle()
             vehicle!!.remove()
         }
+        spawnParticle(plushtrap)
         return plushtrap
     }
 
