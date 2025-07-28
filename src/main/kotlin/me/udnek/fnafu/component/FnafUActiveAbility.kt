@@ -21,7 +21,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
         slot: Either<UniversalInventorySlot?, SingleSlot?>,
         event: PlayerInteractEvent
     ): ActionResult {
-        (entity as? Player)?.getFnafU()?.also{
+        (entity as? Player)?.getFnafU()?.let{
             return action(item, it, slot, event)
         }
         return ActionResult.NO_COOLDOWN
