@@ -214,10 +214,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
                 FnafUPlayer.Type.SURVIVOR -> player.teleport(map.getLocation(LocationType.SPAWN_SURVIVOR)!!)
                 FnafUPlayer.Type.ANIMATRONIC -> player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!)
             }
-            map.ambientSound.loop { it.play(player.player) }
             sidebar.show(player.player)
             player.player.inventory.clear()
             player.kit.setUp(player)
+            object : BukkitRunnable(){
+                override fun run() = map.ambientSound.loop { it.play(player.player) }
+            }.runTaskLater(FnafU.instance, 5)
         }
 
         animatronicWaitingTask = object : BukkitRunnable() { override fun run() {

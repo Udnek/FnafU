@@ -5,7 +5,6 @@ import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
@@ -37,14 +36,7 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
             it.abilityItem = item
         }
     }
-
-    override fun action(
-        item: CustomItem,
-        player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, SingleSlot?>,
-        event: PlayerInteractEvent
-    ): ActionResult {
-        if (getPlushtrap(player) != null) return ActionResult.INFINITE_COOLDOWN
+    fun spawnPlushtrap(item: CustomItem, player: FnafUPlayer) {
         val location = player.player.location
         location.pitch = 0f
         val plushtrap = EntityTypes.PLUSHTRAP.spawnAndGet(location)
@@ -53,6 +45,23 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
         plushtrap.initialDirection = player.player.location.direction
         setPlushtrap(player, plushtrap, item)
         player.team?.addEntity(plushtrap.real)
+    }
+
+    fun pickPlushtrap(customItem: CustomItem, player: FnafUPlayer) {
+        val plushtrap = getPlushtrap(player) ?: return
+        if (customItem.hasCooldown(player.player)) plushtrap.remove()
+
+    }
+
+    override fun action(
+        item: CustomItem,
+        player: FnafUPlayer,
+        slot: Either<UniversalInventorySlot?, SingleSlot?>,
+        event: PlayerInteractEvent
+    ): ActionResult {
+        val plushtrap = getPlushtrap(player)
+        if (plushtrap != null) return ActionResult.INFINITE_COOLDOWN
+        spawnPlushtrap(item, player)
         return ActionResult.INFINITE_COOLDOWN
     }
 

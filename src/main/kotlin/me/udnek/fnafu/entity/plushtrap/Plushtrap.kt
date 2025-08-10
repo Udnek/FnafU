@@ -7,9 +7,9 @@ import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
+import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.misc.getFnafU
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Player
@@ -33,6 +33,8 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     lateinit var owner: FnafUPlayer
     lateinit var initialDirection: Vector
     var target: FnafUPlayer? = null
+
+
 
     override fun delayedTick() {
         damageNearestPlayers()
@@ -78,6 +80,7 @@ class Plushtrap : ConstructableCustomEntity<Drowned>() {
     }
 
     override fun remove() {
+        PlushtrapType.spawnParticle(entity)
         owner.data.get(FnafUComponents.SPRINGTRAP_PLUSHTRAP_DATA)?.let {
             it.plushtrap = null
             it.abilityItem!!.components.getOrDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.getOrException(FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY)
