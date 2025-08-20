@@ -80,5 +80,16 @@
   "map.fnafu.fnaf3.image": "3",
 
   "map.fnafu.fnaf4": "FNAF 4",
-  "map.fnafu.fnaf4.image": "4"
+  "map.fnafu.fnaf4.image": "4",
+
+  "item.fnafu.universal_slab": "Universal Slab",
+  "item.fnafu.arcade_machine": "Arcade Machine",
+  "item.fnafu.blood": "Blood",
+  "item.fnafu.dirty_floor": "Dirty Floor",
+  "item.fnafu.generator": "Generator",
+  "item.fnafu.golden_stars_on_ceil": "Golden Stars on Ceil",
+  "item.fnafu.grey_stars_on_ceil": "Grey Stars on Ceil",
+  "item.fnafu.nightstand": "Nightstand",
+  "item.fnafu.vending_machine": "Vending Machine",
+  "item.fnafu.system_station": "System Station"
 }
