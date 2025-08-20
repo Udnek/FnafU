@@ -10,9 +10,8 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.misc.getCameraId
-import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location

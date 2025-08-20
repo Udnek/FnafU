@@ -9,6 +9,7 @@ import me.udnek.fnafu.item.animatronic.AnimatronicMask
 import me.udnek.fnafu.item.animatronic.freddy.FreddySetTrapItem
 import me.udnek.fnafu.item.animatronic.freddy.FreddyShadowItem
 import me.udnek.fnafu.item.animatronic.freddy.FreddyTeleportToTrapItem
+import me.udnek.fnafu.item.animatronic.freddy.FreddyTrap
 import me.udnek.fnafu.item.animatronic.springtrap.SpringtrapBreakCamerasItem
 import me.udnek.fnafu.item.animatronic.springtrap.SpringtrapPlushtrapItem
 import me.udnek.fnafu.item.decor.NightstandItem
@@ -51,6 +52,7 @@ object Items {
 
     val FREDDY_SHADOW: CustomItem = register(FreddyShadowItem())
     val FREDDY_MASK: CustomItem = register(AnimatronicMask("freddy", 0.03))
+    val FREDDY_TRAP: CustomItem = register(FreddyTrap())
     val FREDDY_SET_TRAP: CustomItem = register(FreddySetTrapItem())
     val FREDDY_TELEPORT_TO_TRAP: CustomItem = register(FreddyTeleportToTrapItem())
 

@@ -10,9 +10,9 @@ import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.misc.Ticking
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
-import me.udnek.fnafu.misc.Ticking
 import org.bukkit.Location
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent

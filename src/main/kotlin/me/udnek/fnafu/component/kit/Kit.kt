@@ -10,7 +10,6 @@ import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.item.Items.LARGE_PETROL_CANISTER
 import me.udnek.fnafu.item.Items.CUT_CAMERA_TABLET
 import me.udnek.fnafu.item.Items.DOOR_TABLET
 import me.udnek.fnafu.item.Items.FREDDY_MASK
@@ -18,6 +17,7 @@ import me.udnek.fnafu.item.Items.FREDDY_SET_TRAP
 import me.udnek.fnafu.item.Items.FREDDY_SHADOW
 import me.udnek.fnafu.item.Items.FREDDY_TELEPORT_TO_TRAP
 import me.udnek.fnafu.item.Items.FULL_CAMERA_TABLET
+import me.udnek.fnafu.item.Items.LARGE_PETROL_CANISTER
 import me.udnek.fnafu.item.Items.SMALL_PETROL_CANISTER
 import me.udnek.fnafu.item.Items.SPRINGTRAP_BREAK_CAMERAS
 import me.udnek.fnafu.item.Items.SPRINGTRAP_MASK

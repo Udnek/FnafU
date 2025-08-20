@@ -1,10 +1,8 @@
 package me.udnek.fnafu.block
 
 import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
-import me.udnek.coreu.custom.entitylike.block.CustomBlockType
 import me.udnek.coreu.custom.entitylike.block.constructabletype.AbstractCustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.nms.Nms
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.item.Items
 import org.bukkit.Location

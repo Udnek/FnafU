@@ -14,8 +14,8 @@ import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.Maps
 import me.udnek.fnafu.misc.getCustom
-import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.Style
