@@ -25,11 +25,19 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.abs
 
-open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
+open class CameraSystem : Originable, AbstractSystem {
+
+    constructor(game: FnafUGame) : super(game) {
+        cameras = ArrayList()
+        playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
+
+        game.map.cameras.forEach { addCamera(it) }
+        setOrigin(game.map.origin)
+    }
 
     override val sidebarPosition: Int = 2
-    val cameras: MutableList<Camera> = ArrayList()
-    private val playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
+    val cameras: MutableList<Camera>
+    private val playerSpectatingCameras: HashMap<FnafUPlayer, Camera>
     override var guiSlot: Int = 25
     override var sidebarLine: Component = Component.translatable("system.fnafu.camera")
 
@@ -150,7 +158,7 @@ open class CameraSystem(game: FnafUGame) : Originable, AbstractSystem(game) {
         player.showNoise(component.noiseColor)
     }
 
-    fun addCamera(camera: Camera) {
+    private fun addCamera(camera: Camera) {
         Preconditions.checkArgument(
             getCamera(camera.id) == null,
             "Camera with id '" + camera.id + " is already exists!"

@@ -1,25 +1,28 @@
 package me.udnek.fnafu.map.instance
 
+import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
+import me.udnek.fnafu.misc.TextUtils
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.misc.TextUtils
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
+import org.bukkit.inventory.ItemStack
 import java.time.Duration
 
 
-class Fnaf3PizzeriaMap(origin: Location) : FnafUMap(origin) {
+class Fnaf3Map(origin: Location) : FnafUMap(origin) {
 
     override var systemStationsAmount: Int = 3
     override var ambientSound: LoopedSound = LoopedSound(Sounds.AMBIENCE_FNAF3, Duration.ofSeconds(1*60+25))
     override var mapImage: Component = TextUtils.getMapImage(-8, 165, "fnaf3")
+    override val icon: ItemStack = Items.MAP_ICON_FNAF3.item
 
     override fun build() {
         addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-1.47, .0, -.61, 180f, 0f).centerFloor)
@@ -68,4 +71,8 @@ class Fnaf3PizzeriaMap(origin: Location) : FnafUMap(origin) {
             Pair(LocationSingle(14.0, 1.0, -12.0), BlockFace.EAST),
         )
     }
+
+    override fun getRawId(): String = "fnaf3"
+
+    override fun createFresh(): FnafUMap = Fnaf3Map(origin)
 }

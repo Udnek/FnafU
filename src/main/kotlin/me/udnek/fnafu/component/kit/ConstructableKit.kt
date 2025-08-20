@@ -25,7 +25,7 @@ open class ConstructableKit(
     override val displayItem: ItemStack
         get() {
             val item = displayCustomItem.item
-            item.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.${key.namespace}.${key.key}"))
+            item.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.${key.namespace}.${key.value()}"))
             val lore = ArrayList<Component>()
             val items = ArrayList(permanentCustomItems)
             items.addAll(inventoryCustomItems)

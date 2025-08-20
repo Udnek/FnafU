@@ -70,7 +70,15 @@
   "time.fnafu.5": "5 AM",
   "time.fnafu.6": "6 AM",
 
+  "map.fnafu.fnaf1": "FNAF 1",
   "map.fnafu.fnaf1.image": "1",
+
+  "map.fnafu.fnaf2": "FNAF 2",
   "map.fnafu.fnaf2.image": "2",
-  "map.fnafu.fnaf3.image": "3"
+
+  "map.fnafu.fnaf3": "FNAF 3",
+  "map.fnafu.fnaf3.image": "3",
+
+  "map.fnafu.fnaf4": "FNAF 4",
+  "map.fnafu.fnaf4.image": "4"
 }

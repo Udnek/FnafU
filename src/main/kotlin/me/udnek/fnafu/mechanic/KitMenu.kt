@@ -11,11 +11,15 @@ import me.udnek.fnafu.component.KitStageData
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
+import me.udnek.fnafu.map.FnafUMap
+import me.udnek.fnafu.map.Maps
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.Style
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -70,6 +74,8 @@ class KitMenu : ConstructableCustomInventory() {
                             menu.setItem(cursor + i, Material.BLACK_STAINED_GLASS_PANE)
                         }
                     }
+                    // MAP
+                    menu.setItem(cursor+8, kitStageData.chosenMap.icon)
                 }
 
                 // KITS
@@ -82,11 +88,25 @@ class KitMenu : ConstructableCustomInventory() {
                     }
                 }
 
+                // READY
                 val button = if (getKitStageData(receiver).isReady) Items.CANCEL_BUTTON.item else Items.READY_BUTTON.item
                 for (i in 2..6) {
                     downMenu.setItem(i, button)
                 }
+
+                // MAPS
+                val poses = listOf(
+                    15, 16, 17,
+                    15+9, 16+9, 17+9,
+                    15+9*2, 16+9*2, 17+9*2)
+                Maps.REGISTRY.all.forEachIndexed { i, map ->
+                    downMenu.setItem(poses[i], map.icon)
+                }
             }
+        }
+
+        fun getMapOf(itemStack: ItemStack) : FnafUMap? {
+            return Maps.REGISTRY.getAll().firstOrNull { it.icon.getCustom() == itemStack.getCustom() }
         }
 
         fun getKitOf(itemStack: ItemStack) : Kit? {
@@ -115,6 +135,9 @@ class KitMenu : ConstructableCustomInventory() {
         event.isCancelled = true
         val player = (event.whoClicked as Player).getFnafU() ?: return
         when (event.currentItem?.getCustom()){
+            null -> {
+                return
+            }
             Items.READY_BUTTON -> {
                 getKitStageData(player).isReady = true
             }
@@ -122,7 +145,12 @@ class KitMenu : ConstructableCustomInventory() {
                 getKitStageData(player).isReady = false
             }
             else -> {
-                getKitStageData(player).chosenKit = getKitOf(event.currentItem?: return) ?: return
+                val kit = getKitOf(event.currentItem!!)
+                if (kit != null) {
+                    getKitStageData(player).chosenKit = kit
+                    return
+                }
+                getKitStageData(player).chosenMap = getMapOf(event.currentItem!!) ?: return
             }
         }
         updateFor(player.game.playerContainer.all)
@@ -141,8 +169,12 @@ class KitMenu : ConstructableCustomInventory() {
     }
 
     override fun getTitle(): Component =
-        ComponentU.textWithNoSpaceSpaceFont(-8,  Component.translatable("container.fnafu.kit.image").font(NamespacedKey(FnafU.instance, "kit")), 171)
-            .append(Component.translatable("container.fnafu.kit")).color(NamedTextColor.WHITE)
+        ComponentU.textWithNoSpaceSpaceFont(
+            -8,
+            Component.translatable("container.fnafu.kit.image").font(NamespacedKey(FnafU.instance, "kit")),
+            171)
+            .append(Component.translatable("container.fnafu.kit").font(Style.DEFAULT_FONT))
+            .color(NamedTextColor.WHITE)
     override fun getInventorySize(): Int = 9 * 6
     override fun shouldAutoUpdateItems(): Boolean = false
 }

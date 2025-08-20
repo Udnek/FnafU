@@ -17,18 +17,16 @@ import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.event.EnergyEndedUpEvent
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
+import me.udnek.fnafu.map.Maps
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.KitMenu
 import me.udnek.fnafu.mechanic.Time
 import me.udnek.fnafu.mechanic.system.Systems
-import me.udnek.fnafu.mechanic.system.camera.CameraSystem
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
-import me.udnek.fnafu.mechanic.system.door.DoorSystem
-import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
+import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -47,7 +45,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.Team
 import java.util.concurrent.ThreadLocalRandom
 
-class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
+class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : FnafUAbstractGame(), Resettable {
     companion object {
         const val GAME_DURATION: Int = 5 * 60 * 20
         const val ANIMATRONIC_WAITING_DURATION: Long = 8 * 20
@@ -66,6 +64,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     var kitSetupTask: BukkitRunnable? = null
     var animatronicWaitingTask: BukkitRunnable? = null
     val time: Time = Time(GAME_DURATION)
+    override var map: FnafUMap = Maps.REGISTRY.all.first().createFresh()
     override val energy: Energy = Energy(this)
 
     override var survivorLives: Int = MAX_LIVES
@@ -73,7 +72,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             field = value
             updateSidebar()
         }
-    override val systems: Systems = Systems(DoorSystem(this, map.doors), CameraSystem(this), VentilationSystem(this))
+    override var systems: Systems = Systems(this)
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
@@ -82,11 +81,6 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
     private var teamAnimatronics: Team? = null
 
     override val sidebar = CustomSidebar(id.asString(), Component.empty())
-
-    init {
-        map.cameras.forEach { systems.camera.addCamera(it) }
-        systems.camera.setOrigin(map.origin)
-    }
 
     private fun isEveryNTicks(n: Int): Boolean = time.ticks % n == 0
 
@@ -150,8 +144,6 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
 
         updateSidebar()
 
-        chooseSystemStations()
-
         stage = FnafUGame.Stage.KIT
         for (player in players) {
             player.reset()
@@ -168,11 +160,11 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
 
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> {
-                    player.teleport(map.getLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR)!!)
+                    player.teleport(survivorSpawn)
                     teamSurvivors!!.addPlayer(player.player)
                 }
                 FnafUPlayer.Type.ANIMATRONIC -> {
-                    player.teleport(map.getLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC)!!)
+                    player.teleport(animatronicSpawn)
                     teamAnimatronics!!.addPlayer(player.player)
                 }
             }
@@ -185,6 +177,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
             override fun run() {
                 if (players.count { !KitMenu.getKitStageData(it).isReady } != 0) return
                 cancel()
+
+                val mapToFrequency = players.groupingBy { KitMenu.getKitStageData(it).chosenMap }.eachCount()
+                val mostFrequent = mapToFrequency.filter { it.value == mapToFrequency.maxBy { it.value }.value }.keys
+                map = mostFrequent.random().createFresh()
+                systems = Systems(this@EnergyGame)
+
                 mainCycleStart()
             }
         }
@@ -195,10 +193,12 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         super.start()
         time.reset()
         energy.reset()
-        map.reset()
         energy.updateConsumption()
+        map.createFresh()
         winner = Winner.NONE
         survivorLives = MAX_LIVES
+
+        chooseSystemStations()
 
         showBossBarToAll(energyBar!!)
         updateEnergyBar()
@@ -315,7 +315,7 @@ class EnergyGame(map: FnafUMap) : FnafUAbstractGame(map), Resettable {
         energyBar = null
         timeBar = null
 
-        map.reset()
+        map.createFresh()
         energy.reset()
         systems.reset()
 

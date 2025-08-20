@@ -20,9 +20,9 @@ class DoorSystem : AbstractSystem {
     override var sidebarLine: Component = Component.translatable("system.fnafu.door")
     private val menu: DoorMenu
 
-    constructor(game: FnafUGame, doors: MutableList<ButtonDoorPair>) : super(game){
-        this.doors = ArrayList(doors)
-        this.menu = DoorMenu(game.map.mapImage, this.doors)
+    constructor(game: FnafUGame) : super(game){
+        doors = ArrayList(game.map.doors)
+        menu = DoorMenu(game.map.mapImage, doors)
     }
 
     override fun tick() {}

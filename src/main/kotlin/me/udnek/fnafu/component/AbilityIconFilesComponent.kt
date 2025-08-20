@@ -45,7 +45,7 @@ class AbilityIconFilesComponent(val kit: Kit) : AutoGeneratingFilesItem.Generate
                     }
                   }
                 }
-                """.replace("%playerClass%", kit.key.key), itemModel
+                """.replace("%playerClass%", kit.key.value()), itemModel
             )
         ) as JsonObject
     }

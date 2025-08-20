@@ -23,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.jetbrains.annotations.MustBeInvokedByOverriders
 
 
-abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame(), FnafUGame {
+abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
 
     override val playerContainer: PlayerContainer = PlayerContainer()
     private var task: BukkitRunnable? = null
@@ -111,9 +111,9 @@ abstract class FnafUAbstractGame(override var map: FnafUMap) : MGUAbstractGame()
         }
         systems.door.doors.forEachIndexed { index, door ->
             door.button.locationData.all.forEach {
-                Nms.get().showDebugBlock(it, Color.RED.asRGB(), time, "button $index")
+                Nms.get().showDebugBlock(it, Color.ORANGE.asRGB(), time, "button $index")
             }
-            Nms.get().showDebugBlock(door.door.debugLocation, Color.ORANGE.asRGB(), time, "door $index")
+            Nms.get().showDebugBlock(door.door.debugLocation, Color.RED.asRGB(), time, "door $index")
         }
         map.systemStations.forEach {
             Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation " + it.second.name)

@@ -5,6 +5,8 @@ import io.papermc.paper.datacomponent.item.BundleContents
 import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.FnafU
+import me.udnek.fnafu.game.EnergyGame
+import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.camera.CameraSystem
 import me.udnek.fnafu.mechanic.system.door.DoorSystem
@@ -44,7 +46,9 @@ open class Systems : Resettable, Ticking {
     val camera: CameraSystem
     val ventilation: VentilationSystem
 
-    constructor(doorSystem: DoorSystem, cameraSystem: CameraSystem, ventilationSystem: VentilationSystem){
+    constructor(game: FnafUGame) : this(DoorSystem(game), CameraSystem(game), VentilationSystem(game))
+
+    private constructor(doorSystem: DoorSystem, cameraSystem: CameraSystem, ventilationSystem: VentilationSystem){
         this.door = doorSystem
         this.camera = cameraSystem
         this.ventilation = ventilationSystem

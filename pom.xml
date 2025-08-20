@@ -14,8 +14,8 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-        <lib.coreu>C:\Users\PC\IdeaProjects\CoreU\target\CoreU-1.0-SNAPSHOT-remapped.jar</lib.coreu>
-        <lib.jeiu>H:\testFnaf\plugins\JeiU.jar</lib.jeiu>
+        <lib.coreu>C:\Users\glebd\OneDrive\Documents\CODING\Java\CoreU\build\libs\CoreU-1.0-SNAPSHOT.jar</lib.coreu>
+        <lib.jeiu>C:\Users\glebd\OneDrive\Documents\CODING\Java\JeiU\out\artifacts\JeiU.jar</lib.jeiu>
         <kotlin.version>2.1.20</kotlin.version>
     </properties>
 
@@ -61,8 +61,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
             <plugin>

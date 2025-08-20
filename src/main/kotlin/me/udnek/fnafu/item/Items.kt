@@ -61,6 +61,10 @@ object Items {
     val SMALL_PETROL_CANISTER: CustomItem = register(PetrolCanister(PetrolCanisterAbility.SMALL, "small_petrol_canister"))
     val LARGE_PETROL_CANISTER: CustomItem = register(PetrolCanister(PetrolCanisterAbility.LARGE, "large_petrol_canister"))
 
+    val MAP_ICON_FNAF1 = register(MapIcon("fnaf1"))
+    val MAP_ICON_FNAF4 = register(MapIcon("fnaf4"))
+    val MAP_ICON_FNAF3 = register(MapIcon("fnaf3"))
+
     // DECOR
 
     val ARCADE_MACHINE : CustomItem = register(FnafUBlockDecorItem("arcade_machine", Blocks.ARCADE_MACHINE))
