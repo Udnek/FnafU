@@ -3,11 +3,8 @@ package me.udnek.fnafu.item.survivor
 import me.udnek.coreu.custom.component.instance.BlockPlacingItem
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
-import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.block.Blocks
-import me.udnek.fnafu.component.survivor.SystemTabletAbility
 import net.kyori.adventure.key.Key
-import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 

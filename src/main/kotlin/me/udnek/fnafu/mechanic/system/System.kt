@@ -2,8 +2,8 @@ package me.udnek.fnafu.mechanic.system
 
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.game.FnafUGame
-import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.misc.Ticking
+import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 
 interface System : Resettable, Ticking {

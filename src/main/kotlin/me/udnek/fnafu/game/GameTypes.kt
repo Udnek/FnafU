@@ -6,10 +6,10 @@ import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.block.Blocks
 import me.udnek.fnafu.event.EnergyEndedUpEvent
-import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.sound.Sounds
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Tag
 import org.bukkit.block.data.Powerable
 import org.bukkit.entity.Player
@@ -17,11 +17,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerInteractAtEntityEvent
-import org.bukkit.event.player.PlayerInteractEntityEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
 
 

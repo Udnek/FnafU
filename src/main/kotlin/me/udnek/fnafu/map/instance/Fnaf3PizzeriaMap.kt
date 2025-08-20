@@ -6,9 +6,9 @@ import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
+import me.udnek.fnafu.misc.TextUtils
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.misc.TextUtils
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
