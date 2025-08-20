@@ -12,19 +12,19 @@ import org.bukkit.entity.Item
 class RemnantTrap : ConstructableCustomEntity<Item>() {
 
     companion object {
-        const val FIND_RADIUS: Double = 10.0
-        const val FIND_TIME = 2
-        const val FIND_DELAY = 100
+        const val SCAN_RADIUS: Double = 10.0
+        const val SCAN_TIME = 2
+        const val SCAN_DELAY = 100
     }
 
     lateinit var game: FnafUGame
     lateinit var teleportLocation: Location
 
-    override fun getTickDelay() = FIND_DELAY
+    override fun getTickDelay() = SCAN_DELAY
 
     override fun delayedTick() {
-        game.findNearbyPlayers(entity.location, FIND_RADIUS, FnafUPlayer.Type.SURVIVOR).forEach {
-            it.showAuraTo(game.playerContainer.animatronics, FIND_TIME, Color.GREEN)
+        game.findNearbyPlayers(entity.location, SCAN_RADIUS, FnafUPlayer.Type.SURVIVOR).forEach {
+            it.showAuraTo(game.playerContainer.animatronics, SCAN_TIME, Color.GREEN)
         }
     }
 
