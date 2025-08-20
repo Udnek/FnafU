@@ -31,7 +31,10 @@ open class FreddyTeleportToTrapAbility : FnafUActiveAbility {
         slot: Either<UniversalInventorySlot?, SingleSlot?>,
         event: PlayerInteractEvent
     ): ActionResult {
-        player.teleport(player.data.getOrDefault(FnafUComponents.FREDDY_TRAP_DATA).trap?.real?.location ?: return ActionResult.NO_COOLDOWN)
+        val teleportLocation = player.data.getOrDefault(FnafUComponents.FREDDY_TRAP_DATA).trap?.teleportLocation ?: return ActionResult.NO_COOLDOWN
+        teleportLocation.yaw = player.player.location.yaw
+        teleportLocation.pitch = player.player.location.pitch
+        player.teleport(teleportLocation)
         return ActionResult.FULL_COOLDOWN
     }
 

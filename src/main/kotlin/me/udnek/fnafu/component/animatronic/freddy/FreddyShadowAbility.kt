@@ -5,16 +5,20 @@ import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.nms.Nms
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.util.Either
+import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import org.bukkit.scheduler.BukkitRunnable
 
 
 open class FreddyShadowAbility : FnafUActiveAbility {
@@ -35,11 +39,22 @@ open class FreddyShadowAbility : FnafUActiveAbility {
         event: PlayerInteractEvent
     ): ActionResult {
         val duration = components.get(RPGUComponents.ABILITY_DURATION)!!.get(player.player).toInt()
+        val mask = player.player.inventory.helmet
         player.player.addPotionEffects(listOf(
             PotionEffect(PotionEffectType.INVISIBILITY, duration, 0, false, false, false),
             PotionEffect(PotionEffectType.SPEED, duration, 0, false, false, false),
             PotionEffect(PotionEffectType.NIGHT_VISION, duration, 0, false, false, false)
         ))
+        player.game.playerContainer.survivors.forEach {
+            Nms.get().sendFakeEquipment(player.player, it.player, EquipmentSlot.HEAD, null)
+        }
+        object : BukkitRunnable(){
+            override fun run() {
+                player.game.playerContainer.survivors.forEach {
+                    Nms.get().sendFakeEquipment(player.player, it.player, EquipmentSlot.HEAD, mask)
+                }
+            }
+        }.runTaskLater(FnafU.instance, duration.toLong())
         return ActionResult.FULL_COOLDOWN
     }
 

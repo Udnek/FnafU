@@ -5,24 +5,26 @@ import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.player.FnafUPlayer
-import org.bukkit.entity.BlockDisplay
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
+import org.bukkit.Color
+import org.bukkit.Location
+import org.bukkit.entity.Item
 
-class RemnantTrap : ConstructableCustomEntity<BlockDisplay>() {
+class RemnantTrap : ConstructableCustomEntity<Item>() {
 
     companion object {
         const val FIND_RADIUS: Double = 10.0
         const val FIND_TIME = 2
+        const val FIND_DELAY = 100
     }
 
     lateinit var game: FnafUGame
+    lateinit var teleportLocation: Location
 
-    override fun getTickDelay() = 100
+    override fun getTickDelay() = FIND_DELAY
 
     override fun delayedTick() {
         game.findNearbyPlayers(entity.location, FIND_RADIUS, FnafUPlayer.Type.SURVIVOR).forEach {
-            it.player.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, FIND_TIME, 0, false, false, false))
+            it.showAuraTo(game.playerContainer.animatronics, FIND_TIME, Color.GREEN)
         }
     }
 
