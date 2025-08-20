@@ -176,11 +176,16 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
             Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
     }
 
+    fun saveSkin() {
+        val skinsRestorerAPI = SkinsRestorerProvider.get()
+        val skin = skinsRestorerAPI.playerStorage.getSkinForPlayer(player.uniqueId, player.name).get()
+        skinsRestorerAPI.skinStorage.setCustomSkinData(player.name, skin)
+    }
+
     fun clearSkin() {
         val skinsRestorerAPI = SkinsRestorerProvider.get()
-        val result = skinsRestorerAPI.skinStorage.findOrCreateSkinData(player.name)
-        skinsRestorerAPI.playerStorage.setSkinIdOfPlayer(player.uniqueId, result.get().identifier)
-        skinsRestorerAPI.getSkinApplier(Player::class.java).applySkin(player)
+        skinsRestorerAPI.playerStorage.setSkinIdOfPlayer(player.uniqueId, skinsRestorerAPI.skinStorage.findSkinData(player.name).get().identifier)
+        skinsRestorerAPI.getSkinApplier(Player::class.java).applySkin(player.player)
     }
 
     fun damage(damageSound: CustomSound) {
