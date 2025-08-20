@@ -10,8 +10,8 @@ import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Fnaf1PizzeriaMap
 import me.udnek.fnafu.map.instance.Fnaf3PizzeriaMap
 import me.udnek.fnafu.map.instance.Fnaf4PizzeriaMap
-import me.udnek.fnafu.sound.Sounds
 import me.udnek.fnafu.misc.CoralFixer
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Bukkit
 import org.bukkit.GameRule
 import org.bukkit.Location

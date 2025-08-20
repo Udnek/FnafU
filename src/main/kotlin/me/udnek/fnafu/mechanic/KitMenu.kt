@@ -11,8 +11,8 @@ import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.misc.getCustom
-import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player

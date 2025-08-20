@@ -15,9 +15,9 @@ import me.udnek.fnafu.block.Blocks
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.survivor.PetrolCanister
+import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
-import me.udnek.fnafu.misc.getCustom
 import net.kyori.adventure.text.Component
 import org.bukkit.event.player.PlayerInteractEvent
 
