@@ -44,8 +44,8 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
                 {
                 	"parent": "item/generated",
 	                "textures": {
-		                "layer0": "fnafu:item/door/button/background",
-		                "layer1": "fnafu:item/door/button/%number%"
+		                "layer0": "fnafu:item/survivor/door/button/background",
+		                "layer1": "fnafu:item/survivor/door/button/%number%"
 	                }
                 }
                 """
@@ -54,7 +54,7 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
                 VirtualRpJsonFile(
                     JsonParser.parseString(model.replace("%number%", i.toString())).asJsonObject,
                     AutoGeneratingFilesItem.GENERATED.getModelPath(
-                        NamespacedKey(FnafU.instance, "door/button/$i")
+                        NamespacedKey(FnafU.instance, "survivor/door/button/$i")
                     )
                 )
             )

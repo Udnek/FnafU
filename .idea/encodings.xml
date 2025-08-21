@@ -10,35 +10,35 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/animatronic/freddy/hand.json" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/animatronic/freddy/mask.json" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/animatronic/freddy/shadow.json" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/camera/tablet/full.json" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/camera/tablet/invisible.json" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doorman_tablet.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doorman_tablet_screen_off.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doorman_tablet_screen_on.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_1.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_10.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_2.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_3.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_4.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_5.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_6.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_7.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_8.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_9.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/door/doors_item_background.png" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/system/cursor.json" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/system/error.json" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/system/reboot.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/camera/tablet.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/camera/tablet/invisible.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doorman_tablet.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doorman_tablet_screen_off.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doorman_tablet_screen_on.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_1.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_10.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_2.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_3.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_4.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_5.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_6.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_7.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_8.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_9.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/door/doors_item_background.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/system/cursor.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/system/error.json" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/survivor/system/reboot.json" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/freddy" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/springtrap" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/font/camera/noise.mcmeta" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/overlay.png.mcmeta" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/overlay_green.png.mcmeta" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/tablet_noise.png.mcmeta" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/camera/tablet_noise_green.png.mcmeta" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/cameras" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/system/error.png.mcmeta" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/system/reboot.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/survivor/camera/overlay.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/survivor/camera/overlay_green.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/survivor/camera/tablet_noise.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/survivor/camera/tablet_noise_green.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/survivor/system/error.png.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/survivor/system/reboot.png.mcmeta" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/entity.zombie/drowned.png" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/entity.zombie/drowned_outer_layer.png" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/minecraft/textures/entity.zombie/zombie.png" charset="ISO-8859-1" />

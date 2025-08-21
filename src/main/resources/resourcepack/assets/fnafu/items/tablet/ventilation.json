@@ -14,12 +14,12 @@
       ],
       "fallback": {
         "type": "minecraft:model",
-        "model": "fnafu:item/survivor/door/tablet"
+        "model": "fnafu:item/survivor/ventilation/tablet"
       }
     },
     "on_false": {
       "type": "minecraft:model",
-      "model": "fnafu:item/survivor/door/tablet"
+      "model": "fnafu:item/survivor/ventilation/tablet"
     }
   }
 }
