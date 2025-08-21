@@ -11,8 +11,8 @@ import org.bukkit.plugin.Plugin
 class CoralFixer(plugin: Plugin) : SelfRegisteringListener(plugin) {
     @EventHandler
     fun onBlockFade(event: BlockFadeEvent) {
-        val type = event.block.type
         if (event.block.world.getGameRuleValue(GameRule.RANDOM_TICK_SPEED) != 0) return
+        val type = event.block.type
         if (!(Tag.CORALS.isTagged(type) || Tag.CORAL_BLOCKS.isTagged(type))) return
         event.isCancelled = true
     }

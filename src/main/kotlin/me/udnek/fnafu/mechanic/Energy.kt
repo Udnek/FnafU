@@ -13,6 +13,7 @@ class Energy(private val game: FnafUGame) : Resettable, Ticking {
     }
 
     var endedUpAlreadyChecked = false
+    var refilledAlreadyChecked = false
 
     var energy: Float = MAX_ENERGY
         set(value){ field = Math.clamp(value, 0f, MAX_ENERGY)}
@@ -28,7 +29,8 @@ class Energy(private val game: FnafUGame) : Resettable, Ticking {
     override fun tick() {
         energy -= consumption * TICKRATE
         energy = Math.clamp(energy, MIN_ENERGY, MAX_ENERGY)
-        if (energy > 0) endedUpAlreadyChecked = false
+        if (isEndedUp) refilledAlreadyChecked = false
+        else endedUpAlreadyChecked = false
     }
 
     fun updateConsumption() {

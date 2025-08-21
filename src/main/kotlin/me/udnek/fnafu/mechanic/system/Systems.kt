@@ -5,7 +5,6 @@ import io.papermc.paper.datacomponent.item.BundleContents
 import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.camera.CameraSystem

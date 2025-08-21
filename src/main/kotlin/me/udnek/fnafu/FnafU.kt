@@ -7,9 +7,9 @@ import me.udnek.fnafu.component.ComponentListener
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.map.Maps
-import me.udnek.fnafu.sound.Sounds
+import me.udnek.fnafu.map.MapBuilder
 import me.udnek.fnafu.misc.CoralFixer
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Bukkit
 import org.bukkit.GameRule
 import org.bukkit.Location
@@ -24,7 +24,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         Items.FULL_CAMERA_TABLET
         Sounds.AMBIENCE_FNAF1
         Blocks.ARCADE_MACHINE
-        Maps.FNAF1
+        MapBuilder.REGISTRY
 
 
         ComponentListener(this)

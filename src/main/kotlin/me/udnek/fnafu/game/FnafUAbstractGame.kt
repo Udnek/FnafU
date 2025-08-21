@@ -4,12 +4,13 @@ import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentMap
 import me.udnek.coreu.mgu.command.MGUCommandContext
 import me.udnek.coreu.mgu.command.MGUCommandType
+import me.udnek.coreu.mgu.command.MGUCommandType.ExecutionResult
+import me.udnek.coreu.mgu.command.MGUCommandType.ExecutionResult.Type
 import me.udnek.coreu.mgu.game.MGUAbstractGame
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.coreu.nms.Nms
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.player.PlayerContainer
@@ -42,15 +43,15 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
         task!!.runTaskTimer(FnafU.instance, 0, 1)
     }
     @MustBeInvokedByOverriders
-    override fun start(context: MGUCommandContext): MGUCommandType.ExecutionResult {
+    override fun start(context: MGUCommandContext): ExecutionResult {
         start()
-        return MGUCommandType.ExecutionResult.SUCCESS
+        return ExecutionResult.SUCCESS
     }
 
     @MustBeInvokedByOverriders
-    override fun stop(context: MGUCommandContext): MGUCommandType.ExecutionResult {
+    override fun stop(context: MGUCommandContext): ExecutionResult {
         stop()
-        return MGUCommandType.ExecutionResult.SUCCESS
+        return ExecutionResult.SUCCESS
     }
     @MustBeInvokedByOverriders
     override fun stop(){
@@ -66,27 +67,44 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
     }
 
     override fun getCommandOptions(context: MGUCommandContext): MutableList<String> {
-        if (context.commandType == MGUCommandType.DEBUG) return mutableListOf("10")
-        if (context.commandType == MGUCommandType.JOIN) return mutableListOf("survivors", "animatronics")
-        return super.getCommandOptions(context)
+        when (context.commandType) {
+            MGUCommandType.DEBUG -> return mutableListOf("10")
+            MGUCommandType.JOIN -> return mutableListOf("survivors", "animatronics")
+            MGUCommandType.EXECUTE -> {
+                if (context.args.size == 3) return mutableListOf("setEnergy")
+                else return mutableListOf("3")
+            }
+            else -> return super.getCommandOptions(context)
+        }
     }
 
-    override fun join(player: Player, context: MGUCommandContext): MGUCommandType.ExecutionResult {
+    override fun execute(context: MGUCommandContext): ExecutionResult {
+        if (context.args.size < 4) return ExecutionResult(Type.FAIL, "not enough args")
+        if (context.args[2].equals("setEnergy", true)) {
+            val value = context.args[3].toFloatOrNull() ?: return ExecutionResult(Type.FAIL, "incorrect float: ${context.args[3]}")
+            energy.energy = value
+            return ExecutionResult.SUCCESS
+        } else{
+            return ExecutionResult(Type.FAIL, "unknown arg: ${context.args[2]}")
+        }
+    }
+
+    override fun join(player: Player, context: MGUCommandContext): ExecutionResult {
         if (context.args[2] == "survivors") return join(player, FnafUPlayer.Type.SURVIVOR)
         return join(player, FnafUPlayer.Type.ANIMATRONIC)
     }
 
-    fun join(player: Player, type: FnafUPlayer.Type): MGUCommandType.ExecutionResult{
+    fun join(player: Player, type: FnafUPlayer.Type): ExecutionResult{
         return if (playerContainer.add(FnafUPlayer(player, type, this)))
-                MGUCommandType.ExecutionResult.SUCCESS else MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not add")
+                ExecutionResult.SUCCESS else ExecutionResult(Type.FAIL, "can not add")
     }
 
-    override fun leave(mguPlayer: MGUPlayer, context: MGUCommandContext): MGUCommandType.ExecutionResult {
+    override fun leave(mguPlayer: MGUPlayer, context: MGUCommandContext): ExecutionResult {
         return if (playerContainer.remove(mguPlayer.player)) {
             mguPlayer.unregister()
-            MGUCommandType.ExecutionResult.SUCCESS
+            ExecutionResult.SUCCESS
         } else {
-            MGUCommandType.ExecutionResult(MGUCommandType.ExecutionResult.Type.FAIL, "can not remove")
+            ExecutionResult(Type.FAIL, "can not remove")
         }
     }
 
@@ -111,12 +129,18 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
         }
         systems.door.doors.forEachIndexed { index, door ->
             door.button.locationData.all.forEach {
-                Nms.get().showDebugBlock(it, Color.ORANGE.asRGB(), time, "button $index")
+                Nms.get().showDebugBlock(it, Color.RED.asRGB(), time, "button $index")
             }
-            Nms.get().showDebugBlock(door.door.debugLocation, Color.RED.asRGB(), time, "door $index")
+            Nms.get().showDebugBlock(door.door.debugLocation, Color.ORANGE.asRGB(), time, "door $index")
         }
         map.systemStations.forEach {
-            Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation " + it.second.name)
+            Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation ${it.second.name}")
+        }
+        Nms.get().showDebugBlock(map.minBound.first, Color.OLIVE.asRGB(), time, "minBound")
+        Nms.get().showDebugBlock(map.maxBound.first, Color.OLIVE.asRGB(), time, "maxBound")
+
+        map.mapLight.cachedLightPoses().keys.forEach {
+            Nms.get().showDebugBlock(it, Color.YELLOW.asRGB(), time, "light")
         }
         Nms.get().showDebugBlock(map.origin, Color.SILVER.asRGB(), time, "origin")
     }

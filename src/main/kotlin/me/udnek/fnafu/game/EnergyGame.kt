@@ -14,10 +14,9 @@ import me.udnek.fnafu.block.Blocks
 import me.udnek.fnafu.block.SystemStationBlock
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.effect.Effects
-import me.udnek.fnafu.event.EnergyEndedUpEvent
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
-import me.udnek.fnafu.map.Maps
+import me.udnek.fnafu.map.MapBuilder
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.KitMenu
@@ -64,15 +63,16 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
     var kitSetupTask: BukkitRunnable? = null
     var animatronicWaitingTask: BukkitRunnable? = null
     val time: Time = Time(GAME_DURATION)
-    override var map: FnafUMap = Maps.REGISTRY.all.first().createFresh()
-    override val energy: Energy = Energy(this)
+    private var mapBuilder: MapBuilder
+    override var map: FnafUMap
+    override val energy: Energy
 
     override var survivorLives: Int = MAX_LIVES
         set(value) {
             field = value
             updateSidebar()
         }
-    override var systems: Systems = Systems(this)
+    override var systems: Systems
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
@@ -81,6 +81,13 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
     private var teamAnimatronics: Team? = null
 
     override val sidebar = CustomSidebar(id.asString(), Component.empty())
+
+    init {
+        mapBuilder = MapBuilder.FNAF1
+        map = mapBuilder.build()
+        energy = Energy(this)
+        systems = Systems(this)
+    }
 
     private fun isEveryNTicks(n: Int): Boolean = time.ticks % n == 0
 
@@ -91,16 +98,25 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
             stop()
             return
         }
-
-        if (isEveryNTicks(5)) updateEnergyBar()
         if (isEveryNTicks(Energy.TICKRATE)) {
             energy.updateConsumption()
             energy.tick()
             if (!energy.endedUpAlreadyChecked && energy.isEndedUp) {
                 energy.endedUpAlreadyChecked = true
-                EnergyEndedUpEvent(this).callEvent()
+
+                map.mapLight.turnOff()
+                systems.door.doors.forEach { it.door.open() }
+                Sounds.POWER_OUTAGE.play(map.origin)
+                //EnergyEndedUpEvent(this).callEvent()
+            }
+            else if (!energy.refilledAlreadyChecked && !energy.isEndedUp){
+                energy.refilledAlreadyChecked = true
+
+                map.mapLight.turnOn()
             }
         }
+        if (isEveryNTicks(5)) updateEnergyBar()
+
         if (isEveryNTicks(10)){
             systems.tick()
         }
@@ -179,9 +195,9 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
                 cancel()
 
                 val mapToFrequency = players.groupingBy { KitMenu.getKitStageData(it).chosenMap }.eachCount()
-                val mostFrequent = mapToFrequency.filter { it.value == mapToFrequency.maxBy { it.value }.value }.keys
-                map = mostFrequent.random().createFresh()
-                systems = Systems(this@EnergyGame)
+                val highestFrequency = mapToFrequency.maxBy { it.value }.value
+                val mostFrequent = mapToFrequency.filter { it.value == highestFrequency }.keys
+                mapBuilder = mostFrequent.randomOrNull() ?: MapBuilder.FNAF1
 
                 mainCycleStart()
             }
@@ -191,10 +207,11 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     fun mainCycleStart(){
         super.start()
+        map = mapBuilder.build()
+        systems = Systems(this)
         time.reset()
         energy.reset()
         energy.updateConsumption()
-        map.createFresh()
         winner = Winner.NONE
         survivorLives = MAX_LIVES
 
@@ -315,7 +332,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
         energyBar = null
         timeBar = null
 
-        map.createFresh()
+        map.reset()
         energy.reset()
         systems.reset()
 

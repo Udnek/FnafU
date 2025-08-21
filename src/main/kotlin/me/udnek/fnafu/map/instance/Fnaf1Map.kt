@@ -1,6 +1,5 @@
 package me.udnek.fnafu.map.instance
 
-import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationList
@@ -13,7 +12,7 @@ import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
-import org.bukkit.inventory.ItemStack
+import org.bukkit.util.BoundingBox
 import java.time.Duration
 
 
@@ -22,7 +21,8 @@ class Fnaf1Map(origin: Location) : FnafUMap(origin) {
     override var systemStationsAmount: Int = 3
     override var ambientSound: LoopedSound = LoopedSound(Sounds.AMBIENCE_FNAF1, Duration.ofSeconds(10*60+4))
     override var mapImage: Component = TextUtils.getMapImage(-8, 165, "fnaf1")
-    override val icon: ItemStack = Items.MAP_ICON_FNAF1.item
+
+    override fun relativeBounds(): BoundingBox = BoundingBox(32.0, -1.0, -24.0, -38.0, 15.0, 48.0)
 
     override fun build() {
         addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
@@ -75,8 +75,4 @@ class Fnaf1Map(origin: Location) : FnafUMap(origin) {
             Pair(LocationSingle(-1, 1, 35), BlockFace.SOUTH)
         )
     }
-
-    override fun getRawId(): String = "fnaf1"
-
-    override fun createFresh(): FnafUMap = Fnaf1Map(origin)
 }

@@ -1,7 +1,7 @@
 package me.udnek.fnafu.map
 
 import com.google.common.base.Preconditions
-import me.udnek.coreu.custom.registry.AbstractRegistrable
+import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.map.location.LocationSingle
@@ -11,10 +11,10 @@ import me.udnek.fnafu.sound.LoopedSound
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
-import org.bukkit.inventory.ItemStack
+import org.bukkit.util.BoundingBox
 import java.util.*
 
-abstract class FnafUMap : MGUMap, AbstractRegistrable {
+abstract class FnafUMap : MGUMap, Resettable{
 
     private val origin: Location
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
@@ -24,7 +24,9 @@ abstract class FnafUMap : MGUMap, AbstractRegistrable {
     lateinit var systemStations: List<Pair<LocationSingle, BlockFace>>
     abstract var mapImage: Component
     abstract var ambientSound: LoopedSound
-    abstract val icon: ItemStack
+    val mapLight: MapLight
+    val minBound: LocationSingle
+    val maxBound: LocationSingle
 
     constructor(origin: Location) {
         origin.set(origin.blockX.toDouble(), origin.blockY.toDouble(), origin.blockZ.toDouble())
@@ -32,12 +34,36 @@ abstract class FnafUMap : MGUMap, AbstractRegistrable {
         origin.yaw = 0f
         this.origin = origin
 
+        minBound = LocationSingle(relativeBounds().min)
+        maxBound = LocationSingle(relativeBounds().max)
+
         this.build()
+        minBound.setOrigin(origin)
+        maxBound.setOrigin(origin)
+        mapLight = compileLight()
+
         this.doors = this.doors.sortedBy { it.door.tabletMenuPosition }.toMutableList()
         this.systemStations.forEach { it.first.setOrigin(origin) }
     }
 
+    protected abstract fun relativeBounds(): BoundingBox
+
     abstract fun build()
+
+
+    protected fun compileLight(): MapLight{
+        val mapLight = MapLight()
+        val location = origin.clone()
+        for (x in minBound.first.blockX..maxBound.first.blockX){
+            for (y in minBound.first.blockY..maxBound.first.blockY){
+                for (z in minBound.first.blockZ..maxBound.first.blockZ){
+                    location.set(x.toDouble(), y.toDouble(), z.toDouble())
+                    mapLight.tryAddLightPos(location)
+                }
+            }
+        }
+        return mapLight
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // DOORS
@@ -46,7 +72,6 @@ abstract class FnafUMap : MGUMap, AbstractRegistrable {
         doorButtonPair.setOrigin(origin)
         doors.add(doorButtonPair)
     }
-
 
     ///////////////////////////////////////////////////////////////////////////
     // LOCATIONS
@@ -69,5 +94,7 @@ abstract class FnafUMap : MGUMap, AbstractRegistrable {
     // MISC
     ///////////////////////////////////////////////////////////////////////////
 
-    abstract fun createFresh(): FnafUMap
+    override fun reset() {
+        mapLight.reset()
+    }
 }

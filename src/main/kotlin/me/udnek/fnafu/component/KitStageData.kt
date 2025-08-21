@@ -5,21 +5,20 @@ import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
 import me.udnek.fnafu.component.kit.Kit
-import me.udnek.fnafu.map.FnafUMap
-import me.udnek.fnafu.map.Maps
+import me.udnek.fnafu.map.MapBuilder
 
 open class KitStageData : MGUPlayerData  {
 
     open var isReady: Boolean = false
     open var chosenKit: Kit = Kit.REGISTRY.all.first()
-    open var chosenMap: FnafUMap = Maps.REGISTRY.all.first()
+    open var chosenMap: MapBuilder = MapBuilder.REGISTRY.all.first()
 
     companion object{
         val DEFAULT = object : KitStageData(){
             override var isReady: Boolean
                 get() = super.isReady
                 set(value) = throwCanNotChangeDefault()
-            override var chosenMap: FnafUMap
+            override var chosenMap: MapBuilder
                 get() = super.chosenMap
                 set(value) = throwCanNotChangeDefault()
             override var chosenKit: Kit

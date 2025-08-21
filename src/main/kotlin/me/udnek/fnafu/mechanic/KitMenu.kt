@@ -11,15 +11,13 @@ import me.udnek.fnafu.component.KitStageData
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.map.FnafUMap
-import me.udnek.fnafu.map.Maps
+import me.udnek.fnafu.map.MapBuilder
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.Style
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -99,14 +97,14 @@ class KitMenu : ConstructableCustomInventory() {
                     15, 16, 17,
                     15+9, 16+9, 17+9,
                     15+9*2, 16+9*2, 17+9*2)
-                Maps.REGISTRY.all.forEachIndexed { i, map ->
-                    downMenu.setItem(poses[i], map.icon)
+                MapBuilder.REGISTRY.all.forEachIndexed { i, map ->
+                    downMenu.setItem(poses[i], map.icon.item)
                 }
             }
         }
 
-        fun getMapOf(itemStack: ItemStack) : FnafUMap? {
-            return Maps.REGISTRY.getAll().firstOrNull { it.icon.getCustom() == itemStack.getCustom() }
+        fun getMapOf(itemStack: ItemStack) : MapBuilder? {
+            return MapBuilder.REGISTRY.getAll().firstOrNull { it.icon == itemStack.getCustom() }
         }
 
         fun getKitOf(itemStack: ItemStack) : Kit? {
@@ -145,12 +143,8 @@ class KitMenu : ConstructableCustomInventory() {
                 getKitStageData(player).isReady = false
             }
             else -> {
-                val kit = getKitOf(event.currentItem!!)
-                if (kit != null) {
-                    getKitStageData(player).chosenKit = kit
-                    return
-                }
-                getKitStageData(player).chosenMap = getMapOf(event.currentItem!!) ?: return
+                getKitOf(event.currentItem!!)?.let { getKitStageData(player).chosenKit = it }
+                getMapOf(event.currentItem!!)?.let { getKitStageData(player).chosenMap = it }
             }
         }
         updateFor(player.game.playerContainer.all)
@@ -175,6 +169,7 @@ class KitMenu : ConstructableCustomInventory() {
             171)
             .append(Component.translatable("container.fnafu.kit").font(Style.DEFAULT_FONT))
             .color(NamedTextColor.WHITE)
+
     override fun getInventorySize(): Int = 9 * 6
     override fun shouldAutoUpdateItems(): Boolean = false
 }

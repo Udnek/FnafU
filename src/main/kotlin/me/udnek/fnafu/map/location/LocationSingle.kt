@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions
 import me.udnek.fnafu.misc.setOrigin
 import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
+import org.bukkit.util.Vector
 
 class LocationSingle : LocationData {
     private var frozen = false
@@ -24,6 +25,8 @@ class LocationSingle : LocationData {
     constructor(location: Location){
         this.location = location.clone()
     }
+
+    constructor(vector: Vector): this(Location(null, vector.x, vector.y, vector.z))
 
     constructor(x: Double, y: Double, z: Double, yaw: Float, pitch: Float) : this(Location(null, x, y, z, yaw, pitch))
 

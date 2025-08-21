@@ -1,7 +1,6 @@
 package me.udnek.fnafu.map.instance
 
 import com.google.common.collect.ImmutableList
-import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationSingle
@@ -11,14 +10,15 @@ import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
-import org.bukkit.inventory.ItemStack
+import org.bukkit.util.BoundingBox
 import java.time.Duration
 
 class Fnaf4Map(origin: Location) : FnafUMap(origin){
     override var systemStationsAmount: Int = 0
     override var mapImage: Component = TextUtils.getMapImage(-8, 165, "fnaf4")
     override var ambientSound: LoopedSound = LoopedSound(Sounds.AMBIENCE_FNAF1, Duration.ofSeconds(10*60+4))
-    override val icon: ItemStack = Items.MAP_ICON_FNAF4.item
+
+    override fun relativeBounds(): BoundingBox = BoundingBox(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0)
 
     override fun build() {
         addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
@@ -33,8 +33,4 @@ class Fnaf4Map(origin: Location) : FnafUMap(origin){
         systemStations = ImmutableList.of()
         cameras = ImmutableList.of()
     }
-
-    override fun getRawId(): String = "fnaf4"
-
-    override fun createFresh(): FnafUMap = Fnaf4Map(origin)
 }

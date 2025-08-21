@@ -9,7 +9,6 @@ import me.udnek.fnafu.event.EnergyEndedUpEvent
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
-import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Tag
 import org.bukkit.block.data.Powerable
 import org.bukkit.entity.Player
@@ -98,8 +97,7 @@ object GameTypes {
 
         @EventHandler
         fun onEnergyEndedUp(event: EnergyEndedUpEvent){
-            event.game.systems.door.doors.forEach { it.door.open() }
-            Sounds.POWER_OUTAGE.play(event.game.map.origin)
+
         }
     })
 
