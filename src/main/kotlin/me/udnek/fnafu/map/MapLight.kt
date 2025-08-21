@@ -36,7 +36,7 @@ class MapLight(): Resettable {
             }
             else -> {}
         }
-        if (blockData is CopperBulb) return (blockData.clone() as CopperBulb).also { it.isLit = true }
+        if (blockData is CopperBulb) return (blockData.clone() as CopperBulb).also { it.isLit = false }
         return null
     }
 
