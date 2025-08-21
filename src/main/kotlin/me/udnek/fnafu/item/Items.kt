@@ -21,6 +21,8 @@ import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
 import me.udnek.fnafu.item.survivor.camera.FullCameraTablet
 import me.udnek.fnafu.item.survivor.doorman.DoormanTablet
 import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
+import me.udnek.fnafu.item.survivor.ventilation.VentilationTablet
+import me.udnek.fnafu.item.survivor.ventilation.VentilationTabletButton
 import org.bukkit.Material
 
 
@@ -35,6 +37,9 @@ object Items {
 
     val DOOR_TABLET: CustomItem = register(DoormanTablet())
     val DOOR_BUTTON: CustomItem = register(DoormanTabletButton())
+
+    val VENTILATION_TABLET: CustomItem = register(VentilationTablet())
+    val VENTILATION_BUTTON: CustomItem = register(VentilationTabletButton())
 
     val UP_BUTTON: CustomItem = register(EmptyItem("up_button").hiddenModel())
     val DOWN_BUTTON: CustomItem = register(EmptyItem("down_button").hiddenModel())
