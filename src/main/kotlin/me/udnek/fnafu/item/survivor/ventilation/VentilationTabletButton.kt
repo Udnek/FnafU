@@ -1,43 +1,42 @@
-package me.udnek.fnafu.item.survivor.camera
+package me.udnek.fnafu.item.survivor.ventilation
 
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
+import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
 import me.udnek.coreu.custom.event.ResourcepackInitializationEvent
 import me.udnek.coreu.custom.item.ConstructableCustomItem
+import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.system.camera.Camera
+import me.udnek.fnafu.mechanic.system.door.door.Door
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
-import org.bukkit.persistence.PersistentDataType
 
-class CameraButton : ConstructableCustomItem(), Listener {
+class VentilationTabletButton : ConstructableCustomItem(), Listener {
     companion object {
-        val PDC_KEY: NamespacedKey = NamespacedKey(FnafU.instance, "camera_id")
-
-        fun getWithCamera(camera: Camera, index: Int, color: Color): ItemStack {
-            return Items.CAMERA_BUTTON.item.also {
-                it.editPersistentDataContainer { container -> container.set(PDC_KEY, PersistentDataType.STRING, camera.id) }
-                it.setData(DataComponentTypes.ITEM_NAME, Component.text(camera.id))
+        fun getWithCamera(door: Door, index: Int): ItemStack {
+            val color: Color
+            if (door.isClosed) color = Color.BLACK
+            else color = Color.fromRGB(189, 75, 33)
+            return Items.VENTILATION_BUTTON.item.also {
+                it.setData(DataComponentTypes.ITEM_NAME, Component.text(index))
                 it.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(index.toFloat()).addColor(color))
             }
         }
-
-        fun getCameraId(itemStack: ItemStack): String? {
-            return itemStack.persistentDataContainer.get(PDC_KEY, PersistentDataType.STRING)
-        }
     }
 
-    override fun update(itemStack: ItemStack): ItemStack {return itemStack}
+    override fun update(itemStack: ItemStack): ItemStack = itemStack
 
-    override fun getRawId(): String = "camera_button"
+    override fun getRawId(): String = "ventilation_tablet_button"
+
+    override fun getTooltipDisplay() = CustomItemProperties.DataSupplier.of(TooltipDisplay.tooltipDisplay().hideTooltip(true).build())
 
     @EventHandler
     fun onGenerate(event: ResourcepackInitializationEvent) {
@@ -45,8 +44,8 @@ class CameraButton : ConstructableCustomItem(), Listener {
                 {
                 	"parent": "item/generated",
 	                "textures": {
-		                "layer0": "fnafu:item/survivor/camera/button/background",
-		                "layer1": "fnafu:item/survivor/camera/button/%number%"
+		                "layer0": "fnafu:item/survivor/ventilation/button/background",
+		                "layer1": "fnafu:item/survivor/ventilation/button/%number%"
 	                }
                 }
                 """
@@ -55,11 +54,10 @@ class CameraButton : ConstructableCustomItem(), Listener {
                 VirtualRpJsonFile(
                     JsonParser.parseString(model.replace("%number%", i.toString())).asJsonObject,
                     AutoGeneratingFilesItem.GENERATED.getModelPath(
-                        NamespacedKey(FnafU.instance, "survivor/camera/button/$i")
+                        NamespacedKey(FnafU.instance, "survivor/ventilation/button/$i")
                     )
                 )
             )
         }
-
     }
 }

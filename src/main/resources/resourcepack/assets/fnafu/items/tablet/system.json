@@ -4,12 +4,22 @@
     "property": "minecraft:has_component",
     "component": "minecraft:bundle_contents",
     "on_true": {
-      "type": "minecraft:model",
-      "model": "fnafu:item/system/tablet_invisible"
+      "type": "minecraft:select",
+      "property": "minecraft:display_context",
+      "cases": [
+        {
+          "when": [ "firstperson_righthand", "firstperson_lefthand", "gui" ],
+          "model": { "type": "minecraft:empty" }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "fnafu:item/survivor/system/tablet"
+      }
     },
     "on_false": {
       "type": "minecraft:model",
-      "model": "fnafu:item/system/tablet"
+      "model": "fnafu:item/survivor/system/tablet/"
     }
   }
 }
