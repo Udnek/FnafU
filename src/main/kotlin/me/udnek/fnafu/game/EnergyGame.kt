@@ -147,6 +147,10 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
         }
     }
 
+    override fun updateEnergy() {
+        energy.updateConsumption()
+    }
+
     override fun updateSidebar() {
         sidebar.lines = systems.all.associate { system -> system.getSidebarLine() }
         sidebar.setLine(0, Component.translatable("sidebar.fnafu.live_count", Component.text(survivorLives)))

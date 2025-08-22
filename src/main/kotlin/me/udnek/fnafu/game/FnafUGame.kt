@@ -29,6 +29,7 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, Custo
     val playerContainer: PlayerContainer
     val energy: Energy
 
+    fun updateEnergy()
     fun applyForEveryAbility(function: (component: RPGUActiveAbilityItem, player: FnafUPlayer, item: CustomItem) -> Unit)
     fun getTeam(fnafUPlayer: FnafUPlayer): Team?
     fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type? = null): List<FnafUPlayer>

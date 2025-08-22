@@ -11,7 +11,8 @@ import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.system.door.door.Door
+import me.udnek.fnafu.mechanic.system.door.door.DoorLike
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.NamespacedKey
@@ -21,10 +22,9 @@ import org.bukkit.inventory.ItemStack
 
 class DoormanTabletButton : ConstructableCustomItem(), Listener {
     companion object {
-        fun getWithCamera(door: Door, index: Int): ItemStack {
-            val color: Color
-            if (door.isClosed) color = Color.BLACK
-            else color = Color.fromRGB(189, 75, 33)
+        fun getWithDoor(door: DoorLike, index: Int): ItemStack {
+            val color: Color = if (door.isClosed) Color.BLACK
+            else Color.fromRGB(189, 75, 33)
             return Items.DOOR_BUTTON.item.also {
                 it.setData(DataComponentTypes.ITEM_NAME, Component.text(index))
                 it.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(index.toFloat()).addColor(color))
@@ -35,6 +35,9 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
     override fun update(itemStack: ItemStack): ItemStack = itemStack
 
     override fun getRawId(): String = "doorman_tablet_button"
+
+    override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
+        CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "tablet/button/door"))
 
     override fun getTooltipDisplay() = CustomItemProperties.DataSupplier.of(TooltipDisplay.tooltipDisplay().hideTooltip(true).build())
 

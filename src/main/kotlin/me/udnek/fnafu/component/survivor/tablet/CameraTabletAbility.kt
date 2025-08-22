@@ -1,4 +1,4 @@
-package me.udnek.fnafu.component.survivor
+package me.udnek.fnafu.component.survivor.tablet
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
@@ -27,7 +27,7 @@ import org.bukkit.inventory.ItemStack
 open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, val isCut: Boolean, val damagePerUsage: Float) : FnafUActiveAbility() {
 
     init {
-        components.set(AttributeBasedProperty(0.5*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(0.5 * 20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     companion object {
@@ -37,7 +37,9 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
 
     override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
         super.addPropertyLines(componentable)
-        componentable.addAbilityStat(Component.translatable("ability.fnafu.camera_tablet.damage_per_usage", listOf(Component.text(Utils.roundToTwoDigits(damagePerUsage*100.0)))))
+        componentable.addAbilityStat(
+            Component.translatable("ability.fnafu.camera_tablet.damage_per_usage", listOf(
+                Component.text(Utils.roundToTwoDigits(damagePerUsage*100.0)))))
     }
 
     open fun getOverlay() : ItemStack {

@@ -4,7 +4,7 @@ import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
 
-abstract class AbstractDoor(protected val location: LocationSingle, override val tabletMenuPosition: Int) : Door{
+abstract class AbstractDoorLike(protected val location: LocationSingle, override val tabletMenuPosition: Int) : DoorLike{
 
     override var isClosed: Boolean = false
     override var isLocked: Boolean = false

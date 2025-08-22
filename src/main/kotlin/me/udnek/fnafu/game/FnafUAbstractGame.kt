@@ -133,6 +133,9 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             }
             Nms.get().showDebugBlock(door.door.debugLocation, Color.ORANGE.asRGB(), time, "door $index")
         }
+        systems.ventilation.vents.forEachIndexed { index, vent ->
+            Nms.get().showDebugBlock(vent.debugLocation, Color.BLUE.asRGB(), time, "vent $index")
+        }
         map.systemStations.forEach {
             Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation ${it.second.name}")
         }

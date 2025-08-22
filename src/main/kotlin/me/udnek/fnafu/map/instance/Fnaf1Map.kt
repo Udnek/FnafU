@@ -6,6 +6,7 @@ import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
+import me.udnek.fnafu.mechanic.system.ventilation.Vent
 import me.udnek.fnafu.misc.TextUtils
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
@@ -50,6 +51,8 @@ class Fnaf1Map(origin: Location) : FnafUMap(origin) {
         addDoor(MetalDoor.pairOf3x3(20, 0, 28, MetalDoor.Direction.Z, 10, 21, 1, 26))
         addDoor(MetalDoor.pairOf3x3(16, 0, 5, MetalDoor.Direction.X, 29, 14, 1, 4))
         addDoor(MetalDoor.pairOf3x3(6, 0, -10, MetalDoor.Direction.X, 48, 4, 1, -11))
+
+        addVent(Vent(LocationSingle(-22.0, .0, 4.0), Vent.Direction.Z, 43, 1))
 
         cameras = listOf(
             Camera(LocationSingle(19.7, 2.2, 35.3, 65.37F, 32.41F).head, "main_entrance", 1, 0F, true),

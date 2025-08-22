@@ -1,4 +1,4 @@
-package me.udnek.fnafu.component.survivor
+package me.udnek.fnafu.component.survivor.tablet
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
@@ -17,7 +17,6 @@ open class SystemTabletAbility : FnafUActiveAbility() {
     companion object {
         val DEFAULT = SystemTabletAbility()
     }
-
 
     override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
         return FnafUComponents.SYSTEM_TABLET_ABILITY

@@ -1,0 +1,177 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/0",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/1",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/2",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/3",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/4",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 5,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/5",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 6,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/6",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 7,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/7",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 8,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/8",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 9,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/9",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 10,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/10",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 11,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/11",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      },
+      {
+        "threshold": 12,
+        "model": {
+          "type": "minecraft:model",
+          "model": "fnafu:item/survivor/ventilation/button/12",
+          "tints": [
+            {
+              "type": "minecraft:custom_model_data",
+              "default": -1
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

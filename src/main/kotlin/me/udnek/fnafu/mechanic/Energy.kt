@@ -40,6 +40,7 @@ class Energy(private val game: FnafUGame) : Resettable, Ticking {
 
     private fun updateUsage() {
         usage = game.systems.door.doors.count{it.door.isClosed} + 1
+        if (game.systems.ventilation.closedVent != null) usage += 1
     }
 
     override fun reset() {

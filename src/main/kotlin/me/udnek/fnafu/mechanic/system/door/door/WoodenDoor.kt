@@ -10,7 +10,7 @@ import org.bukkit.Material
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.Bisected
 
-class WoodenDoor(downLeftCorner: LocationSingle, private val direction: Direction, tabletMenuPosition: Int) : AbstractDoor(downLeftCorner, tabletMenuPosition) {
+class WoodenDoor(downLeftCorner: LocationSingle, private val direction: Direction, tabletMenuPosition: Int) : AbstractDoorLike(downLeftCorner, tabletMenuPosition) {
 
     override val stunCenter: Location
         get() {
