@@ -4,13 +4,18 @@ import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorButton
+import me.udnek.fnafu.mechanic.system.doorlike.AbstractDoorLike
 import me.udnek.fnafu.misc.toCenterFloor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.Bisected
 
-class WoodenDoor(downLeftCorner: LocationSingle, private val direction: Direction, tabletMenuPosition: Int) : AbstractDoorLike(downLeftCorner, tabletMenuPosition) {
+class WoodenDoor(
+    downLeftCorner: LocationSingle,
+    private val direction: Direction,
+    tabletMenuPosition: Int
+) : AbstractDoorLike(downLeftCorner, tabletMenuPosition), Door {
 
     override val stunCenter: Location
         get() {

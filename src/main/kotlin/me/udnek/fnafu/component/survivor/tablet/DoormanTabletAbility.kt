@@ -22,7 +22,7 @@ open class DoormanTabletAbility : FnafUActiveAbility {
 
     companion object {
         val DEFAULT = DoormanTabletAbility()
-        const val DAMAGE_PER_USAGE = EnergyGame.Companion.SURVIVOR_TOGGLE_DOOR_DAMAGE * 2
+        const val DAMAGE_PER_USAGE = EnergyGame.SURVIVOR_TOGGLE_DOOR_DAMAGE * 2
     }
 
     constructor(){

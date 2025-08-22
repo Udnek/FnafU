@@ -7,8 +7,6 @@ import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.Directional
 import org.bukkit.block.data.Levelled
 import org.bukkit.block.data.Lightable
-import org.bukkit.block.data.Powerable
-import org.bukkit.block.data.type.AmethystCluster
 import org.bukkit.block.data.type.CopperBulb
 import org.bukkit.block.data.type.Light
 

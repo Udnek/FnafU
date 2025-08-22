@@ -5,7 +5,6 @@ import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.nms.Nms
 import me.udnek.fnafu.block.Blocks
-import me.udnek.fnafu.item.decor.FnafUBlockDecorItem
 import org.bukkit.Material
 
 class NightstandItem : FnafUBlockDecorItem("nightstand", Blocks.NIGHTSTAND) {

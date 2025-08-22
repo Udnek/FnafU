@@ -18,6 +18,7 @@
   "item.fnafu.full_camera_tablet": "Full Camera Tablet",
   "item.fnafu.system_tablet": "System Tablet",
   "item.fnafu.doorman_tablet": "Doorman Tablet",
+  "item.fnafu.ventilation_tablet": "Ventilation Tablet",
   "item.fnafu.small_petrol_canister": "Small Petrol Canister",
   "item.fnafu.large_petrol_canister": "Large Petrol Canister",
 
@@ -38,12 +39,14 @@
 
   "kit.fnafu.springtrap": "Springtrap",
   "kit.fnafu.cameraman": "Cameraman",
-  "kit.fnafu.systemman": "Systemman",
+  "kit.fnafu.systemman": "Sysadmin",
   "kit.fnafu.doorman": "Doorman",
+  "kit.fnafu.ventilationman": "HVAC Technician",
   "kit.fnafu.refueller": "Refueller",
 
   "ability.fnafu.camera_tablet.damage_per_usage": "System damage per usage: %s%%",
   "ability.fnafu.doorman_tablet.damage_per_usage": "System damage per usage: %s%%",
+  "ability.fnafu.ventilation_tablet.damage_per_second": "System damage per second: %s%%",
 
   "ability.fnafu.petrol_canister.max_capacity": "Max Capacity: %s",
   "ability.fnafu.petrol_canister.current_fuel": "Fuel: %s / %s",

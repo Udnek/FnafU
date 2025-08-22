@@ -4,6 +4,7 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.mechanic.system.door.DoorButton
+import me.udnek.fnafu.mechanic.system.doorlike.AbstractDoorLike
 import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Location
 import org.bukkit.Material
@@ -13,7 +14,13 @@ import org.bukkit.block.data.type.Wall
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.floor
 
-open class MetalDoor(location: LocationSingle, protected val direction: Direction, tabletMenuPosition: Int, protected val width: Int, protected val height: Int) : AbstractDoorLike(location, tabletMenuPosition) {
+open class MetalDoor(
+    location: LocationSingle,
+    protected val direction: Direction,
+    tabletMenuPosition: Int,
+    protected val width: Int,
+    protected val height: Int
+) : AbstractDoorLike(location, tabletMenuPosition), Door {
 
     companion object {
 

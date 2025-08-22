@@ -4,6 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.survivor.ventilation.VentilationTabletButton
+import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import me.udnek.fnafu.misc.getFnafU
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component

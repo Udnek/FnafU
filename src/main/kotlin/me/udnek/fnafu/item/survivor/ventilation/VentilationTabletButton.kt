@@ -11,6 +11,7 @@ import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
+import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import me.udnek.fnafu.mechanic.system.ventilation.Vent
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationMenu
 import net.kyori.adventure.key.Key

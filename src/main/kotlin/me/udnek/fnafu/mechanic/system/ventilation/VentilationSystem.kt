@@ -94,7 +94,7 @@ class VentilationSystem : AbstractSystem {
     fun updateVents(player: FnafUPlayer) {
         game.updateEnergy()
         player.player.closeInventory()
-        durability -= VentilationTabletAbility.DAMAGE_PER_USAGE
+        durability -= VentilationTabletAbility.DAMAGE_PER_SECOND
         game.applyForEveryAbility { component, player, item ->
             component.components.get(FnafUComponents.VENTILATION_TABLET_ABILITY)?.onPlayerClickButton(item, player)
         }

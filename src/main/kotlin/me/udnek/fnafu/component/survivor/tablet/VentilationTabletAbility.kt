@@ -21,7 +21,7 @@ open class VentilationTabletAbility : FnafUActiveAbility {
 
     companion object {
         val DEFAULT = VentilationTabletAbility()
-        const val DAMAGE_PER_USAGE = 0.05f
+        const val DAMAGE_PER_SECOND = 0.05f
     }
 
     constructor(){
@@ -35,8 +35,8 @@ open class VentilationTabletAbility : FnafUActiveAbility {
     override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
         super.addPropertyLines(componentable)
         componentable.addAbilityStat(
-            Component.translatable("ability.fnafu.ventilation_tablet.damage_per_usage", listOf(
-                Component.text(Utils.roundToTwoDigits(DAMAGE_PER_USAGE*100.0)))))
+            Component.translatable("ability.fnafu.ventilation_tablet.damage_per_second", listOf(
+                Component.text(Utils.roundToTwoDigits(DAMAGE_PER_SECOND*100.0)))))
     }
 
     override fun action(
