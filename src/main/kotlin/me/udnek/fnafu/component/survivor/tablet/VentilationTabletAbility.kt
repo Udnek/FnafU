@@ -1,4 +1,4 @@
-package me.udnek.fnafu.component.survivor
+package me.udnek.fnafu.component.survivor.tablet
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
@@ -13,29 +13,30 @@ import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.event.player.PlayerInteractEvent
 
-open class DoormanTabletAbility : FnafUActiveAbility {
+open class VentilationTabletAbility : FnafUActiveAbility {
 
     companion object {
-        val DEFAULT = DoormanTabletAbility()
-        const val DAMAGE_PER_USAGE = EnergyGame.SURVIVOR_TOGGLE_DOOR_DAMAGE * 2
+        val DEFAULT = VentilationTabletAbility()
+        const val DAMAGE_PER_USAGE = 0.05f
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(5.0 * 20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
-        return FnafUComponents.DOORMAN_TABLET_ABILITY
+        return FnafUComponents.VENTILATION_TABLET_ABILITY
     }
 
     override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
         super.addPropertyLines(componentable)
-        componentable.addAbilityStat(Component.translatable("ability.fnafu.doorman_tablet.damage_per_usage", listOf(Component.text(Utils.roundToTwoDigits(DAMAGE_PER_USAGE*100.0)))))
+        componentable.addAbilityStat(
+            Component.translatable("ability.fnafu.ventilation_tablet.damage_per_usage", listOf(
+                Component.text(Utils.roundToTwoDigits(DAMAGE_PER_USAGE*100.0)))))
     }
 
     override fun action(
@@ -44,9 +45,9 @@ open class DoormanTabletAbility : FnafUActiveAbility {
         slot: Either<UniversalInventorySlot?, SingleSlot?>,
         event: PlayerInteractEvent
     ): ActionResult {
-        val doors = player.game.systems.door
-        if (doors.isBroken || player.game.energy.isEndedUp) return ActionResult.NO_COOLDOWN
-        doors.openMenu(player)
+        val ventilation = player.game.systems.ventilation
+        if (ventilation.isBroken || player.game.energy.isEndedUp) return ActionResult.NO_COOLDOWN
+        ventilation.openMenu(player)
         return ActionResult.NO_COOLDOWN
     }
 

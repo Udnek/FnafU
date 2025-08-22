@@ -13,12 +13,20 @@ import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapBreakCamerasAbi
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapData
 import me.udnek.fnafu.component.kit.Kit
-import me.udnek.fnafu.component.survivor.*
+import me.udnek.fnafu.component.survivor.CurrentInventoryData
+import me.udnek.fnafu.component.survivor.PetrolCanisterAbility
+import me.udnek.fnafu.component.survivor.SpectateCameraData
+import me.udnek.fnafu.component.survivor.SpectateEntityData
+import me.udnek.fnafu.component.survivor.tablet.CameraTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.DoormanTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.SystemTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.VentilationTabletAbility
 
 object FnafUComponents {
     val CAMERA_TABLET_ABILITY = register(ConstructableComponentType("camera_tablet_ability", CameraTabletAbility.FULL))
     val DOORMAN_TABLET_ABILITY = register(ConstructableComponentType("doorman_tablet_ability", DoormanTabletAbility.DEFAULT))
     val SYSTEM_TABLET_ABILITY = register(ConstructableComponentType("system_tablet_ability", SystemTabletAbility.DEFAULT))
+    val VENTILATION_TABLET_ABILITY = register(ConstructableComponentType("ventilation_tablet_ability", VentilationTabletAbility.DEFAULT))
     val FUEL_CANISTER_ABILITY = register(ConstructableComponentType("fuel_canister_ability", PetrolCanisterAbility.SMALL))
 
     val SPECTATE_ENTITY_DATA = register(ConstructableComponentType("spectate_entity_data", SpectateEntityData.DEFAULT) { SpectateEntityData() })

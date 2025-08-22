@@ -3,7 +3,7 @@ package me.udnek.fnafu.item.survivor.doorman
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.rpgu.component.RPGUComponents
-import me.udnek.fnafu.component.survivor.DoormanTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.DoormanTabletAbility
 import net.kyori.adventure.key.Key
 import org.bukkit.NamespacedKey
 

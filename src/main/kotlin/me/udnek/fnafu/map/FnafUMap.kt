@@ -7,6 +7,7 @@ import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.system.ventilation.Vent
 import me.udnek.fnafu.sound.LoopedSound
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -19,6 +20,7 @@ abstract class FnafUMap : MGUMap, Resettable{
     private val origin: Location
     private val locations: EnumMap<LocationType, LocationData> = EnumMap<LocationType, LocationData>(LocationType::class.java)
     var doors: MutableList<ButtonDoorPair> = ArrayList()
+    var vents: MutableList<Vent> = ArrayList()
     abstract var systemStationsAmount: Int
     lateinit var cameras: List<Camera>
     lateinit var systemStations: List<Pair<LocationSingle, BlockFace>>
@@ -66,11 +68,16 @@ abstract class FnafUMap : MGUMap, Resettable{
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // DOORS
+    // DOORS_LIKE
     ///////////////////////////////////////////////////////////////////////////
     protected fun addDoor(doorButtonPair: ButtonDoorPair) {
         doorButtonPair.setOrigin(origin)
         doors.add(doorButtonPair)
+    }
+
+    protected fun addVent(vent: Vent) {
+        vent.setOrigin(origin)
+        vents.add(vent)
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@ import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.survivor.CameraTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.CameraTabletAbility
 import net.kyori.adventure.key.Key
 import org.bukkit.Color
 import org.bukkit.NamespacedKey

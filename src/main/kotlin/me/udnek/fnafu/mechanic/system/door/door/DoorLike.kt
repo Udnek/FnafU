@@ -4,7 +4,7 @@ import me.udnek.coreu.mgu.Originable
 import me.udnek.coreu.mgu.Resettable
 import org.bukkit.Location
 
-interface Door : Originable, Resettable{
+interface DoorLike : Originable, Resettable{
 
     val isClosed: Boolean
     var isLocked: Boolean

@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Wall
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.floor
 
-open class MetalDoor(location: LocationSingle, protected val direction: Direction, tabletMenuPosition: Int, protected val width: Int, protected val height: Int) : AbstractDoor(location, tabletMenuPosition) {
+open class MetalDoor(location: LocationSingle, protected val direction: Direction, tabletMenuPosition: Int, protected val width: Int, protected val height: Int) : AbstractDoorLike(location, tabletMenuPosition) {
 
     companion object {
 

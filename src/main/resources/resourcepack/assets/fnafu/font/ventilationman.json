@@ -2,7 +2,7 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "fnafu:font/survivor/door/background.png",
+      "file": "fnafu:font/survivor/ventilation/background.png",
       "ascent": 13,
       "height": 256,
       "chars": ["1"]

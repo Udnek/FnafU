@@ -27,7 +27,7 @@ class DoorMenu : ConstructableCustomInventory {
 
     fun updateDoorIcons() {
         doors.forEachIndexed { index, door ->
-            inventory.setItem(door.door.tabletMenuPosition, DoormanTabletButton.getWithCamera(door.door, index))
+            inventory.setItem(door.door.tabletMenuPosition, DoormanTabletButton.getWithDoor(door.door, index))
         }
     }
 

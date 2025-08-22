@@ -3,7 +3,7 @@ package me.udnek.fnafu.item.survivor.ventilation
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.rpgu.component.RPGUComponents
-import me.udnek.fnafu.component.survivor.DoormanTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.VentilationTabletAbility
 import net.kyori.adventure.key.Key
 import org.bukkit.NamespacedKey
 
@@ -16,6 +16,6 @@ class VentilationTablet: ConstructableCustomItem() {
 
     override fun initializeComponents() {
         super.initializeComponents()
-        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(DoormanTabletAbility.DEFAULT)
+        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(VentilationTabletAbility.DEFAULT)
     }
 }
