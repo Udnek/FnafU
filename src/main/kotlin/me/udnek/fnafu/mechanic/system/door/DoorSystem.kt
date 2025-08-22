@@ -9,7 +9,8 @@ import me.udnek.fnafu.component.survivor.tablet.DoormanTabletAbility
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.AbstractSystem
-import me.udnek.fnafu.mechanic.system.door.door.DoorLike
+import me.udnek.fnafu.mechanic.system.door.door.Door
+import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.scheduler.BukkitRunnable
@@ -50,7 +51,7 @@ class DoorSystem : AbstractSystem {
         menu.updateDoorIcons()
     }
 
-    fun onPlayerClickButtonInMenu(door: DoorLike, player: FnafUPlayer) {
+    fun onPlayerClickButtonInMenu(door: Door, player: FnafUPlayer) {
         if (game.energy.isEndedUp) {
             player.player.closeInventory()
             return

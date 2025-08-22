@@ -11,7 +11,8 @@ import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.system.door.door.DoorLike
+import me.udnek.fnafu.mechanic.system.door.door.Door
+import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
@@ -22,7 +23,7 @@ import org.bukkit.inventory.ItemStack
 
 class DoormanTabletButton : ConstructableCustomItem(), Listener {
     companion object {
-        fun getWithDoor(door: DoorLike, index: Int): ItemStack {
+        fun getWithDoor(door: Door, index: Int): ItemStack {
             val color: Color = if (door.isClosed) Color.BLACK
             else Color.fromRGB(189, 75, 33)
             return Items.DOOR_BUTTON.item.also {

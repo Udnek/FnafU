@@ -7,6 +7,7 @@ import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
+import me.udnek.fnafu.mechanic.system.ventilation.TrapdoorVent
 import me.udnek.fnafu.mechanic.system.ventilation.Vent
 import me.udnek.fnafu.sound.LoopedSound
 import net.kyori.adventure.text.Component
@@ -75,7 +76,7 @@ abstract class FnafUMap : MGUMap, Resettable{
         doors.add(doorButtonPair)
     }
 
-    protected fun addVent(vent: Vent) {
+    protected fun addVent(vent: TrapdoorVent) {
         vent.setOrigin(origin)
         vents.add(vent)
     }

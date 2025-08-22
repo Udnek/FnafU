@@ -1,10 +1,10 @@
-package me.udnek.fnafu.mechanic.system.door.door
+package me.udnek.fnafu.mechanic.system.doorlike
 
 import me.udnek.coreu.mgu.Originable
 import me.udnek.coreu.mgu.Resettable
 import org.bukkit.Location
 
-interface DoorLike : Originable, Resettable{
+interface DoorLike : Originable, Resettable {
 
     val isClosed: Boolean
     var isLocked: Boolean
