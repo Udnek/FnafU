@@ -3,8 +3,6 @@ package me.udnek.fnafu
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import me.udnek.coreu.custom.event.CustomEvent
-import me.udnek.coreu.custom.event.CustomItemGeneratedEvent
 import me.udnek.coreu.custom.event.ResourcepackInitializationEvent
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.mgu.MGUManager

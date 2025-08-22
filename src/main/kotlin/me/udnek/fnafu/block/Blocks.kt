@@ -6,7 +6,6 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.block.decor.ArcadeMachineBlock
 import me.udnek.fnafu.block.decor.NightstandBlock
 import me.udnek.fnafu.block.decor.VendingMachineBlock
-import me.udnek.fnafu.item.decor.Poster
 
 object Blocks {
 

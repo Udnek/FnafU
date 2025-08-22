@@ -12,7 +12,6 @@ import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.item.decor.Poster
 import me.udnek.fnafu.misc.getCustom
 import net.kyori.adventure.text.Component
-import org.bukkit.DyeColor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.NamespacedKey

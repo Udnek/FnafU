@@ -26,7 +26,6 @@ import me.udnek.fnafu.item.survivor.doorman.DoormanTablet
 import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
 import me.udnek.fnafu.item.survivor.ventilation.VentilationTablet
 import me.udnek.fnafu.item.survivor.ventilation.VentilationTabletButton
-import org.bukkit.DyeColor
 import org.bukkit.Material
 
 
