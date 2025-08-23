@@ -74,7 +74,6 @@ class VentilationSystem : AbstractSystem {
             player.player.closeInventory()
             return
         }
-
         if (vent.isClosed) {
             vent.toggle()
             updateVents(player)

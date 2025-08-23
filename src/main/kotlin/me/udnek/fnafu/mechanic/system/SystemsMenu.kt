@@ -20,7 +20,7 @@ class SystemsMenu : ConstructableCustomInventory() {
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
         val player = (event.whoClicked as Player).getFnafU() ?: return
-        Sounds.BUTTON_CLICK.play(player)
+        var playSound = true
         when (event.currentItem?.getCustom()?: return) {
             Items.DOWN_BUTTON -> player.game.systems.cursorDown(this)
             Items.UP_BUTTON ->  player.game.systems.cursorUp(this)
@@ -28,7 +28,9 @@ class SystemsMenu : ConstructableCustomInventory() {
             Items.SYSTEM_TABLET, Items.EXIT_BUTTON -> {
                 player.player.closeInventory()
             }
+            else -> playSound = false
         }
+        if (playSound) Sounds.BUTTON_CLICK.play(player)
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
