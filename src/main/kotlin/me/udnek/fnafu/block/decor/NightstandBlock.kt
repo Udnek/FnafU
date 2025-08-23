@@ -47,9 +47,4 @@ class NightstandBlock : RotatableCustomBlockType() {
     override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
 
     override fun getBreakSpeedBaseBlock(): Material = Material.OAK_LOG
-
-    override fun load(p0: TileState) {}
-
-    override fun unload(p0: TileState) {}
-
 }
