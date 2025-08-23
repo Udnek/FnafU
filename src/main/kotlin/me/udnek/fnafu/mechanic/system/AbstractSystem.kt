@@ -40,40 +40,40 @@ abstract class AbstractSystem(override var game: FnafUGame) : System {
         durability = 0f
     }
 
-    override fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu, repairDuration: Int, setRepairIcon: Boolean) {
+    override fun startRepairing(player: FnafUPlayer, systemsMenu: SystemsMenu, repairDuration: Int, setRepairIcon: Boolean) {
         if (isRepairing) return
-        if (setRepairIcon) systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
-        startRepairingTask(player, repairDuration, systemMenu)
+        if (setRepairIcon) systemsMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
+        startRepairingTask(player, repairDuration, systemsMenu)
     }
 
-    protected open fun repaired(systemMenu: SystemMenu){
-        systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
-        systemMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
+    protected open fun repaired(systemsMenu: SystemsMenu){
+        systemsMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
+        systemsMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
         isRepairing = false
         isBroken = false
         durability = 1f
         SystemRepairedEvent(this).callEvent()
     }
-    protected open fun failedRepairing(systemMenu: SystemMenu) {
+    protected open fun failedRepairing(systemsMenu: SystemsMenu) {
         isRepairing = false
-        systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
-        systemMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
-        if (isBroken) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
+        systemsMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
+        systemsMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
+        if (isBroken) systemsMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
     }
 
-    protected open fun startRepairingTask(player: FnafUPlayer, duration: Int, systemMenu: SystemMenu){
+    protected open fun startRepairingTask(player: FnafUPlayer, duration: Int, systemsMenu: SystemsMenu){
         isRepairing = true
         repairTask = object : BukkitRunnable(){
             var time = 0
             override fun run() {
-                if (!systemMenu.isOpenedByAnyone){
-                    failedRepairing(systemMenu)
+                if (!systemsMenu.isOpenedByAnyone){
+                    failedRepairing(systemsMenu)
                     cancel()
                     return
                 }
                 time += 10
                 if (time >= duration){
-                    repaired(systemMenu)
+                    repaired(systemsMenu)
                     cancel()
                     return
                 }

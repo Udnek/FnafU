@@ -2,6 +2,7 @@ package me.udnek.fnafu.misc
 
 import me.udnek.coreu.custom.entitylike.block.CustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.MGUManager
 import me.udnek.coreu.mgu.Originable
 import me.udnek.fnafu.item.survivor.camera.CameraButton
@@ -14,6 +15,10 @@ import org.bukkit.inventory.ItemStack
 
 fun Player.getFnafU(): FnafUPlayer? {
     return MGUManager.get().getPlayer(this) as? FnafUPlayer
+}
+
+fun CustomSound.play(player: FnafUPlayer){
+    this.play(player.player)
 }
 
 fun Location.setOrigin(origin: Location): Location {
@@ -49,3 +54,15 @@ fun List<Location>.sortedByDistance(location: Location): List<Location> {
 fun List<Location>.getFarthest(location: Location): Location {
     return this.sortedByDistance(location).last()
 }
+
+
+
+
+
+
+
+
+
+
+
+

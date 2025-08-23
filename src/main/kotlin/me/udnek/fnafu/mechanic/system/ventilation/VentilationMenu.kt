@@ -6,6 +6,8 @@ import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.survivor.ventilation.VentilationTabletButton
 import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.misc.play
+import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -41,6 +43,7 @@ class VentilationMenu : ConstructableCustomInventory {
         event.isCancelled = true
         val vent = vents[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return]
         (event.whoClicked as Player).getFnafU()?.let {
+            Sounds.BUTTON_CLICK.play(it)
             it.game.systems.ventilation.onPlayerClickButtonInMenu(vent, it)
         }
         updateVentIcons()

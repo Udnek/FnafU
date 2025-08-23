@@ -38,7 +38,7 @@ open class Systems : Resettable, Ticking {
     private val enterButtons = listOf(15, 16, 17, 23, 24, 25, 26, 32, 33, 34, 35)
 
     private val playerInsideSystem = ArrayList<FnafUPlayer>()
-    var menu: SystemMenu
+    var menu: SystemsMenu
         protected set
     val all: List<System>
     val door: DoorSystem
@@ -52,7 +52,7 @@ open class Systems : Resettable, Ticking {
         this.camera = cameraSystem
         this.ventilation = ventilationSystem
         all = listOf(doorSystem, cameraSystem, ventilationSystem)
-        menu = SystemMenu()
+        menu = SystemsMenu()
     }
 
     override fun tick() {

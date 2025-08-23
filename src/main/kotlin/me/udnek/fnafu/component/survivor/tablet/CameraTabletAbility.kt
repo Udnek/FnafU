@@ -59,6 +59,7 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
         event: PlayerInteractEvent
     ): ActionResult {
         val cameras = player.game.systems.camera
+        if (cameras.isBroken || player.game.energy.isEndedUp) return ActionResult.NO_COOLDOWN
         cameras.durability -= damagePerUsage
         if (cameras.isBroken || player.game.energy.isEndedUp) {
             return ActionResult.NO_COOLDOWN
