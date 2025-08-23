@@ -15,29 +15,24 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 
-class SystemsMenu : ConstructableCustomInventory {
-
-    constructor() : super() {
-        inventory.setItem(9, Items.CURSOR_ICON.item)
-    }
+class SystemsMenu : ConstructableCustomInventory() {
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
         val player = (event.whoClicked as Player).getFnafU() ?: return
         Sounds.BUTTON_CLICK.play(player)
         when (event.currentItem?.getCustom()?: return) {
-            Items.DOWN_BUTTON -> player.game.systems.cursorDown(inventory)
-            Items.UP_BUTTON ->  player.game.systems.cursorUp(inventory)
-            Items.ENTER_BUTTON -> player.game.systems.enter(player, inventory)
+            Items.DOWN_BUTTON -> player.game.systems.cursorDown(this)
+            Items.UP_BUTTON ->  player.game.systems.cursorUp(this)
+            Items.ENTER_BUTTON -> player.game.systems.enter(player, this)
             Items.SYSTEM_TABLET, Items.EXIT_BUTTON -> {
                 player.player.closeInventory()
-                player.game.systems.exitMenu(player)
             }
         }
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
-        (event.player as Player).getFnafU()?.also { it.game.systems.exitMenu(it) }
+        (event.player as Player).getFnafU()?.let { it.game.systems.exitMenu(it) }
     }
 
     override fun getTitle(): Component {

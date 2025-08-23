@@ -12,6 +12,8 @@
 
   "camera_switch": { "subtitle": "subtitles.fnafu.camera_switch", "sounds": ["fnafu:ui/camera_switch"], "type": "event" },
   "button_click": { "subtitle": "subtitles.fnafu.button_click", "sounds": ["fnafu:ui/button_click"], "type": "event" },
+  "camera_tablet_open": { "subtitle": "subtitles.fnafu.camera_tablet_open", "sounds": ["fnafu:ui/camera_tablet_open"], "type": "event" },
+  "system_reboot": { "subtitle": "subtitles.fnafu.system_reboot", "sounds": ["fnafu:ui/system_reboot"], "type": "event" },
 
   "animatronic_step": { "subtitle": "subtitles.fnafu.animatronic_step", "sounds": [
     "fnafu:animatronic_step/0",

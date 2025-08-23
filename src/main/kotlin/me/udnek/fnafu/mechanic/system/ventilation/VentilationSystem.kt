@@ -31,7 +31,7 @@ class VentilationSystem : AbstractSystem {
     override val sidebarPosition: Int = 1
     val vents: List<Vent>
     private var timeBroken: Int = 0
-    override var guiSlot: Int = 34
+    override var repairIconSlot: Int = 42
     override var sidebarLine: Component = Component.translatable("system.fnafu.ventilation")
     private val menu: VentilationMenu
     val closedVent: Vent?

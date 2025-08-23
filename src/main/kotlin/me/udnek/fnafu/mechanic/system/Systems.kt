@@ -13,31 +13,28 @@ import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.misc.Ticking
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
-import org.bukkit.Material
-import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
 open class Systems : Resettable, Ticking {
 
     companion object {
-        const val REBOOT_ALL_ICON_POSITION = 43
-        const val SINGLE_REPAIR_DURATION = 8*10
-        const val ALL_REPAIR_DURATION = 15*10
+        const val REBOOT_ALL_REPAIR_ICON_POSITION = 51
+        const val SINGLE_REPAIR_DURATION = 4*20
+        const val ALL_REPAIR_DURATION = 7*20
     }
 
-    private val cursorPosition: HashMap<Int, (player: FnafUPlayer) -> Unit> = hashMapOf(
-        9 to {player ->  door.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
-        18 to {player ->  camera.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
-        27 to {player ->  ventilation.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
-        36 to {player ->  repairAll(player)})
+    private val cursorPosToAction: Map<Int, (player: FnafUPlayer) -> Unit> = mapOf(
+        18 to {player ->  door.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        27 to {player ->  camera.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        36 to {player ->  ventilation.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        45 to { player ->  repairAll(player)})
     private val cursorItem = Items.CURSOR_ICON.item
 
     private val upButtons = listOf(9, 10, 18, 19, 27, 28)
     private val downButtons = listOf(11, 12, 20, 21, 29, 30)
     private val enterButtons = listOf(15, 16, 17, 23, 24, 25, 26, 32, 33, 34, 35)
 
-    private val playerInsideSystem = ArrayList<FnafUPlayer>()
+    private val playersInsideSystem = ArrayList<FnafUPlayer>()
     var menu: SystemsMenu
         protected set
     val all: List<System>
@@ -53,59 +50,60 @@ open class Systems : Resettable, Ticking {
         this.ventilation = ventilationSystem
         all = listOf(doorSystem, cameraSystem, ventilationSystem)
         menu = SystemsMenu()
+        menu.setItem(cursorPosToAction.keys.first(), cursorItem)
     }
 
     override fun tick() {
         all.forEach { it.tick() }
     }
 
-    fun cursorUp(inventory: Inventory) {
-        if (isAnyOfSystemsBeingRepaired()) return
-        val indexCursorItem = getCursorItemIndex(inventory)
+    fun cursorUp(menu: SystemsMenu) {
+        if (isAnySystemBeingRepaired()) return
+        val cursorIndex = getCursorItemIndex(menu)
 
-        if (indexCursorItem == 0){
-            inventory.setItem(cursorPosition.keys.toList()[3], cursorItem)
+        if (cursorIndex == 0){
+            menu.setItem(cursorPosToAction.keys.toList()[cursorPosToAction.size-1], cursorItem)
         }else {
-            inventory.setItem(cursorPosition.keys.toList()[indexCursorItem - 1], cursorItem)
+            menu.setItem(cursorPosToAction.keys.toList()[cursorIndex - 1], cursorItem)
         }
-        inventory.setItem(cursorPosition.keys.toList()[indexCursorItem], ItemStack(Material.AIR))
+        menu.setItem(cursorPosToAction.keys.toList()[cursorIndex], null)
     }
 
-    fun cursorDown(inventory: Inventory) {
-        if (isAnyOfSystemsBeingRepaired()) return
-        val indexCursorItem = getCursorItemIndex(inventory)
+    fun cursorDown(menu: SystemsMenu) {
+        if (isAnySystemBeingRepaired()) return
+        val cursorIndex = getCursorItemIndex(menu)
 
-        if (indexCursorItem == 3){
-            inventory.setItem(cursorPosition.keys.toList()[0], cursorItem)
+        if (cursorIndex == cursorPosToAction.size-1){
+            menu.setItem(cursorPosToAction.keys.toList()[0], cursorItem)
         }else {
-            inventory.setItem(cursorPosition.keys.toList()[indexCursorItem + 1], cursorItem)
+            menu.setItem(cursorPosToAction.keys.toList()[cursorIndex + 1], cursorItem)
         }
-        inventory.setItem(cursorPosition.keys.toList()[indexCursorItem], ItemStack(Material.AIR))
+        menu.setItem(cursorPosToAction.keys.toList()[cursorIndex], null)
     }
 
-    fun enter(player: FnafUPlayer, inventory: Inventory) {
-        if (isAnyOfSystemsBeingRepaired()) return
-        cursorPosition[cursorPosition.keys.toList()[getCursorItemIndex(inventory)]]?.invoke(player)
+    fun enter(player: FnafUPlayer, menu: SystemsMenu) {
+        if (isAnySystemBeingRepaired()) return
+        cursorPosToAction.toList()[getCursorItemIndex(menu)].second.invoke(player)
     }
 
-    private fun getCursorItemIndex(inventory: Inventory): Int {
-        return cursorPosition.keys.toList().indexOf(inventory.first(cursorItem))
+    private fun getCursorItemIndex(menu: SystemsMenu): Int {
+        return cursorPosToAction.keys.indexOf(menu.inventory.first(cursorItem))
     }
 
     fun repairAll(player: FnafUPlayer) {
-        if (isAnyOfSystemsBeingRepaired()) return
-        menu.inventory.setItem(REBOOT_ALL_ICON_POSITION, Items.REBOOT_ICON.item)
-        all.forEach { it.startRepairing(player, menu, ALL_REPAIR_DURATION, false) }
+        if (isAnySystemBeingRepaired()) return
+        menu.setItem(REBOOT_ALL_REPAIR_ICON_POSITION, Items.REBOOT_ICON)
+        all.forEachIndexed { index, system ->
+            system.startRepairing(player, menu, ALL_REPAIR_DURATION, false,index == 0)
+        }
     }
 
-    fun isAnyOfSystemsBeingRepaired(): Boolean {
-        all.forEach { if (it.isRepairing) return true }
-        return false
+    fun isAnySystemBeingRepaired(): Boolean {
+        return all.count { it.isRepairing } > 0
     }
 
     fun exitMenu(player: FnafUPlayer) {
-        if (playerInsideSystem.isEmpty()) return
-        playerInsideSystem.remove(player)
+        playersInsideSystem.remove(player)
         player.regiveInventory()
     }
 
@@ -125,20 +123,15 @@ open class Systems : Resettable, Ticking {
             }
         }.runTaskLater(FnafU.instance, 1)
 
-        playerInsideSystem.add(player)
+        playersInsideSystem.add(player)
         menu.open(player.player)
     }
 
     override fun reset() {
-        all.forEach {
-            it.reset()
-        }
-
-        for (player in ArrayList<FnafUPlayer>(playerInsideSystem)) {
+        all.forEach { it.reset() }
+        for (player in ArrayList<FnafUPlayer>(playersInsideSystem)) {
             exitMenu(player)
             player.player.closeInventory()
         }
     }
-
-
 }

@@ -16,7 +16,9 @@ import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items
+import me.udnek.fnafu.misc.play
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
@@ -64,6 +66,7 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
         if (cameras.isBroken || player.game.energy.isEndedUp) {
             return ActionResult.NO_COOLDOWN
         }
+        Sounds.CAMERA_TABLET_OPEN.play(player)
         cameras.openMenu(player, event.item!!)
         val lastCamera = player.data.getOrCreateDefault(FnafUComponents.SPECTATE_CAMERA_DATA).lastCamera
         cameras.spectateCamera(player, lastCamera ?: cameras.cameras.firstOrNull{it.isInCutMenu}!!, event.item!!)

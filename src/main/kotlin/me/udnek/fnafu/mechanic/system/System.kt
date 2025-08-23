@@ -10,13 +10,13 @@ interface System : Resettable, Ticking {
 
     val isRepairing: Boolean
     val isBroken: Boolean
-    var guiSlot: Int
+    var repairIconSlot: Int
     var game: FnafUGame
     var durability: Float
 
     fun destroy()
 
-    fun startRepairing(player: FnafUPlayer, systemsMenu: SystemsMenu, repairDuration: Int, setRepairIcon: Boolean = true)
+    fun startRepairing(player: FnafUPlayer, systemsMenu: SystemsMenu, repairDuration: Int, setRepairIcon: Boolean = true, playSound: Boolean = true)
 
     fun getSidebarLine(): Pair<Int, Component>
 }

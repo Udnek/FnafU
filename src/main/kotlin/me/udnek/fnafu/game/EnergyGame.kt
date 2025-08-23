@@ -417,7 +417,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     private fun updateTimeBar() {
         timeBar!!.name(Component.translatable("time.fnafu.${(6 * time.ticks / GAME_DURATION )}")
-            .append(Component.text(" (${(GAME_DURATION - time.ticks) / 20})"))
+            //.append(Component.text(" (${(GAME_DURATION - time.ticks) / 20})"))
             .decoration(TextDecoration.BOLD, true))
     }
 

@@ -19,7 +19,10 @@ object Sounds {
     val PETROL_CANISTER_POUR = register(ConstructableCustomSound(getName("petrol_canister_pour"), SoundCategory.MASTER))
     val HAPPY_END = register(ConstructableCustomSound(getName("happy_end"), SoundCategory.MASTER, 0.5f))
     val CAMERA_SWITCH = register(ConstructableCustomSound(getName("camera_switch"), SoundCategory.MASTER, 40f))
+    val CAMERA_TABLET_OPEN = register(ConstructableCustomSound(getName("camera_tablet_open"), SoundCategory.MASTER, 40f))
+    val SYSTEM_REBOOT = register(ConstructableCustomSound(getName("system_reboot"), SoundCategory.MASTER, 0.1f))
     val BUTTON_CLICK = register(ConstructableCustomSound(getName("button_click"), SoundCategory.MASTER, 0.3f))
+    val SYSTEM_REPAIRED = BUTTON_CLICK
     val ANIMATRONIC_STEP = register(ConstructableCustomSound(getName("animatronic_step"), SoundCategory.MASTER))
 
     val FREDDY_LAUGH = register(ConstructableCustomSound(getName("freddy_laugh"), SoundCategory.MASTER))
