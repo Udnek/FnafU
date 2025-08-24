@@ -5,10 +5,10 @@ import io.papermc.paper.datacomponent.item.BundleContents
 import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.component.survivor.tablet.VentilationTabletAbility
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.AbstractSystem
+import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.potion.PotionEffect
@@ -18,14 +18,16 @@ import org.bukkit.scheduler.BukkitRunnable
 class VentilationSystem : AbstractSystem {
 
     companion object {
-        const val TIME_BETWEEN_TICK: Int = 10
         const val FIRST_STAGE_TIME: Int = 20 * 20
         const val FIRST_STAGE_EFFECT_LEVEL: Int = 0
+
         const val SECOND_STAGE_TIME: Int = 40 * 20
         const val SECOND_STAGE_EFFECT_LEVEL: Int = 1
 
+        const val DAMAGE_PER_SECOND = 0.05f
+
         fun getEffect(level: Int) : PotionEffect =
-            PotionEffect(PotionEffectType.SLOWNESS, TIME_BETWEEN_TICK + 1, level, false, true, true)
+            PotionEffect(PotionEffectType.SLOWNESS, Systems.TICKRATE + 1, level, false, true, true)
     }
 
     override val sidebarPosition: Int = 1
@@ -47,13 +49,13 @@ class VentilationSystem : AbstractSystem {
         if (!isBroken) {
             timeBroken = 0
             return
-        }
+        } else if (closedVent != null) durability -= DAMAGE_PER_SECOND * (Systems.TICKRATE / 20)
         if (timeBroken >= SECOND_STAGE_TIME) {
             game.playerContainer.aliveSurvivors.forEach { it.player.addPotionEffect(getEffect(SECOND_STAGE_EFFECT_LEVEL)) }
         } else if (timeBroken >= FIRST_STAGE_TIME) {
             game.playerContainer.aliveSurvivors.forEach { it.player.addPotionEffect(getEffect(FIRST_STAGE_EFFECT_LEVEL)) }
         }
-        timeBroken += TIME_BETWEEN_TICK
+        timeBroken += Systems.TICKRATE
     }
 
     fun openMenu(player: FnafUPlayer) {
@@ -65,6 +67,7 @@ class VentilationSystem : AbstractSystem {
                 ventTablet.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
                 ventTablet.setData(DataComponentTypes.ITEM_NAME, Component.empty())
                 for (i in 0..8) player.player.inventory.setItem(i, ventTablet)
+                for (i in 9..17)  player.player.inventory.setItem(i, Items.EXIT_BUTTON.item)
             }
         }.runTaskLater(FnafU.instance, 1)
     }
@@ -93,7 +96,6 @@ class VentilationSystem : AbstractSystem {
     fun updateVents(player: FnafUPlayer) {
         game.updateEnergy()
         player.player.closeInventory()
-        durability -= VentilationTabletAbility.DAMAGE_PER_SECOND
         game.applyForEveryAbility { component, player, item ->
             component.components.get(FnafUComponents.VENTILATION_TABLET_ABILITY)?.onPlayerClickButton(item, player)
         }

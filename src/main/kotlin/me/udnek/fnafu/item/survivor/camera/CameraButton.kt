@@ -3,6 +3,7 @@ package me.udnek.fnafu.item.survivor.camera
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.CustomModelData
+import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
 import me.udnek.coreu.custom.event.ResourcepackInitializationEvent
 import me.udnek.coreu.custom.item.ConstructableCustomItem
@@ -28,6 +29,8 @@ class CameraButton : ConstructableCustomItem(), Listener {
             return Items.CAMERA_BUTTON.item.also {
                 it.editPersistentDataContainer { container -> container.set(PDC_KEY, PersistentDataType.STRING, camera.id) }
                 it.setData(DataComponentTypes.ITEM_NAME, Component.text(camera.id))
+                it.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().addHiddenComponents(
+                    DataComponentTypes.LORE).build())
                 it.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(index.toFloat()).addColor(color))
             }
         }

@@ -18,7 +18,7 @@ class DoorSystem : AbstractSystem {
 
     override val sidebarPosition: Int = 3
     val doors: MutableList<ButtonDoorPair>
-    override var repairIconSlot: Int = 25
+    override var repairIconSlot: Int = 22
     override var sidebarLine: Component = Component.translatable("system.fnafu.door")
     private val menu: DoorMenu
 
@@ -33,11 +33,13 @@ class DoorSystem : AbstractSystem {
         menu.open(player.player)
         object : BukkitRunnable() {
             override fun run() {
-                val doorTablet = Items.DOOR_TABLET.item
-                doorTablet.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents().build())
-                doorTablet.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
-                doorTablet.setData(DataComponentTypes.ITEM_NAME, Component.empty())
+                val doorTablet = Items.DOOR_TABLET.item.also {
+                    it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents().build())
+                    it.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
+                    it.setData(DataComponentTypes.ITEM_NAME, Component.empty())
+                }
                 for (i in 0..8) player.player.inventory.setItem(i, doorTablet)
+                for (i in 9..17)  player.player.inventory.setItem(i, Items.EXIT_BUTTON.item)
             }
         }.runTaskLater(FnafU.instance, 1)
     }

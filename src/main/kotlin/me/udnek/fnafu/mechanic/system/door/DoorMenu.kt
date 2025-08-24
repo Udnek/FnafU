@@ -3,7 +3,9 @@ package me.udnek.fnafu.mechanic.system.door
 import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.util.ComponentU
+import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
+import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.misc.play
 import me.udnek.fnafu.sound.Sounds
@@ -35,12 +37,18 @@ class DoorMenu : ConstructableCustomInventory {
 
     override fun onPlayerClicksItem(event: InventoryClickEvent) {
         event.isCancelled = true
-        val door = doors[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return].door
-        (event.whoClicked as Player).getFnafU()?.let {
-            Sounds.BUTTON_CLICK.play(it)
-            it.game.systems.door.onPlayerClickButtonInMenu(door, it)
+        val player = (event.whoClicked as Player).getFnafU() ?: return
+        when (event.currentItem?.getCustom()?: return) {
+            Items.DOOR_BUTTON -> {
+                val door = doors[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return].door
+                player.let {
+                    Sounds.BUTTON_CLICK.play(it)
+                    it.game.systems.door.onPlayerClickButtonInMenu(door, it)
+                }
+                updateDoorIcons()
+            }
+            Items.EXIT_BUTTON -> player.player.closeInventory()
         }
-        updateDoorIcons()
     }
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {

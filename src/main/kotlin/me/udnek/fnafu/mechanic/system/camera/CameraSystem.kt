@@ -3,6 +3,7 @@ package me.udnek.fnafu.mechanic.system.camera
 import com.google.common.base.Preconditions
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.Equippable
+import io.papermc.paper.datacomponent.item.TooltipDisplay
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.mgu.Originable
 import me.udnek.coreu.rpgu.component.RPGUComponents
@@ -28,16 +29,13 @@ import kotlin.math.abs
 open class CameraSystem : Originable, AbstractSystem {
 
     constructor(game: FnafUGame) : super(game) {
-        cameras = ArrayList()
-        playerSpectatingCameras = HashMap<FnafUPlayer, Camera>()
-
         game.map.cameras.forEach { addCamera(it) }
         setOrigin(game.map.origin)
     }
 
     override val sidebarPosition: Int = 2
-    val cameras: MutableList<Camera>
-    private val playerSpectatingCameras: HashMap<FnafUPlayer, Camera>
+    val cameras: MutableList<Camera> = ArrayList()
+    private val playerSpectatingCameras: HashMap<FnafUPlayer, Camera> = HashMap()
     override var repairIconSlot: Int = 34
     override var sidebarLine: Component = Component.translatable("system.fnafu.camera")
 
@@ -145,6 +143,7 @@ open class CameraSystem : Originable, AbstractSystem {
             ?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY) ?: return
 
         item.setData(DataComponentTypes.ITEM_NAME, Component.empty())
+        item.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true).build())
         object : BukkitRunnable() {
             override fun run() {
                 for (slot in 0..8) inventory.setItem(slot, item)

@@ -49,7 +49,7 @@ object GameTypes {
             proceedButton(player, event)
             if (block.getCustom() == Blocks.SYSTEM_STATION){
                 if (player.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(player.player.eyeLocation) < 1.5){
-                    player.game.systems.openMenu(player)
+                    player.game.systems.openStation(player)
                 }
             }
         }

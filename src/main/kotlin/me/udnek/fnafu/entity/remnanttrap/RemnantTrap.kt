@@ -23,6 +23,7 @@ class RemnantTrap : ConstructableCustomEntity<Item>() {
     override fun getTickDelay() = SCAN_DELAY
 
     override fun delayedTick() {
+        if (!this::game.isInitialized) return
         game.findNearbyPlayers(entity.location, SCAN_RADIUS, FnafUPlayer.Type.SURVIVOR).forEach {
             it.showAuraTo(game.playerContainer.animatronics, SCAN_TIME, Color.GREEN)
         }
