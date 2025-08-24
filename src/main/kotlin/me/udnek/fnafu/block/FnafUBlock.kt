@@ -14,6 +14,4 @@ open class FnafUBlock(val rawID: String) : DisplayBasedConstructableBlockType(){
     override fun getItem(): CustomItem? = CustomRegistries.ITEM.getOrException(id)
     override fun getRawId(): String = rawID
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
-    override fun load(p0: TileState) {}
-    override fun unload(p0: TileState) {}
 }

@@ -11,7 +11,9 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.misc.play
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
@@ -37,7 +39,7 @@ open class CameraSystem : Originable, AbstractSystem {
     override val sidebarPosition: Int = 2
     val cameras: MutableList<Camera>
     private val playerSpectatingCameras: HashMap<FnafUPlayer, Camera>
-    override var guiSlot: Int = 25
+    override var repairIconSlot: Int = 34
     override var sidebarLine: Component = Component.translatable("system.fnafu.camera")
 
     override fun tick() {
@@ -104,6 +106,7 @@ open class CameraSystem : Originable, AbstractSystem {
             ?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)
             ?.components?.get(FnafUComponents.CAMERA_TABLET_ABILITY)?: FnafUComponents.CAMERA_TABLET_ABILITY.default
         player.showNoise(tabletAbility.noiseColor)
+        Sounds.CAMERA_TABLET_OPEN.stop(player.player)
     }
 
     private fun playCameraRotation(camera: Camera, cameraEntity: ArmorStand){

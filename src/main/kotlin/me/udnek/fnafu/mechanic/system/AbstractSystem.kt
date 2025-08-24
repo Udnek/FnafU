@@ -6,10 +6,9 @@ import me.udnek.fnafu.event.SystemRepairedEvent
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
-import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
 abstract class AbstractSystem(override var game: FnafUGame) : System {
@@ -35,51 +34,62 @@ abstract class AbstractSystem(override var game: FnafUGame) : System {
 
 
     override fun destroy(){
-        game.systems.menu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
+        game.systems.menu.inventory.setItem(repairIconSlot, Items.ERROR_ICON.item)
         isBroken = true
         durability = 0f
     }
 
-    override fun startRepairing(player: FnafUPlayer, systemMenu: SystemMenu, repairDuration: Int, setRepairIcon: Boolean) {
+    override fun startRepairing(
+        player: FnafUPlayer,
+        systemsMenu: SystemsMenu,
+        repairDuration: Int,
+        setRepairIcon: Boolean,
+        playSound: Boolean
+    ) {
         if (isRepairing) return
-        if (setRepairIcon) systemMenu.inventory.setItem(guiSlot, Items.REBOOT_ICON.item)
-        startRepairingTask(player, repairDuration, systemMenu)
+        if (setRepairIcon) systemsMenu.setItem(repairIconSlot, Items.REBOOT_ICON)
+        startRepairingTask(player, repairDuration, systemsMenu, playSound)
     }
 
-    protected open fun repaired(systemMenu: SystemMenu){
-        systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
-        systemMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
+    protected open fun repaired(systemsMenu: SystemsMenu){
+        systemsMenu.setItem(repairIconSlot, null)
+        systemsMenu.setItem(Systems.REBOOT_ALL_REPAIR_ICON_POSITION, null)
         isRepairing = false
         isBroken = false
         durability = 1f
         SystemRepairedEvent(this).callEvent()
     }
-    protected open fun failedRepairing(systemMenu: SystemMenu) {
+    protected open fun failedRepairing(menu: SystemsMenu) {
         isRepairing = false
-        systemMenu.inventory.setItem(guiSlot, ItemStack(Material.AIR))
-        systemMenu.inventory.setItem(Systems.REBOOT_ALL_ICON_POSITION, ItemStack(Material.AIR))
-        if (isBroken) systemMenu.inventory.setItem(guiSlot, Items.ERROR_ICON.item)
+        menu.setItem(repairIconSlot, null)
+        menu.setItem(Systems.REBOOT_ALL_REPAIR_ICON_POSITION, null)
+        if (isBroken) menu.inventory.setItem(repairIconSlot, Items.ERROR_ICON.item)
     }
 
-    protected open fun startRepairingTask(player: FnafUPlayer, duration: Int, systemMenu: SystemMenu){
+    protected open fun startRepairingTask(player: FnafUPlayer, duration: Int, systemsMenu: SystemsMenu, playSound: Boolean){
         isRepairing = true
+        val TICKRATE = 10
         repairTask = object : BukkitRunnable(){
             var time = 0
             override fun run() {
-                if (!systemMenu.isOpenedByAnyone){
-                    failedRepairing(systemMenu)
+                if (!systemsMenu.isOpenedByAnyone){
+                    failedRepairing(systemsMenu)
                     cancel()
                     return
                 }
-                time += 10
+                if (playSound && time/TICKRATE % 2 == 0){
+                    systemsMenu.viewers.forEach { Sounds.SYSTEM_REBOOT.play(it) }
+                }
+                time += TICKRATE
                 if (time >= duration){
-                    repaired(systemMenu)
+                    if (playSound) systemsMenu.viewers.forEach { Sounds.SYSTEM_REPAIRED.play(it) }
+                    repaired(systemsMenu)
                     cancel()
                     return
                 }
             }
         }
-        repairTask!!.runTaskTimer(FnafU.instance, 10, 10)
+        repairTask!!.runTaskTimer(FnafU.instance, TICKRATE.toLong(), TICKRATE.toLong())
     }
 
     protected fun updateSidebar(){

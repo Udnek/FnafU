@@ -62,7 +62,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     var kitSetupTask: BukkitRunnable? = null
     var animatronicWaitingTask: BukkitRunnable? = null
-    val time: Time = Time(GAME_DURATION)
+    override val time: Time = Time(GAME_DURATION)
     private var mapBuilder: MapBuilder
     override var map: FnafUMap
     override val energy: Energy
@@ -140,8 +140,11 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
                 repeat(10) {
                     val from = survivor.player.location.add(random.nextDouble(-2.0, 2.0), 0.0, random.nextDouble(-2.0, 2.0))
                     val to = from.clone().add(0.0, 0.2, 0.0)
-                    Particle.TRAIL.builder().location(Utils.rayTraceBlockUnder(from) ?: from).offset(0.0, 0.05, 0.0)
-                        .data(Particle.Trail(Utils.rayTraceBlockUnder(to) ?: to, Color.fromRGB(255, random.nextInt(0, 128), 0), 100)).spawn()
+                    Particle.TRAIL.builder()
+                        .location(Utils.rayTraceBlockUnder(from) ?: from)
+                        .offset(0.0, 0.05, 0.0)
+                        .data(Particle.Trail(Utils.rayTraceBlockUnder(to) ?: to, Color.fromRGB(255, random.nextInt(0, 128), 0), 100))
+                        .spawn()
                 }
             }
         }
@@ -153,7 +156,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     override fun updateSidebar() {
         sidebar.lines = systems.all.associate { system -> system.getSidebarLine() }
-        sidebar.setLine(0, Component.translatable("sidebar.fnafu.live_count", Component.text(survivorLives)))
+        sidebar.setLine(0, Component.translatable("sidebar.fnafu.survivors_lives", Component.text(survivorLives)))
         sidebar.updateForAll()
     }
 
@@ -309,16 +312,20 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
     override fun stop() {
         super.stop()
         reset()
-
         map.ambientSound.stop(players)
-
-        for (fnafUPlayer in players) {
-            fnafUPlayer.clearSkin()
-            fnafUPlayer.player.closeInventory()
-            sidebar.hide(fnafUPlayer.player)
-            fnafUPlayer.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
-            fnafUPlayer.reset()
+        for (player in players) {
+            player.clearSkin()
+            player.player.closeInventory()
+            sidebar.hide(player.player)
+            player.showTitle(Component.text(winner.toString()).color(winner.color), Component.empty(), 10, 40, 10)
+            player.reset()
         }
+        if (winner != Winner.SURVIVORS) return
+        object : BukkitRunnable(){
+            override fun run() {
+                 players.forEach { Sounds.HAPPY_END.play(it.player) }
+            }
+        }.runTaskLater(FnafU.instance, 5)
     }
 
     override fun reset() {
@@ -410,7 +417,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     private fun updateTimeBar() {
         timeBar!!.name(Component.translatable("time.fnafu.${(6 * time.ticks / GAME_DURATION )}")
-            .append(Component.text(" (${(GAME_DURATION - time.ticks) / 20})"))
+            //.append(Component.text(" (${(GAME_DURATION - time.ticks) / 20})"))
             .decoration(TextDecoration.BOLD, true))
     }
 

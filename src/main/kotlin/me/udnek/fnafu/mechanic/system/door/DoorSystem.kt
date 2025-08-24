@@ -19,7 +19,7 @@ class DoorSystem : AbstractSystem {
 
     override val sidebarPosition: Int = 3
     val doors: MutableList<ButtonDoorPair>
-    override var guiSlot: Int = 16
+    override var repairIconSlot: Int = 25
     override var sidebarLine: Component = Component.translatable("system.fnafu.door")
     private val menu: DoorMenu
 

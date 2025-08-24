@@ -18,6 +18,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
 import org.bukkit.Location
+import org.bukkit.Particle
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
@@ -71,7 +72,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             MGUCommandType.DEBUG -> return mutableListOf("10")
             MGUCommandType.JOIN -> return mutableListOf("survivors", "animatronics")
             MGUCommandType.EXECUTE -> {
-                if (context.args.size == 3) return mutableListOf("setEnergy")
+                if (context.args.size == 3) return mutableListOf("setEnergy", "setTime")
                 else return mutableListOf("3")
             }
             else -> return super.getCommandOptions(context)
@@ -84,7 +85,12 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             val value = context.args[3].toFloatOrNull() ?: return ExecutionResult(Type.FAIL, "incorrect float: ${context.args[3]}")
             energy.energy = value
             return ExecutionResult.SUCCESS
-        } else{
+        } else if (context.args[2].equals("setTime", true)){
+            val value = context.args[3].toIntOrNull() ?: return ExecutionResult(Type.FAIL, "incorrect int: ${context.args[3]}")
+            time.ticks = time.maxTime - value
+            return ExecutionResult.SUCCESS
+        }
+        else{
             return ExecutionResult(Type.FAIL, "unknown arg: ${context.args[2]}")
         }
     }
@@ -118,34 +124,46 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
         return debug
     }
 
-    fun showDebugLocations(time: Int) {
+    private fun showDebugPoint(location: Location, color: Color, duration: Int){
+        Particle.TRAIL.builder()
+            .location(location)
+            .color(color)
+            .data(Particle.Trail(location, color, duration))
+            .spawn()
+    }
+
+    fun showDebugLocations(duration: Int) {
+
+
         LocationType.entries.forEach { locationType ->
             map.getLocation(locationType)?.all?.forEach {
-                Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), time, "loc " + locationType.name)
+                Nms.get().showDebugBlock(it, Color.PURPLE.asRGB(), duration, "loc " + locationType.name)
             }
         }
         systems.camera.cameras.forEach {
-            Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), time, "cam ${it.id} (${it.number})")
+            Nms.get().showDebugBlock(it.location.first, Color.WHITE.asRGB(), duration, "cam ${it.id} (${it.number})")
         }
-        systems.door.doors.forEachIndexed { index, door ->
-            door.button.locationData.all.forEach {
-                Nms.get().showDebugBlock(it, Color.RED.asRGB(), time, "button $index")
+        systems.door.doors.forEachIndexed { index, doorButtonPair ->
+            doorButtonPair.button.locationData.all.forEach {
+                Nms.get().showDebugBlock(it, Color.RED.asRGB(), duration, "button $index")
             }
-            Nms.get().showDebugBlock(door.door.debugLocation, Color.ORANGE.asRGB(), time, "door $index")
+            Nms.get().showDebugBlock(doorButtonPair.door.debugLocation, Color.ORANGE.asRGB(), duration, "door $index")
+            showDebugPoint(doorButtonPair.door.stunCenter, Color.RED, duration)
         }
         systems.ventilation.vents.forEachIndexed { index, vent ->
-            Nms.get().showDebugBlock(vent.debugLocation, Color.BLUE.asRGB(), time, "vent $index")
+            Nms.get().showDebugBlock(vent.debugLocation, Color.BLUE.asRGB(), duration, "vent $index")
+            showDebugPoint(vent.stunCenter, Color.RED, duration)
         }
         map.systemStations.forEach {
-            Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), time, "systemStation ${it.second.name}")
+            Nms.get().showDebugBlock(it.first.first, Color.GREEN.asRGB(), duration, "systemStation ${it.second.name}")
         }
-        Nms.get().showDebugBlock(map.minBound.first, Color.OLIVE.asRGB(), time, "minBound")
-        Nms.get().showDebugBlock(map.maxBound.first, Color.OLIVE.asRGB(), time, "maxBound")
+        Nms.get().showDebugBlock(map.minBound.first, Color.OLIVE.asRGB(), duration, "minBound")
+        Nms.get().showDebugBlock(map.maxBound.first, Color.OLIVE.asRGB(), duration, "maxBound")
 
         map.mapLight.cachedLightPoses().keys.forEach {
-            Nms.get().showDebugBlock(it, Color.YELLOW.asRGB(), time, "light")
+            Nms.get().showDebugBlock(it, Color.YELLOW.asRGB(), duration, "light")
         }
-        Nms.get().showDebugBlock(map.origin, Color.SILVER.asRGB(), time, "origin")
+        Nms.get().showDebugBlock(map.origin, Color.SILVER.asRGB(), duration, "origin")
     }
 
     override fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type?): List<FnafUPlayer>{

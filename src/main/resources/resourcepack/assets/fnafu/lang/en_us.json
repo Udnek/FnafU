@@ -1,15 +1,21 @@
 {
   "subtitles.fnafu.ambience": "Ambience",
-  "subtitles.fnafu.door": "Door switches",
+  "subtitles.fnafu.door_shut": "Door shuts",
+  "subtitles.fnafu.door_slide": "Door slides",
+  "subtitles.fnafu.vent_toggle": "Vent toggles",
   "subtitles.fnafu.petrol_canister_pour": "Canister pours",
   "subtitles.fnafu.power_outage": "Power is out",
-
+  "subtitles.fnafu.happy_end": "Survivors win",
+  "subtitles.fnafu.camera_switch": "Camera switches",
+  "subtitles.fnafu.button_click": "Button clicks",
   "subtitles.fnafu.animatronic_step": "Animatronic steps",
   "subtitles.fnafu.freddy_laugh": "Freddy laughs",
   "subtitles.fnafu.springtrap_spawn": "Springtrap spawns",
   "subtitles.fnafu.springtrap_rage_start": "Springtrap rages",
   "subtitles.fnafu.springtrap_rage_stop": "Springtrap stops rage",
   "subtitles.fnafu.springtrap_jumpscare": "Springtrap jumpscare",
+  "subtitles.fnafu.camera_tablet_open": "Camera Tablet opens",
+  "subtitles.fnafu.system_reboot": "System reboots",
 
   "subtitles.fnafu.plushtrap_run": "Plushtrap runs",
   "subtitles.fnafu.plushtrap_near": "Plushtrap is near",
@@ -32,7 +38,7 @@
   "system.fnafu.camera": "Camera System",
 
   "sidebar.fnafu.systems": "Systems:",
-  "sidebar.fnafu.live_count": "Live Count: %s",
+  "sidebar.fnafu.survivors_lives": "Lives remaining: %s",
 
   "container.fnafu.kit.image": "1",
   "container.fnafu.kit": "Kit Menu",

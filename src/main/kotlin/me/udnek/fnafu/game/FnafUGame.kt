@@ -8,6 +8,7 @@ import me.udnek.coreu.mgu.game.MGUGameInstance
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.mechanic.Energy
+import me.udnek.fnafu.mechanic.Time
 import me.udnek.fnafu.mechanic.system.Systems
 import me.udnek.fnafu.mechanic.system.door.ButtonDoorPair
 import me.udnek.fnafu.misc.Ticking
@@ -28,6 +29,7 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, Custo
     val sidebar: CustomSidebar
     val playerContainer: PlayerContainer
     val energy: Energy
+    val time: Time
 
     fun updateEnergy()
     fun applyForEveryAbility(function: (component: RPGUActiveAbilityItem, player: FnafUPlayer, item: CustomItem) -> Unit)

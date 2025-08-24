@@ -2,13 +2,14 @@ package me.udnek.fnafu.mechanic.system.ventilation
 
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.doorlike.AbstractDoorLike
-import org.bukkit.Material
-import org.bukkit.block.data.BlockData
+import me.udnek.fnafu.misc.toCenterFloor
+import me.udnek.fnafu.sound.Sounds
+import org.bukkit.Location
 import org.bukkit.block.data.type.TrapDoor
 
 class TrapdoorVent(
     location: LocationSingle,
-    protected val face: Direction,
+    protected val direction: Direction,
     tabletMenuPosition: Int,
     protected val width: Int
 ) : AbstractDoorLike(location, tabletMenuPosition), Vent {
@@ -16,42 +17,40 @@ class TrapdoorVent(
     override fun physicallyOpen() = physicallySet(false)
     override fun physicallyClose() = physicallySet(true)
 
+    override val stunCenter: Location
+        get() {
+            val firstPoint = location.first.toCenterFloor()
+            return firstPoint.add(direction.append(firstPoint.clone(), width-1)).multiply(0.5)
+        }
+
     private fun physicallySet(open: Boolean) {
         val startLocation = location.first
+        Sounds.VENT_TOGGLE.play(stunCenter)
         for (step in 0..<width) {
-            val append = face.getAppend()
-            val appendX = append.first * step
-            val appendZ = append.second * step
-            println(listOf( appendX, appendZ))
-            val location = startLocation.clone().add(appendX, 0.0, appendZ)
-            val data = location.block.blockData as? TrapDoor
-            data?.isOpen = open
-            location.block.blockData = data ?: getStandardData(open)
-            val upLocation = startLocation.clone().add(appendX, 1.0, appendZ)
-            val upData = upLocation.block.blockData as? TrapDoor
-            upData?.isOpen = open
-            upLocation.block.blockData = upData ?: getStandardData(open)
-        }
-    }
+            for (y in 0..1){
+                val location = direction
+                    .append(startLocation.clone(), step)
+                    .add(0.0, y.toDouble(), 0.0)
 
-    private fun getStandardData(open: Boolean): BlockData {
-        val blockData = Material.IRON_TRAPDOOR.createBlockData() as TrapDoor
-        blockData.isOpen = open
-        return blockData
+                (location.block.blockData as? TrapDoor)?.let {
+                    it.isOpen = open
+                    location.block.blockData = it
+                }
+            }
+        }
     }
 
     enum class Direction {
         X {
-            override fun getAppend(): Pair<Double, Double> {
-                return Pair(1.0, 0.0)
+            override fun append(location: Location, times: Int): Location {
+                return location.add(times.toDouble(), 0.0, 0.0)
             }
         },
         Z {
-            override fun getAppend(): Pair<Double, Double> {
-                return  Pair(0.0, 1.0)
+            override fun append(location: Location, times: Int): Location {
+                return location.add(0.0, 0.0, times.toDouble())
             }
         };
-
-        abstract fun getAppend(): Pair<Double, Double>
+        abstract fun append(location: Location, times: Int): Location
     }
 }

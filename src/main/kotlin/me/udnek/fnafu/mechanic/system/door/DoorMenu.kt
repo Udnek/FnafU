@@ -5,6 +5,8 @@ import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.misc.play
+import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -35,6 +37,7 @@ class DoorMenu : ConstructableCustomInventory {
         event.isCancelled = true
         val door = doors[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return].door
         (event.whoClicked as Player).getFnafU()?.let {
+            Sounds.BUTTON_CLICK.play(it)
             it.game.systems.door.onPlayerClickButtonInMenu(door, it)
         }
         updateDoorIcons()

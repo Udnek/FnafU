@@ -23,10 +23,6 @@ class SystemStationBlock : RotatableCustomBlockType() {
 
     override fun getRawId(): String = "system_station"
 
-    override fun load(p0: TileState) {}
-
-    override fun unload(p0: TileState) {}
-
     override fun place(location: Location, context: CustomBlockPlaceContext) {
         super.place(location, context)
         object : BukkitRunnable(){

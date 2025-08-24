@@ -18,9 +18,4 @@ class ArcadeMachineBlock : RotatableCustomBlockType() {
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
 
     override fun getRawId(): String = "arcade_machine"
-
-    override fun load(p0: TileState) {}
-
-    override fun unload(p0: TileState) {}
-
 }

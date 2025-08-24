@@ -7,6 +7,8 @@ import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.misc.getCameraId
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.misc.play
+import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
@@ -45,6 +47,7 @@ open class CameraMenu : ConstructableCustomInventory{
             val id = it.getCameraId() ?: return
 
             (event.whoClicked as Player).getFnafU()?.let {
+                Sounds.CAMERA_SWITCH.play(it)
                 it.game.systems.camera.spectateCamera(it, id, it.data.getOrDefault(FnafUComponents.SPECTATE_CAMERA_DATA).tablet!!)
             }
         }

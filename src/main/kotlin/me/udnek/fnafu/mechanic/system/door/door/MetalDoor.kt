@@ -25,7 +25,7 @@ open class MetalDoor(
     companion object {
 
         const val CLOSE_TICKRATE: Int = 2
-        const val OPEN_TICKRATE: Int = 8
+        const val OPEN_TICKRATE: Int = 9
 
         fun pairOf3x3(doorX: Long,
                       doorY: Long,
@@ -82,7 +82,7 @@ open class MetalDoor(
     }
 
     protected fun physicallySwitch(close: Boolean){
-        Sounds.DOOR.play(stunCenter)
+        Sounds.DOOR_SLIDING.play(stunCenter)
 
         val xStep = if (direction == Direction.X) 1 else 0
         val zStep = if (direction == Direction.X) 0 else 1
@@ -111,7 +111,11 @@ open class MetalDoor(
                     doorLocation.subtract((xStep * width).toDouble(), 0.0, (zStep * width).toDouble())
                 }
 
-                if (step == height-1) cancel()
+                if (step == height-1) {
+                    cancel()
+                    Sounds.DOOR_SLIDING.stopInHearableRadius(stunCenter)
+                    if (close) Sounds.DOOR_SHUT.play(stunCenter)
+                }
                 step += 1
             }
         }.runTaskTimer(FnafU.instance, 0, (if (close) CLOSE_TICKRATE else OPEN_TICKRATE).toLong())
