@@ -13,7 +13,6 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.item.Items
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.TileState
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.inventory.ItemStack
 import org.bukkit.loot.LootTable

@@ -10,7 +10,6 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.mechanic.system.door.door.Door
-import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.scheduler.BukkitRunnable

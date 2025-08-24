@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "fnafu:item/camera/overlay",
+    "model": "fnafu:item/system/camera/overlay",
     "tints": [
       {
         "type": "minecraft:custom_model_data",

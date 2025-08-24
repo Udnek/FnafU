@@ -2,9 +2,9 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "fnafu:item/survivor/ventilation/button/background",
-		"1": "fnafu:item/survivor/ventilation/button/0",
-		"particle": "fnafu:item/survivor/ventilation/button/background"
+		"0": "fnafu:item/system/ventilation/button/background",
+		"1": "fnafu:item/system/ventilation/button/0",
+		"particle": "fnafu:item/system/ventilation/button/background"
 	},
 	"elements": [
 		{

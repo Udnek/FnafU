@@ -11,7 +11,6 @@ import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import me.udnek.fnafu.mechanic.system.ventilation.Vent
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationMenu
 import net.kyori.adventure.key.Key
@@ -49,8 +48,8 @@ class VentilationTabletButton : ConstructableCustomItem(), Listener {
                 {
                 	"parent": "item/generated",
 	                "textures": {
-		                "layer0": "fnafu:item/survivor/ventilation/button/background",
-		                "layer1": "fnafu:item/survivor/ventilation/button/%number%"
+		                "layer0": "fnafu:item/system/ventilation/button/background",
+		                "layer1": "fnafu:item/system/ventilation/button/%number%"
 	                }
                 }
                 """
@@ -59,7 +58,7 @@ class VentilationTabletButton : ConstructableCustomItem(), Listener {
                 VirtualRpJsonFile(
                     JsonParser.parseString(model.replace("%number%", i.toString())).asJsonObject,
                     AutoGeneratingFilesItem.GENERATED.getModelPath(
-                        NamespacedKey(FnafU.instance, "survivor/ventilation/button/$i")
+                        NamespacedKey(FnafU.instance, "system/ventilation/button/$i")
                     )
                 )
             )

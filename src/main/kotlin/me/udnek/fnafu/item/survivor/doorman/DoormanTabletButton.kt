@@ -12,7 +12,6 @@ import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.door.door.Door
-import me.udnek.fnafu.mechanic.system.doorlike.DoorLike
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
@@ -48,8 +47,8 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
                 {
                 	"parent": "item/generated",
 	                "textures": {
-		                "layer0": "fnafu:item/survivor/door/button/background",
-		                "layer1": "fnafu:item/survivor/door/button/%number%"
+		                "layer0": "fnafu:item/system/door/button/background",
+		                "layer1": "fnafu:item/system/door/button/%number%"
 	                }
                 }
                 """
@@ -58,7 +57,7 @@ class DoormanTabletButton : ConstructableCustomItem(), Listener {
                 VirtualRpJsonFile(
                     JsonParser.parseString(model.replace("%number%", i.toString())).asJsonObject,
                     AutoGeneratingFilesItem.GENERATED.getModelPath(
-                        NamespacedKey(FnafU.instance, "survivor/door/button/$i")
+                        NamespacedKey(FnafU.instance, "system/door/button/$i")
                     )
                 )
             )

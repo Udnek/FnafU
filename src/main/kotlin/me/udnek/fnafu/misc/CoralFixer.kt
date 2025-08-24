@@ -1,18 +1,11 @@
 package me.udnek.fnafu.misc
 
-import io.papermc.paper.dialog.Dialog
-import io.papermc.paper.registry.data.dialog.DialogBase
-import io.papermc.paper.registry.data.dialog.body.DialogBody
-import io.papermc.paper.registry.data.dialog.type.DialogType
 import me.udnek.coreu.util.SelfRegisteringListener
-import me.udnek.fnafu.item.Items
-import net.kyori.adventure.text.Component
 import org.bukkit.GameRule
 import org.bukkit.Tag
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockFadeEvent
-import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.Plugin
 
 
