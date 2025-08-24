@@ -5,7 +5,6 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.util.Either
 import org.bukkit.Material
-import org.bukkit.block.TileState
 import org.bukkit.inventory.ItemStack
 import org.bukkit.loot.LootTable
 

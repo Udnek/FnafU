@@ -1,7 +1,6 @@
 package me.udnek.fnafu.mechanic.system
 
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
-import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.misc.getCustom

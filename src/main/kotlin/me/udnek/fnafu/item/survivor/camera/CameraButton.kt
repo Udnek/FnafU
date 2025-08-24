@@ -50,8 +50,8 @@ class CameraButton : ConstructableCustomItem(), Listener {
                 {
                 	"parent": "item/generated",
 	                "textures": {
-		                "layer0": "fnafu:item/survivor/camera/button/background",
-		                "layer1": "fnafu:item/survivor/camera/button/%number%"
+		                "layer0": "fnafu:item/system/camera/button/background",
+		                "layer1": "fnafu:item/system/camera/button/%number%"
 	                }
                 }
                 """
@@ -60,7 +60,7 @@ class CameraButton : ConstructableCustomItem(), Listener {
                 VirtualRpJsonFile(
                     JsonParser.parseString(model.replace("%number%", i.toString())).asJsonObject,
                     AutoGeneratingFilesItem.GENERATED.getModelPath(
-                        NamespacedKey(FnafU.instance, "survivor/camera/button/$i")
+                        NamespacedKey(FnafU.instance, "system/camera/button/$i")
                     )
                 )
             )

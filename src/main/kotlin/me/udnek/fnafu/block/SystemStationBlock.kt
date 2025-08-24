@@ -9,7 +9,6 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.TileState
 import org.bukkit.inventory.ItemStack
 import org.bukkit.loot.LootTable
 import org.bukkit.scheduler.BukkitRunnable

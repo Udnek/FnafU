@@ -11,7 +11,6 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.misc.getCustom
-import me.udnek.fnafu.misc.play
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.key.Key
@@ -152,7 +151,7 @@ open class CameraSystem : Originable, AbstractSystem {
             }
         }.runTaskLater(FnafU.instance, 1)
 
-        val cameraOverlay = Equippable.equippable(EquipmentSlot.HEAD).cameraOverlay(Key.key("fnafu:item/camera/frame_overlay"))
+        val cameraOverlay = Equippable.equippable(EquipmentSlot.HEAD).cameraOverlay(Key.key("fnafu:item/system/camera/frame_overlay"))
         item.setData(DataComponentTypes.EQUIPPABLE, cameraOverlay)
         inventory.setItem(EquipmentSlot.HEAD, item)
         inventory.setItem(40, component.getOverlay())
