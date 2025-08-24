@@ -34,47 +34,56 @@ void main() {
     float block_brightness = get_brightness(floor(texCoord.x * 16) / 15) * lightmapInfo.BlockFactor;
     float sky_brightness = get_brightness(floor(texCoord.y * 16) / 15) * lightmapInfo.SkyFactor;
 
-    //cubic nonsense, dips to yellowish in the middle, white when fully saturated
-    vec3 darkness = vec3(11, 11, 13);
+    //if (block_brightness > 0) {block_brightness = min(block_brightness+0.1, 1);}
+
+    // minimal lighning
+    vec3 darkness = vec3(15, 15, 15+2);
     darkness/=255.0;
 
     vec3 color = vec3(0);
 
-    // color += vec3(
-    //     block_brightness,
-    //     block_brightness * 0.6,
-    //     block_brightness * 0.05
-    // );
     float mul;
     float add;
+
+    vec3 middleColor;
+
     if (isDeadDarkness()){
+        middleColor = vec3(255, 104, 66);
         mul = 0.9;
         add = 1 - mul;
     } else {
-        mul = 0.65;
-        add = 1 - mul;
+        middleColor = vec3(255, 195, 130);
+        mul = 0.5;
+        add = 0.5;
     }
-    color += vec3(
-        block_brightness,
-        block_brightness * ((block_brightness * mul + add) * mul + add),
-        block_brightness * (block_brightness * block_brightness * mul + add)
-    );
 
-    if (isDeadDarkness()){
-        if (block_brightness > 0){
-            color += darkness;
-        }
+    middleColor /= 255.0;
+    //cubic nonsense, dips to yellowish in the middle, white when fully saturated
+    if (block_brightness < 0.5){
+        color += mix(vec3(0), middleColor, block_brightness/0.5);
     } else {
+        color += mix(middleColor, vec3(1), (block_brightness-0.5)/0.5);
+    }
+    // color += vec3(
+    //     block_brightness,
+    //     block_brightness * ((block_brightness * mul + add) * mul + add),
+    //     block_brightness * (block_brightness * block_brightness * mul + add)
+    // );
+
+    if (!isDeadDarkness()){
         color += darkness;
     }
 
     color += sky_brightness;
 
+    // gamma
     if (lightmapInfo.BrightnessFactor > 1){
         color = vec3(1);
     }
 
     fragColor = vec4(color, 1.0);
+
+    // DEFAULT CODE
 
     // vec3 color = vec3(
     //     0, 0, 0
@@ -108,4 +117,6 @@ void main() {
     // color = mix(color, notGamma, lightmapInfo.BrightnessFactor);
     // color = mix(color, vec3(0.75), 0.04);
     // color = clamp(color, 0.0, 1.0);
+
+    // fragColor = vec4(color, 1.0);
 }

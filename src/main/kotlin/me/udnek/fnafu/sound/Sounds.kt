@@ -14,7 +14,7 @@ object Sounds {
 
     val DOOR_SHUT = register(ConstructableCustomSound(getName("door_shut"), SoundCategory.MASTER, 3f))
     val DOOR_SLIDING = register(ConstructableCustomSound(getName("door_sliding"), SoundCategory.MASTER, 3f))
-    val VENT_TOGGLE = register(ConstructableCustomSound(getName("vent_toggle"), SoundCategory.MASTER, 3f))
+    val VENT_TOGGLE = register(ConstructableCustomSound(getName("vent_toggle"), SoundCategory.MASTER, 1.5f))
     val POWER_OUTAGE = register(ConstructableCustomSound(getName("power_outage"), SoundCategory.MASTER, 8f))
     val PETROL_CANISTER_POUR = register(ConstructableCustomSound(getName("petrol_canister_pour"), SoundCategory.MASTER))
     val HAPPY_END = register(ConstructableCustomSound(getName("happy_end"), SoundCategory.MASTER, 0.5f))
