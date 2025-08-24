@@ -46,7 +46,7 @@ open class Systems : Resettable, Ticking {
 
     constructor(game: FnafUGame) : this(DoorSystem(game), CameraSystem(game), VentilationSystem(game))
 
-    private constructor(doorSystem: DoorSystem, cameraSystem: CameraSystem, ventilationSystem: VentilationSystem){
+    protected constructor(doorSystem: DoorSystem, cameraSystem: CameraSystem, ventilationSystem: VentilationSystem){
         this.door = doorSystem
         this.camera = cameraSystem
         this.ventilation = ventilationSystem
