@@ -50,7 +50,7 @@ class VentilationSystem : AbstractSystem {
         if (!isBroken) {
             timeBroken = 0
             return
-        } else if (closedVent != null) durability -= DAMAGE_PER_SECOND
+        } else if (closedVent != null) durability -= DAMAGE_PER_SECOND * (TIME_BETWEEN_TICK / 20)
         if (timeBroken >= SECOND_STAGE_TIME) {
             game.playerContainer.aliveSurvivors.forEach { it.player.addPotionEffect(getEffect(SECOND_STAGE_EFFECT_LEVEL)) }
         } else if (timeBroken >= FIRST_STAGE_TIME) {
