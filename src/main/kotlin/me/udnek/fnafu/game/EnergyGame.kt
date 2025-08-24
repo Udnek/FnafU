@@ -116,10 +116,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
             }
         }
         if (isEveryNTicks(5)) updateEnergyBar()
-
-        if (isEveryNTicks(10)){
-            systems.tick()
-        }
+        if (isEveryNTicks(Systems.TICKRATE)) systems.tick()
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
             for (animatronic in playerContainer.animatronics) {

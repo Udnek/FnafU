@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable
 open class Systems : Resettable, Ticking {
 
     companion object {
+        const val TICKRATE = 10
         const val REBOOT_ALL_REPAIR_ICON_POSITION = 51
         const val SINGLE_REPAIR_DURATION = 4*20
         const val ALL_REPAIR_DURATION = 7*20
