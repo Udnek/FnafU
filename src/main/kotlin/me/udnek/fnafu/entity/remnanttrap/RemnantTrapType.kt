@@ -24,6 +24,7 @@ class RemnantTrapType : ConstructableCustomEntityType<Item>(), CustomTickingEnti
         trap.setCanPlayerPickup(false)
         trap.velocity = Vector()
         trap.setGravity(false)
+        trap.isGlowing = true
         return trap
     }
 }
