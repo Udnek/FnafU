@@ -28,7 +28,7 @@ open class SystemTabletAbility : FnafUActiveAbility() {
         slot: Either<UniversalInventorySlot?, SingleSlot?>,
         event: PlayerInteractEvent
     ): ActionResult {
-        player.game.systems.openMenu(player)
+        player.game.systems.openTablet(player)
         return ActionResult.FULL_COOLDOWN
     }
 

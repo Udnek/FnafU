@@ -13,6 +13,7 @@ import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import org.bukkit.event.player.PlayerInteractEvent
@@ -21,7 +22,6 @@ open class VentilationTabletAbility : FnafUActiveAbility {
 
     companion object {
         val DEFAULT = VentilationTabletAbility()
-        const val DAMAGE_PER_SECOND = 0.05f
     }
 
     constructor(){
@@ -36,7 +36,7 @@ open class VentilationTabletAbility : FnafUActiveAbility {
         super.addPropertyLines(componentable)
         componentable.addAbilityStat(
             Component.translatable("ability.fnafu.ventilation_tablet.damage_per_second", listOf(
-                Component.text(Utils.roundToTwoDigits(DAMAGE_PER_SECOND*100.0)))))
+                Component.text(Utils.roundToTwoDigits(VentilationSystem.DAMAGE_PER_SECOND*100.0)))))
     }
 
     override fun action(

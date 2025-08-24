@@ -13,6 +13,7 @@ import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
 import me.udnek.fnafu.misc.Ticking
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
+import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
 open class Systems : Resettable, Ticking {
@@ -107,19 +108,22 @@ open class Systems : Resettable, Ticking {
         player.regiveInventory()
     }
 
-    fun openMenu(player: FnafUPlayer) {
+    fun openStation(player: FnafUPlayer) = openMenu(player, Items.EXIT_BUTTON.item)
+
+    fun openTablet(player: FnafUPlayer) = openMenu(player, Items.SYSTEM_TABLET.item)
+
+    private fun openMenu(player: FnafUPlayer, exitItem: ItemStack) {
         val inventory = player.player.inventory
         for (i in upButtons) inventory.setItem(i, Items.UP_BUTTON.item)
         for (i in downButtons) inventory.setItem(i, Items.DOWN_BUTTON.item)
         for (i in enterButtons) inventory.setItem(i, Items.ENTER_BUTTON.item)
 
-        val item = Items.SYSTEM_TABLET.item
-        item.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents())
-        item.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
-        item.setData(DataComponentTypes.ITEM_NAME, Component.empty())
+        exitItem.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents())
+        exitItem.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
+        exitItem.setData(DataComponentTypes.ITEM_NAME, Component.empty())
         object : BukkitRunnable() {
             override fun run() {
-                for (i in 0..8) inventory.setItem(i, item)
+                for (i in 0..8) inventory.setItem(i, exitItem)
             }
         }.runTaskLater(FnafU.instance, 1)
 
