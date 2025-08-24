@@ -20,9 +20,8 @@ class UniversalSlabBlock : AbstractCustomBlockType(){
         val STATE = Material.CAMPFIRE.createBlockData().createBlockState() as Campfire
     }
 
-    override fun place(location: Location, context: CustomBlockPlaceContext) {
-        super.place(location, context)
-
+    override fun internalPlace(location: Location, context: CustomBlockPlaceContext) {
+        super.internalPlace(location, context)
         val data = location.block.blockData as org.bukkit.block.data.type.Campfire
         data.isLit = false
         data.facing = context.player?.facing ?: BlockFace.NORTH
@@ -47,7 +46,7 @@ class UniversalSlabBlock : AbstractCustomBlockType(){
 
     override fun getParticleBase(): ItemStack? = null
 
-    override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
+    override fun getLoot(): Either<LootTable, List<ItemStack>>? = null
 
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
 

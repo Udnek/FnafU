@@ -27,7 +27,7 @@ vec3 notGamma(vec3 x) {
 }
 
 bool isDeadDarkness(){
-    return lightmapInfo.NightVisionFactor > 0;
+    return lightmapInfo.DarkenWorldFactor > 0;
 }
 
 void main() {
@@ -79,6 +79,12 @@ void main() {
     // gamma
     if (lightmapInfo.BrightnessFactor > 1){
         color = vec3(1);
+    }
+
+    // night vision
+    if (lightmapInfo.NightVisionFactor > 0 && sky_brightness == 0){
+        color /= 2;
+        color += vec3(0, 0.5, 0);
     }
 
     fragColor = vec4(color, 1.0);

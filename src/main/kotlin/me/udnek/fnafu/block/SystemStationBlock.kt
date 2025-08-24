@@ -22,8 +22,8 @@ class SystemStationBlock : RotatableCustomBlockType() {
 
     override fun getRawId(): String = "system_station"
 
-    override fun place(location: Location, context: CustomBlockPlaceContext) {
-        super.place(location, context)
+    override fun internalPlace(location: Location, context: CustomBlockPlaceContext) {
+        super.internalPlace(location, context)
         object : BukkitRunnable(){
             override fun run() {
                 val blockState = location.block.state

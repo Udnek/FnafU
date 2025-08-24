@@ -11,6 +11,7 @@ import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.block.Blocks
 import me.udnek.fnafu.component.ComponentListener
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.item.decor.Poster
@@ -42,6 +43,7 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         Sounds.AMBIENCE_FNAF1
         Blocks.ARCADE_MACHINE
         MapBuilder.REGISTRY
+        Effects.STUN_EFFECT
 
 
         ComponentListener(this)

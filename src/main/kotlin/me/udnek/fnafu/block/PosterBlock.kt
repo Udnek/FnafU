@@ -46,8 +46,8 @@ class PosterBlock : AbstractCustomBlockType {
         updateText(state as Sign)
     }
 
-    override fun place(location: Location, context: CustomBlockPlaceContext) {
-        super.place(location, context)
+    override fun internalPlace(location: Location, context: CustomBlockPlaceContext) {
+        super.internalPlace(location, context)
         val event = context.event ?: return
         val poster = event.itemInHand.getCustom() as? Poster ?: return
         val block = event.block
@@ -63,6 +63,7 @@ class PosterBlock : AbstractCustomBlockType {
             override fun run() = updateText(location.block.state as Sign)
         }.runTaskLater(FnafU.instance, 3)
     }
+
 
     fun updateText(sign: Sign){
         val itemId = sign.persistentDataContainer.get(ITEM_PDS, PersistentDataType.STRING)
