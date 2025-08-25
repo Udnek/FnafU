@@ -10,7 +10,6 @@ import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.scheduler.BukkitRunnable
-import kotlin.math.floor
 
 abstract class AbstractSystem(override var game: FnafUGame) : System {
 

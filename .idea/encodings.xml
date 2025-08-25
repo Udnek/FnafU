@@ -31,7 +31,7 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/system/reboot.json" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/freddy" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/springtrap" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/font/camera/noise.mcmeta" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/font/system/camera/noise.mcmeta" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/cameras" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/system/camera/overlay.png.mcmeta" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/system/camera/overlay_green.png.mcmeta" charset="ISO-8859-1" />

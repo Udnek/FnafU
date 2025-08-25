@@ -2,7 +2,6 @@ package me.udnek.fnafu.sound
 
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.custom.sound.ConstructableCustomSound
-import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.fnafu.FnafU
 import org.bukkit.NamespacedKey
 import org.bukkit.SoundCategory

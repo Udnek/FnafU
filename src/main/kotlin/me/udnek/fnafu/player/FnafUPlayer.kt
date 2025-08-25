@@ -26,7 +26,6 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
 import net.skinsrestorer.api.SkinsRestorerProvider
 import org.bukkit.*
-import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.ItemDisplay
@@ -172,7 +171,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     }
 
     fun showNoise(color: TextColor){
-        player.showTitle(Title.title(Component.text("3").font(Key.key("fnafu:camera")).color(color), Component.empty(),
+        player.showTitle(Title.title(Component.text("1").font(Key.key("fnafu:system/camera")).color(color), Component.empty(),
             Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(200), Duration.ofMillis(200))))
     }
 
