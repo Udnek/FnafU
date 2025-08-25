@@ -27,7 +27,11 @@ vec3 notGamma(vec3 x) {
 }
 
 bool isDeadDarkness(){
-    return lightmapInfo.DarkenWorldFactor > 0;
+    return lightmapInfo.DarkenWorldFactor > 0.9;
+}
+
+bool isNightVision(){
+    return lightmapInfo.NightVisionFactor > 0;
 }
 
 void main() {
@@ -36,8 +40,10 @@ void main() {
 
     //if (block_brightness > 0) {block_brightness = min(block_brightness+0.1, 1);}
 
+    block_brightness *= 1;
+
     // minimal lighning
-    vec3 darkness = vec3(15, 15, 15+2);
+    vec3 darkness = vec3(15)*1.7;
     darkness/=255.0;
 
     vec3 color = vec3(0);
@@ -82,9 +88,10 @@ void main() {
     }
 
     // night vision
-    if (lightmapInfo.NightVisionFactor > 0 && sky_brightness == 0){
-        color /= 2;
-        color += vec3(0, 0.5, 0);
+    if (isNightVision()){
+        color += vec3(0.5);
+        // color /= 2;
+        // color += vec3(0, 0.5, 0);
     }
 
     fragColor = vec4(color, 1.0);

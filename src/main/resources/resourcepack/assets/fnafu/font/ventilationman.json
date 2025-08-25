@@ -8,6 +8,13 @@
       "chars": ["1"]
     },
     {
+      "type": "bitmap",
+      "file": "fnafu:font/survivor/ventilation/blackout.png",
+      "ascent": 256,
+      "height": 512,
+      "chars": ["2"]
+    },
+    {
       "type": "reference",
       "id": "space:default"
     }

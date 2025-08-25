@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item.survivor.doorman
+package me.udnek.fnafu.item.survivor.door
 
 import com.google.gson.JsonParser
 import io.papermc.paper.datacomponent.DataComponentTypes

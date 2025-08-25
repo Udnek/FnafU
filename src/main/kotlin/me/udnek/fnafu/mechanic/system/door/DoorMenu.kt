@@ -4,7 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.inventory.ConstructableCustomInventory
 import me.udnek.coreu.util.ComponentU
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
+import me.udnek.fnafu.item.survivor.door.DoormanTabletButton
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.misc.play

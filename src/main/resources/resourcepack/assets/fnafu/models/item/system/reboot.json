@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "fnafu:item/system/reboot",
@@ -6,12 +7,13 @@
 	},
 	"elements": [
 		{
-			"from": [-10, 0, 8],
-			"to": [26, 18, 8],
+			"from": [0, 0, 8],
+			"to": [16, 8, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 0, 0]},
 			"faces": {
 				"north": {"uv": [0, 0, 16, 16], "texture": "#missing"},
 				"east": {"uv": [0, 0, 0, 16], "texture": "#missing"},
-				"south": {"uv": [0, 0, 9, 4.5], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 8], "texture": "#0"},
 				"west": {"uv": [0, 0, 0, 16], "texture": "#missing"},
 				"up": {"uv": [0, 0, 16, 0], "texture": "#missing"},
 				"down": {"uv": [0, 0, 16, 0], "texture": "#missing"}
@@ -21,7 +23,8 @@
 	"gui_light": "front",
 	"display": {
 		"gui": {
-			"translation": [9, -1, 0]
+			"translation": [8, 8, 0],
+			"scale": [2, 2, 2]
 		}
 	}
 }

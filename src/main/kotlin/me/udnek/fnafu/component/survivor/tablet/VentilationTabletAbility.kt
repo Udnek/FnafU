@@ -36,7 +36,7 @@ open class VentilationTabletAbility : FnafUActiveAbility {
         super.addPropertyLines(componentable)
         componentable.addAbilityStat(
             Component.translatable("ability.fnafu.ventilation_tablet.damage_per_second", listOf(
-                Component.text(Utils.roundToTwoDigits(VentilationSystem.DAMAGE_PER_SECOND*100.0)))))
+                Component.text(Utils.roundToTwoDigits(VentilationSystem.CLOSED_VENT_DPS*100.0)))))
     }
 
     override fun action(

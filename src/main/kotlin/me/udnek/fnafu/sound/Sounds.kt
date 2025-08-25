@@ -34,8 +34,8 @@ object Sounds {
     val PLUSHTRAP_RUN = register(ConstructableCustomSound(getName("plushtrap_run"), SoundCategory.MASTER, 2f))
     val PLUSHTRAP_NEAR = register(ConstructableCustomSound(getName("plushtrap_near"), SoundCategory.MASTER))
 
-    private fun register(sound: CustomSound): CustomSound {
-        return CustomRegistries.SOUND.register<CustomSound>(FnafU.instance, sound)
+    private fun register(sound: ConstructableCustomSound): ConstructableCustomSound {
+        return CustomRegistries.SOUND.register<ConstructableCustomSound>(FnafU.instance, sound)
     }
 
     private fun getName(name: String): NamespacedKey {

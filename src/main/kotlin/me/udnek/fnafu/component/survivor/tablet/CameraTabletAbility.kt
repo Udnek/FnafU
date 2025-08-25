@@ -33,7 +33,7 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
     }
 
     companion object {
-        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true, true, 0.06f)
+        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true, false, 0.06f)
         val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false, true,.03f)
     }
 

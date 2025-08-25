@@ -18,7 +18,9 @@ import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Creeper
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
@@ -73,22 +75,30 @@ open class CameraSystem : Originable, AbstractSystem {
         }
         setSpectatingCamera(player, camera, cameraTablet)
 
-        val cameraEntity = camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
+        val tabletComponent = cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.getOrCreateDefault(FnafUComponents.CAMERA_TABLET_ABILITY)
+        val nightVision = tabletComponent?.nightVision ?: false
+        if (nightVision) player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
+
+        var cameraEntity: LivingEntity
+        if (nightVision){
+            cameraEntity = camera.location.first.world.spawnEntity(camera.location.first, EntityType.CREEPER) as Creeper
+            cameraEntity.setAI(false)
+            cameraEntity.teleport(cameraEntity.location.subtract(0.0, cameraEntity.eyeHeight, 0.0))
+        } else {
+            cameraEntity = camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
+            cameraEntity.isMarker = true
+        }
         cameraEntity.isInvisible = true
         cameraEntity.setGravity(false)
-        cameraEntity.isMarker = true
         spectateData.spectate(player, cameraEntity)
 
-        playCameraRotation(camera, cameraEntity)
+//        val cameraEntity = camera.location.first.world.spawnEntity(camera.location.first, EntityType.ARMOR_STAND) as ArmorStand
+//        cameraEntity.isInvisible = true
+//        cameraEntity.setGravity(false)
+//        cameraEntity.isMarker = true
+//        spectateData.spectate(player, cameraEntity)
 
-        val tabletComponent =
-            cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.getOrCreateDefault(
-                FnafUComponents.CAMERA_TABLET_ABILITY
-            )
-        val nv = tabletComponent?.nightVision ?: false
-        if (nv){
-            player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
-        }
+        playCameraRotation(camera, cameraEntity)
     }
 
     fun exitCamera(player: FnafUPlayer) {
@@ -110,7 +120,7 @@ open class CameraSystem : Originable, AbstractSystem {
         Sounds.CAMERA_TABLET_OPEN.stop(player.player)
     }
 
-    private fun playCameraRotation(camera: Camera, cameraEntity: ArmorStand){
+    private fun playCameraRotation(camera: Camera, cameraEntity: LivingEntity){
         if (camera.rotationAngle == 0f) return
         object : BukkitRunnable() {
             var rotateCounter: Float = 0f

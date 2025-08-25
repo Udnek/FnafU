@@ -1,4 +1,4 @@
-package me.udnek.fnafu.item.survivor.doorman
+package me.udnek.fnafu.item.survivor.door
 
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties

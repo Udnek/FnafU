@@ -22,8 +22,8 @@ import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
 import me.udnek.fnafu.item.survivor.camera.FullCameraTablet
-import me.udnek.fnafu.item.survivor.doorman.DoormanTablet
-import me.udnek.fnafu.item.survivor.doorman.DoormanTabletButton
+import me.udnek.fnafu.item.survivor.door.DoormanTablet
+import me.udnek.fnafu.item.survivor.door.DoormanTabletButton
 import me.udnek.fnafu.item.survivor.ventilation.VentilationTablet
 import me.udnek.fnafu.item.survivor.ventilation.VentilationTabletButton
 import org.bukkit.Material

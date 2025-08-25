@@ -93,7 +93,8 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     override fun tick() {
         time.tick()
-        if (time.isEnded || !super.isRunning()) {
+
+        if (time.isEnded || !isRunning) {
             winner = Winner.SURVIVORS
             stop()
             return
@@ -114,20 +115,21 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
                 map.mapLight.turnOn()
             }
+            updateEnergyBar()
         }
-        if (isEveryNTicks(5)) updateEnergyBar()
         if (isEveryNTicks(Systems.TICKRATE)) systems.tick()
         if (isEveryNTicks(5)) updateTimeBar()
         if (isEveryNTicks(15)) {
             for (animatronic in playerContainer.animatronics) {
                 val movement = animatronic.data.getOrCreateDefault(FnafUComponents.MOVEMENT_TRACKER_DATA)
                 if (!animatronic.player.isSneaking && movement.hasMoved(animatronic.player.location)) {
+                    var volume = Sounds.ANIMATRONIC_STEP.volume
+                    if (animatronic.player.isSprinting) volume /= 2
                     for (survivor in playerContainer.survivors) {
-                        Sounds.ANIMATRONIC_STEP.play(animatronic.player.location, survivor.player)
+                        Sounds.ANIMATRONIC_STEP.play(animatronic.player.location, survivor.player, volume)
                     }
                 }
                 movement.lastLocation = animatronic.player.location
-
             }
         }
         if (isEveryNTicks(10)){
@@ -298,9 +300,9 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
     }
 
     private fun initializeBars() {
-        energyBar = BossBar.bossBar(Component.text(""), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
+        energyBar = BossBar.bossBar(Component.empty(), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
         energyBar!!.addFlag(BossBar.Flag.CREATE_WORLD_FOG)
-        timeBar = BossBar.bossBar(Component.text(""), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
+        timeBar = BossBar.bossBar(Component.text(), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
     }
 
     override fun stop() {

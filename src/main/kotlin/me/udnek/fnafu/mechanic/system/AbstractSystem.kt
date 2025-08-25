@@ -10,6 +10,7 @@ import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.scheduler.BukkitRunnable
+import kotlin.math.floor
 
 abstract class AbstractSystem(override var game: FnafUGame) : System {
 
@@ -27,7 +28,7 @@ abstract class AbstractSystem(override var game: FnafUGame) : System {
         set(value) {
             val oldField = field
             field = Math.clamp(value, 0f, 1f)
-            if (field == 0f && !isBroken) destroy()
+            if (field == 0f && oldField > 0f) destroy()
             else if (oldField < 1f && field == 1f) repaired(game.systems.menu)
             game.updateSidebar()
         }
@@ -99,7 +100,7 @@ abstract class AbstractSystem(override var game: FnafUGame) : System {
     }
 
     override fun getSidebarLine(): Pair<Int, Component>{
-        var component = sidebarLine.append(Component.text(" (${Utils.roundToTwoDigits(durability*100.0)}%)"))
+        var component = sidebarLine.append(Component.text(" (${(durability * 100.0).toInt()}%)"))
         if (isBroken) {
             component = component.append(Component.text(" ").append(Component.translatable("system.fnafu.broken_icon"))).color(NamedTextColor.RED)
         } else {

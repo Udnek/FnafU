@@ -130,6 +130,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
         if (time != null) showDebugLocations(time * 20)
         val debug = super.getDebug(context)
         debug.add(Component.text("winner: $winner"))
+        debug.add(Component.text("stage: $stage"))
         debug.add(Component.text("task: $task"))
         debug.add(Component.text("task running: ${!(task?.isCancelled?:true)}"))
         return debug

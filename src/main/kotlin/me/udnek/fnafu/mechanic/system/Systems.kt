@@ -26,9 +26,9 @@ open class Systems : Resettable, Ticking {
     }
 
     private val cursorPosToAction: Map<Int, (player: FnafUPlayer) -> Unit> = mapOf(
-        18 to {player ->  door.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
-        27 to {player ->  camera.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
-        36 to {player ->  ventilation.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        18 to { player ->  door.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        27 to { player ->  camera.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
+        36 to { player ->  ventilation.startRepairing(player, menu, SINGLE_REPAIR_DURATION)},
         45 to { player ->  repairAll(player)})
     private val cursorItem = Items.CURSOR_ICON.item
 
