@@ -27,8 +27,12 @@ class PlayerContainer : Iterable<FnafUPlayer>{
     }
 
     fun add(player: FnafUPlayer): Boolean {
-        if (contains(player.player)) return false
-        return players.add(player)
+        if (contains(player.player)){
+            remove(player.player)
+            return players.add(player)
+        } else{
+            return players.add(player)
+        }
     }
 
     fun remove(player: Player): Boolean {

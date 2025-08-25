@@ -107,13 +107,12 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
     }
 
     override fun join(player: Player, context: MGUCommandContext): ExecutionResult {
-        if (context.args[2] == "survivors") return join(player, FnafUPlayer.Type.SURVIVOR)
-        return join(player, FnafUPlayer.Type.ANIMATRONIC)
-    }
-
-    fun join(player: Player, type: FnafUPlayer.Type): ExecutionResult{
-        return if (playerContainer.add(FnafUPlayer(player, type, this)))
-                ExecutionResult.SUCCESS else ExecutionResult(Type.FAIL, "can not add")
+        val role: FnafUPlayer.Type = if ((context.args[2] == "survivors")) FnafUPlayer.Type.SURVIVOR else FnafUPlayer.Type.ANIMATRONIC
+        if (context.mguPlayer?.game == null || context.mguPlayer?.game == this){
+            playerContainer.add(FnafUPlayer(player, role, this))
+            return ExecutionResult.SUCCESS
+        }
+        return ExecutionResult(Type.FAIL, "Player in another game! Leave first")
     }
 
     override fun leave(mguPlayer: MGUPlayer, context: MGUCommandContext): ExecutionResult {
