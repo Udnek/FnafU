@@ -13,7 +13,9 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.misc.Utils
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.potion.PotionEffect
@@ -53,8 +55,11 @@ open class FreddyShadowAbility : FnafUActiveAbility {
                 player.game.playerContainer.survivors.forEach {
                     Nms.get().sendFakeEquipment(player.player, it.player, EquipmentSlot.HEAD, mask)
                 }
+                Utils.freddySpawnDustParticle(player.player.location)
             }
         }.runTaskLater(FnafU.instance, duration.toLong())
+        Utils.freddySpawnDustParticle(player.player.location)
+        Sounds.FREDDY_LAUGH.play(player.player.location)
         return ActionResult.FULL_COOLDOWN
     }
 

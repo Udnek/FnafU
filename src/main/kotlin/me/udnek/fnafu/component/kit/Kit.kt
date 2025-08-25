@@ -37,7 +37,7 @@ interface Kit : MGUPlayerData, Registrable{
         val SPRINGTRAP = register(AnimatronicKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, SPRINGTRAP_PLUSHTRAP_ABILITY,
             listOf(SPRINGTRAP_PLUSHTRAP_ABILITY, SPRINGTRAP_BREAK_CAMERAS, SPRINGTRAP_MASK), Sounds.SPRINGTRAP_JUMP_SCARE, AnimatronicSkin.SPRINGTRAP))
         val FREDDY = register(AnimatronicKit("freddy", FnafUPlayer.Type.ANIMATRONIC, FREDDY_SHADOW, listOf(FREDDY_SHADOW, FREDDY_SET_TRAP,
-            FREDDY_TELEPORT_TO_TRAP, FREDDY_MASK), Sounds.SPRINGTRAP_JUMP_SCARE, AnimatronicSkin.FREDDY))
+            FREDDY_TELEPORT_TO_TRAP, FREDDY_MASK), Sounds.FREDDY_JUMP_SCARE, AnimatronicSkin.FREDDY))
 
         val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET, listOf(FULL_CAMERA_TABLET), listOf(SMALL_PETROL_CANISTER)))
         val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET, listOf(DOOR_TABLET, CUT_CAMERA_TABLET), listOf(SMALL_PETROL_CANISTER)))

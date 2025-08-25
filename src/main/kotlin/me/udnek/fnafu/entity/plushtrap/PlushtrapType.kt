@@ -3,10 +3,10 @@ package me.udnek.fnafu.entity.plushtrap
 import me.udnek.coreu.custom.entitylike.entity.ConstructableCustomEntityType
 import me.udnek.coreu.custom.entitylike.entity.CustomTickingEntityType
 import me.udnek.fnafu.entity.EntityTypes
+import me.udnek.fnafu.misc.Utils
 import me.udnek.fnafu.sound.Sounds
 import org.bukkit.Color
 import org.bukkit.Location
-import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Drowned
 import org.bukkit.entity.Entity
@@ -19,10 +19,8 @@ import org.bukkit.loot.LootTables
 class PlushtrapType : ConstructableCustomEntityType<Drowned>(), CustomTickingEntityType<Plushtrap>, Listener {
 
     companion object {
-        fun spawnParticle(plushtrap: Drowned) {
-            Particle.DUST.builder().location(plushtrap.eyeLocation.add(0.0, -0.2, 0.0)).data(Particle.DustOptions(Color.fromRGB(102, 99, 12), 2.4f))
-                .count(50).offset(0.3, 0.3, 0.3).spawn()
-        }
+        fun spawnParticle(plushtrap: Drowned) =
+            Utils.spawnDustParticle(plushtrap.eyeLocation.add(0.0, -0.2, 0.0), Color.fromRGB(102, 99, 12), 0.6, 0.6)
     }
 
     override fun getVanillaType(): EntityType { return EntityType.DROWNED }

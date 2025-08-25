@@ -11,7 +11,9 @@ import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.misc.Utils
 import me.udnek.fnafu.player.FnafUPlayer
+import me.udnek.fnafu.sound.Sounds
 import org.bukkit.event.player.PlayerInteractEvent
 
 
@@ -31,10 +33,13 @@ open class FreddyTeleportToTrapAbility : FnafUActiveAbility {
         slot: Either<UniversalInventorySlot?, SingleSlot?>,
         event: PlayerInteractEvent
     ): ActionResult {
+        Utils.freddySpawnDustParticle(player.player.location)
         val teleportLocation = player.data.getOrDefault(FnafUComponents.FREDDY_TRAP_DATA).teleportLocation ?: return ActionResult.NO_COOLDOWN
         teleportLocation.yaw = player.player.location.yaw
         teleportLocation.pitch = player.player.location.pitch
         player.teleport(teleportLocation)
+        Utils.freddySpawnDustParticle(teleportLocation)
+        Sounds.FREDDY_LAUGH.play(player.player.location)
         return ActionResult.FULL_COOLDOWN
     }
 

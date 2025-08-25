@@ -50,7 +50,6 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
     fun pickPlushtrap(customItem: CustomItem, player: FnafUPlayer) {
         val plushtrap = getPlushtrap(player) ?: return
         if (customItem.hasCooldown(player.player)) plushtrap.remove()
-
     }
 
     override fun action(
