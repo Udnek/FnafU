@@ -41,7 +41,7 @@ class VentilationSystem : AbstractSystem {
     private val brokenBossBar: BossBar = BossBar.bossBar(
         Component.empty(),
         BossBar.MIN_PROGRESS,
-        BossBar.Color.RED,
+        BossBar.Color.YELLOW,
         BossBar.Overlay.PROGRESS).also {
             it.addFlag(BossBar.Flag.DARKEN_SCREEN)
         }
