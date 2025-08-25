@@ -13,6 +13,7 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.misc.Utils
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
@@ -42,6 +43,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
     ): ActionResult {
         val duration = components.get(RPGUComponents.ABILITY_DURATION)!!.get(player.player).toInt()
         val mask = player.player.inventory.helmet
+        Effects.DISARM.applyInvisible(player.player, duration, 0)
         player.player.addPotionEffects(listOf(
             PotionEffect(PotionEffectType.INVISIBILITY, duration, 0, false, false, false),
             PotionEffect(PotionEffectType.SPEED, duration, 0, false, false, false),

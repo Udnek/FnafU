@@ -7,6 +7,7 @@ import me.udnek.fnafu.FnafU
 object Effects {
     val STUN_EFFECT = register(StunEffect())
     val IN_GAME = register(InGameEffect())
+    val DISARM = register(DisarmEffect())
 
     private fun register(customEffect: CustomEffect): CustomEffect {
         return CustomRegistries.EFFECT.register(FnafU.instance, customEffect)
