@@ -2,7 +2,7 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "fnafu:font/system/system.png",
+      "file": "fnafu:font/system/background.png",
       "ascent": 13,
       "height": 256,
       "chars": ["1"]
