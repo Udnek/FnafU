@@ -25,6 +25,7 @@ object Sounds {
     val ANIMATRONIC_STEP = register(ConstructableCustomSound(getName("animatronic_step"), SoundCategory.MASTER))
 
     val FREDDY_LAUGH = register(ConstructableCustomSound(getName("freddy_laugh"), SoundCategory.MASTER))
+    val FREDDY_JUMP_SCARE = register(ConstructableCustomSound(getName("freddy_jump_scare"), SoundCategory.MASTER))
 
     val SPRINGTRAP_SPAWN = register(ConstructableCustomSound(getName("springtrap_spawn"), SoundCategory.MASTER))
     val SPRINGTRAP_RAGE_START = register(ConstructableCustomSound(getName("springtrap_rage_start"), SoundCategory.MASTER))
@@ -37,7 +38,5 @@ object Sounds {
         return CustomRegistries.SOUND.register<ConstructableCustomSound>(FnafU.instance, sound)
     }
 
-    private fun getName(name: String): NamespacedKey {
-        return NamespacedKey(FnafU.instance, name)
-    }
+    private fun getName(name: String): NamespacedKey= NamespacedKey(FnafU.instance, name)
 }

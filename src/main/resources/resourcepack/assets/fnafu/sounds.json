@@ -22,6 +22,8 @@
     "fnafu:animatronic_step/3"], "type": "event" },
 
   "freddy_laugh": { "subtitle": "subtitles.fnafu.freddy_laugh", "sounds": ["fnafu:freddy/laugh"], "type": "event" },
+  "freddy_jump_scare": { "subtitle": "subtitles.fnafu.freddy_jump_scare", "sounds": ["fnafu:freddy/jump_scare"], "type": "event" },
+
 
   "springtrap_spawn": { "subtitle": "subtitles.fnafu.springtrap_spawn", "sounds": ["fnafu:springtrap/spawn"], "type": "event" },
   "springtrap_rage_start": { "subtitle": "subtitles.fnafu.springtrap_rage_start", "sounds": ["fnafu:springtrap/rage_start"], "type": "event" },
