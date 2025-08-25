@@ -72,8 +72,11 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             MGUCommandType.DEBUG -> return mutableListOf("10")
             MGUCommandType.JOIN -> return mutableListOf("survivors", "animatronics")
             MGUCommandType.EXECUTE -> {
-                if (context.args.size == 3) return mutableListOf("setEnergy", "setTime")
-                else return mutableListOf("3")
+                if (context.args.size == 3) return mutableListOf("setEnergy", "setTime", "breakSys")
+                if (context.args[2].equals("breakSys", true)) {
+                    return systems.all.map { s -> s.javaClass.simpleName.toString() }.toMutableList()
+                }
+                return mutableListOf("3")
             }
             else -> return super.getCommandOptions(context)
         }
@@ -89,8 +92,16 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             val value = context.args[3].toIntOrNull() ?: return ExecutionResult(Type.FAIL, "incorrect int: ${context.args[3]}")
             time.ticks = time.maxTime - value
             return ExecutionResult.SUCCESS
-        }
-        else{
+        } else if (context.args[2].equals("breakSys", true)){
+            val value = context.args.getOrNull(3) ?: return ExecutionResult(Type.FAIL, "incorrect sys: ${context.args[3]}")
+            systems.all.forEach {
+                if (it.javaClass.simpleName.equals(value, true)) {
+                    it.destroy()
+                    return ExecutionResult.SUCCESS
+                }
+            }
+            return ExecutionResult(Type.FAIL, "incorrect sys: ${context.args[3]}")
+        } else{
             return ExecutionResult(Type.FAIL, "unknown arg: ${context.args[2]}")
         }
     }
