@@ -25,6 +25,7 @@ open class FreddySetTrapAbility : FnafUActiveAbility {
 
     constructor(){
         components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(5.0, RPGUComponents.ABILITY_AREA_OF_EFFECT))
     }
 
     override fun action(
@@ -38,11 +39,13 @@ open class FreddySetTrapAbility : FnafUActiveAbility {
         location.yaw = 0f
         location.add(0.0, 0.2, 0.0)
 
-        player.data.getOrDefault(FnafUComponents.FREDDY_TRAP_DATA).trap?.remove()
+        val data = player.data.getOrCreateDefault(FnafUComponents.FREDDY_TRAP_DATA)
+        data.trap?.remove()
         val trap = EntityTypes.REMNANT_TRAP.spawnAndGet(location)
-        trap.game = player.game
-        trap.teleportLocation = player.player.location
-        player.data.getOrCreateDefault(FnafUComponents.FREDDY_TRAP_DATA).trap = trap
+
+        data.set(item, trap, player, this, location)
+
+        trap.data = data
 
         player.game.playerContainer.survivors.forEach {
             Nms.get().sendFakeDestroyEntities(listOf(trap.real), it.player)

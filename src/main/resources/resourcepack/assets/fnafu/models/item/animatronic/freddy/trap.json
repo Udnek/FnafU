@@ -7,6 +7,7 @@
 	},
 	"elements": [
 		{
+            "light_emission": 10,
 			"from": [3, 0, 3],
 			"to": [13, 10, 13],
 			"shade": false,
@@ -20,6 +21,7 @@
 			}
 		},
 		{
+            "light_emission": 10,
 			"from": [15, 12, 15],
 			"to": [1, -2, 1],
 			"shade": false,

@@ -97,6 +97,20 @@
 				"up": {"uv": [5, 6, 1, 5.5], "texture": "#0"},
 				"down": {"uv": [9, 5.5, 5, 6], "texture": "#0"}
 			}
+		},
+		{
+			"from": [1, 11, 7.99],
+			"to": [15, 20, 7.99],
+			"light_emission": 10,
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 7]},
+			"faces": {
+				"north": {"uv": [0.25, 0.5, 3.75, 2.75], "texture": "#0"},
+				"east": {"uv": [0.03125, 5.5, 0.53125, 10], "texture": "#0"},
+				"south": {"uv": [4, 0, 8, 4.5], "texture": "#0"},
+				"west": {"uv": [0.53125, 5.5, 1.03125, 10], "texture": "#0"},
+				"up": {"uv": [5, 6, 1, 5.5], "texture": "#0"},
+				"down": {"uv": [9, 5.5, 5, 6], "texture": "#0"}
+			}
 		}
 	],
 	"gui_light": "front",

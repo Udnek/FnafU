@@ -81,8 +81,12 @@ open class CameraSystem : Originable, AbstractSystem {
 
         playCameraRotation(camera, cameraEntity)
 
-        val isCut = cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.getOrCreateDefault(FnafUComponents.CAMERA_TABLET_ABILITY)?.isCut ?: false
-        if (!isCut){
+        val tabletComponent =
+            cameraTablet.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.getOrCreateDefault(
+                FnafUComponents.CAMERA_TABLET_ABILITY
+            )
+        val nv = tabletComponent?.nightVision ?: false
+        if (nv){
             player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
         }
     }

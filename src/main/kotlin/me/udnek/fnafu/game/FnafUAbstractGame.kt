@@ -127,7 +127,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
     private fun showDebugPoint(location: Location, color: Color, duration: Int){
         Particle.TRAIL.builder()
             .location(location)
-            .color(color)
+            .offset(0.0, 0.0, 0.0)
             .data(Particle.Trail(location, color, duration))
             .spawn()
     }

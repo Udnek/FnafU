@@ -173,10 +173,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
             player.player.level = 0
             player.player.gameMode = GameMode.ADVENTURE
             player.player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, PotionEffect.INFINITE_DURATION, 10, false, false, false))
-            player.player.getAttribute(Attribute.JUMP_STRENGTH)!!.addModifier(
-                AttributeModifier(NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER))
-            player.player.getAttribute(Attribute.MOVEMENT_SPEED)!!.addModifier(
-                AttributeModifier(NamespacedKey(FnafU.instance, "game_ms"), -0.15, AttributeModifier.Operation.ADD_SCALAR))
+            Effects.IN_GAME.applyInvisible(player.player, PotionEffect.INFINITE_DURATION, 0)
 
             when (player.type) {
                 FnafUPlayer.Type.SURVIVOR -> {

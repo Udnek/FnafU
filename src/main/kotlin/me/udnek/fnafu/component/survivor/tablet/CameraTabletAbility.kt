@@ -26,15 +26,15 @@ import org.bukkit.Color
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
-open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, val isCut: Boolean, val damagePerUsage: Float) : FnafUActiveAbility() {
+open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, val isCut: Boolean, val nightVision: Boolean, val damagePerUsage: Float) : FnafUActiveAbility() {
 
     init {
         components.set(AttributeBasedProperty(0.5 * 20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     companion object {
-        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true, 0.06f)
-        val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false, 0.03f)
+        val CUT: CameraTabletAbility = CameraTabletAbility( Color.WHITE, NamedTextColor.WHITE, true, true, 0.06f)
+        val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false, true,.03f)
     }
 
     override fun addPropertyLines(componentable: ActiveAbilityLorePart) {

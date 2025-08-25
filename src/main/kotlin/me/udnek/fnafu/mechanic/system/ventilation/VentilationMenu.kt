@@ -44,7 +44,7 @@ class VentilationMenu : ConstructableCustomInventory {
         event.isCancelled = true
         val player = (event.whoClicked as Player).getFnafU() ?: return
         when (event.currentItem?.getCustom()?: return) {
-            Items.DOOR_BUTTON -> {
+            Items.VENTILATION_BUTTON -> {
                 val vent = vents[event.currentItem?.getData(DataComponentTypes.CUSTOM_MODEL_DATA)?.floats()[0]?.toInt() ?: return]
                 player.let {
                     Sounds.BUTTON_CLICK.play(it)

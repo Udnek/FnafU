@@ -20,5 +20,5 @@ class FreddyTeleportToTrapItem : ConstructableCustomItem() {
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =
         CustomItemProperties.DataSupplier.of(NamespacedKey(FnafU.instance, "animatronic/freddy/ability/teleport_to_trap"))
 
-    override fun getRawId(): String = "teleport_to_trap"
+    override fun getRawId(): String = "freddy_teleport_to_trap"
 }

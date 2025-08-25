@@ -159,7 +159,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
         object : BukkitRunnable() {
             override fun run() {
-                player.sendMessage("TODO REMOVE ENTITY")
+                //player.sendMessage("TODO REMOVE ENTITY")
 
                 val removePacket = protocolManager.createPacket(PacketType.Play.Server.ENTITY_DESTROY)
                 removePacket.modifier.write(0, IntArrayList(intArrayOf(spawnPacket.integers.read(0))))
@@ -217,8 +217,6 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         status = Status.ALIVE
         player.inventory.clear()
         player.clearActivePotionEffects()
-        player.getAttribute(Attribute.JUMP_STRENGTH)!!.removeModifier(NamespacedKey(FnafU.instance, "game_js"))
-        player.getAttribute(Attribute.MOVEMENT_SPEED)!!.removeModifier(NamespacedKey(FnafU.instance, "game_ms"))
     }
 
     enum class Type {
