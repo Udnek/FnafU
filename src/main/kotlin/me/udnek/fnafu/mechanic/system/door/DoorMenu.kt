@@ -21,7 +21,7 @@ class DoorMenu : ConstructableCustomInventory {
     private val title: Component
     private val doors: List<ButtonDoorPair>
     private val tabletBackground =
-        ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:doorman")).color(TextColor.color(1f, 1f, 1f)), 175)
+        ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:system/door")).color(TextColor.color(1f, 1f, 1f)), 175)
 
     constructor(title: Component, doors: List<ButtonDoorPair>) : super() {
         this.title = tabletBackground.append(title.color(NamedTextColor.BLACK))

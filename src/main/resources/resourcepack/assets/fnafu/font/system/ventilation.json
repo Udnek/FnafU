@@ -2,14 +2,14 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "fnafu:font/survivor/ventilation/background.png",
+      "file": "fnafu:font/system/ventilation/background.png",
       "ascent": 13,
       "height": 256,
       "chars": ["1"]
     },
     {
       "type": "bitmap",
-      "file": "fnafu:font/survivor/ventilation/blackout.png",
+      "file": "fnafu:font/system/ventilation/blackout.png",
       "ascent": 256,
       "height": 512,
       "chars": ["2"]

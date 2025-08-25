@@ -26,7 +26,7 @@ class VentilationMenu : ConstructableCustomInventory {
     private val title: Component
     private val vents: List<Vent>
     private val tabletBackground =
-        ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:ventilationman")).color(TextColor.color(1f, 1f, 1f)), 175)
+        ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:system/ventilation")).color(TextColor.color(1f, 1f, 1f)), 175)
 
     constructor(title: Component, vents: List<Vent>) : super() {
         this.title = tabletBackground.append(title.color(TextColor.color(ACTIVE_COLOR)))

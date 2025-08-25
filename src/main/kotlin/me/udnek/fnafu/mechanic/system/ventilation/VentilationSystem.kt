@@ -100,7 +100,7 @@ class VentilationSystem : AbstractSystem {
         game.playerContainer.aliveSurvivors.forEach {
             it.player.showTitle(
                 Title.title(
-                    Component.text("2").font(Key.key("fnafu:ventilationman")).color(NamedTextColor.WHITE),
+                    Component.text("2").font(Key.key("fnafu:system/ventilation")).color(NamedTextColor.WHITE),
                     Component.empty(),
                     Title.Times.times(
                         Duration.ofMillis((BLACKOUT_FADE_TIME / 20f * 1000f).toLong()),

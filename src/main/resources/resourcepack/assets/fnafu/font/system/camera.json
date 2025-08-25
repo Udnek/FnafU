@@ -2,10 +2,10 @@
     "providers": [
         {
           "type": "bitmap",
-          "file": "fnafu:font/camera/noise.png",
+          "file": "fnafu:font/system/camera/noise.png",
           "ascent": 300,
           "height": 512,
-          "chars": ["3"]
+          "chars": ["1"]
         },
         {
             "type": "reference",
