@@ -6,6 +6,7 @@ import me.udnek.fnafu.map.location.LocationList
 import me.udnek.fnafu.map.location.LocationSingle
 import me.udnek.fnafu.mechanic.system.camera.Camera
 import me.udnek.fnafu.mechanic.system.door.door.MetalDoor
+import me.udnek.fnafu.mechanic.system.ventilation.TrapdoorVent
 import me.udnek.fnafu.misc.TextUtils
 import me.udnek.fnafu.sound.LoopedSound
 import me.udnek.fnafu.sound.Sounds
@@ -50,7 +51,24 @@ class Fnaf3Map(origin: Location) : FnafUMap(origin) {
         addDoor(MetalDoor.pairOf2x3(-11, 0, -22, MetalDoor.Direction.Z, 2*9+3, -14, 1, -21)) //  Вход в аркаду номер 1
         addDoor(MetalDoor.pairOf2x3(-11, 0, -29, MetalDoor.Direction.Z, 1*9+3, -14, 1, -31)) // воход в аркаду номер два ( из комнаты с головой чики)
 
-
+        // SPAWN ANIM
+        addVent(TrapdoorVent(LocationSingle(17.0, .0, -33.0), TrapdoorVent.Direction.X, 15, 2))
+        // SPAWN SURV
+        addVent(TrapdoorVent(LocationSingle(6.0, .0, -1.0), TrapdoorVent.Direction.Z, 50, 2))
+        // LEFT SOS
+        addVent(TrapdoorVent(LocationSingle(8.0, .0, -5.0), TrapdoorVent.Direction.X, 41, 2))
+        // PRAV SOS
+        addVent(TrapdoorVent(LocationSingle(15.0, .0, -5.0), TrapdoorVent.Direction.X, 42, 2))
+        // PRAV SOS VERH
+        addVent(TrapdoorVent(LocationSingle(20.0, .0, -19.0), TrapdoorVent.Direction.Z, 34, 2))
+        // ENTRENCE
+        addVent(TrapdoorVent(LocationSingle(-2.0, .0, -39.0), TrapdoorVent.Direction.Z, 4, 2))
+        //
+        addVent(TrapdoorVent(LocationSingle(-9.0, .0, -33.0), TrapdoorVent.Direction.X, 12, 2))
+        addVent(TrapdoorVent(LocationSingle(-20.0, .0, -34.0), TrapdoorVent.Direction.Z, 11, 2))
+        addVent(TrapdoorVent(LocationSingle(-15.0, .0, -10.0), TrapdoorVent.Direction.Z, 38, 2))
+        addVent(TrapdoorVent(LocationSingle(-6.0, .0, -19.0), TrapdoorVent.Direction.X, 21, 2))
+        addVent(TrapdoorVent(LocationSingle(-6.0, .0, -13.0), TrapdoorVent.Direction.X, 30, 2))
 
         cameras = listOf(
             Camera(LocationSingle(4.7, 2.2, 2.7, 123.2f, 30f).head, "office", 5*9+5, 0F, false),
