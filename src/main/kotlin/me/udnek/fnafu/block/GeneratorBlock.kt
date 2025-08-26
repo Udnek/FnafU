@@ -12,8 +12,6 @@ class GeneratorBlock : RotatableCustomBlockType() {
 
     override fun getItem(): CustomItem = Items.GENERATOR
 
-    override fun getLoot(): Either<LootTable, List<ItemStack>>? = null
-
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
 
     override fun getRawId(): String = "generator"

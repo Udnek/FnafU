@@ -4,7 +4,10 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.block.Blocks
+import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.survivor.PetrolCanisterAbility
+import me.udnek.fnafu.item.animatronic.AnimatronicAbilityItem
 import me.udnek.fnafu.item.animatronic.AnimatronicMask
 import me.udnek.fnafu.item.animatronic.freddy.FreddySetTrapItem
 import me.udnek.fnafu.item.animatronic.freddy.FreddyShadowItem
@@ -56,6 +59,7 @@ object Items {
 
     val SPRINGTRAP_PLUSHTRAP_ABILITY: CustomItem = register(SpringtrapPlushtrapItem())
     val SPRINGTRAP_BREAK_CAMERAS: CustomItem = register(SpringtrapBreakCamerasItem())
+    val TEST: CustomItem = register(AnimatronicAbilityItem("kek", "kek", Kit.SPRINGTRAP, FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY))
     val SPRINGTRAP_MASK: CustomItem = register(AnimatronicMask("springtrap", 0.07))
 
     val FREDDY_SHADOW: CustomItem = register(FreddyShadowItem())

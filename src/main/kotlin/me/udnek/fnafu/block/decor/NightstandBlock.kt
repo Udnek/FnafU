@@ -43,7 +43,5 @@ class NightstandBlock : RotatableCustomBlockType() {
         return display
     }
 
-    override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
-
     override fun getBreakSpeedBaseBlock(): Material = Material.OAK_LOG
 }

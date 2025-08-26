@@ -46,8 +46,6 @@ class UniversalSlabBlock : AbstractCustomBlockType(){
 
     override fun getParticleBase(): ItemStack? = null
 
-    override fun getLoot(): Either<LootTable, List<ItemStack>>? = null
-
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
 
     override fun getRawId(): String = "universal_slab"

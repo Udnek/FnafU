@@ -3,6 +3,7 @@ package me.udnek.fnafu.component
 import me.udnek.coreu.custom.component.ConstructableComponentType
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.registry.CustomRegistries
+import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.animatronic.MovementTrackerComponent
 import me.udnek.fnafu.component.animatronic.freddy.FreddySetTrapAbility

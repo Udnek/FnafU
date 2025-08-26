@@ -16,8 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable
 class SystemStationBlock : RotatableCustomBlockType() {
     override fun getItem(): CustomItem = Items.SYSTEM_STATION
 
-    override fun getLoot(): Either<LootTable?, List<ItemStack?>?>? = null
-
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
 
     override fun getRawId(): String = "system_station"

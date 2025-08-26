@@ -11,8 +11,6 @@ import org.bukkit.loot.LootTable
 class VendingMachineBlock : RotatableCustomBlockType() {
     override fun getItem(): CustomItem = Items.VENDING_MACHINE
 
-    override fun getLoot(): Either<LootTable, List<ItemStack>>? = null
-
     override fun getBreakSpeedBaseBlock(): Material = Material.IRON_BLOCK
 
     override fun getRawId(): String = "vending_machine"

@@ -79,8 +79,6 @@ class PosterBlock : AbstractCustomBlockType {
 
     override fun getParticleBase(): ItemStack? = null
 
-    override fun getLoot(): Either<LootTable, List<ItemStack>>? = null
-
     override fun getBreakSpeedBaseBlock(): Material = Material.OAK_PLANKS
 
     override fun getRawId(): String = "poster"
