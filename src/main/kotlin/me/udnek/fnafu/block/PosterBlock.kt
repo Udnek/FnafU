@@ -6,7 +6,6 @@ import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
 import me.udnek.coreu.custom.entitylike.block.CustomBlockType
 import me.udnek.coreu.custom.entitylike.block.constructabletype.AbstractCustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.item.decor.Poster
@@ -22,7 +21,6 @@ import org.bukkit.block.data.type.WallSign
 import org.bukkit.block.sign.Side
 import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.loot.LootTable
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 

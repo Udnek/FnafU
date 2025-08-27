@@ -5,7 +5,6 @@ import me.udnek.fnafu.FnafU
 import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
-import org.bukkit.entity.LivingEntity
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.potion.PotionEffectTypeCategory
 

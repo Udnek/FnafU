@@ -4,13 +4,10 @@ import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
 import me.udnek.coreu.custom.entitylike.block.constructabletype.RotatableCustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.nms.Nms
-import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.item.Items
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
-import org.bukkit.loot.LootTable
 import org.bukkit.scheduler.BukkitRunnable
 
 class SystemStationBlock : RotatableCustomBlockType() {

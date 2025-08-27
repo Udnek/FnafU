@@ -3,7 +3,6 @@ package me.udnek.fnafu.component
 import me.udnek.coreu.custom.component.ConstructableComponentType
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.registry.CustomRegistries
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.animatronic.MovementTrackerComponent
 import me.udnek.fnafu.component.animatronic.freddy.FreddySetTrapAbility
@@ -14,10 +13,7 @@ import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapBreakCamerasAbi
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbility
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapData
 import me.udnek.fnafu.component.kit.Kit
-import me.udnek.fnafu.component.survivor.CurrentInventoryData
-import me.udnek.fnafu.component.survivor.PetrolCanisterAbility
-import me.udnek.fnafu.component.survivor.SpectateCameraData
-import me.udnek.fnafu.component.survivor.SpectateEntityData
+import me.udnek.fnafu.component.survivor.*
 import me.udnek.fnafu.component.survivor.tablet.CameraTabletAbility
 import me.udnek.fnafu.component.survivor.tablet.DoormanTabletAbility
 import me.udnek.fnafu.component.survivor.tablet.SystemTabletAbility
@@ -29,6 +25,7 @@ object FnafUComponents {
     val SYSTEM_TABLET_ABILITY = register(ConstructableComponentType("system_tablet_ability", SystemTabletAbility.DEFAULT))
     val VENTILATION_TABLET_ABILITY = register(ConstructableComponentType("ventilation_tablet_ability", VentilationTabletAbility.DEFAULT))
     val FUEL_CANISTER_ABILITY = register(ConstructableComponentType("fuel_canister_ability", PetrolCanisterAbility.SMALL))
+    val FLASHLIGHT_ABILITY = register(ConstructableComponentType("flashlight_ability", FlashlightAbility.DEFAULT))
 
     val SPECTATE_ENTITY_DATA = register(ConstructableComponentType("spectate_entity_data", SpectateEntityData.DEFAULT) { SpectateEntityData() })
     val SPECTATE_CAMERA_DATA = register(ConstructableComponentType("spectate_camera_data", SpectateCameraData.DEFAULT) { SpectateCameraData() })
