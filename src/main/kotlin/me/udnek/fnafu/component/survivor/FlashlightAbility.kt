@@ -14,6 +14,7 @@ import me.udnek.fnafu.misc.FakeBlock
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
+import org.bukkit.block.data.type.Light
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -24,12 +25,16 @@ class FlashlightAbility : FnafUActiveAbility() {
     }
 
     private var task: BukkitRunnable? = null
-    private val blockData: BlockData = Material.SUGAR_CANE.createBlockData()
-        /*get() {
-            val light = Material.LIGHT.createBlockData() as Light
-            light.level = 5
-            return light
-        }*/
+    private val blockData: BlockData = //Material.SUGAR_CANE.createBlockData()
+
+        (Material.LIGHT.createBlockData() as Light).also {
+                it.level = 8
+        }
+    private val finalBlock = //Material.SUGAR_CANE.createBlockData()
+
+        (Material.LIGHT.createBlockData() as Light).also {
+            it.level = 9
+        }
 
     override fun action(
         item: CustomItem,
@@ -42,7 +47,7 @@ class FlashlightAbility : FnafUActiveAbility() {
                 override fun run() {
                     val location = player.player.eyeLocation
                     val direction = location.direction.setY(0).normalize()
-                    repeat(10) {
+                    repeat(15) {
                         if (!location.block.isEmpty) return@repeat
                         FakeBlock(player.game.playerContainer.all, location, blockData, 1)
                         location.add(direction)
