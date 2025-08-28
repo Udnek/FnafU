@@ -25,16 +25,8 @@ class FlashlightAbility : FnafUActiveAbility() {
     }
 
     private var task: BukkitRunnable? = null
-    private val blockData: BlockData = //Material.SUGAR_CANE.createBlockData()
-
-        (Material.LIGHT.createBlockData() as Light).also {
-                it.level = 8
-        }
-    private val finalBlock = //Material.SUGAR_CANE.createBlockData()
-
-        (Material.LIGHT.createBlockData() as Light).also {
-            it.level = 9
-        }
+    private val blockData: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
+    private val finalBlock = Material.SUGAR_CANE.createBlockData() /*(Material.LIGHT.createBlockData() as Light).also { it.level = 9 }*/
 
     override fun action(
         item: CustomItem,
@@ -47,10 +39,14 @@ class FlashlightAbility : FnafUActiveAbility() {
                 override fun run() {
                     val location = player.player.eyeLocation
                     val direction = location.direction.setY(0).normalize()
+                    if (location.block.isSolid) return
                     repeat(15) {
-                        if (!location.block.isEmpty) return@repeat
                         FakeBlock(player.game.playerContainer.all, location, blockData, 1)
                         location.add(direction)
+                        if (location.block.isSolid) {
+                            FakeBlock(player.game.playerContainer.all, location, finalBlock, 1)
+                            return@repeat
+                        }
                     }
                 }
             }
