@@ -3,7 +3,6 @@ package me.udnek.fnafu.block
 import me.udnek.coreu.custom.entitylike.block.CustomBlockPlaceContext
 import me.udnek.coreu.custom.entitylike.block.constructabletype.AbstractCustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.util.Either
 import me.udnek.fnafu.item.Items
 import org.bukkit.Location
 import org.bukkit.Material
@@ -13,7 +12,6 @@ import org.bukkit.block.Campfire
 import org.bukkit.block.TileState
 import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.loot.LootTable
 
 class UniversalSlabBlock : AbstractCustomBlockType(){
     companion object {

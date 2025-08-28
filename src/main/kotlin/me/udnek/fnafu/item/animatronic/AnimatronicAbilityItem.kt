@@ -11,16 +11,17 @@ import me.udnek.fnafu.component.AbilityIconFilesComponent
 import me.udnek.fnafu.component.kit.Kit
 import net.kyori.adventure.key.Key
 import org.bukkit.NamespacedKey
+import java.util.function.Supplier
 
 class AnimatronicAbilityItem(
     private val animatronicName: String,
     private val skillName: String,
-    private val kit: Kit,
+    private val kit: Supplier<Kit>,
     private val component: CustomComponentType<RPGUActiveAbilityItem, out RPGUItemActiveAbility<*>>
 ) : ConstructableCustomItem() {
     override fun initializeComponents() {
         super.initializeComponents()
-        components.set(AbilityIconFilesComponent(kit))
+        components.set(AbilityIconFilesComponent(kit.get()))
         components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(component.createNewDefault())
     }
 
