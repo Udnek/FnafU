@@ -36,7 +36,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
 
     fun onRightClick(event: PlayerInteractEvent) {
         activate(
-            CustomItem.get(event.getItem())!!,
+            CustomItem.get(event.item)!!,
             event.getPlayer(),
             Either(BaseUniversalSlot(event.hand!!), null),
             event
