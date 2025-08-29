@@ -39,13 +39,14 @@ class FlashlightAbility : FnafUActiveAbility() {
                 override fun run() {
                     val location = player.player.eyeLocation
                     val direction = location.direction.setY(0).normalize()
-                    if (location.block.isSolid) return
                     repeat(15) {
-                        FakeBlock(player.game.playerContainer.all, location, blockData, 1)
+                        val previousLocation = location.clone()
                         location.add(direction)
-                        if (location.block.isSolid) {
-                            FakeBlock(player.game.playerContainer.all, location, finalBlock, 1)
+                        if (location.block.isSolid)  {
+                            if (previousLocation.block.isEmpty) FakeBlock(player.game.playerContainer.all, previousLocation, finalBlock, 1)
                             return@repeat
+                        } else if (previousLocation.block.isEmpty) {
+                            FakeBlock(player.game.playerContainer.all, previousLocation, blockData, 1)
                         }
                     }
                 }
