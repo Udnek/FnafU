@@ -200,8 +200,8 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
         NONE(TextColor.color(0.7f, 0.7f, 0.7f))
     }
 
-    private var components: CustomComponentMap<FnafUGame, CustomComponent<FnafUGame>> = CustomComponentMap()
-    override fun getComponents(): CustomComponentMap<FnafUGame, CustomComponent<FnafUGame>> {
+    private var components: CustomComponentMap<FnafUGame> = CustomComponentMap()
+    override fun getComponents(): CustomComponentMap<FnafUGame> {
         return components
     }
 }

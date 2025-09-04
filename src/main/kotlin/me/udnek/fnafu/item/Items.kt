@@ -85,16 +85,12 @@ object Items {
     val VENDING_MACHINE : CustomItem = register(FnafUBlockDecorItem("vending_machine", Blocks.VENDING_MACHINE))
     val NIGHTSTAND : CustomItem = register(NightstandItem())
     val GREY_STARS_ON_CEIL: CustomItem = register(FnafUBlockDecorItem("grey_stars_on_ceil", Blocks.GREY_STARS_ON_CEIL))
-    val GOLDEN_STARS_ON_CEIL: CustomItem = register(
-        FnafUBlockDecorItem(
-            "golden_stars_on_ceil",
-            Blocks.GOLDEN_STARS_ON_CEIL
-        )
-    )
+    val GOLDEN_STARS_ON_CEIL: CustomItem = register(FnafUBlockDecorItem("golden_stars_on_ceil", Blocks.GOLDEN_STARS_ON_CEIL))
     val TRASH_ON_FLOOR: CustomItem = register(FnafUVanillaBasedItem("trash_on_floor", Material.DEAD_BUBBLE_CORAL))
     val DIRTY_FLOOR: CustomItem = register(FnafUVanillaBasedItem("dirty_floor", Material.DEAD_TUBE_CORAL))
     val BLOOD: CustomItem = register(FnafUVanillaBasedItem("blood", Material.REDSTONE))
     val UNIVERSAL_SLAB = register(UniversalSlab())
+    val WATTER_PUDDLE = register(FnafUBlockDecorItem("water_puddle", Blocks.WATER_PUDDLE))
 
     // POSTERS
 

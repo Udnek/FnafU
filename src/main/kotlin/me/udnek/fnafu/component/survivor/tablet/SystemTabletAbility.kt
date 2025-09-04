@@ -18,7 +18,7 @@ open class SystemTabletAbility : FnafUActiveAbility() {
         val DEFAULT = SystemTabletAbility()
     }
 
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.SYSTEM_TABLET_ABILITY
     }
 

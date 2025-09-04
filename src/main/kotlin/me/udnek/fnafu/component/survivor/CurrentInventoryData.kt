@@ -4,6 +4,7 @@ import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
+import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.inventory.ItemStack
@@ -37,7 +38,7 @@ open class CurrentInventoryData: MGUPlayerData {
         mutableItems = ArrayList()
     }
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out CustomComponent<MGUPlayerDataHolder?>?> {
+    override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.CURRENT_INVENTORY_DATA
     }
 }

@@ -64,7 +64,7 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
         return ActionResult.INFINITE_COOLDOWN
     }
 
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY
     }
 }

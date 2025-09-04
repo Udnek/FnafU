@@ -50,7 +50,7 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
         return item
     }
 
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.CAMERA_TABLET_ABILITY
     }
 

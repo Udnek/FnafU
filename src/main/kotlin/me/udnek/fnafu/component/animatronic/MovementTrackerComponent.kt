@@ -1,5 +1,6 @@
 package me.udnek.fnafu.component.animatronic
 
+import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
@@ -25,7 +26,7 @@ open class MovementTrackerComponent : MGUPlayerData {
     }
 
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out MGUPlayerData> {
+    override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.MOVEMENT_TRACKER_DATA
     }
 

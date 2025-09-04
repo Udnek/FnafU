@@ -67,7 +67,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
 
 
 
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem, out CustomComponent<RPGUActiveAbilityItem>> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.FREDDY_SHADOW_ABILITY
     }
 }

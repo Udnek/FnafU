@@ -20,6 +20,7 @@ object Blocks {
     val GOLDEN_STARS_ON_CEIL = register(FnafUBlock("golden_stars_on_ceil"))
     val UNIVERSAL_SLAB = register(UniversalSlabBlock())
     val POSTER = register(PosterBlock())
+    val WATER_PUDDLE = register(WaterPuddleBlock())
 
     private fun register(customBlockType: CustomBlockType): CustomBlockType {
         return CustomRegistries.BLOCK_TYPE.register(FnafU.instance, customBlockType)

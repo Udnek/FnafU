@@ -44,7 +44,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
         cooldown(item, player.player)
     }
 
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem?>?> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.SPRINGTRAP_BREAK_CAMERAS_ABILITY
     }
 }

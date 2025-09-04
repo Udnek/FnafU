@@ -54,8 +54,7 @@ open class FreddySetTrapAbility : FnafUActiveAbility {
     }
 
 
-
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem, out CustomComponent<RPGUActiveAbilityItem>> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.FREDDY_SET_TRAP_ABILITY
     }
 }

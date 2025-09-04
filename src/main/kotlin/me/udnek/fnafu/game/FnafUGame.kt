@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scoreboard.Team
 
-interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame, CustomComponent<FnafUGame>> {
+interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame> {
 
     val stage: Stage
     val systems: Systems

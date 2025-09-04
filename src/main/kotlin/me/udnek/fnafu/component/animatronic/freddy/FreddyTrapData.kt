@@ -1,10 +1,12 @@
 package me.udnek.fnafu.component.animatronic.freddy
 
+import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
+import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.remnanttrap.RemnantTrap
 import me.udnek.fnafu.player.FnafUPlayer
@@ -46,7 +48,7 @@ open class FreddyTrapData : MGUPlayerData, Resettable{
         this.teleportLocation = teleportLocation
     }
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out MGUPlayerData> {
+    override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.FREDDY_TRAP_DATA
     }
 

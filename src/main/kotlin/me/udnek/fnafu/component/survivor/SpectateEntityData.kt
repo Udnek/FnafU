@@ -3,9 +3,11 @@ package me.udnek.fnafu.component.survivor
 
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
+import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
+import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.entity.Entity
@@ -33,7 +35,7 @@ open class SpectateEntityData : MGUPlayerData {
         spectate(player, player.player)
     }
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out MGUPlayerData> {
+    override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.SPECTATE_ENTITY_DATA
     }
 

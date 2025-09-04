@@ -59,7 +59,7 @@ class FlashlightAbility : FnafUActiveAbility() {
         return ActionResult.NO_COOLDOWN
     }
 
-    override fun getType(): CustomComponentType<out RPGUActiveAbilityItem?, out CustomComponent<RPGUActiveAbilityItem>> {
+    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
         return FnafUComponents.FLASHLIGHT_ABILITY
     }
 }

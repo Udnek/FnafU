@@ -31,7 +31,7 @@ open class KitStageData : MGUPlayerData  {
         isReady = false
     }
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder, out CustomComponent<MGUPlayerDataHolder>> {
+    override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.KIT_STAGE_DATA
     }
 }

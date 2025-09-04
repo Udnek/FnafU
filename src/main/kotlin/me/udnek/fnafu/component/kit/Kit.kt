@@ -1,5 +1,6 @@
 package me.udnek.fnafu.component.kit
 
+import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.custom.registry.CustomRegistry
@@ -62,7 +63,7 @@ interface Kit : MGUPlayerData, Registrable{
 
     fun regiveCurrentInventory(player: FnafUPlayer)
 
-    override fun getType(): CustomComponentType<out MGUPlayerDataHolder?, out MGUPlayerData> {
+    override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.KIT
     }
 

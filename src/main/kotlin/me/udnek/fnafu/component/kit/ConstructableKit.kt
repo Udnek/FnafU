@@ -49,7 +49,7 @@ open class ConstructableKit(
         giveItems(player)
         player.currentInventory.give(player)
         player.abilityItems.forEach { item ->
-            item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.forEach { ability ->
+            item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.abilities?.forEach { ability ->
                 ability.cooldown(item, player.player)
             }
         }
