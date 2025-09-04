@@ -26,7 +26,7 @@ vec3 notGamma(vec3 x) {
     return 1.0 - nx * nx * nx * nx;
 }
 
-bool isDeadDarkness(){
+bool isShowDark(){
     return lightmapInfo.DarkenWorldFactor > 0.9;
 }
 
@@ -50,18 +50,16 @@ void main() {
 
     float mul;
     float add;
-
     vec3 middleColor;
-
-    if (isDeadDarkness()){
-        middleColor = vec3(255, 104, 66);
-        mul = 0.9;
-        add = 1 - mul;
-    } else {
-        middleColor = vec3(255, 195, 130);
-        mul = 0.5;
-        add = 0.5;
-    }
+    // if (isDeadDarkness()){
+    //     middleColor = vec3(255, 104, 66);
+    //     mul = 0.9;
+    //     add = 1 - mul;
+    // } else {
+    middleColor = vec3(255, 195, 130);
+    mul = 0.5;
+    add = 0.5;
+    // }
 
     middleColor /= 255.0;
     //cubic nonsense, dips to yellowish in the middle, white when fully saturated
@@ -76,8 +74,8 @@ void main() {
     //     block_brightness * (block_brightness * block_brightness * mul + add)
     // );
 
-    if (!isDeadDarkness()){
-        color += darkness;
+    if (block_brightness == 0 && isShowDark()){
+        color += vec3(0, 0, 0.4);
     }
 
     color += sky_brightness;
