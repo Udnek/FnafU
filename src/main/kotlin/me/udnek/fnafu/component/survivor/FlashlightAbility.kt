@@ -3,6 +3,7 @@ package me.udnek.fnafu.component.survivor
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
+import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
@@ -10,12 +11,15 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.misc.FakeBlock
+import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Light
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.scheduler.BukkitRunnable
 
 class FlashlightAbility : FnafUActiveAbility() {
@@ -34,17 +38,22 @@ class FlashlightAbility : FnafUActiveAbility() {
         slot: Either<UniversalInventorySlot?, SingleSlot?>,
         event: PlayerInteractEvent
     ): ActionResult {
+        if (event.action.isLeftClick) return ActionResult.NO_COOLDOWN
         if (task == null){
             task = object : BukkitRunnable() {
                 override fun run() {
+                    if (player.player.inventory.getItem((slot.left as? BaseUniversalSlot)?.equipmentSlot ?: EquipmentSlot.OFF_HAND).getCustom() != Items.FLASHLIGHT) {
+                        cancel()
+                        return
+                    }
                     val location = player.player.eyeLocation
                     val direction = location.direction.setY(0).normalize()
-                    repeat(15) {
+                    for (i in  0..15) {
                         val previousLocation = location.clone()
                         location.add(direction)
-                        if (location.block.isSolid)  {
-                            if (previousLocation.block.isEmpty) FakeBlock(player.game.playerContainer.all, previousLocation, finalBlock, 1)
-                            return@repeat
+                        if (location.block.blockData.isOccluding)  {
+                            if (previousLocation.block.isEmpty)  FakeBlock(player.game.playerContainer.all, previousLocation, finalBlock, 1)
+                            break
                         } else if (previousLocation.block.isEmpty) {
                             FakeBlock(player.game.playerContainer.all, previousLocation, blockData, 1)
                         }

@@ -6,7 +6,6 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.component.MGUPlayerData
 import me.udnek.coreu.mgu.component.MGUPlayerDataHolder
-import me.udnek.coreu.mgu.player.MGUPlayer
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.remnanttrap.RemnantTrap
 import me.udnek.fnafu.player.FnafUPlayer

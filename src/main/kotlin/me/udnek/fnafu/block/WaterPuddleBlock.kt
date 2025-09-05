@@ -5,7 +5,6 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.fnafu.item.Items
 import org.bukkit.Material
 import org.bukkit.block.BlockState
-import org.bukkit.block.ShulkerBox
 import org.bukkit.block.Sign
 import org.bukkit.block.TileState
 import org.bukkit.block.data.Levelled

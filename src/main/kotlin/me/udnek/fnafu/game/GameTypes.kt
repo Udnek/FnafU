@@ -99,6 +99,10 @@ object GameTypes {
         fun onEnergyEndedUp(event: EnergyEndedUpEvent){
 
         }
+
+        @EventHandler
+        fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {event.isCancelled = true}
+
     })
 
     private fun register(type: MGUGameType): MGUGameType {

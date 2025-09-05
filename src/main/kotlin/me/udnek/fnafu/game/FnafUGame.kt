@@ -1,7 +1,6 @@
 package me.udnek.fnafu.game
 
 import me.udnek.coreu.custom.component.ComponentHolder
-import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameInstance
