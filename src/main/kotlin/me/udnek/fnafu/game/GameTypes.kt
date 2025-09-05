@@ -101,7 +101,9 @@ object GameTypes {
         }
 
         @EventHandler
-        fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {event.isCancelled = true}
+        fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {
+            if ( getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return) event.isCancelled = true
+        }
 
     })
 
