@@ -99,6 +99,12 @@ object GameTypes {
         fun onEnergyEndedUp(event: EnergyEndedUpEvent){
 
         }
+
+        @EventHandler
+        fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {
+            if ( getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return) event.isCancelled = true
+        }
+
     })
 
     private fun register(type: MGUGameType): MGUGameType {

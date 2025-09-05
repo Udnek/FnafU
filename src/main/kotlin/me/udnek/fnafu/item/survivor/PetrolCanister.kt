@@ -11,7 +11,6 @@ import org.bukkit.persistence.PersistentDataType
 class PetrolCanister(val component: PetrolCanisterAbility, val rawID: String) : ConstructableCustomItem() {
 
     companion object {
-
         val PDC_KEY: NamespacedKey = NamespacedKey(FnafU.instance, "petrol")
 
         fun setPetrol(item: ItemStack, amount: Float){
@@ -23,12 +22,6 @@ class PetrolCanister(val component: PetrolCanisterAbility, val rawID: String) : 
     }
 
     override fun getRawId(): String = rawID
-
-//    override fun getConsumable(): CustomItemProperties.DataSupplier<Consumable?> {
-//        return CustomItemProperties.DataSupplier.of(Consumable.consumable()
-//                .consumeSeconds(1.0E10f).sound(SoundEventKeys.INTENTIONALLY_EMPTY).animation(ItemUseAnimation.BOW).build()
-//        )
-//    }
 
     override fun initializeComponents() {
         super.initializeComponents()
