@@ -12,7 +12,7 @@ import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.misc.FakeBlock
+import me.udnek.coreu.util.FakeBlock
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Material
@@ -51,11 +51,12 @@ class FlashlightAbility : FnafUActiveAbility() {
                     for (i in  0..15) {
                         val previousLocation = location.clone()
                         location.add(direction)
+                        val players = player.game.playerContainer.all.map { it.player }
                         if (location.block.blockData.isOccluding)  {
-                            if (previousLocation.block.isEmpty)  FakeBlock(player.game.playerContainer.all, previousLocation, finalBlock, 1)
+                            if (previousLocation.block.isEmpty)  FakeBlock().show(players, previousLocation, finalBlock, 1)
                             break
                         } else if (previousLocation.block.isEmpty) {
-                            FakeBlock(player.game.playerContainer.all, previousLocation, blockData, 1)
+                            FakeBlock().show(players, previousLocation, blockData, 1)
                         }
                     }
                 }
