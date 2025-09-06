@@ -1,17 +1,12 @@
 package me.udnek.fnafu.player
 
-import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.events.PacketContainer
-import com.comphenix.protocol.wrappers.WrappedDataValue
-import com.comphenix.protocol.wrappers.WrappedDataWatcher
-import com.comphenix.protocol.wrappers.WrappedWatchableObject
-import it.unimi.dsi.fastutil.ints.IntArrayList
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
-import me.udnek.fnafu.FnafU
+import me.udnek.coreu.util.FakeGlow
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.survivor.CurrentInventoryData
@@ -25,22 +20,12 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
 import net.skinsrestorer.api.SkinsRestorerProvider
-import org.bukkit.*
-import org.bukkit.entity.Display
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.ItemDisplay
+import org.bukkit.GameMode
+import org.bukkit.Location
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
-import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.Team
 import org.bukkit.util.Vector
-import java.lang.Byte
 import java.time.Duration
-import java.util.*
-import kotlin.Float
-import kotlin.Int
-import kotlin.String
-import kotlin.intArrayOf
 
 class FnafUPlayer(private val player: Player, val type: Type, private val game: FnafUGame) : MGUAbstractPlayer(player, game), Resettable {
 
@@ -98,77 +83,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     fun sendPacket(packetContainer: PacketContainer) = ProtocolLibrary.getProtocolManager().sendServerPacket(player, packetContainer)
 
-    fun showAuraTo(toPlayers: List<FnafUPlayer>, duration: Int, color: Color) {
-        val protocolManager = ProtocolLibrary.getProtocolManager()
-
-        // PACKET SPAWN
-
-        val spawnPacket = protocolManager.createPacket(PacketType.Play.Server.SPAWN_ENTITY)
-        spawnPacket.modifier.writeDefaults()
-        spawnPacket.entityTypeModifier.write(0, EntityType.ITEM_DISPLAY)
-        spawnPacket.uuiDs.write(0, UUID.randomUUID())
-        spawnPacket.integers.write(1, 1)
-        val location = player.location
-        spawnPacket.doubles.write(0, location.x)
-        spawnPacket.doubles.write(1, location.y)
-        spawnPacket.doubles.write(2, location.z)
-
-        // PACKET METADATA
-
-        val metadataPacket = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA) // metadata packet
-        metadataPacket.integers.write(0, spawnPacket.integers.read(0)) //Set entity id from packet above
-        val realEntity = Bukkit.getWorld("world")!!.spawnEntity(location, EntityType.ITEM_DISPLAY) as ItemDisplay
-        realEntity.setItemStack(ItemStack(Material.DIAMOND_SWORD))
-        realEntity.glowColorOverride = color
-        realEntity.billboard = Display.Billboard.CENTER
-
-        val watcher = WrappedDataWatcher.getEntityWatcher(realEntity).deepClone()
-        realEntity.remove()
-        watcher.setObject(
-            0,
-            WrappedDataWatcher.Registry.get(Byte::class.java),
-            (0x40).toByte()
-        ) //Set status to glowing, found on protocol page
-        val wrappedDataValueList: MutableList<WrappedDataValue> = ArrayList()
-        watcher.watchableObjects.filterNotNull().forEach {
-            entry: WrappedWatchableObject ->
-                val dataWatcherObject = entry.watcherObject
-                wrappedDataValueList.add(
-                    WrappedDataValue(
-                        dataWatcherObject.index,
-                        dataWatcherObject.serializer,
-                        entry.rawValue
-                    )
-                )
-            }
-        metadataPacket.dataValueCollectionModifier.write(0, wrappedDataValueList)
-
-        // PACKET MOUNT
-
-        val mountPacket = protocolManager.createPacket(PacketType.Play.Server.MOUNT)
-        mountPacket.integers
-            .write(0, player.entityId)
-        mountPacket.integerArrays.write(0, intArrayOf(spawnPacket.integers.read(0)))
-
-        for (toPlayer in toPlayers) {
-            protocolManager.sendServerPacket(toPlayer.player, spawnPacket)
-            protocolManager.sendServerPacket(toPlayer.player, metadataPacket)
-            protocolManager.sendServerPacket(toPlayer.player, mountPacket)
-        }
-
-        object : BukkitRunnable() {
-            override fun run() {
-                //player.sendMessage("TODO REMOVE ENTITY")
-
-                val removePacket = protocolManager.createPacket(PacketType.Play.Server.ENTITY_DESTROY)
-                removePacket.modifier.write(0, IntArrayList(intArrayOf(spawnPacket.integers.read(0))))
-
-                for (toPlayer in toPlayers) {
-                    protocolManager.sendServerPacket(toPlayer.player, removePacket)
-                }
-            }
-        }.runTaskLater(FnafU.instance, duration.toLong())
-    }
+    fun showAuraTo(toPlayers: List<FnafUPlayer>, duration: Int) = FakeGlow(toPlayers.map { it.player }, player).glow(duration)
 
     fun showNoise(color: TextColor){
         player.showTitle(Title.title(Component.text("1").font(Key.key("fnafu:system/camera")).color(color), Component.empty(),

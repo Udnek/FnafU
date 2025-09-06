@@ -1,6 +1,5 @@
 package me.udnek.fnafu.game
 
-import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentMap
 import me.udnek.coreu.mgu.command.MGUCommandContext
 import me.udnek.coreu.mgu.command.MGUCommandType

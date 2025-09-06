@@ -30,7 +30,6 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/system/error.json" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/models/item/system/reboot.json" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/freddy" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/freddy/jump_scare.ogg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/sounds/springtrap" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/font/system/camera/noise.mcmeta" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/resourcepack/assets/fnafu/textures/item/cameras" charset="ISO-8859-1" />
