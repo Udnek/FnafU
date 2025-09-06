@@ -14,6 +14,7 @@ import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbilit
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapData
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.survivor.*
+import me.udnek.fnafu.component.survivor.tablet.CameraFlashAbility
 import me.udnek.fnafu.component.survivor.tablet.CameraTabletAbility
 import me.udnek.fnafu.component.survivor.tablet.DoormanTabletAbility
 import me.udnek.fnafu.component.survivor.tablet.SystemTabletAbility
@@ -26,6 +27,8 @@ object FnafUComponents {
     val VENTILATION_TABLET_ABILITY = register(ConstructableComponentType("ventilation_tablet_ability", VentilationTabletAbility.DEFAULT))
     val FUEL_CANISTER_ABILITY = register(ConstructableComponentType("fuel_canister_ability", PetrolCanisterAbility.SMALL))
     val FLASHLIGHT_ABILITY = register(ConstructableComponentType("flashlight_ability", FlashlightAbility.DEFAULT))
+
+    val CAMERA_FLASH_ABILITY = register(ConstructableComponentType("camera_flash_ability", CameraFlashAbility.DEFAULT))
 
     val SPECTATE_ENTITY_DATA = register(ConstructableComponentType("spectate_entity_data", SpectateEntityData.DEFAULT) { SpectateEntityData() })
     val SPECTATE_CAMERA_DATA = register(ConstructableComponentType("spectate_camera_data", SpectateCameraData.DEFAULT) { SpectateCameraData() })

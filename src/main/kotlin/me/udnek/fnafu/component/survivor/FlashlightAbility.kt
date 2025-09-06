@@ -53,10 +53,10 @@ class FlashlightAbility : FnafUActiveAbility() {
                         location.add(direction)
                         val players = player.game.playerContainer.all.map { it.player }
                         if (location.block.blockData.isOccluding)  {
-                            if (previousLocation.block.isEmpty)  FakeBlock().show(players, previousLocation, finalBlock, 1)
+                            if (previousLocation.block.isEmpty)  FakeBlock.show( previousLocation, finalBlock, players,1)
                             break
                         } else if (previousLocation.block.isEmpty) {
-                            FakeBlock().show(players, previousLocation, blockData, 1)
+                            FakeBlock.show(previousLocation, blockData, players, 1)
                         }
                     }
                 }

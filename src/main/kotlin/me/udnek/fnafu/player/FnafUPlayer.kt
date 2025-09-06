@@ -83,7 +83,9 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     fun sendPacket(packetContainer: PacketContainer) = ProtocolLibrary.getProtocolManager().sendServerPacket(player, packetContainer)
 
-    fun showAuraTo(toPlayers: List<FnafUPlayer>, duration: Int) = FakeGlow(toPlayers.map { it.player }, player).glow(duration)
+    fun showAuraTo(toPlayers: List<FnafUPlayer>, duration: Int){
+        FakeGlow.glow(player, toPlayers.map{it.player}, duration.toLong())
+    }
 
     fun showNoise(color: TextColor){
         player.showTitle(Title.title(Component.text("1").font(Key.key("fnafu:system/camera")).color(color), Component.empty(),

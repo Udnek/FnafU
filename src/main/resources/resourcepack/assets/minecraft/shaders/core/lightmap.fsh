@@ -40,7 +40,7 @@ void main() {
 
     //if (block_brightness > 0) {block_brightness = min(block_brightness+0.1, 1);}
 
-    block_brightness *= 1.3;
+    block_brightness *= 1.4;
 
     // minimal lighning
     vec3 darkness = vec3(15)*1.7 / 255.0;
@@ -74,7 +74,7 @@ void main() {
     );
 
     if (block_brightness == 0 && isShowDark()){
-        if (isNightVision()) color += vec3(0, 0, 0.3);
+        if (isNightVision()) color += vec3(0, 0, 0.15);
         else color += vec3(0, 0, 0.1);
     }
 

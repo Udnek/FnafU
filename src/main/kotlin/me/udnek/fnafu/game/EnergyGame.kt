@@ -201,6 +201,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
                     teamSurvivors!!.addPlayer(player.player)
                 }
                 FnafUPlayer.Type.ANIMATRONIC -> {
+                    player.player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false))
                     player.teleport(animatronicSpawn)
                     teamAnimatronics!!.addPlayer(player.player)
                 }

@@ -20,6 +20,7 @@ import me.udnek.fnafu.item.survivor.SystemStation
 import me.udnek.fnafu.item.survivor.SystemTablet
 import me.udnek.fnafu.item.survivor.camera.CameraButton
 import me.udnek.fnafu.item.survivor.camera.CutCameraTablet
+import me.udnek.fnafu.item.survivor.camera.FlashButton
 import me.udnek.fnafu.item.survivor.camera.FullCameraTablet
 import me.udnek.fnafu.item.survivor.door.DoormanTablet
 import me.udnek.fnafu.item.survivor.door.DoormanTabletButton
@@ -31,6 +32,7 @@ import org.bukkit.Material
 object Items {
     val CAMERA_BUTTON: CustomItem = register(CameraButton())
     val CAMERA_OVERLAY: CustomItem = register(EmptyItem("camera_overlay"))
+    val FLASH_BUTTON: CustomItem = register(FlashButton())
 
     val FULL_CAMERA_TABLET: CustomItem = register(FullCameraTablet())
     val CUT_CAMERA_TABLET: CustomItem = register(CutCameraTablet())
