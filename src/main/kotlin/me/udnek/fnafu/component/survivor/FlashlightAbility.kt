@@ -3,7 +3,6 @@ package me.udnek.fnafu.component.survivor
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
-import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
 import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
