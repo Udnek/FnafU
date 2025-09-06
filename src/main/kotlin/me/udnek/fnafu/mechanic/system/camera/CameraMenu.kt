@@ -19,6 +19,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
 open class CameraMenu : ConstructableCustomInventory{
@@ -31,7 +32,6 @@ open class CameraMenu : ConstructableCustomInventory{
     constructor(cameras: List<Camera>, title: Component, cameraTablet: ItemStack) : super() {
         this.title = title.color(TextColor.color(1F, 1F, 1F))
         updateCameras(cameras, null, cameraTablet)
-        setItem(FLASH_POSITION, Items.FLASH_BUTTON)
     }
 
     fun updateCameras(cameras: List<Camera>, useCamera: Camera?, cameraTablet: ItemStack) {
@@ -70,6 +70,11 @@ open class CameraMenu : ConstructableCustomInventory{
 
     override fun onPlayerClosesInventory(event: InventoryCloseEvent) {
         (event.player as Player).getFnafU()?.let { it.game.systems.camera.exitCamera(it) }
+    }
+
+    override fun onPlayerOpensInventory(event: InventoryOpenEvent) {
+        super.onPlayerOpensInventory(event)
+        event.player.inventory.setItem(FLASH_POSITION, Items.FLASH_BUTTON.item)
     }
 
     override fun getTitle(): Component? { return title }

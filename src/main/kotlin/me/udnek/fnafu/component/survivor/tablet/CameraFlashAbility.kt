@@ -13,7 +13,8 @@ import me.udnek.coreu.rpgu.component.ability.property.EffectsProperty
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.misc.getFnafU
-import org.bukkit.Color
+import me.udnek.fnafu.player.FnafUPlayer
+import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -27,9 +28,9 @@ class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
 
     constructor(){
         components.set(AttributeBasedProperty(3.0 * 20, RPGUComponents.ABILITY_COOLDOWN_TIME))
-        components.set(AttributeBasedProperty(3.0 * 20, RPGUComponents.ABILITY_DURATION))
+        components.set(AttributeBasedProperty(8.0 * 20, RPGUComponents.ABILITY_DURATION))
         components.set(EffectsProperty(
-            EffectsProperty.PotionData(PotionEffectType.SLOWNESS, 3 * 20, 0)
+            EffectsProperty.PotionData(PotionEffectType.SLOWNESS, 5 * 20, 1)
         ))
     }
 
@@ -46,10 +47,17 @@ class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
         val player = (entity as? Player)?.getFnafU() ?: return ActionResult.NO_COOLDOWN
         val camera = player.game.systems.camera.getSpectatingCamera(player) ?: return ActionResult.NO_COOLDOWN
         val location = camera.location.first
+
+        fun hasVision(animatronic: FnafUPlayer): Boolean{
+            val direction = animatronic.player.location.add(0.0, 0.5, 0.0).subtract(location).toVector()
+            val rayTrace =
+                location.world.rayTraceBlocks(location, direction, direction.length(), FluidCollisionMode.NEVER, true) ?: return true
+            if (rayTrace.hitBlock == null) return true
+            return rayTrace.hitPosition.distance(location.toVector()) > direction.length()
+        }
+
         for (animatronic in player.game.playerContainer.animatronics) {
-            val direction = animatronic.player.location.subtract(location).toVector()
-            val rayTraceBlocks = location.world.rayTraceBlocks(location, direction, direction.length() + 5)
-            if (rayTraceBlocks?.hitBlock != null) continue
+            if (!hasVision(animatronic)) continue
             animatronic.showAuraTo(
                 player.game.playerContainer.survivors,
                 components.getOrDefault(RPGUComponents.ABILITY_DURATION).get(player.player).toInt())
