@@ -6,7 +6,6 @@ import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.component.animatronic.freddy.FreddyTrapData
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.player.FnafUPlayer
-import org.bukkit.Color
 import org.bukkit.entity.Item
 
 class RemnantTrap : ConstructableCustomEntity<Item>() {
@@ -26,7 +25,7 @@ class RemnantTrap : ConstructableCustomEntity<Item>() {
             data.ability!!.components.getOrDefault(RPGUComponents.ABILITY_AREA_OF_EFFECT).get(data.player!!.player),
             FnafUPlayer.Type.SURVIVOR
         ).forEach {
-                it.showAuraTo(data.player!!.game.playerContainer.animatronics, SCAN_DURATION, Color.GREEN)
+                it.showAuraTo(data.player!!.game.playerContainer.animatronics, SCAN_DURATION)
         }
     }
 
