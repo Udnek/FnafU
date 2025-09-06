@@ -40,6 +40,8 @@
   "sidebar.fnafu.systems": "Systems:",
   "sidebar.fnafu.survivors_lives": "Lives remaining: %s",
 
+  "actionbar.fnafu.in_darkness": "You are invisible to survivors without flashlight",
+
   "container.fnafu.kit.image": "1",
   "container.fnafu.kit": "Kit Menu",
 

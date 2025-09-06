@@ -6,7 +6,7 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.game.MGUGameType
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.FnafU
@@ -74,6 +74,13 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     private var timeBar: BossBar? = null
     private var energyBar: BossBar? = null
+    private val darknessRevealingBar: BossBar = BossBar.bossBar(
+        Component.empty(),
+        BossBar.MIN_PROGRESS,
+        BossBar.Color.YELLOW,
+        BossBar.Overlay.PROGRESS).also {
+        it.addFlag(BossBar.Flag.DARKEN_SCREEN)
+    }
 
     private var teamSurvivors: Team? = null
     private var teamAnimatronics: Team? = null
@@ -117,6 +124,18 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
         }
         if (isEveryNTicks(Systems.TICKRATE)) systems.tick()
         if (isEveryNTicks(5)) updateTimeBar()
+        // IN DARKNESS NOTIFICATION
+        if (isEveryNTicks(3)){
+            for (animatronic in playerContainer.animatronics) {
+                if (animatronic.player.location.block.lightLevel == 0.toByte()){
+                    animatronic.player.sendActionBar(Component.translatable("actionbar.fnafu.in_darkness").color(
+                        NamedTextColor.GRAY))
+                } else{
+                    animatronic.player.sendActionBar(Component.empty())
+                }
+            }
+        }
+        // STEP SOUNDS
         if (isEveryNTicks(15)) {
             for (animatronic in playerContainer.animatronics) {
                 val movement = animatronic.data.getOrCreateDefault(FnafUComponents.MOVEMENT_TRACKER_DATA)
@@ -130,6 +149,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
                 movement.lastLocation = animatronic.player.location
             }
         }
+        // TRACE
         if (isEveryNTicks(10)){
             for (survivor in playerContainer.aliveSurvivors) {
                 if (!survivor.player.isSprinting) continue
@@ -218,10 +238,9 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
         chooseSystemStations()
 
-        showBossBarToAll(energyBar!!)
         updateEnergyBar()
-        showBossBarToAll(timeBar!!)
         updateTimeBar()
+        showAllBars()
 
         for (player in players) {
             player.kit = KitMenu.getKitStageData(player).chosenKit
@@ -299,7 +318,6 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     private fun initializeBars() {
         energyBar = BossBar.bossBar(Component.empty(), BossBar.MAX_PROGRESS, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS)
-        energyBar!!.addFlag(BossBar.Flag.CREATE_WORLD_FOG)
         timeBar = BossBar.bossBar(Component.text(), BossBar.MIN_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS)
     }
 
@@ -308,6 +326,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
         reset()
         map.ambientSound.stop(players)
         for (player in players) {
+            darknessRevealingBar.removeViewer(player.player)
             player.clearSkin()
             player.player.closeInventory()
             sidebar.hide(player.player)
@@ -329,8 +348,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
             teamSurvivors?.unregister()
         } catch (_: Exception){}
 
-        removeBossBar(energyBar)
-        removeBossBar(timeBar)
+        hideAllBars()
 
         kitSetupTask?.cancel()
         animatronicWaitingTask?.cancel()
@@ -391,12 +409,22 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
 
     override fun getType(): MGUGameType = GameTypes.ENERGY
 
-    private fun removeBossBar(bossBar: BossBar?) {
-        for (fnafUPlayer in players) bossBar?.removeViewer(fnafUPlayer.player)
+    private fun showAllBars(){
+        fun showBossBarToAll(bossBar: BossBar?) {
+            for (fnafUPlayer in players) bossBar?.addViewer(fnafUPlayer.player)
+        }
+        showBossBarToAll(energyBar)
+        showBossBarToAll(timeBar)
+        playerContainer.animatronics.forEach { player -> darknessRevealingBar.addViewer(player.player) }
     }
 
-    private fun showBossBarToAll(bossBar: BossBar?) {
-        for (fnafUPlayer in players) bossBar?.addViewer(fnafUPlayer.player)
+    private fun hideAllBars(){
+        fun removeBossBar(bossBar: BossBar?) {
+            for (fnafUPlayer in players) bossBar?.removeViewer(fnafUPlayer.player)
+        }
+        removeBossBar(energyBar)
+        removeBossBar(timeBar)
+        removeBossBar(darknessRevealingBar)
     }
 
     private fun updateEnergyBar() {
@@ -422,7 +450,7 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
         return null
     }
 
-    override fun applyForEveryAbility(function: (component: RPGUActiveAbilityItem, player: FnafUPlayer, item: CustomItem) -> Unit) {
+    override fun applyForEveryAbility(function: (component: RPGUActiveItem, player: FnafUPlayer, item: CustomItem) -> Unit) {
         this.playerContainer.forEach { player ->
             player.abilityItems.forEach { item ->
                 function.invoke(item.components.getOrDefault(RPGUComponents.ACTIVE_ABILITY_ITEM), player, item)

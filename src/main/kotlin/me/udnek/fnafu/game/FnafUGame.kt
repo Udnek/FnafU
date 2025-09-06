@@ -4,7 +4,7 @@ import me.udnek.coreu.custom.component.ComponentHolder
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sidebar.CustomSidebar
 import me.udnek.coreu.mgu.game.MGUGameInstance
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.fnafu.map.FnafUMap
 import me.udnek.fnafu.mechanic.Energy
 import me.udnek.fnafu.mechanic.Time
@@ -31,7 +31,7 @@ interface FnafUGame : MGUGameInstance, Ticking, ComponentHolder<FnafUGame> {
     val time: Time
 
     fun updateEnergy()
-    fun applyForEveryAbility(function: (component: RPGUActiveAbilityItem, player: FnafUPlayer, item: CustomItem) -> Unit)
+    fun applyForEveryAbility(function: (component: RPGUActiveItem, player: FnafUPlayer, item: CustomItem) -> Unit)
     fun getTeam(fnafUPlayer: FnafUPlayer): Team?
     fun findNearbyPlayers(location: Location, radius: Double, playerType: FnafUPlayer.Type? = null): List<FnafUPlayer>
     fun checkForEndConditions()

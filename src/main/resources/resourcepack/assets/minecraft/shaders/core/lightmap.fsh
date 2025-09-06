@@ -26,7 +26,7 @@ vec3 notGamma(vec3 x) {
     return 1.0 - nx * nx * nx * nx;
 }
 
-bool isDeadDarkness(){
+bool isShowDark(){
     return lightmapInfo.DarkenWorldFactor > 0.9;
 }
 
@@ -40,44 +40,42 @@ void main() {
 
     //if (block_brightness > 0) {block_brightness = min(block_brightness+0.1, 1);}
 
-    block_brightness *= 1;
+    block_brightness *= 1.3;
 
     // minimal lighning
-    vec3 darkness = vec3(15)*1.7;
-    darkness/=255.0;
+    vec3 darkness = vec3(15)*1.7 / 255.0;
 
     vec3 color = vec3(0);
 
     float mul;
     float add;
-
     vec3 middleColor;
-
-    if (isDeadDarkness()){
-        middleColor = vec3(255, 104, 66);
-        mul = 0.9;
-        add = 1 - mul;
-    } else {
-        middleColor = vec3(255, 195, 130);
-        mul = 0.5;
-        add = 0.5;
-    }
+    // if (isDeadDarkness()){
+    //     middleColor = vec3(255, 104, 66);
+    //     mul = 0.9;
+    //     add = 1 - mul;
+    // } else {
+    middleColor = vec3(255, 195, 130);
+    mul = 0.6;
+    add = 1-mul;
+    // }
 
     middleColor /= 255.0;
     //cubic nonsense, dips to yellowish in the middle, white when fully saturated
-    if (block_brightness < 0.5){
-        color += mix(vec3(0), middleColor, block_brightness/0.5);
-    } else {
-        color += mix(middleColor, vec3(1), (block_brightness-0.5)/0.5);
-    }
-    // color += vec3(
-    //     block_brightness,
-    //     block_brightness * ((block_brightness * mul + add) * mul + add),
-    //     block_brightness * (block_brightness * block_brightness * mul + add)
-    // );
+    // if (block_brightness < 0.5){
+    //     color += mix(vec3(0), middleColor, block_brightness/0.5);
+    // } else {
+    //     color += mix(middleColor, vec3(1), (block_brightness-0.5)/0.5);
+    // }
+    color += vec3(
+    block_brightness,
+    block_brightness * ((block_brightness * mul + add) * mul + add),
+    block_brightness * (block_brightness * block_brightness * mul + add)
+    );
 
-    if (!isDeadDarkness()){
-        color += darkness;
+    if (block_brightness == 0 && isShowDark()){
+        if (isNightVision()) color += vec3(0, 0, 0.3);
+        else color += vec3(0, 0, 0.1);
     }
 
     color += sky_brightness;
@@ -89,7 +87,7 @@ void main() {
 
     // night vision
     if (isNightVision()){
-        color += vec3(0.5);
+        color += vec3(0.2);
         // color /= 2;
         // color += vec3(0, 0.5, 0);
     }

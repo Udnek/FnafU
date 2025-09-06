@@ -21,6 +21,7 @@ class MapBuilder(private val rawId: String, val icon: CustomItem, private val bu
         val FNAF1 = register(MapBuilder("fnaf1", Items.MAP_ICON_FNAF1){Fnaf1Map(Location(Bukkit.getWorld("fnaf")!!, -159.0, 65.0, -34.0))})
         val FNAF3 = register(MapBuilder("fnaf3", Items.MAP_ICON_FNAF3){Fnaf3Map(Location(Bukkit.getWorld("fnaf")!!, -202.0, 65.0, -139.0))})
         val FNAF4 = register(MapBuilder("fnaf4", Items.MAP_ICON_FNAF4){Fnaf4Map(Location(Bukkit.getWorld("fnaf")!!, -97.0, 65.0, -109.0))})
+        val FAF30 = register(MapBuilder("faf30", Items.VENDING_MACHINE){Fnaf4Map(Location(Bukkit.getWorld("fnaf")!!, -139.0, 65.0, -106.0))})
 
         private fun register(map: MapBuilder): MapBuilder{
             return REGISTRY.register(FnafU.instance, map);

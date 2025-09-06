@@ -9,9 +9,7 @@ import me.udnek.fnafu.game.FnafUGame
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.mechanic.system.AbstractSystem
 import me.udnek.fnafu.mechanic.system.Systems
-import me.udnek.fnafu.mechanic.system.SystemsMenu
 import me.udnek.fnafu.player.FnafUPlayer
-import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -24,10 +22,10 @@ import java.time.Duration
 class VentilationSystem : AbstractSystem {
 
     companion object {
-        const val FIRST_STAGE_TIME: Int = 20 * 20
+        const val FIRST_STAGE_TIME: Int = 20 * 10
         const val FIRST_STAGE_EFFECT_LEVEL: Int = 0
 
-        const val SECOND_STAGE_TIME: Int = 40 * 20
+        const val SECOND_STAGE_TIME: Int = 30 * 20
         const val SECOND_STAGE_EFFECT_LEVEL: Int = 1
 
         const val BLACKOUT_TICKRATE: Int = 6*20
@@ -37,14 +35,6 @@ class VentilationSystem : AbstractSystem {
         const val CLOSED_VENT_DPS: Float = 0.05f
         const val BASE_DPS: Float = 0.01f
     }
-
-    private val brokenBossBar: BossBar = BossBar.bossBar(
-        Component.empty(),
-        BossBar.MIN_PROGRESS,
-        BossBar.Color.YELLOW,
-        BossBar.Overlay.PROGRESS).also {
-            it.addFlag(BossBar.Flag.DARKEN_SCREEN)
-        }
 
     override val sidebarPosition: Int = 1
     val vents: List<Vent>
@@ -65,8 +55,6 @@ class VentilationSystem : AbstractSystem {
         return PotionEffect(PotionEffectType.SLOWNESS, Systems.TICKRATE + 1, level, false, false, true)
     }
     fun applyBrokenEffect(){
-        game.playerContainer.aliveSurvivors.forEach { brokenBossBar.addViewer(it.player) }
-
         var lvl: Int? = null
         if (timeBroken >= SECOND_STAGE_TIME) {
             lvl = SECOND_STAGE_EFFECT_LEVEL
@@ -76,11 +64,6 @@ class VentilationSystem : AbstractSystem {
         if (lvl == null) return
         val effect = getBrokenEffect(lvl)
         game.playerContainer.aliveSurvivors.forEach { it.player.addPotionEffect(effect) }
-    }
-
-    override fun repaired(systemsMenu: SystemsMenu) {
-        super.repaired(systemsMenu)
-        game.playerContainer.survivors.forEach { brokenBossBar.removeViewer(it.player) }
     }
 
     override fun tick() {
