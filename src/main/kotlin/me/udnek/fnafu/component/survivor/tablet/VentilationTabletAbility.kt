@@ -2,10 +2,10 @@ package me.udnek.fnafu.component.survivor.tablet
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
+import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.rpgu.lore.ability.ActiveAbilityLorePart
@@ -28,7 +28,7 @@ open class VentilationTabletAbility : FnafUActiveAbility {
         components.set(AttributeBasedProperty(5.0 * 20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
-    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
+    override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {
         return FnafUComponents.VENTILATION_TABLET_ABILITY
     }
 
@@ -42,7 +42,7 @@ open class VentilationTabletAbility : FnafUActiveAbility {
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, SingleSlot?>,
+        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
         event: PlayerInteractEvent
     ): ActionResult {
         val ventilation = player.game.systems.ventilation

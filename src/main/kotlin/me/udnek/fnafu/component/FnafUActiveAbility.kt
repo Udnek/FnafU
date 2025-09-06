@@ -1,6 +1,6 @@
 package me.udnek.fnafu.component
 
-import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
+import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
@@ -18,7 +18,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
     final override fun action(
         item: CustomItem,
         entity: LivingEntity,
-        slot: Either<UniversalInventorySlot?, SingleSlot?>,
+        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
         event: PlayerInteractEvent
     ): ActionResult {
         (entity as? Player)?.getFnafU()?.let{
@@ -30,7 +30,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
     abstract fun action (
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, SingleSlot?>,
+        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
         event: PlayerInteractEvent
     ): ActionResult
 

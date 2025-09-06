@@ -2,10 +2,10 @@ package me.udnek.fnafu.component.animatronic.springtrap
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
+import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.util.Either
@@ -29,7 +29,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, SingleSlot?>,
+        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
         event: PlayerInteractEvent
     ): ActionResult {
         val systems = player.game.systems
@@ -44,7 +44,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
         cooldown(item, player.player)
     }
 
-    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
+    override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {
         return FnafUComponents.SPRINGTRAP_BREAK_CAMERAS_ABILITY
     }
 }

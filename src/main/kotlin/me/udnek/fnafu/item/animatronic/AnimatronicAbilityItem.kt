@@ -3,7 +3,7 @@ package me.udnek.fnafu.item.animatronic
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.active.RPGUItemActiveAbility
 import me.udnek.fnafu.FnafU
@@ -17,7 +17,7 @@ class AnimatronicAbilityItem(
     private val animatronicName: String,
     private val skillName: String,
     private val kit: Supplier<Kit>,
-    private val component: CustomComponentType<RPGUActiveAbilityItem, out RPGUItemActiveAbility<*>>
+    private val component: CustomComponentType<RPGUActiveItem, out RPGUItemActiveAbility<*>>
 ) : ConstructableCustomItem() {
     override fun initializeComponents() {
         super.initializeComponents()

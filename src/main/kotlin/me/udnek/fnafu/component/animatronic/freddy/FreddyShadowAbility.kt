@@ -2,11 +2,11 @@ package me.udnek.fnafu.component.animatronic.freddy
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.custom.equipmentslot.slot.SingleSlot
+import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.nms.Nms
-import me.udnek.coreu.rpgu.component.RPGUActiveAbilityItem
+import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.util.Either
@@ -38,7 +38,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, SingleSlot?>,
+        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
         event: PlayerInteractEvent
     ): ActionResult {
         val duration = components.get(RPGUComponents.ABILITY_DURATION)!!.get(player.player).toInt()
@@ -67,7 +67,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
 
 
 
-    override fun getType(): CustomComponentType<in RPGUActiveAbilityItem, out CustomComponent<in RPGUActiveAbilityItem>?> {
+    override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {
         return FnafUComponents.FREDDY_SHADOW_ABILITY
     }
 }
