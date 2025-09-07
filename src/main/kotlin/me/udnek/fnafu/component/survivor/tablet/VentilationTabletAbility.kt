@@ -15,8 +15,10 @@ import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.mechanic.system.ventilation.VentilationSystem
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 
 open class VentilationTabletAbility : FnafUActiveAbility {
@@ -38,6 +40,10 @@ open class VentilationTabletAbility : FnafUActiveAbility {
         lorePart.addAbilityStat(
             Component.translatable("ability.fnafu.ventilation_tablet.damage_per_second", listOf(
                 Component.text(Utils.roundToTwoDigits(VentilationSystem.CLOSED_VENT_DPS*100.0)))))
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Opens ventilation system") to listOf("Открывает систему вентиляций")).toApache()
     }
 
     override fun action(

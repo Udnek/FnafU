@@ -15,8 +15,10 @@ import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.game.EnergyGame
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 
 open class DoormanTabletAbility : FnafUActiveAbility {
@@ -39,6 +41,10 @@ open class DoormanTabletAbility : FnafUActiveAbility {
         lorePart.addAbilityStat(
             Component.translatable("ability.fnafu.doorman_tablet.damage_per_usage", listOf(
                 Component.text(Utils.roundToTwoDigits(DAMAGE_PER_USAGE*100.0)))))
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Opens door system") to listOf("Открывает систему дверей")).toApache()
     }
 
     override fun action(

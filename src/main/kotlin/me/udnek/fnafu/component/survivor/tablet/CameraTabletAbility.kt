@@ -18,11 +18,13 @@ import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.misc.play
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.Color
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
@@ -51,6 +53,10 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
         return item
     }
 
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Opens camera system") to listOf("Открывает систему камер")).toApache()
+    }
+
     override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {
         return FnafUComponents.CAMERA_TABLET_ABILITY
     }
@@ -73,4 +79,5 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
         cameras.spectateCamera(player, lastCamera ?: cameras.cameras.firstOrNull{it.isInCutMenu}!!, event.item!!)
         return ActionResult.FULL_COOLDOWN
     }
+
 }

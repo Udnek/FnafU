@@ -17,9 +17,11 @@ import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.survivor.PetrolCanister
 import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 
 class PetrolCanisterAbility : FnafUActiveAbility {
@@ -44,6 +46,11 @@ class PetrolCanisterAbility : FnafUActiveAbility {
         lorePart.addAbilityStat(Component.translatable("ability.fnafu.petrol_canister.max_capacity", listOf(Component.text(maxCapacity))))
         lorePart.addAbilityStat(Component.translatable("ability.fnafu.petrol_canister.bandwidth", listOf(Component.text(
             Utils.roundToTwoDigits(bandwidthPerSec.toDouble())))))
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Fills at fuels station", "Usees petrol to charge generator") to
+                listOf("Заполняется на заправке", "Использует топливо для подпитки генератора")).toApache()
     }
 
 

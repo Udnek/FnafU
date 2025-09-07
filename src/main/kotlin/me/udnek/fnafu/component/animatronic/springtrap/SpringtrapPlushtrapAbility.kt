@@ -66,7 +66,12 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
     }
 
     override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? {
-        return Pair.of(listOf("Breaks camera system"), listOf("Ломает систему камер"))
+        return Pair.of(listOf(
+            "Summon plushtrap that runs straight forward,",
+            "then starts to persuade nearest survivor"),
+            listOf(
+            "Призывает плюштрапа, который бежит по прямой,",
+            "через некторое время начинает приследовать ближайшего выжившего"))
     }
 
     override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {

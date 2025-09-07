@@ -11,15 +11,22 @@ import me.udnek.coreu.rpgu.component.ability.active.RPGUConstructableActiveAbili
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.rpgu.component.ability.property.EffectsProperty
 import me.udnek.coreu.util.Either
+import me.udnek.coreu.util.FakeBlock
+import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.misc.getFnafU
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.FluidCollisionMode
+import org.bukkit.Material
+import org.bukkit.block.data.BlockData
+import org.bukkit.block.data.type.Light
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.potion.PotionEffectType
+import org.bukkit.scheduler.BukkitRunnable
 
 class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
 
@@ -56,7 +63,6 @@ class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
             if (rayTrace.hitBlock == null) return true
             return rayTrace.hitPosition.distance(location.toVector()) > direction.length()
         }
-
         for (animatronic in player.game.playerContainer.animatronics) {
             if (!hasVision(animatronic)) continue
             animatronic.showAuraTo(
@@ -64,9 +70,28 @@ class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
                 components.getOrDefault(RPGUComponents.ABILITY_DURATION).get(player.player).toInt())
             components.getOrDefault(RPGUComponents.ABILITY_EFFECTS).applyOn(player.player, animatronic.player)
         }
+
+        object : BukkitRunnable(){
+            var i = 15
+            val players = player.game.playerContainer.all.map { it.player }
+            override fun run() {
+                if (i == 0){
+                    cancel()
+                    return
+                }
+                FakeBlock.show(
+                    location,
+                    Material.LIGHT.createBlockData().also { it as Light; it.level = i--},
+                    players,
+                    5)
+            }
+        }.runTaskTimer(FnafU.instance, 0, 3)
+
         return ActionResult.FULL_COOLDOWN
     }
 
-    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? = null
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Debuffs enemy seen on camera") to listOf("Ослабляет врага, замеченного на камере")).toApache()
+    }
 
 }

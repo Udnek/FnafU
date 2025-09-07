@@ -14,7 +14,9 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.item.Items
 import me.udnek.coreu.util.FakeBlock
 import me.udnek.fnafu.misc.getCustom
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Light
@@ -67,6 +69,10 @@ class FlashlightAbility : FnafUActiveAbility() {
             task = null
         }
         return ActionResult.NO_COOLDOWN
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Toggles flashlight that can be recharged at generator") to listOf("Переключает фонарик, который заряжается у генератор")).toApache()
     }
 
     override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {

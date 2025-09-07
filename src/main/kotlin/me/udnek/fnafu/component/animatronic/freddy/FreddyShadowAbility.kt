@@ -16,8 +16,10 @@ import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.misc.Utils
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.potion.PotionEffect
@@ -39,6 +41,10 @@ open class FreddyShadowAbility : FnafUActiveAbility {
             EffectsProperty.PotionData(PotionEffect(PotionEffectType.SPEED, DURATION, 0, false, false, false)),
             EffectsProperty.PotionData(PotionEffect(Effects.DISARM.bukkitType, DURATION, 0, false, false, false))
         ))
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Becomes invisible and unable to attack") to listOf("Становитесь невидимым и не можете атаковать")).toApache()
     }
 
     override fun action(

@@ -55,6 +55,10 @@ fun List<Location>.getFarthest(location: Location): Location {
     return this.sortedByDistance(location).last()
 }
 
+fun <A, B> Pair<A, B>.toApache(): org.apache.commons.lang3.tuple.Pair<A, B>{
+    return org.apache.commons.lang3.tuple.Pair.of(this.first, this.second)
+}
+
 
 
 

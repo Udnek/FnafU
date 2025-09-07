@@ -12,8 +12,10 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.misc.Utils
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 
 
@@ -43,7 +45,9 @@ open class FreddyTeleportToTrapAbility : FnafUActiveAbility {
         return ActionResult.FULL_COOLDOWN
     }
 
-
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Teleports to trap") to listOf("Телепортируетесь к ловушку")).toApache()
+    }
 
     override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {
         return FnafUComponents.FREDDY_TELEPORT_TO_TRAP_ABILITY

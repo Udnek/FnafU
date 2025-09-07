@@ -13,6 +13,7 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
+import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
@@ -59,7 +60,9 @@ open class FreddySetTrapAbility : FnafUActiveAbility {
         return FnafUComponents.FREDDY_SET_TRAP_ABILITY
     }
 
-    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? = null
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
+        return (listOf("Sets trap that reveals nearby players") to listOf("Устанавливает ловушку, котороя раскрывает игроков неподалёку")).toApache()
+    }
 }
 
 
