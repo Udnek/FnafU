@@ -1,5 +1,6 @@
 package me.udnek.fnafu.effect
 
+import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.effect.ConstructableCustomEffect
 import me.udnek.fnafu.FnafU
 import org.bukkit.NamespacedKey
@@ -8,7 +9,12 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.potion.PotionEffectTypeCategory
 
-class DisarmEffect : ConstructableCustomEffect(){
+class DisarmEffect : ConstructableCustomEffect{
+
+    constructor(){
+        components.set(TranslatableThing.ofEngAndRu("Disarm", "Безсилие"))
+    }
+
     override fun getCategory(): PotionEffectTypeCategory = PotionEffectTypeCategory.HARMFUL
     override fun getVanillaDisguise(): PotionEffectType = PotionEffectType.WEAKNESS
     override fun getRawId(): String = "disarm"

@@ -1,6 +1,7 @@
 package me.udnek.fnafu.item.animatronic
 
 import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
@@ -16,13 +17,15 @@ import java.util.function.Supplier
 class AnimatronicAbilityItem(
     private val animatronicName: String,
     private val skillName: String,
+    private val translation: TranslatableThing,
     private val kit: Supplier<Kit>,
-    private val component: CustomComponentType<RPGUActiveItem, out RPGUItemActiveAbility<*>>
+    private val ability: CustomComponentType<RPGUActiveItem, out RPGUItemActiveAbility<*>>,
 ) : ConstructableCustomItem() {
     override fun initializeComponents() {
         super.initializeComponents()
+        components.set(translation)
         components.set(AbilityIconFilesComponent(kit.get()))
-        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(component.createNewDefault())
+        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(ability.createNewDefault())
     }
 
     override fun getItemModel(): CustomItemProperties.DataSupplier<Key> =

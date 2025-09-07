@@ -24,7 +24,7 @@ open class FreddyTeleportToTrapAbility : FnafUActiveAbility {
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(10.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     override fun action(

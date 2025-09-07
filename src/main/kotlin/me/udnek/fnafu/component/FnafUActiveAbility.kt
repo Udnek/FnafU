@@ -9,6 +9,7 @@ import me.udnek.coreu.rpgu.component.ability.active.RPGUItemActiveAbility
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
@@ -41,6 +42,10 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
             Either(BaseUniversalSlot(event.hand!!), null),
             event
         )
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? {
+        return Pair.of(listOf("TODO"), listOf())
     }
 
 }

@@ -8,6 +8,7 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
+import me.udnek.coreu.rpgu.lore.ability.AbilityLorePart
 import me.udnek.coreu.rpgu.lore.ability.ActiveAbilityLorePart
 import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.Utils
@@ -33,9 +34,9 @@ open class DoormanTabletAbility : FnafUActiveAbility {
         return FnafUComponents.DOORMAN_TABLET_ABILITY
     }
 
-    override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
-        super.addPropertyLines(componentable)
-        componentable.addAbilityStat(
+    override fun addPropertyLines(lorePart: AbilityLorePart) {
+        super.addPropertyLines(lorePart)
+        lorePart.addAbilityStat(
             Component.translatable("ability.fnafu.doorman_tablet.damage_per_usage", listOf(
                 Component.text(Utils.roundToTwoDigits(DAMAGE_PER_USAGE*100.0)))))
     }

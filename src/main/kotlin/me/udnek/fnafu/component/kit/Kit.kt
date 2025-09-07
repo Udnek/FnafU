@@ -1,7 +1,9 @@
 package me.udnek.fnafu.component.kit
 
+import me.udnek.coreu.custom.component.ComponentHolder
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
+import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.coreu.custom.registry.CustomRegistry
 import me.udnek.coreu.custom.registry.MappedCustomRegistry
@@ -31,26 +33,63 @@ import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import org.bukkit.inventory.ItemStack
 
-interface Kit : MGUPlayerData, Registrable{
+interface Kit : MGUPlayerData, Registrable, ComponentHolder<Kit>{
 
     companion object {
         val REGISTRY: CustomRegistry<Kit> = CustomRegistries.addRegistry(FnafU.instance, MappedCustomRegistry("kit"))
 
-        val SPRINGTRAP = register(AnimatronicKit("springtrap", FnafUPlayer.Type.ANIMATRONIC, SPRINGTRAP_PLUSHTRAP_ABILITY,
-            listOf(SPRINGTRAP_PLUSHTRAP_ABILITY, SPRINGTRAP_BREAK_CAMERAS, SPRINGTRAP_MASK), Sounds.SPRINGTRAP_JUMP_SCARE, AnimatronicSkin.SPRINGTRAP))
-        val FREDDY = register(AnimatronicKit("freddy", FnafUPlayer.Type.ANIMATRONIC, FREDDY_SHADOW, listOf(FREDDY_SHADOW, FREDDY_SET_TRAP,
-            FREDDY_TELEPORT_TO_TRAP, FREDDY_MASK), Sounds.FREDDY_JUMP_SCARE, AnimatronicSkin.FREDDY))
+        val SPRINGTRAP = register(AnimatronicKit(
+            "springtrap",
+            FnafUPlayer.Type.ANIMATRONIC,
+            TranslatableThing.ofEngAndRu("Springtrap", "Спрингтрап"),
+            SPRINGTRAP_PLUSHTRAP_ABILITY,
+            listOf(SPRINGTRAP_PLUSHTRAP_ABILITY, SPRINGTRAP_BREAK_CAMERAS, SPRINGTRAP_MASK),
+            Sounds.SPRINGTRAP_JUMP_SCARE, AnimatronicSkin.SPRINGTRAP))
+        val FREDDY = register(AnimatronicKit(
+            "freddy",
+            FnafUPlayer.Type.ANIMATRONIC,
+            TranslatableThing.ofEngAndRu("Freddy", "Фредди"),
+            FREDDY_SHADOW,
+            listOf(FREDDY_SHADOW, FREDDY_SET_TRAP, FREDDY_TELEPORT_TO_TRAP, FREDDY_MASK),
+            Sounds.FREDDY_JUMP_SCARE, AnimatronicSkin.FREDDY))
 
-        val CAMERAMAN = register(ConstructableKit("cameraman", FnafUPlayer.Type.SURVIVOR, FULL_CAMERA_TABLET, listOf(FULL_CAMERA_TABLET, FLASHLIGHT),
+        val CAMERAMAN = register(ConstructableKit(
+            "cameraman",
+            FnafUPlayer.Type.SURVIVOR,
+            TranslatableThing.ofEng("Cameraman"),
+            FULL_CAMERA_TABLET,
+            listOf(FULL_CAMERA_TABLET, FLASHLIGHT),
             listOf(SMALL_PETROL_CANISTER)))
-        val DOORMAN = register(ConstructableKit("doorman", FnafUPlayer.Type.SURVIVOR, DOOR_TABLET, listOf(DOOR_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
+        val SYSTEMMAN = register(ConstructableKit(
+            "systemman",
+            FnafUPlayer.Type.SURVIVOR,
+            TranslatableThing.ofEng("Sysadmin"),
+            SYSTEM_TABLET,
+            listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
+            listOf(SMALL_PETROL_CANISTER)
+        ))
+        val REFUELLER = register(ConstructableKit(
+            "refueller",
+            FnafUPlayer.Type.SURVIVOR,
+            TranslatableThing.ofEng("Refueller"),
+            LARGE_PETROL_CANISTER,
+            listOf(CUT_CAMERA_TABLET, FLASHLIGHT),
+            listOf(LARGE_PETROL_CANISTER)
+        ))
+        val DOORMAN = register(ConstructableKit(
+            "doorman",
+            FnafUPlayer.Type.SURVIVOR,
+            TranslatableThing.ofEng("Doorman"),
+            DOOR_TABLET,
+            listOf(DOOR_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
             listOf(SMALL_PETROL_CANISTER)))
-        val VENTILATIONMAN = register(ConstructableKit("ventilationman", FnafUPlayer.Type.SURVIVOR, VENTILATION_TABLET, listOf(VENTILATION_TABLET,
-            CUT_CAMERA_TABLET, FLASHLIGHT), listOf(SMALL_PETROL_CANISTER)))
-        val SYSTEMMAN = register(ConstructableKit("systemman", FnafUPlayer.Type.SURVIVOR, SYSTEM_TABLET, listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
+        val VENTILATIONMAN = register(ConstructableKit(
+            "ventilationman",
+            FnafUPlayer.Type.SURVIVOR,
+            TranslatableThing.ofEng("HVAC Technician"),
+            VENTILATION_TABLET,
+            listOf(VENTILATION_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
             listOf(SMALL_PETROL_CANISTER)))
-        val REFUELLER = register(ConstructableKit("refueller", FnafUPlayer.Type.SURVIVOR, LARGE_PETROL_CANISTER, listOf(CUT_CAMERA_TABLET, FLASHLIGHT),
-            listOf(LARGE_PETROL_CANISTER)))
 
         fun register(kit: Kit): Kit {
             return REGISTRY.register(FnafU.instance, kit)

@@ -14,6 +14,7 @@ import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.entity.EntityTypes
 import me.udnek.fnafu.entity.plushtrap.Plushtrap
 import me.udnek.fnafu.player.FnafUPlayer
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 
 
@@ -62,6 +63,10 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
         if (plushtrap != null) return ActionResult.INFINITE_COOLDOWN
         spawnPlushtrap(item, player)
         return ActionResult.INFINITE_COOLDOWN
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? {
+        return Pair.of(listOf("Breaks camera system"), listOf("Ломает систему камер"))
     }
 
     override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {

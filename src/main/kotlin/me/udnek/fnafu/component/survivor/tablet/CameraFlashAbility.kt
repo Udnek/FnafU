@@ -14,6 +14,7 @@ import me.udnek.coreu.util.Either
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.FluidCollisionMode
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -65,5 +66,7 @@ class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
         }
         return ActionResult.FULL_COOLDOWN
     }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? = null
 
 }

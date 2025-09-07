@@ -9,6 +9,7 @@ import me.udnek.coreu.nms.Nms
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
+import me.udnek.coreu.rpgu.component.ability.property.EffectsProperty
 import me.udnek.coreu.util.Either
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUActiveAbility
@@ -28,11 +29,16 @@ open class FreddyShadowAbility : FnafUActiveAbility {
 
     companion object {
         val DEFAULT = FreddyShadowAbility()
+        const val DURATION = 6 * 20
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
-        components.set(AttributeBasedProperty(5.0*20, RPGUComponents.ABILITY_DURATION))
+        components.set(AttributeBasedProperty(10.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(EffectsProperty(
+            EffectsProperty.PotionData(PotionEffect(PotionEffectType.INVISIBILITY, DURATION, 0, false, false, false)),
+            EffectsProperty.PotionData(PotionEffect(PotionEffectType.SPEED, DURATION, 0, false, false, false)),
+            EffectsProperty.PotionData(PotionEffect(Effects.DISARM.bukkitType, DURATION, 0, false, false, false))
+        ))
     }
 
     override fun action(
@@ -43,12 +49,6 @@ open class FreddyShadowAbility : FnafUActiveAbility {
     ): ActionResult {
         val duration = components.get(RPGUComponents.ABILITY_DURATION)!!.get(player.player).toInt()
         val mask = player.player.inventory.helmet
-        Effects.DISARM.applyInvisible(player.player, duration, 0)
-        player.player.addPotionEffects(listOf(
-            PotionEffect(PotionEffectType.INVISIBILITY, duration, 0, false, false, false),
-            PotionEffect(PotionEffectType.SPEED, duration, 0, false, false, false),
-            PotionEffect(PotionEffectType.NIGHT_VISION, duration, 0, false, false, false)
-        ))
         player.game.playerContainer.survivors.forEach {
             Nms.get().sendFakeEquipment(player.player, it.player, EquipmentSlot.HEAD, null)
         }

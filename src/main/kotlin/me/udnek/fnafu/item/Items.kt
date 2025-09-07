@@ -1,5 +1,6 @@
 package me.udnek.fnafu.item
 
+import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.CustomRegistries
 import me.udnek.fnafu.FnafU
@@ -57,18 +58,45 @@ object Items {
     val CANCEL_BUTTON = register(CancelButton())
     val READY_BUTTON = register(ReadyButton())
 
-    val SPRINGTRAP_PLUSHTRAP_ABILITY: CustomItem = register(AnimatronicAbilityItem("springtrap", "plushtrap", { Kit.SPRINGTRAP } ,
-        FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY))
-    val SPRINGTRAP_BREAK_CAMERAS: CustomItem = register(AnimatronicAbilityItem("springtrap", "break_cameras", { Kit.SPRINGTRAP },
-        FnafUComponents.SPRINGTRAP_BREAK_CAMERAS_ABILITY))
-    val SPRINGTRAP_MASK: CustomItem = register(AnimatronicMask("springtrap", 0.07))
+    val SPRINGTRAP_MASK: CustomItem = register(AnimatronicMask("springtrap", TranslatableThing.ofEng("Spring Bonnie's mask"), 0.07))
+    val SPRINGTRAP_PLUSHTRAP_ABILITY: CustomItem = register(AnimatronicAbilityItem(
+        "springtrap",
+        "plushtrap",
+        TranslatableThing.ofEng("Plushtrap"),
+        { Kit.SPRINGTRAP } ,
+        FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY)
+    )
+    val SPRINGTRAP_BREAK_CAMERAS: CustomItem = register(AnimatronicAbilityItem(
+        "springtrap",
+        "break_cameras",
+        TranslatableThing.ofEng("Break Cameras"),
+        { Kit.SPRINGTRAP },
+        FnafUComponents.SPRINGTRAP_BREAK_CAMERAS_ABILITY)
+    )
 
-    val FREDDY_SHADOW: CustomItem = register(AnimatronicAbilityItem("freddy", "shadow", { Kit.FREDDY }, FnafUComponents.FREDDY_SHADOW_ABILITY))
-    val FREDDY_MASK: CustomItem = register(AnimatronicMask("freddy", 0.03))
+    val FREDDY_SHADOW: CustomItem = register(AnimatronicAbilityItem(
+        "freddy",
+        "shadow",
+        TranslatableThing.ofEng("Shadowstep"),
+        { Kit.FREDDY },
+        FnafUComponents.FREDDY_SHADOW_ABILITY)
+    )
+    val FREDDY_MASK: CustomItem = register(AnimatronicMask("freddy", TranslatableThing.ofEng("Freddy's Mask"), 0.03))
     val FREDDY_TRAP: CustomItem = register(FreddyTrap())
-    val FREDDY_SET_TRAP: CustomItem = register(AnimatronicAbilityItem("freddy", "set_trap", { Kit.FREDDY }, FnafUComponents.FREDDY_SET_TRAP_ABILITY))
-    val FREDDY_TELEPORT_TO_TRAP: CustomItem = register(AnimatronicAbilityItem("freddy", "teleport_to_trap", { Kit.FREDDY },
-        FnafUComponents.FREDDY_TELEPORT_TO_TRAP_ABILITY))
+    val FREDDY_SET_TRAP: CustomItem = register(AnimatronicAbilityItem(
+        "freddy",
+        "set_trap",
+        TranslatableThing.ofEng("Remnant Trap"),
+        { Kit.FREDDY },
+        FnafUComponents.FREDDY_SET_TRAP_ABILITY)
+    )
+    val FREDDY_TELEPORT_TO_TRAP: CustomItem = register(AnimatronicAbilityItem(
+        "freddy",
+        "teleport_to_trap",
+        TranslatableThing.ofEng("Remnant Recall"),
+        { Kit.FREDDY },
+        FnafUComponents.FREDDY_TELEPORT_TO_TRAP_ABILITY)
+    )
 
     val GENERATOR: CustomItem = register(FnafUBlockItem("generator", Blocks.GENERATOR))
     val PETROL_STATION: CustomItem = register(FnafUBlockItem("petrol_station", Blocks.PETROL_STATION))

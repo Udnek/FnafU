@@ -10,6 +10,7 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
+import me.udnek.coreu.rpgu.lore.ability.AbilityLorePart
 import me.udnek.coreu.rpgu.lore.ability.ActiveAbilityLorePart
 import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.Utils
@@ -37,9 +38,9 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
         val FULL: CameraTabletAbility = CameraTabletAbility(Color.GREEN, NamedTextColor.GREEN, false, true,.03f)
     }
 
-    override fun addPropertyLines(componentable: ActiveAbilityLorePart) {
-        super.addPropertyLines(componentable)
-        componentable.addAbilityStat(
+    override fun addPropertyLines(lorePart: AbilityLorePart) {
+        super.addPropertyLines(lorePart)
+        lorePart.addAbilityStat(
             Component.translatable("ability.fnafu.camera_tablet.damage_per_usage", listOf(
                 Component.text(Utils.roundToTwoDigits(damagePerUsage*100.0)))))
     }

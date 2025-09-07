@@ -13,6 +13,7 @@ import me.udnek.fnafu.component.FnafUActiveAbility
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.event.SystemRepairedEvent
 import me.udnek.fnafu.player.FnafUPlayer
+import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 
 
@@ -23,7 +24,7 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
     }
 
     constructor(){
-        components.set(AttributeBasedProperty(40.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
+        components.set(AttributeBasedProperty(30.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
     }
 
     override fun action(
@@ -46,6 +47,10 @@ open class SpringtrapBreakCamerasAbility : FnafUActiveAbility {
 
     override fun getType(): CustomComponentType<in RPGUActiveItem, out CustomComponent<in RPGUActiveItem>?> {
         return FnafUComponents.SPRINGTRAP_BREAK_CAMERAS_ABILITY
+    }
+
+    override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? {
+        return Pair.of(listOf("Breaks camera system"), listOf("Ломает систему камер"))
     }
 }
 

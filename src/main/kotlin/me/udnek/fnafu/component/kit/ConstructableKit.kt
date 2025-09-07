@@ -2,8 +2,12 @@ package me.udnek.fnafu.component.kit
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.ItemLore
+import me.udnek.coreu.custom.component.ComponentHolder
+import me.udnek.coreu.custom.component.CustomComponentMap
+import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.AbstractRegistrable
+import me.udnek.coreu.custom.registry.AbstractRegistrableComponentable
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.player.FnafUPlayer
@@ -15,11 +19,11 @@ import org.bukkit.inventory.ItemStack
 open class ConstructableKit(
     private val id: String,
     final override val playerType: FnafUPlayer.Type,
+    protected val translation: TranslatableThing,
     protected val displayCustomItem: CustomItem,
     protected val permanentCustomItems: List<CustomItem>,
     protected val inventoryCustomItems: List<CustomItem> = listOf()
-) : Kit, AbstractRegistrable() {
-
+) : Kit, AbstractRegistrableComponentable<Kit>() {
     override var jumpScareSound: CustomSound? = null
 
     override val displayItem: ItemStack
@@ -43,6 +47,10 @@ open class ConstructableKit(
 
     override val inventoryItems: List<ItemStack>
         get() = inventoryCustomItems.map { it.item }
+
+    init {
+        components.set(translation)
+    }
 
     override fun setUp(player: FnafUPlayer) {
         inventoryCustomItems.forEach { player.currentInventory.add(it.item) }
