@@ -68,7 +68,7 @@ class SpringtrapPlushtrapAbility : FnafUActiveAbility{
     override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?>? {
         return Pair.of(listOf(
             "Summon plushtrap that runs straight forward,",
-            "then starts to persuade nearest survivor"),
+            "then starts to pursue nearest survivor"),
             listOf(
             "Призывает плюштрапа, который бежит по прямой,",
             "через некторое время начинает приследовать ближайшего выжившего"))
