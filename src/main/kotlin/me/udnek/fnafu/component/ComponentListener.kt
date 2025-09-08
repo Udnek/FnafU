@@ -14,7 +14,6 @@ import org.bukkit.plugin.Plugin
 
 class ComponentListener(plugin: Plugin) : SelfRegisteringListener(plugin), Listener {
 
-
     @EventHandler
     fun onRightClick(event: PlayerInteractEvent){
         if (!event.action.isRightClick) return

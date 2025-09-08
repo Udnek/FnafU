@@ -37,8 +37,7 @@ class FlashlightAbility : RPGUConstructableToggleAbility() {
     private val finalBlock = Material.SUGAR_CANE.createBlockData() /*(Material.LIGHT.createBlockData() as Light).also { it.level = 9 }*/
 
     override fun setToggled(customItem: CustomItem, player: Player, slot: BaseUniversalSlot, toggle: Boolean): Boolean {
-        println(toggle)
-        if (toggle)  slot.modifyItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
+        if (toggle) slot.modifyItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
         else slot.modifyItem( { it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents()) } , player)
         return super.setToggled(customItem, player, slot, toggle)
     }

@@ -1,6 +1,7 @@
 package me.udnek.fnafu.item.survivor
 
 import io.papermc.paper.datacomponent.item.Equippable
+import me.udnek.coreu.custom.component.instance.AutoGeneratingFilesItem
 import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
