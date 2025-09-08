@@ -13,7 +13,7 @@ class Flashlight : ConstructableCustomItem() {
     override fun getRawId(): String = "flashlight"
     override fun initializeComponents() {
         super.initializeComponents()
-        components.getOrCreateDefault(RPGUComponents.ACTIVE_ABILITY_ITEM).components.set(FlashlightAbility.DEFAULT)
+        components.getOrCreateDefault(RPGUComponents.TOGGLE_ABILITY_ITEM).components.set(FlashlightAbility.DEFAULT)
     }
 
     override fun getEquippable(): CustomItemProperties.DataSupplier<Equippable> {

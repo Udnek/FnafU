@@ -1,5 +1,6 @@
 package me.udnek.fnafu.component
 
+import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.SelfRegisteringListener
 import me.udnek.fnafu.event.SystemRepairedEvent
@@ -17,9 +18,15 @@ class ComponentListener(plugin: Plugin) : SelfRegisteringListener(plugin), Liste
     @EventHandler
     fun onRightClick(event: PlayerInteractEvent){
         if (!event.action.isRightClick) return
-        event.item?.getCustom()?.components?.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.forEach {
-            activeAbility -> (activeAbility as? FnafUActiveAbility)?.onRightClick(event)
+        event.item?.getCustom()?.let {
+            it.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.forEach {
+                    activeAbility -> (activeAbility as? FnafUActiveAbility)?.onRightClick(event)
+            }
+            it.components.get(RPGUComponents.TOGGLE_ABILITY_ITEM)?.components?.get(FnafUComponents.FLASHLIGHT_ABILITY)
+                ?.toggle(it, event.player, BaseUniversalSlot(event.hand!!))
         }
+
+
     }
 
     @EventHandler
@@ -35,7 +42,5 @@ class ComponentListener(plugin: Plugin) : SelfRegisteringListener(plugin), Liste
             val item = it.player.inventory.getItem(event.hand).getCustom() ?: return
             item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.get(FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY)?.pickPlushtrap(item, it)
         }
-
     }
-
 }
