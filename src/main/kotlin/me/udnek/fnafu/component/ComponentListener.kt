@@ -25,8 +25,6 @@ class ComponentListener(plugin: Plugin) : SelfRegisteringListener(plugin), Liste
             it.components.get(RPGUComponents.TOGGLE_ABILITY_ITEM)?.components?.get(FnafUComponents.FLASHLIGHT_ABILITY)
                 ?.toggle(it, event.player, BaseUniversalSlot(event.hand!!))
         }
-
-
     }
 
     @EventHandler

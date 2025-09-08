@@ -36,49 +36,10 @@ class FlashlightAbility : RPGUConstructableToggleAbility() {
     private val blockData: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
     private val finalBlock = Material.SUGAR_CANE.createBlockData() /*(Material.LIGHT.createBlockData() as Light).also { it.level = 9 }*/
 
-
-
-    /*override fun action(
-        item: CustomItem,
-        player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
-        event: PlayerInteractEvent
-    ): ActionResult {
-        if (event.action.isLeftClick) return ActionResult.NO_COOLDOWN
-        if (task == null){
-            task = object : BukkitRunnable() {
-                override fun run() {
-                    if (player.player.inventory.getItem((slot.left as? BaseUniversalSlot)?.equipmentSlot ?: EquipmentSlot.OFF_HAND).getCustom() != Items.FLASHLIGHT) {
-                        cancel()
-                        return
-                    }
-                    val location = player.player.eyeLocation
-                    val direction = location.direction.setY(0).normalize()
-                    for (i in  0..15) {
-                        val previousLocation = location.clone()
-                        location.add(direction)
-                        val players = player.game.playerContainer.all.map { it.player }
-                        if (location.block.blockData.isOccluding)  {
-                            if (previousLocation.block.isEmpty)  FakeBlock.show( previousLocation, finalBlock, players,1)
-                            break
-                        } else if (previousLocation.block.isEmpty) {
-                            FakeBlock.show(previousLocation, blockData, players, 1)
-                        }
-                    }
-                }
-            }
-            task!!.runTaskTimer(FnafU.instance, 0, 1)
-        } else {
-            task!!.cancel()
-            task = null
-        }
-        return ActionResult.NO_COOLDOWN
-    }*/
-
     override fun setToggled(customItem: CustomItem, player: Player, slot: BaseUniversalSlot, toggle: Boolean): Boolean {
         println(toggle)
-        if (toggle)  slot.changeItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
-        else slot.changeItem( { it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents()) } , player)
+        if (toggle)  slot.modifyItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
+        else slot.modifyItem( { it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents()) } , player)
         return super.setToggled(customItem, player, slot, toggle)
     }
 
@@ -89,9 +50,6 @@ class FlashlightAbility : RPGUConstructableToggleAbility() {
         p3: Int
     ): ActionResult {
         val player = (entity as? Player)?.getFnafU() ?: return ActionResult.NO_COOLDOWN
-        if (player.player.inventory.getItem((slot.left as? BaseUniversalSlot)?.equipmentSlot ?: EquipmentSlot.OFF_HAND).getCustom() != Items.FLASHLIGHT) {
-            return ActionResult.NO_COOLDOWN
-        }
         val location = player.player.eyeLocation
         val direction = location.direction.setY(0).normalize()
         for (i in  0..15) {
@@ -99,7 +57,7 @@ class FlashlightAbility : RPGUConstructableToggleAbility() {
             location.add(direction)
             val players = player.game.playerContainer.all.map { it.player }
             if (location.block.blockData.isOccluding)  {
-                if (previousLocation.block.isEmpty)  FakeBlock.show( previousLocation, finalBlock, players,1)
+                if (previousLocation.block.isEmpty) FakeBlock.show(previousLocation, finalBlock, players, 1)
                 break
             } else if (previousLocation.block.isEmpty) {
                 FakeBlock.show(previousLocation, blockData, players, 1)
