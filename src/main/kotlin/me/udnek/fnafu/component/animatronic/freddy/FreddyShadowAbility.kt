@@ -35,6 +35,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
     }
 
     constructor(){
+        components.set(AttributeBasedProperty(DURATION.toDouble(), RPGUComponents.ABILITY_DURATION))
         components.set(AttributeBasedProperty(10.0*20, RPGUComponents.ABILITY_COOLDOWN_TIME))
         components.set(EffectsProperty(
             EffectsProperty.PotionData(PotionEffect(PotionEffectType.INVISIBILITY, DURATION, 0, false, false, false)),
@@ -44,7 +45,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
     }
 
     override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
-        return (listOf("Becomes invisible and unable to attack") to listOf("Становитесь невидимым и не можете атаковать")).toApache()
+        return (listOf("Becomes invisible, but unable to attack") to listOf("Становитесь невидимым, но не можете атаковать")).toApache()
     }
 
     override fun action(

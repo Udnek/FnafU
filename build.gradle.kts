@@ -32,8 +32,8 @@ dependencies {
     testImplementation(kotlin("test"))
 
     // Системные зависимости из pom.xml (CoreU и JeiU)
-    compileOnly(files("C:/Users/PC/IdeaProjects/CoreU/build/libs/CoreU-1.0-SNAPSHOT.jar"))
-    compileOnly(files("H:/testFnaf/plugins/JeiU.jar"))
+    compileOnly(files("C:/Users/glebd/OneDrive/Documents/CODING/Java/CoreU/build/libs/CoreU-1.0-SNAPSHOT.jar"))
+    compileOnly(files("C:/Users/glebd/OneDrive/Documents/CODING/Java/JeiU/out/artifacts/JeiU.jar"))
 }
 
 java {

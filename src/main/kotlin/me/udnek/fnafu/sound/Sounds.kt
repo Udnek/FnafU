@@ -35,6 +35,8 @@ object Sounds {
         "ui/system_reboot", SoundCategory.MASTER, TranslatableThing.ofEng("System reboots"), 0.1f))
     val BUTTON_CLICK = register(ConstructableCustomSound(
         "ui/button_click", SoundCategory.MASTER, TranslatableThing.ofEng("Button clicks"), .3f))
+    val FLASHLIGHT_CLICK = register(ConstructableCustomSound(
+        "flashlight_click", SoundCategory.MASTER, TranslatableThing.ofEng("Flashlight clicks"), 0.5f))
     val SYSTEM_REPAIRED = BUTTON_CLICK
     val ANIMATRONIC_STEP = register(ConstructableCustomSound(
         "animatronic_step", SoundCategory.MASTER, TranslatableThing.ofEng("Animatronic steps"),
@@ -48,6 +50,7 @@ object Sounds {
 //    val SPRINGTRAP_SPAWN = register(ConstructableCustomSound(getName("springtrap_spawn"), SoundCategory.MASTER))
 //    val SPRINGTRAP_RAGE_START = register(ConstructableCustomSound(getName("springtrap_rage_start"), SoundCategory.MASTER))
 //    val SPRINGTRAP_RAGE_STOP = register(ConstructableCustomSound(getName("springtrap_rage_stop"), SoundCategory.MASTER))
+
     val SPRINGTRAP_JUMP_SCARE = register(ConstructableCustomSound(
     "springtrap/jump_scare", SoundCategory.MASTER, TranslatableThing.ofEng("Springtrap jump scares")))
     val PLUSHTRAP_RUN = register(ConstructableCustomSound(

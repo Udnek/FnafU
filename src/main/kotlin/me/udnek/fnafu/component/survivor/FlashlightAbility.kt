@@ -13,32 +13,28 @@ import me.udnek.coreu.rpgu.component.ability.toggle.RPGUConstructableToggleAbili
 import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.FakeBlock
 import me.udnek.fnafu.component.FnafUComponents
-import me.udnek.fnafu.item.Items
-import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.misc.toApache
+import me.udnek.fnafu.sound.Sounds
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Light
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import org.bukkit.inventory.EquipmentSlot
-import org.bukkit.scheduler.BukkitRunnable
 
 class FlashlightAbility : RPGUConstructableToggleAbility() {
 
     companion object {
         val DEFAULT = FlashlightAbility()
+        private val blockData: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
+        private val finalBlock = Material.SUGAR_CANE.createBlockData() /*(Material.LIGHT.createBlockData() as Light).also { it.level = 9 }*/
     }
-
-    private var task: BukkitRunnable? = null
-    private val blockData: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
-    private val finalBlock = Material.SUGAR_CANE.createBlockData() /*(Material.LIGHT.createBlockData() as Light).also { it.level = 9 }*/
 
     override fun setToggled(customItem: CustomItem, player: Player, slot: BaseUniversalSlot, toggle: Boolean): Boolean {
         if (toggle) slot.modifyItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
         else slot.modifyItem( { it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents()) } , player)
+        Sounds.FLASHLIGHT_CLICK.play(player.location)
         return super.setToggled(customItem, player, slot, toggle)
     }
 
