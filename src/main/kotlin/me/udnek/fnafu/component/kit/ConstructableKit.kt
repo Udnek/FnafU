@@ -2,11 +2,8 @@ package me.udnek.fnafu.component.kit
 
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.ItemLore
-import me.udnek.coreu.custom.component.ComponentHolder
-import me.udnek.coreu.custom.component.CustomComponentMap
 import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.CustomItem
-import me.udnek.coreu.custom.registry.AbstractRegistrable
 import me.udnek.coreu.custom.registry.AbstractRegistrableComponentable
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.rpgu.component.RPGUComponents
@@ -21,9 +18,9 @@ open class ConstructableKit(
     final override val playerType: FnafUPlayer.Type,
     protected val translation: TranslatableThing,
     protected val displayCustomItem: CustomItem,
-    protected val permanentCustomItems: List<CustomItem>,
-    protected val inventoryCustomItems: List<CustomItem> = listOf()
+    protected val customItems: List<CustomItem>
 ) : Kit, AbstractRegistrableComponentable<Kit>() {
+
     override var jumpScareSound: CustomSound? = null
 
     override val displayItem: ItemStack
@@ -31,9 +28,7 @@ open class ConstructableKit(
             val item = displayCustomItem.item
             item.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.${key.namespace}.${key.value()}"))
             val lore = ArrayList<Component>()
-            val items = ArrayList(permanentCustomItems)
-            items.addAll(inventoryCustomItems)
-            for (customItem in items) {
+            for (customItem in customItems) {
                 lore.add(customItem.item.getData(DataComponentTypes.ITEM_NAME)
                     ?.decoration(TextDecoration.ITALIC, false)
                     ?.color(NamedTextColor.GREEN) ?: Component.text("null"))
@@ -42,42 +37,20 @@ open class ConstructableKit(
             return item
         }
 
-    override val permanentItems: List<ItemStack>
-        get() = permanentCustomItems.map { it.item }
-
-    override val inventoryItems: List<ItemStack>
-        get() = inventoryCustomItems.map { it.item }
+    override val items: List<ItemStack> = customItems.map { it.item }
 
     init {
         components.set(translation)
     }
 
     override fun setUp(player: FnafUPlayer) {
-        inventoryCustomItems.forEach { player.currentInventory.add(it.item) }
-        giveItems(player)
-        player.currentInventory.give(player)
-        player.abilityItems.forEach { item ->
-            item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.abilities?.forEach { ability ->
-                ability.cooldown(item, player.player)
-            }
+        giveToCurrentInventory(player)
+    }
+
+    override fun giveToCurrentInventory(player: FnafUPlayer) {
+        items.forEach {
+            player.currentInventory.add(it)
         }
-    }
-
-    protected fun giveItems(player: FnafUPlayer){
-        for (customItem in permanentCustomItems) {
-            if (customItem.item.hasData(DataComponentTypes.EQUIPPABLE)){
-                player.player.inventory.setItem(customItem.item.getData(DataComponentTypes.EQUIPPABLE)!!.slot(), customItem.item)
-            } else player.player.inventory.addItem(customItem.item)
-        }
-    }
-
-    override fun regiveCurrentInventory(player: FnafUPlayer) {
-        player.currentInventory.reset()
-        inventoryCustomItems.forEach { player.currentInventory.add(it.item) }
-    }
-
-    override fun regive(player: FnafUPlayer) {
-        giveItems(player)
     }
 
     override fun getRawId(): String = id

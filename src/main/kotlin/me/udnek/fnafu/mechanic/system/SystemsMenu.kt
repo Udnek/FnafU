@@ -39,5 +39,6 @@ class SystemsMenu : ConstructableCustomInventory() {
     override fun getTitle(): Component {
         return ComponentU.textWithNoSpaceSpaceFont(-8, Component.text("1").font(Key.key("fnafu:system")).color(TextColor.color(1f, 1f, 1f)), 165)
     }
-    override fun getInventorySize(): Int { return 9 * 6 }
+
+    override fun getInventorySize(): Int = 9 * 6
 }

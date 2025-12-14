@@ -27,14 +27,18 @@ class FlashlightAbility : RPGUConstructableToggleAbility() {
 
     companion object {
         val DEFAULT = FlashlightAbility()
-        private val blockData: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
-        private val finalBlock = Material.SUGAR_CANE.createBlockData() /*(Material.LIGHT.createBlockData() as Light).also { it.level = 9 }*/
+        private val beam: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
+        private val beamCollision: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 9 }
     }
 
     override fun setToggled(customItem: CustomItem, player: Player, slot: BaseUniversalSlot, toggle: Boolean): Boolean {
-        if (toggle) slot.modifyItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
-        else slot.modifyItem( { it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents()) } , player)
+        if (toggle) {
+            slot.modifyItem({ it.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents())}, player)
+        } else {
+            slot.modifyItem( { it.unsetData(DataComponentTypes.BUNDLE_CONTENTS) }, player)
+        }
         Sounds.FLASHLIGHT_CLICK.play(player.location)
+        player.getFnafU()?.currentInventory?.replaceByType(slot.getItem(player)!!)
         return super.setToggled(customItem, player, slot, toggle)
     }
 
@@ -46,23 +50,25 @@ class FlashlightAbility : RPGUConstructableToggleAbility() {
     ): ActionResult {
         val player = (entity as? Player)?.getFnafU() ?: return ActionResult.NO_COOLDOWN
         val location = player.player.eyeLocation
-        val direction = location.direction.setY(0).normalize()
+        val direction = location.direction.normalize()
+        val players = player.game.playerContainer.all.map { it.player }
         for (i in  0..15) {
             val previousLocation = location.clone()
             location.add(direction)
-            val players = player.game.playerContainer.all.map { it.player }
             if (location.block.blockData.isOccluding)  {
-                if (previousLocation.block.isEmpty) FakeBlock.show(previousLocation, finalBlock, players, 1)
+                if (previousLocation.block.isEmpty) {
+                    FakeBlock.show(previousLocation, beamCollision, players, 1)
+                }
                 break
             } else if (previousLocation.block.isEmpty) {
-                FakeBlock.show(previousLocation, blockData, players, 1)
+                FakeBlock.show(previousLocation, beam, players, 1)
             }
         }
         return ActionResult.FULL_COOLDOWN
     }
 
     override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
-        return (listOf("Toggles flashlight that can be recharged at generator") to listOf("Переключает фонарик, который заряжается у генератор")).toApache()
+        return (listOf("Toggles flashlight that can be recharged at generator") to listOf("Переключает фонарик, который заряжается у генератора")).toApache()
     }
 
     override fun getSlot(): CustomEquipmentSlot = CustomEquipmentSlot.OFF_HAND

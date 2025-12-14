@@ -26,6 +26,6 @@ class SystemStationBlock : RotatableCustomBlockType() {
                     Nms.get().sendBlockUpdatePacket(it, blockState)
                 }
             }
-        }.runTaskLater(FnafU.instance, 20*3)
+        }.runTaskLater(FnafU.instance, 20)
     }
 }

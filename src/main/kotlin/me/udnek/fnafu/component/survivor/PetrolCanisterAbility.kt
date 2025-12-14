@@ -77,7 +77,7 @@ class PetrolCanisterAbility : FnafUActiveAbility {
                 Sounds.PETROL_CANISTER_POUR.play(player.player.location)
             }
             PetrolCanister.setPetrol(new, petrol)
-            player.currentInventory.replaceFirstItem(old, new)
+            player.currentInventory.replaceByType(new)
             player.player.inventory.setItem(event.hand!!, new)
             result = ActionResult.FULL_COOLDOWN
         } else{

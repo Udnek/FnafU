@@ -1,5 +1,6 @@
 package me.udnek.fnafu.misc
 
+import io.papermc.paper.datacomponent.DataComponentTypes
 import me.udnek.coreu.custom.entitylike.block.CustomBlockType
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
@@ -10,7 +11,9 @@ import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 
 
 fun Player.getFnafU(): FnafUPlayer? {
@@ -59,6 +62,14 @@ fun <A, B> Pair<A, B>.toApache(): org.apache.commons.lang3.tuple.Pair<A, B>{
     return org.apache.commons.lang3.tuple.Pair.of(this.first, this.second)
 }
 
+fun PlayerInventory.addToBestSlot(item: ItemStack){
+    val slot = item.getData(DataComponentTypes.EQUIPPABLE)?.slot()
+    if (slot != null && this.getItem(slot).isEmpty){
+        this.setItem(slot, item)
+    } else {
+        this.addItem(item)
+    }
+}
 
 
 

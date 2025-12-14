@@ -6,6 +6,7 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
+import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.FakeGlow
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.kit.Kit
@@ -43,11 +44,8 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         get() = game.getTeam(this)
 
     val abilityItems: List<CustomItem>
-        get() {
-            val items = ArrayList(kit.permanentItems.mapNotNull { stack -> stack.getCustom() })
-            items.addAll(currentInventory.items.mapNotNull { stack -> stack.getCustom() })
-            return items
-        }
+        get() = currentInventory.items.mapNotNull { stack -> stack.getCustom() }
+
 
     override fun getGame(): FnafUGame = game
 
@@ -55,7 +53,6 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
 
     fun regiveInventory(){
         player.inventory.clear()
-        kit.regive(this)
         currentInventory.give(this)
     }
 
@@ -109,16 +106,16 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         if (status != Status.ALIVE) return
         damageSound.play(player.location)
         if (game.survivorLives == 0){
-            this.die()
+            die()
             return
         }
         player.velocity = Vector()
         teleport((game.map.getLocation(LocationType.RESPAWN_SURVIVOR)!!).all.getFarthest(player.location))
-        player.inventory.clear()
+
         currentInventory.reset()
-        kit.regiveCurrentInventory(this)
-        kit.regive(this)
-        currentInventory.give(this)
+        kit.giveToCurrentInventory(this)
+
+        regiveInventory()
         game.survivorLives -= 1
     }
 

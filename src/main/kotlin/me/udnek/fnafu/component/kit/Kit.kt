@@ -58,38 +58,33 @@ interface Kit : MGUPlayerData, Registrable, ComponentHolder<Kit>{
             FnafUPlayer.Type.SURVIVOR,
             TranslatableThing.ofEng("Cameraman"),
             FULL_CAMERA_TABLET,
-            listOf(FULL_CAMERA_TABLET, FLASHLIGHT),
-            listOf(SMALL_PETROL_CANISTER)))
+            listOf(FULL_CAMERA_TABLET, SMALL_PETROL_CANISTER, FLASHLIGHT)))
         val SYSTEMMAN = register(ConstructableKit(
             "systemman",
             FnafUPlayer.Type.SURVIVOR,
             TranslatableThing.ofEng("Sysadmin"),
             SYSTEM_TABLET,
-            listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
-            listOf(SMALL_PETROL_CANISTER)
+            listOf(SYSTEM_TABLET, CUT_CAMERA_TABLET, SMALL_PETROL_CANISTER, FLASHLIGHT)
         ))
         val REFUELLER = register(ConstructableKit(
             "refueller",
             FnafUPlayer.Type.SURVIVOR,
             TranslatableThing.ofEng("Refueller"),
             LARGE_PETROL_CANISTER,
-            listOf(CUT_CAMERA_TABLET, FLASHLIGHT),
-            listOf(LARGE_PETROL_CANISTER)
+            listOf(CUT_CAMERA_TABLET, LARGE_PETROL_CANISTER, FLASHLIGHT)
         ))
         val DOORMAN = register(ConstructableKit(
             "doorman",
             FnafUPlayer.Type.SURVIVOR,
             TranslatableThing.ofEng("Doorman"),
             DOOR_TABLET,
-            listOf(DOOR_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
-            listOf(SMALL_PETROL_CANISTER)))
+            listOf(DOOR_TABLET, CUT_CAMERA_TABLET, SMALL_PETROL_CANISTER, FLASHLIGHT)))
         val VENTILATIONMAN = register(ConstructableKit(
             "ventilationman",
             FnafUPlayer.Type.SURVIVOR,
             TranslatableThing.ofEng("HVAC Technician"),
             VENTILATION_TABLET,
-            listOf(VENTILATION_TABLET, CUT_CAMERA_TABLET, FLASHLIGHT),
-            listOf(SMALL_PETROL_CANISTER)))
+            listOf(VENTILATION_TABLET, CUT_CAMERA_TABLET, SMALL_PETROL_CANISTER, FLASHLIGHT)))
 
         fun register(kit: Kit): Kit {
             return REGISTRY.register(FnafU.instance, kit)
@@ -97,16 +92,13 @@ interface Kit : MGUPlayerData, Registrable, ComponentHolder<Kit>{
     }
 
     val displayItem: ItemStack
-    val permanentItems: List<ItemStack>
-    val inventoryItems: List<ItemStack>
+    val items: List<ItemStack>
     val playerType: FnafUPlayer.Type
     var jumpScareSound: CustomSound?
 
     fun setUp(player: FnafUPlayer)
 
-    fun regive(player: FnafUPlayer)
-
-    fun regiveCurrentInventory(player: FnafUPlayer)
+    fun giveToCurrentInventory(player: FnafUPlayer)
 
     override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.KIT

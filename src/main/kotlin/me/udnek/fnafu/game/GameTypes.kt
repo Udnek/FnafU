@@ -26,8 +26,9 @@ object GameTypes {
         override fun getRawId(): String = "energy"
         @EventHandler
         fun onItemDrop(event: PlayerDropItemEvent){
-            if (!(getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return)) return
-            event.isCancelled = true
+            if (getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return){
+                event.isCancelled = true
+            }
         }
         @EventHandler
         fun onAttack(event: EntityDamageByEntityEvent) {
@@ -47,10 +48,9 @@ object GameTypes {
             if (!Tag.BUTTONS.isTagged(block.type)) event.isCancelled = true
 
             proceedButton(player, event)
-            if (block.getCustom() == Blocks.SYSTEM_STATION){
-                if (player.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(player.player.eyeLocation) < 1.5){
-                    player.game.systems.openStation(player)
-                }
+            if (block.getCustom() != Blocks.SYSTEM_STATION) return
+            if (player.type == FnafUPlayer.Type.SURVIVOR && block.location.toCenterLocation().distance(player.player.eyeLocation) < 1.5){
+                player.game.systems.openStation(player)
             }
         }
 
@@ -91,8 +91,9 @@ object GameTypes {
         }*/
         @EventHandler
         fun onInventoryMoveItem(event: InventoryClickEvent) {
-            if (!(getIfPlayerInThisGame<FnafUPlayer>(event.whoClicked as Player)?.game?.isRunning ?: return)) return
-            event.isCancelled = true
+            if (getIfPlayerInThisGame<FnafUPlayer>(event.whoClicked as Player)?.game?.isRunning ?: return) {
+                event.isCancelled = true
+            }
         }
 
         @EventHandler
@@ -102,7 +103,9 @@ object GameTypes {
 
         @EventHandler
         fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {
-            if ( getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return) event.isCancelled = true
+            if ( getIfPlayerInThisGame<FnafUPlayer>(event.player)?.game?.isRunning ?: return) {
+                event.isCancelled = true
+            }
         }
 
     })

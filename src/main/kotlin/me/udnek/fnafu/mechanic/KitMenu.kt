@@ -61,8 +61,7 @@ class KitMenu : ConstructableCustomInventory() {
                     menu.setItem(cursor+1, profileIcon)
                     // ITEMS
                     if (receiver.type == currentPlayer.type){
-                        val kitItems = ArrayList(kitStageData.chosenKit.permanentItems)
-                        kitItems.addAll(kitStageData.chosenKit.inventoryItems)
+                        val kitItems = ArrayList(kitStageData.chosenKit.items)
                         kitItems.forEachIndexed { i, item ->
                             if (i >= 6) return@forEachIndexed
                             menu.setItem(cursor + 2 + i, item)

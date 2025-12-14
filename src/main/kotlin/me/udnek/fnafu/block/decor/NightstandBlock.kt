@@ -37,6 +37,7 @@ class NightstandBlock : RotatableCustomBlockType() {
         })
         components.set(object : RightClickableBlock{
             override fun onRightClick(blockType: CustomBlockType, event: PlayerInteractEvent) {
+                event.isCancelled = true
                 if (event.player.gameMode != GameMode.CREATIVE) return
                 val color = Nms.get().getColorByDye(event.player.inventory.itemInMainHand.type)?.fireworkColor() ?: return
                 (blockType as NightstandBlock).getDisplay(event.clickedBlock!!)?.let {
@@ -47,7 +48,6 @@ class NightstandBlock : RotatableCustomBlockType() {
             }
         })
     }
-
 
     override fun placeAndReturnDisplay(location: Location, context: CustomBlockPlaceContext): ItemDisplay {
         val display = super.placeAndReturnDisplay(location, context)
@@ -62,8 +62,6 @@ class NightstandBlock : RotatableCustomBlockType() {
         display.setItemStack(item)
         return display
     }
-
-
 
     override fun getBreakSpeedBaseBlock(): Material = Material.OAK_LOG
 }

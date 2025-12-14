@@ -253,10 +253,17 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
                 FnafUPlayer.Type.ANIMATRONIC -> player.teleport(map.getLocation(LocationType.PRESPAWN_ANIMATRONIC)!!)
             }
             sidebar.show(player.player)
-            player.player.inventory.clear()
             player.kit.setUp(player)
+            player.regiveInventory()
+            player.abilityItems.forEach { item ->
+                item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.abilities?.forEach { ability ->
+                    ability.cooldown(item, player.player)
+                }
+            }
             object : BukkitRunnable(){
-                override fun run() = map.ambientSound.loop { it.play(player.player) }
+                override fun run() {
+                    map.ambientSound.loop { it.play(player.player) }
+                }
             }.runTaskLater(FnafU.instance, 5)
         }
 

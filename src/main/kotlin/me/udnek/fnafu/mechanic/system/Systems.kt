@@ -36,7 +36,7 @@ open class Systems : Resettable, Ticking {
     private val downButtons = listOf(11, 12, 20, 21, 29, 30)
     private val enterButtons = listOf(15, 16, 17, 23, 24, 25, 26, 32, 33, 34, 35)
 
-    private val playersInsideSystem = ArrayList<FnafUPlayer>()
+    private val playersInsideSystem = HashSet<FnafUPlayer>()
     var menu: SystemsMenu
         protected set
     val all: List<System>
@@ -105,8 +105,15 @@ open class Systems : Resettable, Ticking {
     }
 
     fun exitMenu(player: FnafUPlayer) {
-        playersInsideSystem.remove(player)
+        val removed = playersInsideSystem.remove(player)
+        if (!removed) return
         player.regiveInventory()
+        // fixes off-hand items not appearing
+        object : BukkitRunnable() {
+            override fun run() {
+                player.player.updateInventory()
+            }
+        }.runTaskLater(FnafU.instance, 1)
     }
 
     fun openStation(player: FnafUPlayer) = openMenu(player, Items.EXIT_BUTTON.item)
@@ -114,17 +121,17 @@ open class Systems : Resettable, Ticking {
     fun openTablet(player: FnafUPlayer) = openMenu(player, Items.SYSTEM_TABLET.item)
 
     private fun openMenu(player: FnafUPlayer, exitItem: ItemStack) {
-        val inventory = player.player.inventory
-        for (i in upButtons) inventory.setItem(i, Items.UP_BUTTON.item)
-        for (i in downButtons) inventory.setItem(i, Items.DOWN_BUTTON.item)
-        for (i in enterButtons) inventory.setItem(i, Items.ENTER_BUTTON.item)
+        val playerInventory = player.player.inventory
+        for (i in upButtons) playerInventory.setItem(i, Items.UP_BUTTON.item)
+        for (i in downButtons) playerInventory.setItem(i, Items.DOWN_BUTTON.item)
+        for (i in enterButtons) playerInventory.setItem(i, Items.ENTER_BUTTON.item)
 
         exitItem.setData(DataComponentTypes.BUNDLE_CONTENTS, BundleContents.bundleContents())
         exitItem.setData(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(true))
         exitItem.setData(DataComponentTypes.ITEM_NAME, Component.empty())
         object : BukkitRunnable() {
             override fun run() {
-                for (i in 0..8) inventory.setItem(i, exitItem)
+                for (i in 0..8) playerInventory.setItem(i, exitItem)
             }
         }.runTaskLater(FnafU.instance, 1)
 
@@ -134,7 +141,7 @@ open class Systems : Resettable, Ticking {
 
     override fun reset() {
         all.forEach { it.reset() }
-        for (player in ArrayList<FnafUPlayer>(playersInsideSystem)) {
+        for (player in playersInsideSystem) {
             exitMenu(player)
             player.player.closeInventory()
         }
