@@ -49,9 +49,5 @@ class AbilityIconFilesComponent(val kit: Kit) : AutoGeneratingFilesItem.Generate
             )
         ) as JsonObject
     }
-
-    override fun getModels(itemModel: Key): List<JsonObject?> {
-        return super.getModels(itemModel)
-    }
 }
 

@@ -11,6 +11,7 @@ import me.udnek.coreu.resourcepack.path.VirtualRpJsonFile
 import me.udnek.fnafu.block.Blocks
 import me.udnek.fnafu.component.ComponentListener
 import me.udnek.fnafu.component.FnafUComponents
+import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.effect.Effects
 import me.udnek.fnafu.game.EnergyGame
 import me.udnek.fnafu.item.Items
@@ -38,8 +39,11 @@ class FnafU : JavaPlugin(), ResourcePackablePlugin {
         instance = this
 
         FnafUComponents.SPRINGTRAP_PLUSHTRAP_DATA
+
         Items.FULL_CAMERA_TABLET
         Items.POSTER.RULES
+        Kit.CAMERAMAN
+
         Sounds.AMBIENCE_FNAF1
         Blocks.ARCADE_MACHINE
         MapBuilder.REGISTRY

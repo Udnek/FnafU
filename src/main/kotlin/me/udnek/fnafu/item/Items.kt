@@ -63,7 +63,7 @@ object Items {
         "springtrap",
         "plushtrap",
         TranslatableThing.ofEng("Plushtrap"),
-        { Kit.SPRINGTRAP } ,
+        { Kit.SPRINGTRAP },
         FnafUComponents.SPRINGTRAP_PLUSHTRAP_ABILITY)
     )
     val SPRINGTRAP_BREAK_CAMERAS: CustomItem = register(AnimatronicAbilityItem(
