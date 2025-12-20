@@ -64,7 +64,7 @@ open class CameraTabletAbility(val guiColor: Color, val noiseColor: TextColor, v
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
+        slot: UniversalInventorySlot,
         event: PlayerInteractEvent
     ): ActionResult {
         val cameras = player.game.systems.camera

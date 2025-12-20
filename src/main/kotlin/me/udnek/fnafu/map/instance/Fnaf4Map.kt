@@ -22,8 +22,6 @@ class Fnaf4Map(origin: Location) : FnafUMap(origin){
 
     override fun build() {
         addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
-        addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
-        addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
         addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
         addLocation(LocationType.RESPAWN_SURVIVOR, LocationSingle(0, 0, 0, 0f, 0f).centerFloor)
 

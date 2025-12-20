@@ -26,7 +26,8 @@ object FnafUComponents {
     val SYSTEM_TABLET_ABILITY = register(ConstructableComponentType("system_tablet_ability", SystemTabletAbility.DEFAULT))
     val VENTILATION_TABLET_ABILITY = register(ConstructableComponentType("ventilation_tablet_ability", VentilationTabletAbility.DEFAULT))
     val FUEL_CANISTER_ABILITY = register(ConstructableComponentType("fuel_canister_ability", PetrolCanisterAbility.SMALL))
-    val FLASHLIGHT_ABILITY = register(ConstructableComponentType("flashlight_ability", FlashlightAbility.DEFAULT))
+    val FLASHLIGHT_BEAM_ABILITY = register(ConstructableComponentType("flashlight_beam_ability", FlashlightBeamAbility.DEFAULT))
+    val FLASHLIGHT_CHARGE_ABILITY = register(ConstructableComponentType("flashlight_charge_ability", FlashlightChargeAbility.DEFAULT))
 
     val CAMERA_FLASH_ABILITY = register(ConstructableComponentType("camera_flash_ability", CameraFlashAbility.DEFAULT))
 

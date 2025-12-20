@@ -3,7 +3,7 @@
     {
       "type": "bitmap",
       "file": "fnafu:font/system/ventilation/background.png",
-      "ascent": 13,
+      "ascent": 31,
       "height": 256,
       "chars": ["1"]
     },

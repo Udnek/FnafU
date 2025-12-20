@@ -33,7 +33,7 @@ open class FreddySetTrapAbility : FnafUActiveAbility {
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
+        slot: UniversalInventorySlot,
         event: PlayerInteractEvent
     ): ActionResult {
         val location = player.player.location

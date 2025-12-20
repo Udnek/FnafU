@@ -30,7 +30,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
     private var task: BukkitRunnable? = null
     protected var winner: Winner = Winner.NONE
     override var stage: FnafUGame.Stage = FnafUGame.Stage.WAITING
-    override fun isRunning(): Boolean { return super<FnafUGame>.isRunning() }
+    override fun isRunning(): Boolean { return super.isRunning() }
 
     override fun getMap(): MGUMap = map
 
@@ -44,6 +44,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
     }
     @MustBeInvokedByOverriders
     override fun start(context: MGUCommandContext): ExecutionResult {
+        if (players.isEmpty()) return ExecutionResult.Failure("can not start game with no players")
         start()
         return ExecutionResult.SUCCESS
     }
@@ -82,26 +83,26 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
     }
 
     override fun execute(context: MGUCommandContext): ExecutionResult {
-        if (context.args.size < 4) return ExecutionResult(Type.FAIL, "not enough args")
+        if (context.args.size < 4) return ExecutionResult.Failure("not enough args")
         if (context.args[2].equals("setEnergy", true)) {
-            val value = context.args[3].toFloatOrNull() ?: return ExecutionResult(Type.FAIL, "incorrect float: ${context.args[3]}")
+            val value = context.args[3].toFloatOrNull() ?: return ExecutionResult.Failure("incorrect float: ${context.args[3]}")
             energy.energy = value
             return ExecutionResult.SUCCESS
         } else if (context.args[2].equals("setTime", true)){
-            val value = context.args[3].toIntOrNull() ?: return ExecutionResult(Type.FAIL, "incorrect int: ${context.args[3]}")
+            val value = context.args[3].toIntOrNull() ?: return ExecutionResult.Failure("incorrect int: ${context.args[3]}")
             time.ticks = time.maxTime - value
             return ExecutionResult.SUCCESS
         } else if (context.args[2].equals("breakSys", true)){
-            val value = context.args.getOrNull(3) ?: return ExecutionResult(Type.FAIL, "incorrect sys: ${context.args[3]}")
+            val value = context.args.getOrNull(3) ?: return ExecutionResult.Failure("incorrect sys: ${context.args[3]}")
             systems.all.forEach {
                 if (it.javaClass.simpleName.equals(value, true)) {
                     it.destroy()
                     return ExecutionResult.SUCCESS
                 }
             }
-            return ExecutionResult(Type.FAIL, "incorrect sys: ${context.args[3]}")
+            return ExecutionResult.Failure("incorrect sys: ${context.args[3]}")
         } else{
-            return ExecutionResult(Type.FAIL, "unknown arg: ${context.args[2]}")
+            return ExecutionResult.Failure("unknown arg: ${context.args[2]}")
         }
     }
 
@@ -111,7 +112,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             playerContainer.add(FnafUPlayer(player, role, this))
             return ExecutionResult.SUCCESS
         }
-        return ExecutionResult(Type.FAIL, "Player in another game! Leave first")
+        return ExecutionResult.Failure("player in another game, leave first")
     }
 
     override fun leave(mguPlayer: MGUPlayer, context: MGUCommandContext): ExecutionResult {
@@ -119,7 +120,7 @@ abstract class FnafUAbstractGame() : MGUAbstractGame(), FnafUGame {
             mguPlayer.unregister()
             ExecutionResult.SUCCESS
         } else {
-            ExecutionResult(Type.FAIL, "can not remove")
+            ExecutionResult.Failure("can not remove")
         }
     }
 

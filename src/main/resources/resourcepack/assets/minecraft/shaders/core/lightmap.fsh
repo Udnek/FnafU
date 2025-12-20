@@ -42,7 +42,7 @@ void main() {
 
     block_brightness *= 1.4;
 
-    // minimal lighning
+    // minimal lightning
     vec3 darkness = vec3(15)*1.7 / 255.0;
 
     vec3 color = vec3(0);
@@ -87,7 +87,7 @@ void main() {
 
     // night vision
     if (isNightVision()){
-        color += vec3(0.2);
+        color += vec3(0.4);
         // color /= 2;
         // color += vec3(0, 0.5, 0);
     }

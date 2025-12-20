@@ -11,6 +11,7 @@ import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
+import net.kyori.adventure.translation.Translatable
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 
@@ -27,7 +28,7 @@ open class ConstructableKit(
     override val displayItem: ItemStack
         get() {
             val item = displayCustomItem.item
-            item.setData(DataComponentTypes.ITEM_NAME, Component.translatable("kit.${key.namespace}.${key.value()}"))
+            item.setData(DataComponentTypes.ITEM_NAME, Component.translatable(translationKey()))
             val lore = ArrayList<Component>()
             for (customItem in customItems) {
                 lore.add(customItem.item.getData(DataComponentTypes.ITEM_NAME)

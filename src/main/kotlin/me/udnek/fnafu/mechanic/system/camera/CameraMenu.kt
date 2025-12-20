@@ -58,7 +58,7 @@ open class CameraMenu : ConstructableCustomInventory{
                 FnafUComponents.CAMERA_FLASH_ABILITY).activate(
                     Items.FLASH_BUTTON,
                     player.player,
-                    Either(BaseUniversalSlot(FLASH_POSITION), null),
+                BaseUniversalSlot(FLASH_POSITION),
                     event
                 )
             return

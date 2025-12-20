@@ -9,6 +9,7 @@ import org.bukkit.block.data.Levelled
 import org.bukkit.block.data.Lightable
 import org.bukkit.block.data.type.CopperBulb
 import org.bukkit.block.data.type.Light
+import org.bukkit.block.data.type.LightningRod
 
 class MapLight(): Resettable {
 
@@ -32,6 +33,7 @@ class MapLight(): Resettable {
                 return (Material.SMALL_AMETHYST_BUD.createBlockData() as Directional)
                     .also { it.facing = (blockData as Directional).facing }
             }
+            Material.LIGHTNING_ROD -> return (blockData.clone() as LightningRod).also { it.isPowered = false }
             else -> {}
         }
         if (blockData is CopperBulb) return (blockData.clone() as CopperBulb).also { it.isLit = false }
@@ -44,6 +46,7 @@ class MapLight(): Resettable {
             Material.LIGHT -> return (blockData as Light).level > 0
             // LAMP
             Material.MEDIUM_AMETHYST_BUD -> return true
+            Material.LIGHTNING_ROD -> return (blockData as LightningRod).isPowered
             else -> {}
         }
         if (blockData is CopperBulb) return blockData.isLit

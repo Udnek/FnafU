@@ -31,9 +31,10 @@ import me.udnek.fnafu.item.Items.VENTILATION_TABLET
 import me.udnek.fnafu.misc.AnimatronicSkin
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
+import net.kyori.adventure.translation.Translatable
 import org.bukkit.inventory.ItemStack
 
-interface Kit : MGUPlayerData, Registrable, ComponentHolder<Kit>{
+interface Kit : MGUPlayerData, Registrable, ComponentHolder<Kit>, Translatable{
 
     companion object {
         val REGISTRY: CustomRegistry<Kit> = CustomRegistries.addRegistry(FnafU.instance, MappedCustomRegistry("kit"))
@@ -99,6 +100,10 @@ interface Kit : MGUPlayerData, Registrable, ComponentHolder<Kit>{
     fun setUp(player: FnafUPlayer)
 
     fun giveToCurrentInventory(player: FnafUPlayer)
+
+    override fun translationKey(): String {
+        return "kit.${key.namespace}.${key.value()}"
+    }
 
     override fun getType(): CustomComponentType<in MGUPlayerDataHolder, out CustomComponent<in MGUPlayerDataHolder>?> {
         return FnafUComponents.KIT

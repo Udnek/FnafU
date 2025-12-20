@@ -21,22 +21,19 @@ class ComponentListener(plugin: Plugin) : SelfRegisteringListener(plugin), Liste
     @EventHandler
     fun onRightClick(event: PlayerInteractEvent){
         if (!event.action.isRightClick) return
-        if (!ClickRateLimit.triggerAndCanUse(event, 5, false)) return
+//        if (!ClickRateLimit.triggerAndCanUse(event, 5, false)) return
 
         event.item?.getCustom()?.let {
             it.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.components?.forEach {
                     activeAbility -> (activeAbility as? FnafUActiveAbility)?.onRightClick(event)
             }
-//            it.components.get(RPGUComponents.TOGGLE_ABILITY_ITEM)?.components?.get(FnafUComponents.FLASHLIGHT_ABILITY)
-//                ?.toggle(it, event.player, BaseUniversalSlot(event.hand!!))
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     fun onPlayerSwapHandItems(event: PlayerSwapHandItemsEvent) {
         val custom = event.mainHandItem.getCustom() ?: return
-        val ability =
-            custom.components.get(RPGUComponents.TOGGLE_ABILITY_ITEM)?.components?.get(FnafUComponents.FLASHLIGHT_ABILITY) ?: return
+        val ability = custom.components.get(RPGUComponents.TOGGLE_ABILITY_ITEM)?.components?.get(FnafUComponents.FLASHLIGHT_BEAM_ABILITY) ?: return
         event.isCancelled = true
         ability.toggle(custom, event.player, BaseUniversalSlot(EquipmentSlot.OFF_HAND))
     }

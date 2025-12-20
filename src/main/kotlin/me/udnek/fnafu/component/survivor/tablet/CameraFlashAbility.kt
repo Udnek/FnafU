@@ -49,7 +49,7 @@ class CameraFlashAbility : RPGUConstructableActiveAbility<InventoryClickEvent> {
     override fun action(
         customItem: CustomItem,
         entity: LivingEntity,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
+        slot: UniversalInventorySlot,
         event: InventoryClickEvent
     ): ActionResult {
         val player = (entity as? Player)?.getFnafU() ?: return ActionResult.NO_COOLDOWN

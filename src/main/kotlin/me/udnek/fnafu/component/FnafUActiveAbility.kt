@@ -19,7 +19,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
     final override fun action(
         item: CustomItem,
         entity: LivingEntity,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
+        slot: UniversalInventorySlot,
         event: PlayerInteractEvent
     ): ActionResult {
         (entity as? Player)?.getFnafU()?.let{
@@ -31,7 +31,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
     abstract fun action (
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
+        slot: UniversalInventorySlot,
         event: PlayerInteractEvent
     ): ActionResult
 
@@ -39,7 +39,7 @@ abstract class FnafUActiveAbility : RPGUConstructableActiveAbility<PlayerInterac
         activate(
             CustomItem.get(event.item)!!,
             event.getPlayer(),
-            Either(BaseUniversalSlot(event.hand!!), null),
+            BaseUniversalSlot(event.hand!!),
             event
         )
     }

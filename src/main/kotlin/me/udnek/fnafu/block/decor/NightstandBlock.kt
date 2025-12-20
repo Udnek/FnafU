@@ -41,10 +41,10 @@ class NightstandBlock : RotatableCustomBlockType() {
         })
         components.set(object : RightClickableBlock{
             override fun onRightClick(blockType: CustomBlockType, event: PlayerInteractEvent) {
-                event.isCancelled = true
                 if (event.player.gameMode != GameMode.CREATIVE) return
                 val color = Nms.get().getColorByDye(event.player.inventory.itemInMainHand.type)?.fireworkColor() ?: return
                 (blockType as NightstandBlock).setColor(event.clickedBlock!!, color)
+                event.isCancelled = true
             }
         })
     }

@@ -23,6 +23,8 @@ import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
+import kotlin.math.max
+import kotlin.math.min
 
 class PetrolCanisterAbility : FnafUActiveAbility {
 
@@ -43,9 +45,12 @@ class PetrolCanisterAbility : FnafUActiveAbility {
 
     override fun addPropertyLines(lorePart: AbilityLorePart) {
         super.addPropertyLines(lorePart)
-        lorePart.addAbilityStat(Component.translatable("ability.fnafu.petrol_canister.max_capacity", listOf(Component.text(maxCapacity))))
-        lorePart.addAbilityStat(Component.translatable("ability.fnafu.petrol_canister.bandwidth", listOf(Component.text(
-            Utils.roundToTwoDigits(bandwidthPerSec.toDouble())))))
+        lorePart.addAbilityStat(Component.translatable(
+            "ability.fnafu.petrol_canister.max_capacity",
+            listOf(Component.text(maxCapacity))))
+        lorePart.addAbilityStat(Component.translatable(
+            "ability.fnafu.petrol_canister.bandwidth",
+            listOf(Component.text(Utils.roundToTwoDigits(bandwidthPerSec.toDouble())))))
     }
 
     override fun getEngAndRuDescription(): Pair<List<String?>?, List<String?>?> {
@@ -57,7 +62,7 @@ class PetrolCanisterAbility : FnafUActiveAbility {
     override fun action(
         item: CustomItem,
         player: FnafUPlayer,
-        slot: Either<UniversalInventorySlot?, CustomEquipmentSlot.Single?>,
+        slot: UniversalInventorySlot,
         event: PlayerInteractEvent
     ): ActionResult {
         val block = event.clickedBlock?.getCustom()
@@ -69,6 +74,7 @@ class PetrolCanisterAbility : FnafUActiveAbility {
             petrol = PetrolCanister.getPetrol(old)
             var change = bandwidthPerSec / 20 * getDefaultCooldown(player.player)
             if (block == Blocks.GENERATOR) {
+                change = min(petrol, change)
                 player.game.energy.energy += change
                 change *= -1
             }

@@ -28,6 +28,13 @@
   "ability.fnafu.petrol_canister.current_fuel": "Fuel: %s / %s",
   "ability.fnafu.petrol_canister.bandwidth": "Bandwidth: %s",
 
+  "ability.fnafu.flashlight_charge.max_charge": "Max Charge: %s",
+  "ability.fnafu.flashlight_charge.charge_rate_per_second": "Charge Rate per Second: %s",
+
+  "ability.fnafu.flashlight_beam.drain_rate_per_second": "Drain Rate per Second: %s",
+  "ability.fnafu.flashlight_beam.button": "Toggle Button: %s",
+
+
   "energy.fnafu.bossbar": "Energy left: %s%% Usage: %s",
   "energy.fnafu.image.1": "\u00A7a1",
   "energy.fnafu.image.2": "\u00A7a11",
@@ -49,26 +56,18 @@
   "time.fnafu.5": "5 AM",
   "time.fnafu.6": "6 AM",
 
-  "map.fnafu.fnaf1": "FNAF 1",
+  "map.fnafu.fnaf1": "Five Nights at Freddy's 1",
   "map.fnafu.fnaf1.image": "1",
 
-  "map.fnafu.fnaf2": "FNAF 2",
+  "map.fnafu.fnaf2": "Five Nights at Freddy's 2",
   "map.fnafu.fnaf2.image": "2",
 
-  "map.fnafu.fnaf3": "FNAF 3",
+  "map.fnafu.fnaf3": "Five Nights at Freddy's 3",
   "map.fnafu.fnaf3.image": "3",
 
-  "map.fnafu.fnaf4": "FNAF 4",
+  "map.fnafu.fnaf4": "Five Nights at Freddy's 4",
   "map.fnafu.fnaf4.image": "4",
 
-  "item.fnafu.universal_slab": "Universal Slab",
-  "item.fnafu.arcade_machine": "Arcade Machine",
-  "item.fnafu.blood": "Blood",
-  "item.fnafu.dirty_floor": "Dirty Floor",
-  "item.fnafu.generator": "Generator",
-  "item.fnafu.golden_stars_on_ceil": "Golden Stars on Ceil",
-  "item.fnafu.grey_stars_on_ceil": "Grey Stars on Ceil",
-  "item.fnafu.nightstand": "Nightstand",
-  "item.fnafu.vending_machine": "Vending Machine",
-  "item.fnafu.system_station": "System Station"
+  "map.fnafu.faf30": "Fredbear and Friends 3.0",
+  "map.fnafu.faf30.image": "a"
 }

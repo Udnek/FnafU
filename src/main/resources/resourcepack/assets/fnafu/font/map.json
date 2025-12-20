@@ -22,6 +22,13 @@
       "chars": ["3"]
     },
     {
+      "type": "bitmap",
+      "file": "fnafu:font/map/faf30.png",
+      "ascent": 13,
+      "height": 256,
+      "chars": ["a"]
+    },
+    {
       "type": "reference",
       "id": "space:default"
     }

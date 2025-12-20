@@ -26,8 +26,6 @@ class Fnaf3Map(origin: Location) : FnafUMap(origin) {
     override fun relativeBounds(): BoundingBox = BoundingBox(-30.0, -1.0, 7.0, 27.0, 7.0, -54.0)
 
     override fun build() {
-        addLocation(LocationType.PICK_STAGE_SPAWN_SURVIVOR, LocationSingle(-1.47, .0, -.61, 180f, 0f).centerFloor)
-        addLocation(LocationType.PICK_STAGE_SPAWN_ANIMATRONIC, LocationSingle(19.43, .0, -43.42, 0f, 0f).centerFloor)
         addLocation(LocationType.SPAWN_SURVIVOR, LocationSingle(-1.47, .0, -.61, 180f, 0f).centerFloor)
         addLocation(LocationType.PRESPAWN_ANIMATRONIC, LocationSingle(19.43, .0, -43.42, 0f, 0f).centerFloor)
         addLocation(LocationType.SPAWN_ANIMATRONIC, LocationSingle(19.48, .0, -38.51, 0f, 0f).centerFloor)

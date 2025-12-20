@@ -20,6 +20,9 @@ class Camera : Originable {
         this.isInCutMenu = isCut
     }
 
+    constructor(location: LocationSingle, id: String, tabletMenuPosition: Int, isCut: Boolean):
+            this(location, id, tabletMenuPosition, 0f, isCut)
+
     override fun setOrigin(origin: Location) {
         location.setOrigin(origin)
     }
