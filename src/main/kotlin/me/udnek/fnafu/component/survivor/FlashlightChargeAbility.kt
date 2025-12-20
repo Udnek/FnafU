@@ -24,8 +24,8 @@ import kotlin.math.min
 class FlashlightChargeAbility : FnafUActiveAbility {
 
     companion object{
-        val MAX_CHARGE: Float = 100f
-        val CHARGE_RATE_PER_SECOND: Float = 5f;
+        val MAX_CHARGE: Float = 60f
+        val CHARGE_RATE_PER_SECOND: Float = 10f
 
         val DEFAULT = FlashlightChargeAbility()
     }

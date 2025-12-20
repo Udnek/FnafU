@@ -21,9 +21,7 @@ class AnimatronicKit : ConstructableKit {
     }
 
     override fun setUp(player: FnafUPlayer) {
+        super.setUp(player)
         animatronicSkin.setSkin(player)
-        object : BukkitRunnable(){
-            override fun run() { super@AnimatronicKit.setUp(player) }
-        }.runTaskLater(FnafU.instance, 5)
     }
 }

@@ -14,11 +14,11 @@ import org.bukkit.entity.Item
 class RemnantTrap : ConstructableCustomEntity<Item>() {
 
     companion object {
-        const val SCAN_DURATION = 20
+        const val DELAY = 20
     }
 
     lateinit var data: FreddyTrapData
-    override fun getTickDelay() = 50
+    override fun getTickDelay() = DELAY
 
     override fun delayedTick() {
         if (!this::data.isInitialized) return
@@ -29,10 +29,15 @@ class RemnantTrap : ConstructableCustomEntity<Item>() {
             radius,
             FnafUPlayer.Type.SURVIVOR
         ).forEach {
-                it.showAuraTo(data.player!!.game.playerContainer.animatronics, SCAN_DURATION)
+                it.showAuraTo(data.player!!.game.playerContainer.animatronics, DELAY+1)
         }
-        Utils.spawnDustCircle(Particle.DUST.builder().color(Color.AQUA).location(entity.location).receivers(data.player!!.player), radius, 0.1,
-            {return@spawnDustCircle !it.block.isSolid})
+        Utils.spawnDustCircle(
+            Particle.DUST.builder()
+                .count(1)
+                .color(Color.WHITE)
+                .location(entity.location)
+                .receivers(data.player!!.player)
+            , radius, 0.1, {!it.block.isSolid})
     }
 
     override fun getType(): CustomTickingEntityType<*> = EntityTypes.REMNANT_TRAP

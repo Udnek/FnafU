@@ -19,7 +19,7 @@ import java.time.Duration
 
 class Faf30Map(origin: Location) : FnafUMap(origin) {
 
-    override var systemStationsAmount: Int = 0
+    override var systemStationsAmount: Int = 5
     override var ambientSound: LoopedSound = LoopedSound(Sounds.AMBIENCE_FNAF1, Duration.ofSeconds(10*60+4))
     override var mapImage: Component = TextUtils.getMapImage(-8, 165, "faf30")
 

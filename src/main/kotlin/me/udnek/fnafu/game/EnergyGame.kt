@@ -8,6 +8,7 @@ import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.game.MGUGameType
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
+import me.udnek.coreu.util.FakeBlock
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.block.Blocks
@@ -34,6 +35,7 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.*
 import org.bukkit.block.BlockFace
+import org.bukkit.block.data.type.Light
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.potion.PotionEffect
@@ -124,6 +126,15 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
         }
         if (isEveryNTicks(Systems.TICKRATE)) systems.tick()
         if (isEveryNTicks(5)) updateTimeBar()
+        // WEAK LIGHT AROUND
+        if (isEveryNTicks(1)){
+            val light = Material.LIGHT.createBlockData() as Light
+            light.level = 5
+            for (player in playerContainer.survivors) {
+                if (!player.player.location.block.isEmpty) continue
+                FakeBlock.show(player.player.eyeLocation, light, mutableListOf(player.player), 1)
+            }
+        }
         // IN DARKNESS NOTIFICATION
         if (isEveryNTicks(3)){
             for (animatronic in playerContainer.animatronics) {
@@ -254,14 +265,14 @@ class EnergyGame(val survivorSpawn: Location, val animatronicSpawn: Location) : 
             }
             sidebar.show(player.player)
             player.kit.setUp(player)
-            player.regiveInventory()
-            player.abilityItems.forEach { item ->
-                item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.abilities?.forEach { ability ->
-                    ability.cooldown(item, player.player)
-                }
-            }
             object : BukkitRunnable(){
                 override fun run() {
+                    player.regiveInventory()
+                    player.abilityItems.forEach { item ->
+                        item.components.get(RPGUComponents.ACTIVE_ABILITY_ITEM)?.abilities?.forEach { ability ->
+                            ability.cooldown(item, player.player)
+                        }
+                    }
                     map.ambientSound.loop { it.play(player.player) }
                 }
             }.runTaskLater(FnafU.instance, 5)

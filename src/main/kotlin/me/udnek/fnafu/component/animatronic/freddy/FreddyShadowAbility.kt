@@ -19,6 +19,7 @@ import me.udnek.fnafu.misc.Utils
 import me.udnek.fnafu.misc.toApache
 import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
+import me.udnek.jeiu.component.Components
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -54,6 +55,7 @@ open class FreddyShadowAbility : FnafUActiveAbility {
         slot: UniversalInventorySlot,
         event: PlayerInteractEvent
     ): ActionResult {
+        components.getOrException(RPGUComponents.ABILITY_EFFECTS).applyOn(player.player, player.player)
         val duration = components.get(RPGUComponents.ABILITY_DURATION)!!.get(player.player).toInt()
         val mask = player.player.inventory.helmet
         player.game.playerContainer.survivors.forEach {

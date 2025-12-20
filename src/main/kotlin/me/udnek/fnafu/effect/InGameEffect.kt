@@ -17,5 +17,6 @@ class InGameEffect : ConstructableCustomEffect(){
         consumer.accept(Attribute.JUMP_STRENGTH, NamespacedKey(FnafU.instance, "game_js"), -10.0, AttributeModifier.Operation.ADD_NUMBER)
         consumer.accept(Attribute.MOVEMENT_SPEED, NamespacedKey(FnafU.instance, "game_ms"), -0.15, AttributeModifier.Operation.ADD_SCALAR)
         consumer.accept(Attribute.WAYPOINT_RECEIVE_RANGE, NamespacedKey(FnafU.instance, "game_rr"), -100.0, AttributeModifier.Operation.MULTIPLY_SCALAR_1)
+        consumer.accept(Attribute.CAMERA_DISTANCE, NamespacedKey(FnafU.instance, "game_cd"), -100.0, AttributeModifier.Operation.ADD_NUMBER)
     }
 }

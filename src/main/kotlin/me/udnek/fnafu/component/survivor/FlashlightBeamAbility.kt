@@ -8,6 +8,7 @@ import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
+import me.udnek.coreu.nms.Nms
 import me.udnek.coreu.rpgu.component.RPGUToggleItem
 import me.udnek.coreu.rpgu.component.ability.toggle.RPGUConstructableToggleAbility
 import me.udnek.coreu.rpgu.lore.ability.AbilityLorePart
@@ -32,7 +33,7 @@ import kotlin.math.max
 class FlashlightBeamAbility : RPGUConstructableToggleAbility() {
 
     companion object {
-        val DRAIN_PER_SECOND = 10f
+        val DRAIN_PER_SECOND = 1f
         val DEFAULT = FlashlightBeamAbility()
         private val beam: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 8 }
         private val beamCollision: BlockData = (Material.LIGHT.createBlockData() as Light).also { it.level = 9 }
@@ -81,7 +82,6 @@ class FlashlightBeamAbility : RPGUConstructableToggleAbility() {
             charge = Flashlight.getCharge(item)
             if (charge == 0f) return@modifyItem item
             charge -= DRAIN_PER_SECOND / 20f * delay.toFloat()
-            println(Bukkit.getCurrentTick().toString() + " " + charge)
             charge = max(0f, charge)
             Flashlight.setCharge(item, charge)
             player.currentInventory.replaceByType(item)
@@ -97,7 +97,7 @@ class FlashlightBeamAbility : RPGUConstructableToggleAbility() {
         for (i in  0..15) {
             val previousLocation = location.clone()
             location.add(direction)
-            if (location.block.blockData.isOccluding)  {
+            if (Nms.get().getHowMuchLightBlockBlocks(location.block) > 1){
                 if (previousLocation.block.isEmpty) {
                     FakeBlock.show(previousLocation, beamCollision, players, 1)
                 }
