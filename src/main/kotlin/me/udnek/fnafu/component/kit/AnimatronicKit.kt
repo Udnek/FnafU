@@ -3,10 +3,8 @@ package me.udnek.fnafu.component.kit
 import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
-import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.misc.AnimatronicSkin
 import me.udnek.fnafu.player.FnafUPlayer
-import org.bukkit.scheduler.BukkitRunnable
 
 
 class AnimatronicKit : ConstructableKit {

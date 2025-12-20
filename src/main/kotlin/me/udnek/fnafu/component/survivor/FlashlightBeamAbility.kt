@@ -21,7 +21,6 @@ import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import org.apache.commons.lang3.tuple.Pair
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Light
