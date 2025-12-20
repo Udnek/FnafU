@@ -24,10 +24,10 @@ class MapBuilder(private val rawId: String, val icon: CustomItem, private val bu
         val FAF30 = register(MapBuilder("faf30", Items.VENDING_MACHINE){Faf30Map(Location(Bukkit.getWorld("fnaf")!!, -139.0, 65.0, -106.0))})
 
         private fun register(map: MapBuilder): MapBuilder{
-            return REGISTRY.register(FnafU.instance, map);
+            return REGISTRY.register(FnafU.instance, map)
         }
-
     }
+
     fun build(): FnafUMap = builder()
     override fun getRawId(): String = rawId
 }
