@@ -1,12 +1,10 @@
 package me.udnek.fnafu.component
 
-import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.ability.active.RPGUConstructableActiveAbility
 import me.udnek.coreu.rpgu.component.ability.active.RPGUItemActiveAbility
-import me.udnek.coreu.util.Either
 import me.udnek.fnafu.misc.getFnafU
 import me.udnek.fnafu.player.FnafUPlayer
 import org.apache.commons.lang3.tuple.Pair

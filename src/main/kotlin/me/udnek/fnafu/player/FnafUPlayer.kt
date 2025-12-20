@@ -6,7 +6,6 @@ import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.sound.CustomSound
 import me.udnek.coreu.mgu.Resettable
 import me.udnek.coreu.mgu.player.MGUAbstractPlayer
-import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.util.FakeGlow
 import me.udnek.fnafu.component.FnafUComponents
 import me.udnek.fnafu.component.kit.Kit

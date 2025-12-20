@@ -10,7 +10,6 @@ import me.udnek.fnafu.item.Items
 import me.udnek.fnafu.map.instance.Faf30Map
 import me.udnek.fnafu.map.instance.Fnaf1Map
 import me.udnek.fnafu.map.instance.Fnaf3Map
-import me.udnek.fnafu.map.instance.Fnaf4Map
 import org.bukkit.Bukkit
 import org.bukkit.Location
 

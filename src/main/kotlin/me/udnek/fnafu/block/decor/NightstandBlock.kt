@@ -16,9 +16,7 @@ import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.block.TileState
 import org.bukkit.entity.ItemDisplay
-import org.bukkit.event.block.BlockEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 

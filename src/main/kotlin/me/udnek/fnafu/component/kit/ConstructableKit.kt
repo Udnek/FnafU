@@ -6,14 +6,11 @@ import me.udnek.coreu.custom.component.instance.TranslatableThing
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.custom.registry.AbstractRegistrableComponentable
 import me.udnek.coreu.custom.sound.CustomSound
-import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.player.FnafUPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
-import net.kyori.adventure.translation.Translatable
 import org.bukkit.inventory.ItemStack
-import org.bukkit.plugin.Plugin
 
 open class ConstructableKit(
     private val id: String,

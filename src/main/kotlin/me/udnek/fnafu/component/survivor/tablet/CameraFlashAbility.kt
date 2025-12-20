@@ -2,7 +2,6 @@ package me.udnek.fnafu.component.survivor.tablet
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
@@ -10,7 +9,6 @@ import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.active.RPGUConstructableActiveAbility
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.rpgu.component.ability.property.EffectsProperty
-import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.FakeBlock
 import me.udnek.fnafu.FnafU
 import me.udnek.fnafu.component.FnafUComponents
@@ -20,7 +18,6 @@ import me.udnek.fnafu.player.FnafUPlayer
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.FluidCollisionMode
 import org.bukkit.Material
-import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Light
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player

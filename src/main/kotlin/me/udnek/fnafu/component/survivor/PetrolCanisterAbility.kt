@@ -2,15 +2,12 @@ package me.udnek.fnafu.component.survivor
 
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
-import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.rpgu.component.RPGUActiveItem
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.coreu.rpgu.component.ability.property.AttributeBasedProperty
 import me.udnek.coreu.rpgu.lore.ability.AbilityLorePart
-import me.udnek.coreu.rpgu.lore.ability.ActiveAbilityLorePart
-import me.udnek.coreu.util.Either
 import me.udnek.coreu.util.Utils
 import me.udnek.fnafu.block.Blocks
 import me.udnek.fnafu.component.FnafUActiveAbility
@@ -23,7 +20,6 @@ import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import org.apache.commons.lang3.tuple.Pair
 import org.bukkit.event.player.PlayerInteractEvent
-import kotlin.math.max
 import kotlin.math.min
 
 class PetrolCanisterAbility : FnafUActiveAbility {

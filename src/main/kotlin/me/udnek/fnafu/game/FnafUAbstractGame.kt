@@ -4,7 +4,6 @@ import me.udnek.coreu.custom.component.CustomComponentMap
 import me.udnek.coreu.mgu.command.MGUCommandContext
 import me.udnek.coreu.mgu.command.MGUCommandType
 import me.udnek.coreu.mgu.command.MGUCommandType.ExecutionResult
-import me.udnek.coreu.mgu.command.MGUCommandType.ExecutionResult.Type
 import me.udnek.coreu.mgu.game.MGUAbstractGame
 import me.udnek.coreu.mgu.map.MGUMap
 import me.udnek.coreu.mgu.player.MGUPlayer
