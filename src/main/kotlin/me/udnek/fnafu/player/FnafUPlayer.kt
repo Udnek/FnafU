@@ -15,6 +15,11 @@ import me.udnek.fnafu.map.LocationType
 import me.udnek.fnafu.map.location.LocationData
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFarthest
+import net.citizensnpcs.api.CitizensAPI
+import net.citizensnpcs.api.npc.NPC
+import net.citizensnpcs.api.trait.trait.Equipment
+import net.citizensnpcs.trait.Gravity
+import net.citizensnpcs.trait.SkinTrait
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -22,7 +27,9 @@ import net.kyori.adventure.title.Title
 import net.skinsrestorer.api.SkinsRestorerProvider
 import org.bukkit.GameMode
 import org.bukkit.Location
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerTeleportEvent
 import org.bukkit.scoreboard.Team
 import org.bukkit.util.Vector
 import java.time.Duration
@@ -45,6 +52,7 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
     val abilityItems: List<CustomItem>
         get() = currentInventory.items.mapNotNull { stack -> stack.getCustom() }
 
+    private var clone: NPC? = null
 
     override fun getGame(): FnafUGame = game
 
@@ -124,8 +132,40 @@ class FnafUPlayer(private val player: Player, val type: Type, private val game: 
         game.checkForEndConditions()
     }
 
+    fun teleportAndGetClone(location: Location) : NPC {
+        if (clone == null) {
+            val npc: NPC = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.name + "\u00A0")
+            npc.spawn(location)
+            team?.addEntity(npc.entity)
+            npc.getOrAddTrait(SkinTrait::class.java).setSkinPersistent(player)
+            npc.getOrAddTrait(Gravity::class.java).setHasGravity(false)
+            updateEquipmentClone(npc)
+            clone = npc
+            return clone!!
+        }
+        updateEquipmentClone(clone!!)
+        clone!!.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN)
+        return clone!!
+    }
+
+    private fun updateEquipmentClone(npc: NPC) {
+        val equipment = npc.getOrAddTrait(Equipment::class.java)
+        equipment.set(Equipment.EquipmentSlot.HELMET, player.inventory.helmet)
+        equipment.set(Equipment.EquipmentSlot.CHESTPLATE, player.inventory.chestplate)
+        equipment.set(Equipment.EquipmentSlot.LEGGINGS, player.inventory.leggings)
+        equipment.set(Equipment.EquipmentSlot.BOOTS, player.inventory.boots)
+        equipment.set(Equipment.EquipmentSlot.HAND, player.inventory.itemInMainHand)
+        equipment.set(Equipment.EquipmentSlot.OFF_HAND, player.inventory.itemInOffHand)
+    }
+
+    fun destroyClone() {
+        clone?.destroy() ?: return
+        clone = null
+    }
+
     override fun reset() {
         super.reset()
+        destroyClone()
         status = Status.ALIVE
         player.inventory.clear()
         player.clearActivePotionEffects()
