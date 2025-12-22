@@ -15,6 +15,7 @@ repositories {
     maven("https://oss.sonatype.org/content/groups/public/")
     maven("https://repo.dmulloy2.net/repository/public/")
     maven("https://repo.codemc.org/repository/maven-public/")
+    maven("https://maven.citizensnpcs.co/repo")
 }
 
 dependencies {
@@ -26,6 +27,11 @@ dependencies {
 
     // SkinsRestorer API
     compileOnly("net.skinsrestorer:skinsrestorer-api:15.7.6")
+
+    // Citizens API
+    compileOnly("net.citizensnpcs:citizens-main:2.0.41-SNAPSHOT") {
+        exclude(group = "*", module = "*")
+    }
 
     // Kotlin
     implementation(kotlin("stdlib-jdk8"))

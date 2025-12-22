@@ -5,7 +5,6 @@ import io.papermc.paper.datacomponent.item.BundleContents
 import me.udnek.coreu.custom.component.CustomComponent
 import me.udnek.coreu.custom.component.CustomComponentType
 import me.udnek.coreu.custom.equipmentslot.slot.CustomEquipmentSlot
-import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.custom.equipmentslot.universal.UniversalInventorySlot
 import me.udnek.coreu.custom.item.CustomItem
 import me.udnek.coreu.nms.Nms
@@ -22,7 +21,6 @@ import me.udnek.fnafu.player.FnafUPlayer
 import me.udnek.fnafu.sound.Sounds
 import net.kyori.adventure.text.Component
 import org.apache.commons.lang3.tuple.Pair
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.Light

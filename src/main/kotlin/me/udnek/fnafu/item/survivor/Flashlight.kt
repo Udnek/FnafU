@@ -6,8 +6,8 @@ import me.udnek.coreu.custom.item.ConstructableCustomItem
 import me.udnek.coreu.custom.item.CustomItemProperties
 import me.udnek.coreu.rpgu.component.RPGUComponents
 import me.udnek.fnafu.FnafU
-import me.udnek.fnafu.component.survivor.FlashlightChargeAbility
 import me.udnek.fnafu.component.survivor.FlashlightBeamAbility
+import me.udnek.fnafu.component.survivor.FlashlightChargeAbility
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack

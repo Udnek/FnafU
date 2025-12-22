@@ -2,12 +2,10 @@ package me.udnek.fnafu.component
 
 import me.udnek.coreu.custom.equipmentslot.universal.BaseUniversalSlot
 import me.udnek.coreu.rpgu.component.RPGUComponents
-import me.udnek.coreu.util.ClickRateLimit
 import me.udnek.coreu.util.SelfRegisteringListener
 import me.udnek.fnafu.event.SystemRepairedEvent
 import me.udnek.fnafu.misc.getCustom
 import me.udnek.fnafu.misc.getFnafU
-import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEntityEvent

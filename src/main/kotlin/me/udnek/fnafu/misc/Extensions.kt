@@ -11,7 +11,6 @@ import me.udnek.fnafu.player.FnafUPlayer
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 

@@ -14,11 +14,7 @@ import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapAbilit
 import me.udnek.fnafu.component.animatronic.springtrap.SpringtrapPlushtrapData
 import me.udnek.fnafu.component.kit.Kit
 import me.udnek.fnafu.component.survivor.*
-import me.udnek.fnafu.component.survivor.tablet.CameraFlashAbility
-import me.udnek.fnafu.component.survivor.tablet.CameraTabletAbility
-import me.udnek.fnafu.component.survivor.tablet.DoormanTabletAbility
-import me.udnek.fnafu.component.survivor.tablet.SystemTabletAbility
-import me.udnek.fnafu.component.survivor.tablet.VentilationTabletAbility
+import me.udnek.fnafu.component.survivor.tablet.*
 
 object FnafUComponents {
     val CAMERA_TABLET_ABILITY = register(ConstructableComponentType("camera_tablet_ability", CameraTabletAbility.FULL))
